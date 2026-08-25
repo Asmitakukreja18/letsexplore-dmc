@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Reviews | Let's Explore DMC – Real Traveller Stories</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        navy: '#0B1F3A',
+        'navy-deep': '#07152A',
+        ocean: '#1E88E5',
+        sunset: '#F4A261',
+        sand: '#E8C9A0',
+        stone: '#F4F1EC',
+        mist: '#E8EEF6',
+        ink: '#0F172A',
+        fog: '#64748B',
+        forest: '#2F855A',
+      },
+      fontFamily: {
+        display: ['"Playfair Display"', 'serif'],
+        serif: ['"Cormorant Garamond"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        clamp: ['clamp(2.75rem, 6vw, 5.5rem)', { lineHeight: '0.98', letterSpacing: '-0.03em', fontWeight: '500' }],
+        'clamp-sm': ['clamp(2rem, 4vw, 3.25rem)', { lineHeight: '1.05', letterSpacing: '-0.02em', fontWeight: '600' }],
+        'eyebrow': ['0.7rem', { letterSpacing: '0.28em', fontWeight: '600' }],
+      },
+      animation: {
+        kenBurns: 'kenBurns 24s ease-in-out infinite alternate',
+        fadeUp: 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
+        shimmer: 'shimmer 2.4s linear infinite',
+      },
+      keyframes: {
+        kenBurns: { '0%': { transform: 'scale(1) translate(0,0)' }, '100%': { transform: 'scale(1.18) translate(-2%, -1%)' } },
+        fadeUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        shimmer: { '0%': { backgroundPosition: '200% 0' }, '100%': { backgroundPosition: '-200% 0' } },
+      },
+    }
+  }
+}
+</script>
+<style>
+.material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align: middle; }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.22s ease-out, transform 0.22s ease-out; will-change: opacity, transform; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.04s; }
+.reveal-delay-2 { transition-delay: 0.08s; }
+.reveal-delay-3 { transition-delay: 0.12s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+.reveal-delay-6 { transition-delay: 0.48s; }
+.reveal-delay-7 { transition-delay: 0.56s; }
+.btn-premium { position: relative; overflow: hidden; }
+.btn-premium::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s; }
+.btn-premium:hover::before { opacity: 1; animation: shimmer 2.4s linear infinite; }
+.chip { transition: all 0.3s ease; }
+.chip.active { background: #0B1F3A; color: white; box-shadow: 0 8px 24px rgba(11,31,58,0.22); border-color: #0B1F3A; }
+.review-quote::before { content: '"'; position: absolute; top: -40px; left: -10px; font-family: 'Playfair Display', serif; font-size: 180px; line-height: 1; color: rgba(244,162,97,0.14); pointer-events: none; }
+.stroke-text { -webkit-text-stroke: 1px rgba(255,255,255,0.28); color: transparent; }
+</style>
+<script src="js/nav.js" defer></script>
+</head>
+<body class="bg-white font-sans text-ink overflow-x-hidden antialiased">
+
+<main class="pt-0">
+
+<!-- ============ HERO CINEMATIC ============ -->
+<section class="relative h-[92vh] min-h-[620px] w-full overflow-hidden">
+  <div class="absolute inset-0 -z-2 animate-kenBurns" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2200&q=85'); background-size:cover; background-position:center 30%;"></div>
+  <!-- Heavy overlay for contrast — clean slate for text -->
+  <div class="absolute inset-0 -z-1" style="background:
+    linear-gradient(180deg, rgba(11,31,58,0.72) 0%, rgba(11,31,58,0.62) 40%, rgba(11,31,58,0.85) 100%);">
+  </div>
+
+  <div class="relative h-full max-w-7xl mx-auto px-6 md:px-16 flex flex-col justify-center text-white">
+    <span class="font-sans text-eyebrow uppercase text-sunset mb-6 tracking-widest flex items-center gap-3" style="animation: fadeUp .9s .2s both;">
+      <span class="w-10 h-px bg-sunset inline-block"></span>
+      10,000+ Real Journeys
+    </span>
+    <h1 class="font-display font-medium leading-[0.98] tracking-tight" style="font-size:clamp(2.75rem, 6vw, 5.5rem); animation: fadeUp .9s .42s both;">
+      Stories from the<br>
+      <span class="italic font-serif text-sunset/90 font-normal" style="line-height:1;">road less travelled.</span>
+    </h1>
+    <p class="font-serif italic text-xl md:text-2xl text-white/80 mt-8 max-w-2xl" style="animation: fadeUp .9s .72s both;">
+      "They didn't just sell a package – they gave us memories we talk about every dinner party."
+    </p>
+
+    <div class="mt-14 flex flex-wrap items-center gap-10" style="animation: fadeUp .9s 1.02s both;">
+      <div class="flex items-center gap-5">
+        <div class="flex -space-x-4">
+          <img class="w-14 h-14 rounded-full border-3 border-white/90 object-cover shadow-xl" src="images/clients/client-09.jpeg" alt="Client photo">
+          <img class="w-14 h-14 rounded-full border-3 border-white/90 object-cover shadow-xl" src="images/clients/client-10.jpeg" alt="Client photo">
+          <img class="w-14 h-14 rounded-full border-3 border-white/90 object-cover shadow-xl" src="images/clients/client-11.jpeg" alt="Client photo">
+          <div class="w-14 h-14 rounded-full border-3 border-white/90 bg-sunset text-white flex items-center justify-center font-semibold text-sm shadow-xl">+10K</div>
+        </div>
+        <div>
+          <div class="flex gap-1 text-sunset">
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">star</span>
+          </div>
+          <div class="font-display text-3xl mt-1">4.9 <span class="font-serif italic text-base text-white/60 font-normal">/ 5.0 average</span></div>
+        </div>
+      </div>
+      <a href="#reviews-grid" class="btn-premium inline-flex items-center gap-3 bg-sunset text-white px-8 py-4 rounded-full font-medium tracking-wide hover:bg-[#E8904F] transition-all">
+        Read their stories
+        <span class="material-symbols-outlined text-xl">arrow_downward</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/70 flex flex-col items-center gap-3" style="animation: fadeUp .9s 1.3s both;">
+    <span class="font-sans text-eyebrow uppercase tracking-widest text-xs">Scroll</span>
+    <div class="w-px h-16 bg-gradient-to-b from-white/60 to-transparent"></div>
+  </div>
+</section>
+
+<!-- ============ FILTER BAR ============ -->
+<section id="reviews-grid" class="py-20 md:py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-6 md:px-16">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+      <div class="reveal">
+        <span class="font-sans text-eyebrow uppercase text-ocean tracking-widest">Testimonials</span>
+        <h2 class="font-display font-medium text-clamp-sm mt-4 leading-[1.05]">Voices of our <span class="italic font-serif text-sunset font-normal">travellers</span></h2>
+      </div>
+      <div class="reveal reveal-delay-2 flex flex-wrap gap-3">
+        <span class="font-sans text-sm text-fog self-center mr-2 font-medium">Filter:</span>
+        <button class="chip active px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium">All</button>
+        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Turkey</button>
+        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Europe</button>
+        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Dubai</button>
+        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Maldives</button>
+        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">India</button>
+      </div>
+    </div>
+
+    <!-- REVIEWS MASONRY -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-au      <!-- REVIEW 1 – LARGE TURKEY -->
+      <div class="reveal md:col-span-2 bg-stone/60 rounded-3xl p-10 relative overflow-hidden group hover:shadow-2xl hover:shadow-stone transition-all duration-500">
+        <div class="review-quote"></div>
+        <div class="relative flex flex-col h-full">
+          <div class="flex gap-1 text-sunset mb-6">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
+          </div>
+          <p class="font-serif italic text-2xl md:text-3xl leading-relaxed text-navy max-w-3xl">
+            Cappadocia at sunrise, 120 balloons in the sky, my wife crying – that moment alone was worth 10x what we paid. But what surprised us was day 4: they upgraded our hotel to a cave suite with a private pool. Unplanned, unasked. This is how you build loyalty.
+          </p>
+          <div class="mt-10 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <img class="w-14 h-14 rounded-full object-cover ring-2 ring-white cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-01.jpeg" alt="Client photo" onclick="openLightbox(0)">
+              <div>
+                <div class="font-display text-lg">Rohan &amp; Meera Kapoor</div>
+                <div class="font-sans text-sm text-fog mt-0.5">Turkey Escape · Nov 2024 · Honeymoon</div>
+              </div>
+            </div>
+            <span class="hidden md:inline-flex items-center gap-2 bg-forest/10 text-forest px-4 py-2 rounded-full text-xs font-semibold tracking-wide">
+              <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">verified</span>
+              VERIFIED BOOKING
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW 2 – MALDIVES -->
+      <div class="reveal reveal-delay-1 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
+        <div class="flex gap-1 text-sunset mb-5">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+        </div>
+        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
+          Water villa + sunset dolphin cruise + sandbank dinner. They had every tiny detail planned – even my favourite champagne was chilled on arrival. The butler assigned to us felt like family by day 2.
+        </p>
+        <div class="mt-8 flex items-center gap-4">
+          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-02.jpeg" alt="Client photo" onclick="openLightbox(1)">
+          <div>
+            <div class="font-display font-semibold">Ananya Desai</div>
+            <div class="font-sans text-xs text-fog mt-0.5">Maldives Serenity</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW 3 – SWISS FAMILY -->
+      <div class="reveal reveal-delay-2 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
+        <div class="flex gap-1 text-sunset mb-5">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+        </div>
+        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
+          Travelled with two kids (6 &amp; 9) to Switzerland. I was dreading the logistics – train connections, cable cars, kid-friendly restaurants. Everything was pre-booked, pre-confirmed, and the local contact was one WhatsApp away. Zero stress.
+        </p>
+        <div class="mt-8 flex items-center gap-4">
+          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-03.jpeg" alt="Client photo" onclick="openLightbox(2)">
+          <div>
+            <div class="font-display font-semibold">Arjun Mehta</div>
+            <div class="font-sans text-xs text-fog mt-0.5">Swiss Alps Family</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW 4 – BENTO IMAGE + TEXT TALL -->
+      <div class="reveal reveal-delay-3 row-span-2 rounded-3xl overflow-hidden relative group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500">
+        <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-[1500ms]" style="background-image:url('images/clients/client-04.jpeg')"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+        <div class="relative h-full p-8 flex flex-col justify-end text-white">
+          <div class="flex gap-1 text-sunset mb-4">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          </div>
+          <p class="font-serif italic text-xl leading-relaxed text-white/95">
+            "Dubai was overwhelming on paper. Desert safari at 6am, Burj Khalifa at 8pm, dinner in between. They choreographed it like a movie – no rushing, just moments."
+          </p>
+          <div class="mt-8 flex items-center gap-4">
+            <img class="w-12 h-12 rounded-full object-cover ring-2 ring-white/60 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-05.jpeg" alt="Client photo" onclick="openLightbox(4)">
+            <div>
+              <div class="font-display font-semibold text-lg">Kabir Sethi</div>
+              <div class="font-sans text-xs text-white/70 mt-0.5">Dubai Luxury · Dec 2024</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW 5 – JAPAN -->
+      <div class="reveal reveal-delay-4 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
+        <div class="flex gap-1 text-sunset mb-5">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'0.5">star_half</span>
+        </div>
+        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
+          Tokyo → Kyoto → Osaka. The tea ceremony they arranged in Gion wasn't touristy – it was a private session with a 12th-generation master. You can't Google things like that.
+        </p>
+        <div class="mt-8 flex items-center gap-4">
+          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-06.jpeg" alt="Client photo" onclick="openLightbox(5)">
+          <div>
+            <div class="font-display font-semibold">Ishita Rao</div>
+            <div class="font-sans text-xs text-fog mt-0.5">Japan Explorer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW 6 – CTA "YOUR TURN" -->
+      <div class="reveal reveal-delay-5 rounded-3xl p-8 relative overflow-hidden flex flex-col justify-center text-white" style="background:
+        radial-gradient(ellipse 80% 60% at 90% 10%, rgba(244,162,97,0.45) 0%, transparent 55%),
+        linear-gradient(140deg, #07152A 0%, #0B1F3A 60%, #0E2848 100%);">
+        <span class="material-symbols-outlined text-sunset text-5xl mb-6" style="font-variation-settings:'FILL'1">auto_awesome</span>
+        <h3 class="font-display text-3xl font-medium leading-tight">Your story<br>could be next.</h3>
+        <p class="font-serif italic text-lg text-white/70 mt-5 leading-relaxed">
+          Pack your bags. Trust the process.
+        </p>
+        <a href="deals.html" class="btn-premium mt-8 inline-flex items-center justify-center gap-2 bg-sunset text-white px-7 py-3.5 rounded-full font-medium hover:bg-[#E8904F] transition-all self-start">
+          Browse Packages
+          <span class="material-symbols-outlined">arrow_outward</span>
+        </a>
+      </div>
+
+      <!-- REVIEW 7 – KERALA -->
+      <div class="reveal reveal-delay-6 bg-mist/50 rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-ocean/10 transition-all duration-500 hover:-translate-y-1">
+        <div class="flex gap-1 text-sunset mb-5">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+        </div>
+        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
+          Houseboat on backwaters + treehouse in Munnar. We were looking for budget options but they suggested a ₹15k upgrade – BEST decision of the trip. Thank you for being honest, not salesy.
+        </p>
+        <div class="mt-8 flex items-center gap-4">
+          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-07.jpeg" alt="Client photo" onclick="openLightbox(6)">
+          <div>
+            <div class="font-display font-semibold">The Shah Family</div>
+            <div class="font-sans text-xs text-fog mt-0.5">Kerala Backwaters</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW 8 – KENYA -->
+      <div class="reveal reveal-delay-7 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
+        <div class="flex gap-1 text-sunset mb-5">
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+        </div>
+        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
+          Great Migration season. Our guide spotted 3 leopards, 2 cheetahs, the entire Mara River crossing in 3 days. The tents were glamping-grade. Our 50th anniversary – unforgettable.
+        </p>
+        <div class="mt-8 flex items-center gap-4">
+          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-08.jpeg" alt="Client photo" onclick="openLightbox(7)">
+          <div>
+            <div class="font-display font-semibold">Mr &amp; Mrs Khanna</div>
+            <div class="font-sans text-xs text-fog mt-0.5">Kenya Safari</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REAL CLIENT PHOTO GALLERY & LIGHTBOX ============ -->
+<section id="client-gallery" class="py-20 md:py-28 bg-mist/30 border-t border-stone">
+  <div class="max-w-7xl mx-auto px-6 md:px-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+      <div>
+        <span class="font-sans text-eyebrow uppercase text-sunset tracking-widest flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">photo_camera</span>
+          Authentic Traveller Snapshots
+        </span>
+        <h2 class="font-display font-medium text-clamp-sm mt-3 leading-[1.05]">
+          Happy Clients <span class="italic font-serif text-ocean font-normal">Gallery</span>
+        </h2>
+      </div>
+      <p class="font-serif italic text-lg text-fog max-w-md">
+        Real unfiltered moments captured on location by our clients across Turkey, Georgia, Dubai, Europe, and beyond. Click any photo to enlarge.
+      </p>
+    </div>
+
+    <!-- Gallery Grid (20 items) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5">
+      <div onclick="openLightbox(0)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-01.jpeg" alt="Client Photo 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(1)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-02.jpeg" alt="Client Photo 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(2)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-03.jpeg" alt="Client Photo 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(3)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-04.jpeg" alt="Client Photo 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(4)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-05.jpeg" alt="Client Photo 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(5)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-06.jpeg" alt="Client Photo 6" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(6)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-07.jpeg" alt="Client Photo 7" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(7)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-08.jpeg" alt="Client Photo 8" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(8)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-09.jpeg" alt="Client Photo 9" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(9)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-10.jpeg" alt="Client Photo 10" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(10)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-11.jpeg" alt="Client Photo 11" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(11)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-12.jpeg" alt="Client Photo 12" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(12)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-13.jpeg" alt="Client Photo 13" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(13)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-14.jpeg" alt="Client Photo 14" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(14)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-15.jpeg" alt="Client Photo 15" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(15)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-16.jpeg" alt="Client Photo 16" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(16)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-17.jpeg" alt="Client Photo 17" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(17)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-18.jpeg" alt="Client Photo 18" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(18)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-19.jpeg" alt="Client Photo 19" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+      <div onclick="openLightbox(19)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <img src="images/clients/client-20.jpeg" alt="Client Photo 20" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
+          <span class="font-display text-sm mt-0.5">Click to view</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="gallery-lightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex-col items-center justify-center p-4 transition-all duration-300 opacity-0">
+  <button id="lightbox-close" class="absolute top-6 right-6 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+    <span class="material-symbols-outlined text-2xl">close</span>
+  </button>
+  <button id="lightbox-prev" class="absolute left-4 md:left-8 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-3.5 rounded-full transition-all">
+    <span class="material-symbols-outlined text-3xl">chevron_left</span>
+  </button>
+  <button id="lightbox-next" class="absolute right-4 md:right-8 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-3.5 rounded-full transition-all">
+    <span class="material-symbols-outlined text-3xl">chevron_right</span>
+  </button>
+  <div class="relative max-w-5xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl border border-white/10">
+    <img id="lightbox-img" src="" alt="Client Fullscreen Photo" class="max-w-full max-h-[80vh] object-contain mx-auto rounded-lg">
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-navy/80 backdrop-blur-md text-white text-xs px-4 py-1.5 rounded-full border border-white/15" id="lightbox-caption">
+      Client Photo 1 of 20
+    </div>
+  </div>
+</div>
+
+<!-- ============ STATS BAND MIST BG ============ -->
+<section class="py-24 md:py-32 bg-mist/40 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(#0B1F3A 1.2px, transparent 1.2px); background-size: 26px 26px;"></div>
+  <div class="relative max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6">
+    <div class="reveal text-center md:border-r md:border-navy/10">
+      <div class="font-display font-medium leading-none" style="font-size:clamp(2.5rem, 5vw, 4.5rem);">10,482</div>
+      <div class="font-serif italic text-lg text-fog mt-4">Happy travellers</div>
+    </div>
+    <div class="reveal reveal-delay-1 text-center md:border-r md:border-navy/10">
+      <div class="font-display font-medium leading-none" style="font-size:clamp(2.5rem, 5vw, 4.5rem);">42</div>
+      <div class="font-serif italic text-lg text-fog mt-4">Countries curated</div>
+    </div>
+    <div class="reveal reveal-delay-2 text-center md:border-r md:border-navy/10">
+      <div class="font-display font-medium leading-none" style="font-size:clamp(2.5rem, 5vw, 4.5rem);">96<span class="text-sunset">%</span></div>
+      <div class="font-serif italic text-lg text-fog mt-4">Repeat referrals</div>
+    </div>
+    <div class="reveal reveal-delay-3 text-center">
+      <div class="font-display font-medium leading-none" style="font-size:clamp(2.5rem, 5vw, 4.5rem);">24/7</div>
+      <div class="font-serif italic text-lg text-fog mt-4">Ground support</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRITE A REVIEW CTA BAND ============ -->
+<section class="py-24 md:py-32 relative overflow-hidden text-white">
+  <div class="absolute inset-0" style="background:
+    radial-gradient(ellipse 60% 80% at 80% 0%, rgba(244,162,97,0.32) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 0% 100%, rgba(30,136,229,0.25) 0%, transparent 55%),
+    linear-gradient(135deg, #07152A 0%, #0B1F3A 100%);">
+  </div>
+  <div class="relative max-w-6xl mx-auto px-6 md:px-16 text-center">
+    <div class="reveal">
+      <span class="font-sans text-eyebrow uppercase tracking-widest text-sunset">�¦ Your turn</span>
+      <h2 class="font-display font-medium mt-6 max-w-4xl mx-auto" style="font-size:clamp(2rem, 4.5vw, 4rem); line-height:1.05;">
+        Been on a journey with us?<br>
+        <span class="italic font-serif font-normal text-white/80">Tell the world how it felt.</span>
+      </h2>
+      <p class="font-serif italic text-xl text-white/65 mt-8 max-w-2xl mx-auto leading-relaxed">
+        Every review is hand-read by the founders. The best story each month wins a free weekend getaway �ˆï¸
+      </p>
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+        <button class="btn-premium inline-flex items-center gap-3 bg-sunset text-white px-10 py-4 rounded-full font-medium tracking-wide hover:bg-[#E8904F] transition-all shadow-2xl shadow-sunset/30">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">rate_review</span>
+          Share your story
+        </button>
+        <a href="contact.html" class="inline-flex items-center gap-3 px-10 py-4 rounded-full font-medium border border-white/25 text-white hover:bg-white/10 transition-all">
+          Talk to a human
+          <span class="material-symbols-outlined">arrow_outward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Chip filter
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => {
+      c.classList.remove('active');
+      c.classList.add('bg-white', 'text-fog');
+    });
+    chip.classList.add('active');
+    chip.classList.remove('bg-white', 'text-fog');
+  });
+});
+
+// Lightbox Gallery Logic
+const clientImages = Array.from({ length: 20 }, (_, i) => ({
+  src: `images/clients/client-${String(i + 1).padStart(2, '0')}.jpeg`,
+  caption: `Client Photo ${i + 1} of 20 - Authentic Traveller Moment`
+}));
+
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  updateLightbox();
+  const lb = document.getElementById('gallery-lightbox');
+  if (!lb) return;
+  lb.classList.remove('hidden');
+  setTimeout(() => {
+    lb.classList.remove('opacity-0');
+    lb.classList.add('flex', 'opacity-100');
+  }, 10);
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('gallery-lightbox');
+  if (!lb) return;
+  lb.classList.remove('opacity-100');
+  lb.classList.add('opacity-0');
+  setTimeout(() => {
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+    document.body.style.overflow = '';
+  }, 200);
+}
+
+function updateLightbox() {
+  const img = document.getElementById('lightbox-img');
+  const cap = document.getElementById('lightbox-caption');
+  if (img && clientImages[currentIndex]) {
+    img.src = clientImages[currentIndex].src;
+  }
+  if (cap) {
+    cap.innerText = `Client Photo ${currentIndex + 1} of ${clientImages.length}`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-prev')?.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + clientImages.length) % clientImages.length;
+    updateLightbox();
+  });
+  document.getElementById('lightbox-next')?.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % clientImages.length;
+    updateLightbox();
+  });
+  document.getElementById('gallery-lightbox')?.addEventListener('click', (e) => {
+    if (e.target.id === 'gallery-lightbox') closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    const lb = document.getElementById('gallery-lightbox');
+    if (lb && !lb.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + clientImages.length) % clientImages.length;
+        updateLightbox();
+      }
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % clientImages.length;
+        updateLightbox();
+      }
+    }
+  });
+});
+
+// Reveal observer
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+<script src="js/app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>All Packages · Let's Explore DMC | Handcrafted Journeys for Every Traveller</title>
+<meta name="description" content="42 handcrafted packages from Let's Explore DMC — Turkey, Dubai, Bali, Thailand, Goa, Andaman, Kerala, Sikkim, Jaipur, Europe and more. Transparent pricing. 24/7 support."/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="js/nav.js" defer></script>
+<script src="js/wishlist.js" defer></script>
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "navy":       "#0B1F3A",
+              "navy-deep":  "#061224",
+              "ocean":      "#1E88E5",
+              "sunset":     "#F4A261",
+              "sand":       "#F9FAFC",
+              "stone":      "#F1F5F9",
+              "mist":       "#EBF4FF",
+              "ink":        "#0F172A",
+              "fog":        "#64748B",
+              "forest":     "#16a34a",
+            },
+            fontFamily: {
+              display:    ['"Playfair Display"', '"Cormorant Garamond"', 'serif'],
+              serif:      ['"Cormorant Garamond"', '"Playfair Display"', 'serif'],
+              sans:       ['Inter', 'system-ui', 'sans-serif'],
+            },
+            fontSize: {
+              "hero-display": ["clamp(2.5rem, 7vw, 5.5rem)", { lineHeight: "0.98", letterSpacing: "-0.04em", fontWeight: "500" }],
+              "hero-sub":     ["clamp(1rem, 1.4vw, 1.3rem)", { lineHeight: "1.55", fontWeight: "300" }],
+              "section-title":["clamp(1.8rem, 3.5vw, 3rem)", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "600" }],
+              "eyebrow":      ["0.7rem", { letterSpacing: "0.42em", fontWeight: "600", textTransform: "uppercase" }],
+            },
+            keyframes: {
+              kenBurns: {
+                '0%':   { transform: 'scale(1) translate(0, 0)' },
+                '100%': { transform: 'scale(1.18) translate(-2%, -1%)' }
+              },
+              fadeUp: {
+                '0%':   { opacity: '0', transform: 'translateY(40px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' }
+              },
+            },
+            animation: {
+              'ken-burns': 'kenBurns 24s ease-out infinite alternate',
+              'fade-up':   'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+            }
+          }
+        }
+      }
+    </script>
+
+<style>
+      * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      html { scroll-behavior: smooth; }
+      .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+
+      .hero-cinematic {
+        position: absolute; inset: 0; z-index: -2;
+        background-size: cover; background-position: center;
+        animation: kenBurns 24s ease-out infinite alternate;
+      }
+      .hero-overlay {
+        position: absolute; inset: 0; z-index: -1;
+        background:
+          radial-gradient(ellipse at 20% 30%, rgba(30,136,229,0.20), transparent 55%),
+          linear-gradient(180deg, rgba(6,18,36,0.5) 0%, rgba(6,18,36,0.28) 50%, rgba(6,18,36,0.78) 100%);
+      }
+      .reveal {
+        opacity: 0; transform: translateY(16px);
+        transition: opacity 0.22s ease-out, transform 0.22s ease-out;
+        will-change: opacity, transform;
+      }
+      .reveal.in-view { opacity: 1; transform: none; }
+      .reveal-delay-1 { transition-delay: 0.04s; }
+      .reveal-delay-2 { transition-delay: 0.08s; }
+      .reveal-delay-3 { transition-delay: 0.12s; }
+      .reveal-delay-4 { transition-delay: 0.16s; }
+      .reveal-delay-5 { transition-delay: 0.40s; }
+
+      .pkg-card { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease; }
+      .pkg-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px -20px rgba(11,31,58,0.28); }
+      .pkg-card img { transition: transform 1.2s cubic-bezier(0.22,1,0.36,1); }
+      .pkg-card:hover img { transform: scale(1.08); }
+
+      .link-underline { position: relative; display: inline-block; }
+      .link-underline::after {
+        content: ""; position: absolute; left: 0; bottom: -4px;
+        width: 100%; height: 1px; background: currentColor;
+        transform-origin: right; transform: scaleX(0);
+        transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+      }
+      .link-underline:hover::after { transform-origin: left; transform: scaleX(1); }
+
+      .chip {
+        cursor: pointer; user-select: none;
+        transition: all 0.32s cubic-bezier(0.22,1,0.36,1);
+      }
+      .chip:hover { transform: translateY(-2px); }
+      .chip.active {
+        background: #0B1F3A !important; color: white !important;
+        border-color: #0B1F3A !important;
+        box-shadow: 0 10px 26px -8px rgba(11,31,58,0.4);
+      }
+
+      ::selection { background: rgba(244,162,97,0.35); color: #0B1F3A; }
+      ::-webkit-scrollbar { width: 10px; }
+      ::-webkit-scrollbar-track { background: #F1F5F9; }
+      ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
+      ::-webkit-scrollbar-thumb:hover { background: #0B1F3A; }
+
+      .btn-premium { position: relative; overflow: hidden; isolation: isolate; }
+      .btn-premium::before {
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+        background-size: 200% 100%; opacity: 0; transition: opacity 0.4s ease;
+        z-index: -1;
+      }
+      .btn-premium:hover::before { opacity: 1; animation: shimmer 3.4s linear infinite; }
+      @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+
+      .soft-lift { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease; }
+      .soft-lift:hover { transform: translateY(-4px); }
+
+      [data-load="hero-tag"]   { opacity:0; animation: fadeUp 0.9s 0.2s cubic-bezier(0.22,1,0.36,1) forwards; }
+      [data-load="hero-title"] { opacity:0; animation: fadeUp 1.0s 0.4s cubic-bezier(0.22,1,0.36,1) forwards; }
+      [data-load="hero-italic"]{ opacity:0; animation: fadeUp 0.9s 0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+      [data-load="hero-search"] { opacity:0; animation: fadeUp 0.9s 0.9s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-cinematic { animation: none; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+      }
+    </style>
+</head>
+<body class="bg-sand text-ink">
+
+<!-- HERO -->
+<section class="relative min-h-[82vh] flex flex-col justify-end overflow-hidden pb-24 md:pb-28 px-6 md:px-14 xl:px-24">
+  <div class="hero-cinematic" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2000&q=80');"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="max-w-[1400px] mx-auto w-full text-white relative z-10">
+    <div class="flex items-center gap-4 mb-8 text-white/90" data-load="hero-tag">
+      <span class="w-12 h-px bg-sunset"></span>
+      <span class="font-sans text-eyebrow text-sunset">42 Handcrafted Packages · No Hidden Fees</span>
+    </div>
+    <h1 class="font-display text-hero-display leading-[0.95] max-w-[16ch] mb-6" data-load="hero-title">
+      Every journey,<br/>
+      <span class="italic font-serif text-white/80" style="font-family:'Cormorant Garamond',serif;">tells a story.</span>
+    </h1>
+    <p class="font-serif italic text-hero-sub text-white/80 max-w-2xl mb-14" data-load="hero-italic">
+      Scroll through our most-loved trips — from Cappadocia sunrises to Ubud rice terraces. Handpicked hotels, vetted guides, and a WhatsApp trip manager, always.
+    </p>
+
+    <!-- Search bar -->
+    <div class="bg-white/95 backdrop-blur-xl rounded-[28px] p-3 md:p-4 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.45)] max-w-4xl" data-load="hero-search">
+      <div class="grid grid-cols-1 md:grid-cols-[1.2fr_1fr_1fr_auto] gap-2 md:gap-3">
+        <div class="flex items-center gap-3 px-5 py-4 rounded-2xl hover:bg-mist/60 transition">
+          <span class="material-symbols-outlined text-ocean text-xl" style="font-variation-settings:'FILL' 1;">travel_explore</span>
+          <div class="flex-1 min-w-0">
+            <div class="font-sans text-eyebrow text-fog mb-0.5">Where to?</div>
+            <input placeholder="Turkey, Bali, Anywhere…" type="text" id="pkgSearch"
+              class="w-full bg-transparent outline-none text-navy-deep font-semibold placeholder:text-navy/40">
+          </div>
+        </div>
+        <div class="flex items-center gap-3 px-5 py-4 rounded-2xl hover:bg-mist/60 transition border-t md:border-t-0 md:border-l border-navy/8">
+          <span class="material-symbols-outlined text-ocean text-xl" style="font-variation-settings:'FILL' 1;">calendar_month</span>
+          <div class="flex-1 min-w-0">
+            <div class="font-sans text-eyebrow text-fog mb-0.5">When</div>
+            <select id="pkgMonth" class="w-full bg-transparent outline-none text-navy-deep font-semibold appearance-none">
+              <option>Any Month</option><option>January 2026</option><option>February 2026</option><option>March 2026</option><option>April 2026</option><option>May 2026</option><option>June 2026</option><option>July 2026</option><option>August 2026</option><option>September 2026</option><option>October 2026</option><option>November 2026</option><option>December 2026</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 px-5 py-4 rounded-2xl hover:bg-mist/60 transition border-t md:border-t-0 md:border-l border-navy/8">
+          <span class="material-symbols-outlined text-ocean text-xl" style="font-variation-settings:'FILL' 1;">group</span>
+          <div class="flex-1 min-w-0">
+            <div class="font-sans text-eyebrow text-fog mb-0.5">Travellers</div>
+            <select id="pkgTrav" class="w-full bg-transparent outline-none text-navy-deep font-semibold appearance-none">
+              <option>2 Adults</option><option>Solo</option><option>Family (4)</option><option>Group (8+)</option><option>Luxury Private</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="applyFilters()" class="btn-premium bg-sunset text-navy-deep font-bold py-4 md:py-0 px-8 md:px-6 rounded-2xl uppercase tracking-widest text-xs md:text-[0.72rem] flex items-center justify-center gap-2 soft-lift shadow-[0_10px_26px_-8px_rgba(244,162,97,0.5)]">
+          <span>Search</span>
+          <span class="material-symbols-outlined text-lg md:hidden" style="font-variation-settings:'FILL' 1;">search</span>
+          <span class="material-symbols-outlined text-base hidden md:inline-block" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER CHIPS + PACKAGES -->
+<section class="bg-sand py-20 md:py-28 px-6 md:px-14 xl:px-24">
+  <div class="max-w-[1400px] mx-auto">
+
+    <!-- Filters -->
+    <div class="reveal mb-14 md:mb-20">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-10 h-px bg-sunset"></span>
+        <span class="font-sans text-eyebrow text-ocean">Filter & Explore</span>
+      </div>
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div>
+          <h2 class="font-display text-section-title text-navy-deep mb-4">
+            Browse our collection
+          </h2>
+          <p class="text-fog text-lg max-w-xl">Select a category or budget below — we'll show only the trips that match your vibe.</p>
+        </div>
+        <div class="text-right text-sm text-fog"><span id="countText" class="font-display text-navy-deep text-3xl mr-2 align-middle">12</span> packages</div>
+      </div>
+
+      <!-- Region chips -->
+      <div class="mb-5">
+        <div class="font-sans text-eyebrow text-fog mb-4">Destination Type</div>
+        <div class="flex flex-wrap gap-2 md:gap-3">
+          <button onclick="setFilter('region','all',this)" class="chip active text-navy-deep text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 shadow-sm">All Trips</button>
+          <button onclick="setFilter('region','international',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">public</span>International</button>
+          <button onclick="setFilter('region','india',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">explore</span>India</button>
+          <button onclick="setFilter('region','beach',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">beach_access</span>Beach</button>
+          <button onclick="setFilter('region','mountain',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">terrain</span>Mountain</button>
+          <button onclick="setFilter('region','luxury',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">workspace_premium</span>Luxury</button>
+          <button onclick="setFilter('region','family',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">groups</span>Family</button>
+        </div>
+      </div>
+
+      <!-- Budget chips -->
+      <div>
+        <div class="font-sans text-eyebrow text-fog mb-4">Budget (per person)</div>
+        <div class="flex flex-wrap gap-2 md:gap-3">
+          <button onclick="setFilter('budget','all',this)" class="chip active text-navy-deep text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10">Any Budget</button>
+          <button onclick="setFilter('budget','200',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10">Under ₹25K / $300</button>
+          <button onclick="setFilter('budget','500',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10">₹25–60K / $300–$700</button>
+          <button onclick="setFilter('budget','1000',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10">₹60K–1L / $700–$1400</button>
+          <button onclick="setFilter('budget','ultra',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">workspace_premium</span>Luxury &amp; Above</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Package Grid -->
+    <div id="pkgGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 md:gap-8">
+      <!-- Cards injected by JS for easy filtering -->
+    </div>
+
+    <!-- No results -->
+    <div id="noResults" class="hidden text-center py-24">
+      <div class="font-display text-3xl text-navy-deep mb-3">No trips matched that filter.</div>
+      <p class="text-fog mb-6">Try clearing filters or searching a new destination.</p>
+      <button onclick="clearFilters()" class="inline-flex items-center gap-2 bg-navy-deep text-white px-8 py-4 rounded-full font-semibold tracking-wide hover:bg-ocean transition soft-lift">
+        Reset all filters <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">refresh</span>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA LEAD -->
+<section class="px-6 md:px-14 xl:px-24 pb-28 md:pb-36 pt-10 md:pt-14 bg-navy-deep relative overflow-hidden">
+  <div class="absolute inset-0 opacity-60" style="background:
+    radial-gradient(ellipse at 15% 20%, rgba(30,136,229,0.28), transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(244,162,97,0.22), transparent 55%);"></div>
+  <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
+    <div class="reveal text-white">
+      <div class="flex items-center gap-4 mb-7">
+        <span class="w-10 h-px bg-sunset"></span>
+        <span class="font-sans text-eyebrow text-sunset">Not sure which trip?</span>
+      </div>
+      <h2 class="font-display text-section-title leading-[1.02] mb-6">
+        Talk to a real<br/>
+        <span class="italic font-serif text-white/70">trip architect.</span>
+      </h2>
+      <p class="text-white/70 text-lg leading-relaxed mb-10 max-w-lg">
+        10 minutes on call. Zero cost. Tell us your dates, budget, and who's coming — we'll SMS 3 curated options within 2 hours.
+      </p>
+      <a href="contact.html" class="inline-flex items-center gap-3 bg-sunset text-navy-deep px-9 py-[17px] rounded-full font-bold tracking-widest uppercase text-[0.82rem] soft-lift shadow-[0_12px_36px_-8px_rgba(244,162,97,0.6)]">
+        Book Free 10-min Call
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 md:gap-5">
+      <div class="reveal reveal-delay-1 rounded-[28px] p-7 md:p-9 bg-white/6 backdrop-blur-xl border border-white/12 text-white">
+        <div class="w-12 h-12 rounded-2xl bg-sunset/18 text-sunset flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1;">phone_in_talk</span>
+        </div>
+        <div class="font-display text-3xl mb-1">10 min</div>
+        <div class="font-serif italic text-white/70 text-lg">Free consultation</div>
+      </div>
+      <div class="reveal reveal-delay-2 rounded-[28px] p-7 md:p-9 bg-white/6 backdrop-blur-xl border border-white/12 text-white mt-8 md:mt-14">
+        <div class="w-12 h-12 rounded-2xl bg-ocean/20 text-ocean flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1;">sms</span>
+        </div>
+        <div class="font-display text-3xl mb-1">&lt; 2 hrs</div>
+        <div class="font-serif italic text-white/70 text-lg">3 itineraries by SMS</div>
+      </div>
+      <div class="reveal reveal-delay-3 rounded-[28px] p-7 md:p-9 bg-white/6 backdrop-blur-xl border border-white/12 text-white -mt-4">
+        <div class="w-12 h-12 rounded-2xl bg-[#16a34a]/20 text-[#4ade80] flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1;">verified</span>
+        </div>
+        <div class="font-display text-3xl mb-1">100%</div>
+        <div class="font-serif italic text-white/70 text-lg">No obligation ever</div>
+      </div>
+      <div class="reveal reveal-delay-4 rounded-[28px] p-7 md:p-9 bg-white/6 backdrop-blur-xl border border-white/12 text-white mt-4 md:mt-10">
+        <div class="w-12 h-12 rounded-2xl bg-[#7B61FF]/20 text-[#c4b5fd] flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1;">groups</span>
+        </div>
+        <div class="font-display text-3xl mb-1">10K+</div>
+        <div class="font-serif italic text-white/70 text-lg">Travellers served</div>
+  </div>
+</section>
+
+<script>
+  const PACKAGES = [
+    {id:0, name:"Discover the Magic of Georgia", sub:"Tbilisi · Kazbegi · Gudauri · Mtskheta", days:"5D/4N", price:"$300", priceTier:200, region:"international,mountain,luxury", tags:["Kazbegi 4x4","Bridge of Peace","Cable Car","Gergeti Church"], badge:"$300 Special 🇬🇪", badgeColor:"bg-sunset text-navy-deep", img:"https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80", href:"georgia-package.html", rating:4.95},
+    {id:1, name:"Turkey Escape & Wonders",      sub:"Istanbul · Cappadocia · Pamukkale", days:"5D/4N", price:"₹42,999", priceTier:1000, region:"international", tags:["Hot Air Balloon","Cave Hotel","Bosphorus Cruise"], badge:"Bestseller", badgeColor:"bg-navy-deep text-white", img:"https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80", href:"turkey-package.html", rating:4.9},
+    {id:2, name:"Amazing Dubai & Abu Dhabi",     sub:"Burj Khalifa · Desert Safari · Marina", days:"5D/4N", price:"₹65,000", priceTier:500,  region:"international,luxury",     tags:["Burj Khalifa","Dune Bashing","Abu Dhabi Tour"],  badge:"Dussehra Special", badgeColor:"bg-sunset text-navy-deep", img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80", href:"dubai-package.html", rating:4.8},
+    {id:3, name:"Thailand Island Odyssey",       sub:"Phuket · Krabi · Koh Samui",        days:"10D/9N", price:"₹63,000", priceTier:500,  region:"international,beach,luxury", tags:["James Bond Island","Phi Phi Speedboat","4 Island Tour","Angthong Park"], badge:"4★ Premium", badgeColor:"bg-forest text-white", img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80", href:"thailand-package.html", rating:4.95},
+    {id:4, name:"Bali Bliss & Nusa Penida",     sub:"Kuta · Nusa Penida · Ubud",         days:"7D/6N", price:"₹75,000", priceTier:500,  region:"international,beach,luxury", tags:["Nusa Penida Ferry","Ayung Rafting","ATV Biking","Desa Swings"], badge:"Honeymoon Pick", badgeColor:"bg-ocean text-white", img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80", href:"bali-package.html", rating:4.9},
+    {id:5, name:"Astonishing Malaysia & Genting", sub:"Kuala Lumpur · Genting Highlands",  days:"5D/4N", price:"₹55,000", priceTier:500,  region:"international,family,beach", tags:["KL Tower","Sunway Lagoon","Batu Caves","Genting SkyWorlds"], badge:"Family Special", badgeColor:"bg-forest text-white", img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=900&q=80", href:"malaysia-package.html", rating:4.8},
+    {id:6, name:"Singapore Skyline & Universal", sub:"Marina Bay · Sentosa · Universal",  days:"5D/4N", price:"₹50,000", priceTier:500,  region:"international,family",     tags:["Night Safari","Universal Studios","Gardens by the Bay"], badge:"4★ Premium", badgeColor:"bg-navy-deep text-white", img:"https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=900&q=80", href:"singapore-package.html", rating:4.9},
+    {id:7, name:"Vietnam Grand Expedition",     sub:"Hanoi · Sapa · Da Nang · Phu Quoc", days:"12D/11N", price:"₹60,000", priceTier:1000, region:"international,mountain,family", tags:["Ha Long Cruise","Fansipan Cable Car","Ba Na Hills","Phu Quoc"], badge:"12D Grand Tour", badgeColor:"bg-forest text-white", img:"https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=80", href:"vietnam-package.html", rating:4.95},
+    {id:8, name:"Sri Lanka Island Paradise",    sub:"Kandy · Nuwara Eliya · Bentota · Colombo", days:"5D/4N", price:"₹30,000", priceTier:200,  region:"international,beach",      tags:["Pinnawala Elephants","Temple of Tooth","Madu River Safari"], badge:"Half Board", badgeColor:"bg-sunset text-navy-deep", img:"https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=900&q=80", href:"srilanka-package.html", rating:4.85},
+    {id:9, name:"Andaman Islands Dream",        sub:"Port Blair · Havelock · Neil",      days:"5D/4N", price:"₹40,000", priceTier:500,  region:"india,beach,luxury",     tags:["Pvt Cruise Ferry","Radhanagar Beach","Cellular Jail"],badge:"Couple's Pick", badgeColor:"bg-ocean text-white", img:"https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=900&q=80", href:"andaman-package.html", rating:4.9},
+    {id:10, name:"Kerala Backwaters",           sub:"Kochi · Munnar · Alleppey",         days:"6D/5N", price:"₹35,000", priceTier:500,  region:"india,family",           tags:["Houseboat","Tea Gardens","Ayurveda Spa"],          badge:"Monsoon Offer", badgeColor:"bg-forest text-white", img:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=80", href:"kerala-package.html", rating:4.85},
+    {id:11, name:"Goa Beach Vacation",          sub:"North · South · Cruise",            days:"4D/3N", price:"₹30,000", priceTier:200,  region:"india,beach,family",     tags:["Beach Shacks","Casinos","Mandovi Cruise"],          badge:"Beach Party", badgeColor:"bg-sunset text-navy-deep", img:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=900&q=80", href:"deals.html", rating:4.75},
+    {id:12, name:"Kashmir Paradise Trail",      sub:"Srinagar · Sonmarg · Gulmarg",      days:"5D/4N", price:"₹30,000", priceTier:200,  region:"india,mountain",         tags:["Dal Lake Shikara","Gulmarg Gondola","Aru & Betaab"],  badge:"Paradise Pick", badgeColor:"bg-ocean text-white", img:"https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=900&q=80", href:"kashmir-package.html", rating:4.92},
+    {id:13, name:"Manali & Solang Valley",      sub:"Manali · Solang Valley · Naggar",   days:"5D/4N", price:"₹40,000", priceTier:500,  region:"india,mountain",         tags:["Hadimba Temple","Solang Adventure","Naggar Castle"],badge:"Snow Special", badgeColor:"bg-navy-deep text-white", img:"https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=900&q=80", href:"manali-package.html", rating:4.8},
+    {id:14, name:"Ujjain Mahakal & Indore Yatra",sub:"Mahakaleshwar · Omkareshwar",     days:"5D/4N", price:"₹28,000", priceTier:200,  region:"india,cultural",         tags:["Mahakal Corridor","Sheeghra Darshan","Omkareshwar"],badge:"Spiritual", badgeColor:"bg-sunset text-navy-deep", img:"https://images.unsplash.com/photo-1609949279531-cf48d64bed89?auto=format&fit=crop&w=900&q=80", href:"ujjain-package.html", rating:4.88},
+    {id:15, name:"Nepal Himalayan Wonders",     sub:"Kathmandu · Pokhara · Muktinath · Chitwan", days:"10D/9N", price:"₹25,000", priceTier:200,  region:"international,mountain", tags:["Pashupatinath","Muktinath 4x4","Chitwan Safari"], badge:"Himalayan Pick", badgeColor:"bg-forest text-white", img:"https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=900&q=80", href:"nepal-package.html", rating:4.78},
+    {id:16, name:"European Flavours 2026",      sub:"Paris · Switzerland · Austria · Italy", days:"11D/10N", price:"₹1,94,990", priceTier:"ultra", region:"international,luxury", tags:["Eiffel Tower","Swiss Alps","Venice Gondola","Vatican"], badge:"European Tour", badgeColor:"bg-navy-deep text-white", img:"https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=900&q=80", href:"deals.html", rating:4.95}
+  ];
+
+  const state = { region:"all", budget:"all", search:"" };
+
+  function render() {
+    const q = (state.search || "").toLowerCase();
+    const list = PACKAGES.filter(p => {
+      const regionOK = state.region === "all" || (p.region && p.region.split(",").includes(state.region));
+      let budgetOK = state.budget === "all";
+      if (!budgetOK) {
+        const tier = p.priceTier;
+        if (state.budget === "ultra") budgetOK = tier === "ultra";
+        else budgetOK = tier === state.budget || (state.budget === "500" && tier === 200);
+      }
+      const qOK = !q || (p.name+" "+p.sub+" "+(p.tags||[]).join(" ")).toLowerCase().includes(q);
+      return regionOK && budgetOK && qOK;
+    });
+    document.getElementById("countText").textContent = list.length;
+    const grid = document.getElementById("pkgGrid");
+    const noR = document.getElementById("noResults");
+    if (list.length === 0) { grid.innerHTML = ""; noR.classList.remove("hidden"); return; }
+    noR.classList.add("hidden");
+    grid.innerHTML = list.map((p,i) => `
+      <div class="pkg-card reveal reveal-delay-${(i%5)+1} bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col relative">
+        <div class="relative aspect-[4/3] overflow-hidden">
+          <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" loading="lazy"/>
+          <div class="absolute top-5 left-5 flex gap-2">
+            <span class="${p.badgeColor} font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase">${p.badge}</span>
+          </div>
+          <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
+            ${p.rating}<span class="text-sunset">★</span>
+          </div>
+          <!-- Heart / Wishlist btn -->
+          <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg z-10"
+            data-wish-id="pkg-${p.id}"
+            data-wish-title="${p.name}"
+            data-wish-subtitle="${p.days} · ${p.sub}"
+            data-wish-price="${p.price}"
+            data-wish-img="${p.img}"
+            data-wish-href="${p.href}"
+            title="Save to Wishlist">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-7 md:p-8 flex flex-col flex-grow">
+          <div class="flex items-start justify-between gap-4 mb-2">
+            <h3 class="font-display text-2xl text-navy-deep leading-tight"><a href="${p.href}">${p.name}</a></h3>
+            <span class="font-sans text-eyebrow text-ocean whitespace-nowrap">${p.days}</span>
+          </div>
+          <p class="text-fog text-sm mb-5 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">location_on</span>
+            ${p.sub}
+          </p>
+          <div class="flex flex-wrap gap-2 mb-7">
+            ${p.tags.map(t => `<span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">${t}</span>`).join("")}
+          </div>
+          <div class="mt-auto flex items-end justify-between">
+            <div>
+              <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
+              <div class="font-display text-3xl text-navy-deep">${p.price}</div>
+              <div class="text-[11px] text-fog mt-0.5">per person</div>
+            </div>
+            <a href="${p.href}" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    // Wire up dynamic heart buttons after render
+    if (window.Wishlist) {
+      window.Wishlist.initHearts();
+    }
+
+    // Activate IntersectionObserver on newly injected .reveal elements
+    const els = grid.querySelectorAll(".reveal");
+    if ("IntersectionObserver" in window && els.length > 0) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); }});
+      }, { threshold: 0.12 });
+      els.forEach(el => io.observe(el));
+    } else {
+      els.forEach(el => el.classList.add("in-view"));
+    }
+  }
+
+  function setFilter(type, val, btnEl) {
+    state[type] = val;
+    const row = btnEl.parentElement;
+    row.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+    btnEl.classList.add("active");
+    render();
+  }
+  function applyFilters() {
+    state.search = document.getElementById("pkgSearch").value || "";
+    render();
+    document.getElementById("pkgGrid").scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+  function clearFilters() {
+    state.region = "all"; state.budget = "all"; state.search = "";
+    document.getElementById("pkgSearch").value = "";
+    document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+    document.querySelectorAll(".chip").forEach((c,i) => { if (c.textContent.trim().startsWith("All") || c.textContent.trim().startsWith("Any")) c.classList.add("active"); });
+    render();
+  }
+  document.getElementById("pkgSearch")?.addEventListener("input", (e) => { state.search = e.target.value; render(); });
+
+  // Global section observer for reveal
+  (function () {
+    const els = document.querySelectorAll(":scope > section .reveal, body > section .reveal");
+    if (!("IntersectionObserver" in window) || els.length === 0) { els.forEach(el => el.classList.add("in-view")); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); }});
+    }, { threshold: 0.01, rootMargin: "300px 0px 150px 0px" });
+    els.forEach(el => io.observe(el));
+  })();
+
+  render();
+</script>
+</body>
+</html>

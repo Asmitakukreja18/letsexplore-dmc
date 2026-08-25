@@ -1,0 +1,9 @@
+{
+  "name": "letsexplore-dmc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Let's Explore DMC Travel Website",
+  "devDependencies": {
+    "vercel": "^39.0.0"
+  }
+}

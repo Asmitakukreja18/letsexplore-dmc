@@ -1,0 +1,379 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Let's Explore DMC | Discover Turkey – Land of Wonders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Montserrat:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .parallax-hero {
+            background-attachment: fixed;
+        }
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#ffa454",
+                      "on-tertiary": "#ffffff",
+                      "on-background": "#191c1d",
+                      "inverse-primary": "#b6c6f0",
+                      "primary-fixed-dim": "#b6c6f0",
+                      "on-tertiary-fixed-variant": "#005228",
+                      "surface": "#f8f9fa",
+                      "on-surface-variant": "#44474e",
+                      "secondary-fixed-dim": "#ffb77d",
+                      "tertiary-container": "#003316",
+                      "secondary-fixed": "#ffdcc3",
+                      "inverse-surface": "#2e3132",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#e7e8e9",
+                      "on-primary": "#ffffff",
+                      "background": "#f8f9fa",
+                      "surface-bright": "#f8f9fa",
+                      "on-primary-container": "#8293ba",
+                      "primary": "#031636",
+                      "tertiary": "#001c09",
+                      "on-tertiary-fixed": "#00210c",
+                      "surface-variant": "#e1e3e4",
+                      "outline": "#75777f",
+                      "on-primary-fixed": "#071b3b",
+                      "outline-variant": "#c5c6cf",
+                      "on-secondary-fixed": "#2f1500",
+                      "primary-container": "#1a2b4c",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed-dim": "#61de8a",
+                      "surface-container": "#edeeef",
+                      "on-tertiary-container": "#1ca85b",
+                      "on-primary-fixed-variant": "#364669",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#d8e2ff",
+                      "secondary": "#904d00",
+                      "surface-tint": "#4e5e82",
+                      "on-secondary-container": "#713b00",
+                      "surface-container-highest": "#e1e3e4",
+                      "tertiary-fixed": "#7efba4",
+                      "surface-container-low": "#f3f4f5",
+                      "on-secondary-fixed-variant": "#6e3900",
+                      "surface-dim": "#d9dadb",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "inverse-on-surface": "#f0f1f2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "16px",
+                      "margin-mobile": "20px",
+                      "section-gap": "80px",
+                      "stack-lg": "32px",
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "stack-sm": "8px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Montserrat"],
+                      "headline-sm": ["Montserrat"],
+                      "label-bold": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "price-display": ["Montserrat"],
+                      "display-lg-mobile": ["Montserrat"],
+                      "body-sm": ["Inter"],
+                      "headline-md": ["Montserrat"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "label-bold": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "price-display": ["28px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<script src="js/nav.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+
+<main class="mt-[72px]">
+<!-- Hero Section -->
+<section class="relative h-[819px] min-h-[600px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center parallax-hero" data-alt="A breathtaking panoramic view of Cappadocia at sunrise, featuring hundreds of colorful hot air balloons drifting over the surreal volcanic rock formations and fairy chimneys. The lighting is golden and ethereal, casting long shadows across the rugged valley. The overall aesthetic is premium and dreamlike, with the primary colors being warm ochre, soft pink sky, and deep turquoise accents from the balloons. Minimalist composition with a focus on the vastness of the Turkish landscape." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAb1Am3lyVqNJDR2jmRXd9PThjUzEaX8fFR_CLki9ngqmvEHAMRLv-tKwtprfkPJ1Lna5sQyvQDNROcYIxn-TlOHv3ziqq6_jjaKwArYb92W9itwmG_dGActocsVSxdC1ahDlnze820vtupaebXFFG7FF0wKA_GXmp1L0hGLXzuUqMFe02QxoQi60l24Y79MRPPRsmHDZ0ngBkc0nNyH-st-Bfn-OhCIZKXD_2ISLaIUjaYyayS0M95DA')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/60 via-primary/20 to-transparent"></div>
+</div>
+<div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<div class="max-w-2xl text-white">
+<span class="inline-block py-1 px-4 rounded-full bg-secondary text-on-primary font-label-bold text-label-bold mb-stack-md uppercase tracking-widest">Destination Spotlight</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-stack-md">Turkey: The Land of Beautiful Horses</h1>
+<p class="font-body-lg text-body-lg mb-stack-lg opacity-90 leading-relaxed">
+                        Where the ancient world meets modern vibrancy. Journey through landscapes carved by wind and history, from the bustling grand bazaars of Istanbul to the surreal moonscapes of Cappadocia.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<a href="turkey-package.html" class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-lg font-headline-sm text-headline-sm hover:brightness-110 transition-all flex items-center gap-2">Explore Packages <span class="material-symbols-outlined">arrow_forward</span></a>
+<button class="glass-effect border border-white/30 text-primary px-8 py-4 rounded-lg font-headline-sm text-headline-sm hover:bg-white transition-all">
+                            View Gallery
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Must-Visit Places (Bento Grid) -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-stack-lg">
+<div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary">Must-Visit Places</h2>
+<p class="text-on-surface-variant max-w-xl mt-4">Discover the iconic destinations that define the Turkish experience, each offering a unique chapter of history and natural wonder.</p>
+</div>
+<button class="text-secondary font-label-bold text-label-bold flex items-center gap-2 border-b border-secondary pb-1 mt-6 md:mt-0">VIEW ALL DESTINATIONS</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Istanbul -->
+<div class="md:col-span-8 group relative overflow-hidden rounded-xl h-[400px] md:h-[500px] shadow-sm hover-lift">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A grand view of the Hagia Sophia mosque in Istanbul during the blue hour. The domes and minarets are elegantly lit against a deep indigo sky, with the foreground showing silhouetted trees and soft city lights. The style is sophisticated and architectural, emphasizing the historical majesty and the interplay of light and shadow in a clean, modern travel photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDKA8Xz_kx5I16Pv_M7R92yLVHcSAytMm5hDNsnJrTGXqQtC_vGQNtBGJwFEfFyUnc3p8HRHPUYnD34GhP8DsuzAdOAkNCumRSQpaDEa3ZEKjp6zHmoj65bVxPdYEF4AQmWgcq2iNrecblJPwE_6d2NgAng4KqlprzpFBoZX-8IDBkP-wKr0n1CRtzRv18yZSLYwAz7QzeQPWhmsIqF6ifboghf3tzxUwUkfLlKo9ap8kFClkeQzbXqJQ')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 p-stack-lg text-white">
+<h3 class="font-headline-md text-headline-md mb-2">Istanbul</h3>
+<p class="opacity-80 max-w-lg mb-4">The bridge between continents. Lose yourself in the aroma of spice markets and the majesty of the Blue Mosque.</p>
+<span class="inline-flex items-center gap-2 font-label-bold text-label-bold bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Mappa di Istanbul
+                        </span>
+</div>
+</div>
+<!-- Ephesus -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl h-[400px] md:h-[500px] shadow-sm hover-lift">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="The ancient Library of Celsus in Ephesus, Turkey. Sunlight hits the intricately carved marble facade and classical columns, creating high contrast and highlighting the ancient Roman architecture. The scene is bright and airy with a clear blue sky, emphasizing preservation and historical significance in a high-end travel catalog aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMXw7lJdT13kyB6025iWqf0iZNG3kc60CEdnxaDvL3j57NU5WnqmJSaWRKv7IHLswF8zdoOmtVXXGMK9Qjw_BFYDoa_CwQUrmiX5DYJcw_CNCpinZKj79CSRkkoGZE9VZ-N9KP4SO3Fckh5S7QeukQUMc37MLd3UByriLNfyoOFN8NF8j-N8SvVWXYgiGdd5Rd0GNtAvriI98GGkZv0-L7aR2RIKfaiGWGMkUuOVD9J13Ej88E7YHSGw')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 p-stack-lg text-white">
+<h3 class="font-headline-md text-headline-md mb-2">Ephesus</h3>
+<p class="opacity-80 mb-4">Walk the marble streets of a Roman metropolis perfectly preserved through time.</p>
+</div>
+</div>
+<!-- Pamukkale -->
+<div class="md:col-span-12 group relative overflow-hidden rounded-xl h-[350px] shadow-sm hover-lift">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="The thermal travertines of Pamukkale, Turkey. Cascading white mineral-rich pools filled with glowing turquoise water under a bright midday sun. The visual is extremely clean, minimalist, and serene, focusing on the organic curves of the terraces and the purity of the white calcium and blue water. A high-key, modern architectural look for travel." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDy2-JuT9YJuUm9vvoYnd58Is76GuVeKXIHRU43QtL-2n3M9X-4B2d8a5LG_7xugWS_M_sYS9Vn571vajfibLNjy8MKFzMAYahbiRfm3BuIgNFlKJdoKrLPQpwHDRtvhlDqbe56eD-XBavRZ5T-MwLw8Q21uL_P9THQByt91GIop8o0I3zIhx8LOb6cAHGdycrjyyXMx64zpht-c6qLJ1VtUp_Ox26lIsHnbUvRpoWdIZhw1Jgo0Ln-_A')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 p-stack-lg text-white">
+<h3 class="font-headline-md text-headline-md mb-2">Pamukkale</h3>
+<p class="opacity-80 mb-4">The 'Cotton Castle'. Surreal white terraces of calcium-rich thermal springs cascading down a mountain.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Best Time to Visit -->
+<section class="bg-primary text-white py-section-gap relative overflow-hidden">
+
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10">
+<div class="text-center mb-stack-lg">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-4">Best Time to Visit</h2>
+<p class="text-on-primary-fixed-variant font-body-lg max-w-2xl mx-auto">Timing is everything. Experience Turkey's diverse climate at its most comfortable and picturesque.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-stack-lg rounded-2xl">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl">eco</span>
+<h3 class="font-headline-sm text-headline-sm">Spring (April – May)</h3>
+</div>
+<p class="text-on-primary-fixed-variant leading-relaxed mb-6">The ideal window for exploring Istanbul and the interior. Tulips bloom throughout the cities, and temperatures are pleasantly mild (15°C to 25°C), making it perfect for archaeological walks in Ephesus.</p>
+<div class="flex items-center gap-2 text-secondary-fixed">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-label-bold text-label-bold uppercase">Best for Trekking &amp; Sightseeing</span>
+</div>
+</div>
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-stack-lg rounded-2xl">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl">sunny_snowing</span>
+<h3 class="font-headline-sm text-headline-sm">Autumn (Sept – Oct)</h3>
+</div>
+<p class="text-on-primary-fixed-variant leading-relaxed mb-6">The heat of summer fades but the sea remains warm. This is the prime time for coastal Turkey and the Aegean region. Markets are bustling with harvest, and the light for photography is golden and soft.</p>
+<div class="flex items-center gap-2 text-secondary-fixed">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-label-bold text-label-bold uppercase">Best for Beach &amp; Relaxation</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sample Itineraries -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary text-center mb-stack-lg">Curated Itineraries</h2>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Package Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/30 flex flex-col">
+<div class="relative h-64">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A luxury travel setup featuring a traditional Turkish breakfast spread with olives, honey, cheeses, and tea on a balcony overlooking the Bosphorus in Istanbul. High-end, inviting, and vibrant colors reflecting a premium lifestyle experience. The lighting is crisp and clean." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBeyQmIu94g55hLPwKPtDgY1XIe8jigr7namWd5VYUn19Oq5YZDzcJrTDB689g7j1GZpqFTGv5YUL9Z_epKTG1_TdpgYLaXoWJWJi-hGt3FhST33zprn-aRa7jNxsxHz8F9rDGWuQv4WW7cdrO0uN34NT-pxY3zCT2WK_pu65DJa0vsNkG7ICwGshUM__qjQhxuqu6P9aYkzvV1YjGyU_KY8w7ZoslRKX77FPytKSg5_MArNRv0-9xSvg')">
+</div>
+<div class="absolute top-4 right-4 bg-error text-white font-label-bold text-label-bold px-3 py-1 rounded-full border border-white/20">SELLING FAST</div>
+</div>
+<div class="p-stack-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">The Golden Route</h3>
+<span class="font-label-bold text-label-bold text-outline uppercase tracking-wider">10 DAYS</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-6">Istanbul • Cappadocia • Ephesus • Pamukkale</p>
+<div class="mt-auto flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold text-outline">Starting from</span>
+<span class="font-price-display text-price-display text-primary">$1,899</span>
+</div>
+<a href="turkey-package.html" class="bg-secondary text-on-primary px-4 py-2 rounded font-label-bold text-label-bold inline-block">VIEW DETAILS</a>
+</div>
+</div>
+</div>
+<!-- Package Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/30 flex flex-col">
+<div class="relative h-64">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A traditional Turkish gulet sailing boat gliding across the crystal clear turquoise waters of the Turkish Riviera (Turquoise Coast). Rugged pine-covered cliffs in the background and a bright, Mediterranean sun overhead. The aesthetic is nautical, premium, and serene." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJ7q4LjjOyDqTexsliBZ_zAqKtc4XYm6XQdjpxBmDwauATVVtUvgBqB0_zo18IDBY41t2J-nZASVGRsYeYuuuTCmeZuPWGKtmuOvc8t4WE1aVV4a1-7zBGuRt65Q5svzjm7aNL1ha-UPTl1jpk-FZJrxmHGvsrMN_fT_ufb4EhYeilLlItHW9YAFVNAhlNRT2VDBpIGUSVe04cD7yJxajpmzSknoUz-uI1JpAA3s4SSwaClKbD6a9NfA')">
+</div>
+</div>
+<div class="p-stack-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Turquoise Riviera</h3>
+<span class="font-label-bold text-label-bold text-outline uppercase tracking-wider">7 DAYS</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-6">Antalya • Fethiye • Kas • Bodrum Coastal Cruise</p>
+<div class="mt-auto flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold text-outline">Starting from</span>
+<span class="font-price-display text-price-display text-primary">$1,450</span>
+</div>
+<a href="turkey-package.html" class="bg-secondary text-on-primary px-4 py-2 rounded font-label-bold text-label-bold inline-block">VIEW DETAILS</a>
+</div>
+</div>
+</div>
+<!-- Package Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/30 flex flex-col">
+<div class="relative h-64">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Interior of a luxury cave hotel suite in Cappadocia. Carved stone walls, intricate Turkish rugs, warm ambient lighting from brass lamps, and a view of the balloon-filled valley through a large arched window. The style is cozy, boutique, and highly detailed, showcasing premium travel accommodation." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCN90vSOH4CFW5jLmSF0CZU4KcF45p-uTt4RKb95W-gU0x69TRfMgb4U89xlXoAL9ueFo7W5ZdrcVxaKrORb7hto4W3q6I16hVZ_3hZ02toRBUcxo6kwWJXkRqK0sTtRp_LQz3usqmomFAX8KIaw65e_PRCUPHvHFnW4G0EhLpXUwPA-9wZ6he_l2jlMSPLH_NwmeO5SkmhJ30gh3U36GOC8NUaahAye0urOdTgjzMuw63C_w9uxjj_9A')">
+</div>
+<div class="absolute top-4 right-4 bg-tertiary text-on-tertiary font-label-bold text-label-bold px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span> VERIFIED PARTNER
+                        </div>
+</div>
+<div class="p-stack-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Anatolian Hidden Gems</h3>
+<span class="font-label-bold text-label-bold text-outline uppercase tracking-wider">12 DAYS</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-6">Ankara • Konya • Sanliurfa • Göbeklitepe</p>
+<div class="mt-auto flex justify-between items-end">
+<div>
+<span class="block font-label-bold text-label-bold text-outline">Starting from</span>
+<span class="font-price-display text-price-display text-primary">$2,100</span>
+</div>
+<a href="turkey-package.html" class="bg-secondary text-on-primary px-4 py-2 rounded font-label-bold text-label-bold inline-block">VIEW DETAILS</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pro Travel Tips -->
+<section class="py-section-gap bg-surface-container-low px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center">
+<div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-stack-md">Pro Travel Tips</h2>
+<div class="space-y-gutter">
+<div class="flex gap-4 p-4 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary text-3xl">payments</span>
+<div>
+<h4 class="font-headline-sm text-body-md font-bold mb-1">Currency &amp; Payments</h4>
+<p class="text-on-surface-variant text-body-sm leading-relaxed">Turkish Lira (TRY) is the official currency. Credit cards are widely accepted in cities, but carry cash for local bazaars and remote areas.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary text-3xl">mosque</span>
+<div>
+<h4 class="font-headline-sm text-body-md font-bold mb-1">Local Etiquette</h4>
+<p class="text-on-surface-variant text-body-sm leading-relaxed">When visiting mosques, dress modestly. Remove shoes before entering and women should carry a scarf to cover their hair.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary text-3xl">translate</span>
+<div>
+<h4 class="font-headline-sm text-body-md font-bold mb-1">Communication</h4>
+<p class="text-on-surface-variant text-body-sm leading-relaxed">English is common in tourist zones, but learning basic Turkish phrases like 'Merhaba' (Hello) goes a long way with locals.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative h-[500px] rounded-2xl overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A stylized, clean vector map of Turkey on a high-end textured paper background. Key landmarks like Istanbul, Cappadocia, and Ephesus are highlighted with elegant minimalist icons. The color palette uses deep navy and soft ochre to match the brand identity. Professional and informative." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRSJDQfPKJhnUVqAUyDsI2ME777ng8NFOIywfZcT6rDsEVytawtVTWFE56DFSvyOdThvXHVHJ7Bhg3mqVVxcdvHEM2ptA6VcejVZRWQcjE0H5S9Xc4fgwwfXW0ubP7-IWwT0VbzV8Ghfoh7Y5XIyg20R3ZZTvWahPw1FEaPGf-F2vRqbvcZEl_LJjgjhHQDfuqbX07IFParXk7Y7tL5BoJfNAk9dCNOeGbBSRpp-qc6Oun5lcJXWCzdw')">
+</div>
+<div class="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+</div>
+</div>
+</section>
+<!-- CTA Newsletter -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop text-center max-w-container-max mx-auto">
+<div class="bg-primary-container p-stack-lg md:p-20 rounded-[40px] text-white relative overflow-hidden">
+<div class="absolute top-0 right-0 p-10 opacity-10">
+<span class="material-symbols-outlined text-[200px]">flight_takeoff</span>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-4 relative z-10">Ready for your Turkish Odyssey?</h2>
+<p class="text-on-primary-fixed-variant max-w-xl mx-auto mb-stack-lg relative z-10">Join our newsletter to receive exclusive travel guides, early bird offers, and customized itinerary planning for Turkey.</p>
+<form class="flex flex-col md:flex-row gap-4 max-w-md mx-auto relative z-10" onsubmit="event.preventDefault();">
+<input class="flex-grow px-6 py-4 rounded-full text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary-container" placeholder="Enter your email address" type="email">
+<button onclick="openBookingModal('turkey-escape')" class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-full font-label-bold text-label-bold hover:brightness-110 transition-all inline-block">BOOK NOW</button>
+</form>
+</div>
+</section>
+</main>
+<!-- Floating Chat Button -->
+<button class="fixed bottom-8 right-8 z-[100] flex items-center gap-3 bg-[#27AE60] text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-transform group">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-label-bold text-label-bold">Chat with Turkey Expert</span>
+</button>
+
+<script>
+        // Simple scroll interaction for the header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('glass-effect');
+                header.classList.remove('bg-surface');
+            } else {
+                header.classList.remove('glass-effect');
+                header.classList.add('bg-surface');
+            }
+        });
+    </script>
+
+
+
+<script src="js/app.js"></script>
+</body>
+</html>

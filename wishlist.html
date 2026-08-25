@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Wishlist · Saved Dream Getaways | Let's Explore DMC</title>
+<meta name="description" content="Your handpicked dream journeys saved in one place. Compare curated travel packages and book your perfect escape with Let's Explore DMC."/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="js/nav.js" defer></script>
+
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        navy: '#0B1F3A',
+        'navy-deep': '#061224',
+        ocean: '#1E88E5',
+        sunset: '#F4A261',
+        sand: '#F9FAFC',
+        stone: '#F1F5F9',
+        mist: '#EBF4FF',
+        ink: '#0F172A',
+        fog: '#64748B',
+        forest: '#16a34a',
+        danger: '#EF4444',
+      },
+      fontFamily: {
+        display: ['"Playfair Display"', '"Cormorant Garamond"', 'serif'],
+        serif: ['"Cormorant Garamond"', '"Playfair Display"', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        "hero-display": ["clamp(2.5rem, 7vw, 5rem)", { lineHeight: "0.98", letterSpacing: "-0.04em", fontWeight: "500" }],
+        "section-title": ["clamp(1.8rem, 3.5vw, 3rem)", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "600" }],
+        "eyebrow": ["0.7rem", { letterSpacing: "0.42em", fontWeight: "600", textTransform: "uppercase" }],
+      },
+      keyframes: {
+        kenBurns: {
+          '0%': { transform: 'scale(1) translate(0, 0)' },
+          '100%': { transform: 'scale(1.18) translate(-2%, -1%)' }
+        },
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(40px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' }
+        },
+        heartbeat: {
+          '0%,100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.08)' }
+        },
+      },
+      animation: {
+        'ken-burns': 'kenBurns 24s ease-out infinite alternate',
+        'fade-up': 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+        'shimmer': 'shimmer 3s linear infinite',
+        'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
+      },
+    }
+  }
+}
+</script>
+
+<style>
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html { scroll-behavior: smooth; }
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+.fill-icon { font-variation-settings: 'FILL' 1 !important; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+
+.hero-cinematic {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  animation: kenBurns 24s ease-out infinite alternate;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(30,136,229,0.22), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(244,162,97,0.16), transparent 55%),
+    linear-gradient(180deg, rgba(6,18,36,0.55) 0%, rgba(6,18,36,0.35) 40%, rgba(6,18,36,0.82) 100%);
+}
+
+.btn-premium { position: relative; overflow: hidden; isolation: isolate; }
+.btn-premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 3.4s linear infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.btn-premium:hover::before { opacity: 1; }
+
+.pkg-card { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease; }
+.pkg-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px -20px rgba(11,31,58,0.28); }
+.pkg-card img { transition: transform 1.2s cubic-bezier(0.22,1,0.36,1); }
+.pkg-card:hover img { transform: scale(1.08); }
+
+.link-underline { position: relative; display: inline-block; }
+.link-underline::after {
+  content: ""; position: absolute; left: 0; bottom: -4px;
+  width: 100%; height: 1px; background: currentColor;
+  transform-origin: right; transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.link-underline:hover::after { transform-origin: left; transform: scaleX(1); }
+
+.soft-lift { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease; }
+.soft-lift:hover { transform: translateY(-4px); }
+
+.glass-card {
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(11,31,58,0.06);
+}
+
+::selection { background: rgba(244,162,97,0.35); color: #0B1F3A; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #F1F5F9; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #0B1F3A; }
+
+body { padding-top: 0 !important; }
+</style>
+</head>
+
+<body class="bg-sand text-ink">
+
+<main>
+
+  <!-- ============================================================ -->
+  <!-- HERO CINEMATIC                                              -->
+  <!-- ============================================================ -->
+  <section class="relative min-h-[60vh] flex flex-col justify-end pb-16 md:pb-20 px-6 md:px-14 xl:px-24 pt-32">
+    <div class="hero-cinematic" style="background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2000&q=80');"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="max-w-[1400px] mx-auto w-full relative z-10">
+      <div class="flex items-center gap-4 mb-6 text-white/85 text-sm reveal">
+        <a href="home.html" class="hover:text-sunset transition-colors">Home</a>
+        <span class="material-symbols-outlined text-base opacity-50">chevron_right</span>
+        <span class="text-white font-medium">My Wishlist</span>
+      </div>
+
+      <span class="font-sans text-eyebrow text-sunset mb-4 block reveal reveal-delay-1">♥ Curated by you</span>
+      <h1 class="font-display text-hero-display text-white leading-[0.95] max-w-[18ch] mb-4 reveal reveal-delay-2">
+        Your dream<br/>
+        <span class="italic font-serif text-white/80" style="font-family:'Cormorant Garamond',serif;">getaways, saved.</span>
+      </h1>
+      <p class="font-serif italic text-lg md:text-xl text-white/75 max-w-2xl mb-10 reveal reveal-delay-3">
+        Every trip you've hearted — all in one place. Compare, shortlist, and when the moment is right, book with one tap.
+      </p>
+
+      <div class="flex flex-wrap gap-4 reveal reveal-delay-4">
+        <a href="compare.html" class="btn-premium inline-flex items-center gap-3 bg-sunset text-navy-deep font-semibold px-8 py-[16px] rounded-full tracking-wide soft-lift shadow-[0_10px_40px_-8px_rgba(244,162,97,0.55)]">
+          <span class="material-symbols-outlined fill-icon">compare_arrows</span>
+          Compare All
+        </a>
+        <a href="deals.html" class="inline-flex items-center gap-3 px-7 py-[15px] rounded-full font-medium border border-white/25 text-white hover:bg-white/10 transition-all backdrop-blur">
+          <span class="material-symbols-outlined fill-icon">explore</span>
+          Explore More
+        </a>
+        <div class="flex items-center gap-3 text-white/70 ml-2">
+          <span class="material-symbols-outlined fill-icon text-danger animate-heartbeat">favorite</span>
+          <span class="font-serif italic" id="wishlist-counter-hero">0 packages saved</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- WISHLIST GRID                                                -->
+  <!-- ============================================================ -->
+  <section class="bg-sand pt-20 md:pt-28 pb-20 md:pb-28 px-6 md:px-14 xl:px-24">
+    <div class="max-w-[1400px] mx-auto">
+
+      <!-- Empty State -->
+      <div id="wishlist-empty" class="text-center py-16 md:py-24 reveal">
+        <div class="w-24 h-24 rounded-full bg-sunset/10 flex items-center justify-center mx-auto mb-6">
+          <span class="material-symbols-outlined text-sunset text-5xl fill-icon">favorite_border</span>
+        </div>
+        <h2 class="font-display text-section-title text-navy mb-4">Nothing saved yet.</h2>
+        <p class="font-serif italic text-lg text-fog max-w-xl mx-auto mb-10">
+          Browse our hand-picked journeys and tap the heart on any package. They'll all land here, waiting for the right moment.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="deals.html" class="btn-premium inline-flex items-center gap-3 bg-navy text-white font-semibold px-8 py-[16px] rounded-full tracking-wide soft-lift">
+            <span class="material-symbols-outlined fill-icon">explore</span>
+            Browse All Packages
+          </a>
+          <a href="turkey-package.html" class="inline-flex items-center gap-3 px-8 py-[15px] rounded-full font-medium border-2 border-navy/15 text-navy hover:bg-navy/5 transition-colors">
+            <span class="material-symbols-outlined fill-icon text-sunset">flare</span>
+            Try our Turkey Bestseller
+          </a>
+        </div>
+      </div>
+
+      <!-- Wishlist Grid (hidden by default, JS populates & shows) -->
+      <div id="wishlist-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 md:gap-9 hidden"></div>
+
+      <!-- ============================================================ -->
+      <!-- TRENDING / SUGGESTIONS STRIP                                -->
+      <!-- ============================================================ -->
+      <div class="mt-28 md:mt-36 reveal">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+          <div>
+            <div class="flex items-center gap-4 mb-5">
+              <span class="w-10 h-px bg-sunset"></span>
+              <span class="font-sans text-eyebrow text-ocean">If you loved those</span>
+            </div>
+            <h2 class="font-display text-section-title text-navy max-w-2xl">
+              Destinations<br/>
+              <span class="italic font-serif text-navy/70">you'll obsess over next.</span>
+            </h2>
+          </div>
+          <a href="explore.html" class="group inline-flex items-center gap-3 font-sans text-navy font-semibold w-fit">
+            <span class="link-underline">See all 42 destinations</span>
+            <span class="material-symbols-outlined group-hover:translate-x-2 transition">arrow_forward</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-8">
+
+          <!-- Suggestion 1: Dubai -->
+          <article class="pkg-card reveal reveal-delay-1 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80" alt="Dubai Luxury" class="w-full h-full object-cover"/>
+              <button onclick="addToWishlist('dubai-luxury', this)" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy hover:bg-danger hover:text-white transition-all soft-lift" title="Save to wishlist">
+                <span class="material-symbols-outlined text-xl">favorite</span>
+              </button>
+              <div class="absolute top-5 left-5 flex gap-2">
+                <span class="bg-sunset text-navy-deep font-sans text-[0.7rem] px-3 py-1.5 rounded-full flex items-center gap-1.5 tracking-widest uppercase font-bold"><span class="material-symbols-outlined text-[13px]">apartment</span>Dussehra Special</span>
+              </div>
+            </div>
+            <div class="p-7 flex flex-col flex-grow">
+              <h3 class="font-display text-2xl text-navy mb-2">Amazing Dubai</h3>
+              <p class="text-fog text-sm mb-5 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base text-ocean fill-icon">calendar_month</span>
+                4D / 3N · Burj · Desert · Marina
+              </p>
+              <div class="flex flex-wrap gap-2 mb-7">
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Burj Khalifa</span>
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Dune Bashing</span>
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">BBQ Dinner</span>
+              </div>
+              <div class="mt-auto flex items-end justify-between">
+                <div>
+                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
+                  <div class="font-display text-3xl text-navy">$399</div>
+                  <div class="text-[11px] text-fog mt-0.5">per person onwards</div>
+                </div>
+                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy text-white hover:bg-ocean transition-colors soft-lift">
+                  <span class="material-symbols-outlined fill-icon">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Suggestion 2: Bali -->
+          <article class="pkg-card reveal reveal-delay-2 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col md:-translate-y-6">
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80" alt="Bali Tropical" class="w-full h-full object-cover"/>
+              <button onclick="addToWishlist('bali-paradise', this)" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy hover:bg-danger hover:text-white transition-all soft-lift" title="Save to wishlist">
+                <span class="material-symbols-outlined text-xl">favorite</span>
+              </button>
+              <div class="absolute top-5 left-5 flex gap-2">
+                <span class="bg-forest text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold flex items-center gap-1.5"><span class="material-symbols-outlined text-[13px]">beach_access</span>Trending</span>
+              </div>
+            </div>
+            <div class="p-7 flex flex-col flex-grow">
+              <h3 class="font-display text-2xl text-navy mb-2">Bali Tropical Island</h3>
+              <p class="text-fog text-sm mb-5 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base text-ocean fill-icon">calendar_month</span>
+                6D / 5N · Ubud · Nusa Penida · Seminyak
+              </p>
+              <div class="flex flex-wrap gap-2 mb-7">
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Pool Villa</span>
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Kelingking Beach</span>
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Bali Swing</span>
+              </div>
+              <div class="mt-auto flex items-end justify-between">
+                <div>
+                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
+                  <div class="font-display text-3xl text-navy">$749</div>
+                  <div class="text-[11px] text-fog mt-0.5">per person · quad sharing</div>
+                </div>
+                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy text-white hover:bg-ocean transition-colors soft-lift">
+                  <span class="material-symbols-outlined fill-icon">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Suggestion 3: Swiss -->
+          <article class="pkg-card reveal reveal-delay-3 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=900&q=80" alt="Swiss Alps" class="w-full h-full object-cover"/>
+              <button onclick="addToWishlist('swiss-alps', this)" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy hover:bg-danger hover:text-white transition-all soft-lift" title="Save to wishlist">
+                <span class="material-symbols-outlined text-xl">favorite</span>
+              </button>
+              <div class="absolute top-5 left-5 flex gap-2">
+                <span class="bg-navy text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full flex items-center gap-1.5 tracking-widest uppercase"><span class="material-symbols-outlined text-[13px]">terrain</span>Mountain Magic</span>
+              </div>
+            </div>
+            <div class="p-7 flex flex-col flex-grow">
+              <h3 class="font-display text-2xl text-navy mb-2">Swiss Alps Escape</h3>
+              <p class="text-fog text-sm mb-5 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base text-ocean fill-icon">calendar_month</span>
+                7D / 6N · Interlaken · Zermatt · Glacier Express
+              </p>
+              <div class="flex flex-wrap gap-2 mb-7">
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Glacier Express</span>
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Matterhorn</span>
+                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Lake Thun</span>
+              </div>
+              <div class="mt-auto flex items-end justify-between">
+                <div>
+                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
+                  <div class="font-display text-3xl text-navy">₹84,999</div>
+                  <div class="text-[11px] text-fog mt-0.5">per person onwards</div>
+                </div>
+                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy text-white hover:bg-ocean transition-colors soft-lift">
+                  <span class="material-symbols-outlined fill-icon">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ===== Scroll Reveal via IntersectionObserver ===== */
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || els.length === 0) {
+    els.forEach(el => el.classList.add('in-view'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    }
+  }, { threshold: 0.10, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ===== Lightweight In-Browser Wishlist (localStorage) ===== */
+function getWishlist() {
+  try { return JSON.parse(localStorage.getItem('ledmc_wishlist') || '[]'); }
+  catch (e) { return []; }
+}
+function saveWishlist(arr) {
+  localStorage.setItem('ledmc_wishlist', JSON.stringify(arr));
+  updateWishlistCounter();
+}
+function updateWishlistCounter() {
+  const n = getWishlist().length;
+  const el = document.getElementById('wishlist-counter-hero');
+  if (el) el.textContent = n + (n === 1 ? ' package saved' : ' packages saved');
+}
+function addToWishlist(id, btn) {
+  const list = getWishlist();
+  if (list.includes(id)) {
+    saveWishlist(list.filter(x => x !== id));
+    if (btn) {
+      btn.classList.remove('bg-danger', 'text-white');
+      btn.classList.add('bg-white/90', 'text-navy');
+      const ico = btn.querySelector('.material-symbols-outlined');
+      if (ico) ico.classList.remove('fill-icon');
+    }
+  } else {
+    list.push(id);
+    saveWishlist(list);
+    if (btn) {
+      btn.classList.add('bg-danger', 'text-white');
+      btn.classList.remove('bg-white/90', 'text-navy');
+      const ico = btn.querySelector('.material-symbols-outlined');
+      if (ico) ico.classList.add('fill-icon');
+    }
+  }
+  renderWishlistCards();
+}
+
+/* ===== Wishlist card renderer (fallback demo) ===== */
+const DEMO_WISHLIST = [
+  {
+    id: 'turkey-escape',
+    title: 'Turkey Escape & Wonders',
+    image: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80',
+    badge: 'Bestseller',
+    badgeClass: 'bg-navy-deep text-white',
+    duration: '5D / 4N · Istanbul · Cappadocia · Pamukkale',
+    tags: ['Hot Air Balloon', 'Bosphorus Cruise', 'Cave Hotel'],
+    price: '₹42,999',
+    priceUnit: '/person · quad sharing',
+    href: 'turkey-package.html',
+  }
+];
+function renderWishlistCards() {
+  const ids = getWishlist();
+  const grid = document.getElementById('wishlist-items');
+  const empty = document.getElementById('wishlist-empty');
+  if (!grid || !empty) return;
+
+  const packages = ids.length
+    ? DEMO_WISHLIST.filter(p => ids.includes(p.id)).concat(ids.length > DEMO_WISHLIST.length ? [] : [])
+    : [];
+
+  if (packages.length === 0) {
+    grid.classList.add('hidden');
+    empty.classList.remove('hidden');
+    return;
+  }
+
+  empty.classList.add('hidden');
+  grid.classList.remove('hidden');
+
+  grid.innerHTML = packages.map(p => `
+    <article class="pkg-card bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
+      <div class="relative aspect-[4/3] overflow-hidden">
+        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover"/>
+        <button onclick="addToWishlist('${p.id}', this)" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-danger text-white backdrop-blur flex items-center justify-center hover:scale-110 transition-all soft-lift" title="Remove from wishlist">
+          <span class="material-symbols-outlined text-xl fill-icon">favorite</span>
+        </button>
+        <div class="absolute top-5 left-5 flex gap-2">
+          <span class="${p.badgeClass} font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold">${p.badge}</span>
+        </div>
+        <div class="absolute top-5 right-16 bg-white/90 backdrop-blur rounded-full px-3 py-1.5 font-bold text-navy flex items-center gap-1 text-sm mr-14">
+          4.9<span class="text-sunset">★</span>
+        </div>
+      </div>
+      <div class="p-7 flex flex-col flex-grow">
+        <h3 class="font-display text-2xl text-navy mb-2">${p.title}</h3>
+        <p class="text-fog text-sm mb-5 flex items-center gap-2">
+          <span class="material-symbols-outlined text-base text-ocean fill-icon">calendar_month</span>
+          ${p.duration}
+        </p>
+        <div class="flex flex-wrap gap-2 mb-7">
+          ${p.tags.map(t => `<span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">${t}</span>`).join('')}
+        </div>
+        <div class="mt-auto flex items-end justify-between">
+          <div>
+            <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
+            <div class="font-display text-3xl text-navy">${p.price}</div>
+            <div class="text-[11px] text-fog mt-0.5">${p.priceUnit}</div>
+          </div>
+          <a href="${p.href}" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy text-white hover:bg-ocean transition-colors soft-lift">
+            <span class="material-symbols-outlined fill-icon">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+/* ===== Wire up when DOM is ready ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  updateWishlistCounter();
+  renderWishlistCards();
+});
+</script>
+
+<script src="js/app.js"></script>
+</body>
+</html>

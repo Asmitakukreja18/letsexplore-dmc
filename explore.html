@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Destinations · Let's Explore DMC | 42 Countries · From Amravati To The World</title>
+<meta name="description" content="Explore 42 handpicked destinations: Turkey, Dubai, Thailand, Bali, Vietnam, Europe, Goa, Andaman, Kerala, Sikkim, Jaipur, Egypt and more."/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="js/nav.js" defer></script>
+
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode:"class",
+    theme: {
+      extend: {
+        colors: {
+          "navy":"#0B1F3A","navy-deep":"#061224","ocean":"#1E88E5","sunset":"#F4A261",
+          "sand":"#F9FAFC","stone":"#F1F5F9","mist":"#EBF4FF","ink":"#0F172A","fog":"#64748B","forest":"#16a34a"
+        },
+        fontFamily: {
+          display: ['"Playfair Display"','"Cormorant Garamond"','serif'],
+          serif:   ['"Cormorant Garamond"','"Playfair Display"','serif'],
+          sans:    ['Inter','system-ui','sans-serif']
+        },
+        fontSize: {
+          "hero-display":["clamp(2.6rem,7vw,5.8rem)",{lineHeight:"0.96",letterSpacing:"-0.04em",fontWeight:"500"}],
+          "hero-sub":["clamp(1rem,1.4vw,1.3rem)",{lineHeight:"1.55",fontWeight:"300"}],
+          "section-title":["clamp(1.8rem,3.5vw,3rem)",{lineHeight:"1.1",letterSpacing:"-0.02em",fontWeight:"600"}],
+          "eyebrow":["0.7rem",{letterSpacing:"0.42em",fontWeight:"600",textTransform:"uppercase"}],
+        },
+        keyframes: {
+          kenBurns:{ '0%':{transform:'scale(1)'}, '100%':{transform:'scale(1.2)'} },
+          fadeUp:   { '0%':{opacity:0,transform:'translateY(40px)'}, '100%':{opacity:1,transform:'translateY(0)'} },
+        },
+        animation: {
+          'ken-burns':'kenBurns 24s ease-out infinite alternate',
+          'fade-up':'fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards'
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  *{-webkit-font-smoothing:antialiased}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
+  .hero-cinematic{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;animation:kenBurns 24s ease-out infinite alternate}
+  .hero-overlay{position:absolute;inset:0;z-index:-1;background:
+    radial-gradient(ellipse at 20% 30%,rgba(30,136,229,.2),transparent 55%),
+    linear-gradient(180deg,rgba(6,18,36,.5) 0%,rgba(6,18,36,.28) 50%,rgba(6,18,36,.78) 100%)}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+  .reveal.in-view{opacity:1;transform:none}
+  .reveal-delay-1{transition-delay:.08s}.reveal-delay-2{transition-delay:.16s}.reveal-delay-3{transition-delay:.24s}
+  .reveal-delay-4{transition-delay:.32s}.reveal-delay-5{transition-delay:.4s}.reveal-delay-6{transition-delay:.48s}
+  .dest-card{transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s ease}
+  .dest-card:hover{transform:translateY(-8px);box-shadow:0 32px 70px -20px rgba(11,31,58,.3)}
+  .dest-card img{transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+  .dest-card:hover img{transform:scale(1.12)}
+  .dest-overlay{background:linear-gradient(180deg,rgba(6,18,36,0) 40%,rgba(6,18,36,.88) 100%);transition:background .5s ease}
+  .dest-card:hover .dest-overlay{background:linear-gradient(180deg,rgba(6,18,36,.22) 0%,rgba(6,18,36,.68) 60%,rgba(6,18,36,.94) 100%)}
+  .dest-meta{transform:translateY(16px);opacity:.88;transition:all .5s cubic-bezier(.22,1,.36,1)}
+  .dest-card:hover .dest-meta{transform:translateY(0);opacity:1}
+  ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#F1F5F9}
+  ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:99px}::-webkit-scrollbar-thumb:hover{background:#0B1F3A}
+  .chip{cursor:pointer;transition:all .32s cubic-bezier(.22,1,.36,1)}
+  .chip:hover{transform:translateY(-2px)}
+  .chip.active{background:#0B1F3A !important;color:#fff !important;border-color:#0B1F3A !important;box-shadow:0 10px 26px -8px rgba(11,31,58,.4)}
+  .soft-lift{transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s ease}
+  .soft-lift:hover{transform:translateY(-4px)}
+  [data-load="hero-tag"]{opacity:0;animation:fadeUp .9s .15s cubic-bezier(.22,1,.36,1) forwards}
+  [data-load="hero-title"]{opacity:0;animation:fadeUp 1s .35s cubic-bezier(.22,1,.36,1) forwards}
+  [data-load="hero-italic"]{opacity:0;animation:fadeUp .9s .6s cubic-bezier(.22,1,.36,1) forwards}
+  [data-load="hero-stats"]{opacity:0;animation:fadeUp .9s .85s cubic-bezier(.22,1,.36,1) forwards}
+  @media (prefers-reduced-motion:reduce){
+    .hero-cinematic{animation:none}.reveal{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body class="bg-sand text-ink">
+
+<!-- HERO -->
+<section class="relative min-h-[82vh] flex flex-col justify-end overflow-hidden pb-24 md:pb-28 px-6 md:px-14 xl:px-24">
+  <div class="hero-cinematic" style="background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="hero-overlay"></div>
+  <div class="max-w-[1400px] mx-auto w-full text-white relative z-10">
+    <div class="flex items-center gap-4 mb-8" data-load="hero-tag">
+      <span class="w-12 h-px bg-sunset"></span>
+      <span class="font-sans text-eyebrow text-sunset">42 Destinations · 6 Continents · 10,000+ Stories</span>
+    </div>
+    <h1 class="font-display text-hero-display leading-[0.95] max-w-[16ch] mb-6" data-load="hero-title">
+      Discover<br/>
+      <span class="italic font-serif text-white/80" style="font-family:'Cormorant Garamond',serif;">the world,</span> slowly.
+    </h1>
+    <p class="font-serif italic text-hero-sub text-white/80 max-w-2xl mb-14" data-load="hero-italic">
+      Every pin on this map has been lived — not just listed. From Cappadocia's dawn balloons to Jaipur's midnight palaces.
+    </p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 max-w-4xl" data-load="hero-stats">
+      <div><div class="font-display text-[2.4rem] md:text-[3rem] leading-none mb-2">42</div><div class="font-sans text-eyebrow text-white/60">Destinations</div></div>
+      <div><div class="font-display text-[2.4rem] md:text-[3rem] leading-none mb-2">12</div><div class="font-sans text-eyebrow text-white/60">Countries</div></div>
+      <div><div class="font-display text-[2.4rem] md:text-[3rem] leading-none mb-2">6</div><div class="font-sans text-eyebrow text-white/60">Continents</div></div>
+      <div><div class="font-display text-[2.4rem] md:text-[3rem] leading-none mb-2">10K+</div><div class="font-sans text-eyebrow text-white/60">Travellers</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTERS + GRID -->
+<section class="bg-sand py-20 md:py-28 px-6 md:px-14 xl:px-24">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="reveal mb-14 md:mb-18">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-10 h-px bg-sunset"></span>
+        <span class="font-sans text-eyebrow text-ocean">Every destination, curated</span>
+      </div>
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div>
+          <h2 class="font-display text-section-title text-navy-deep mb-4">Where will you wander?</h2>
+          <p class="text-fog text-lg max-w-xl">Tap a region, pick a mood — every tile opens into a bespoke package itinerary.</p>
+        </div>
+        <div class="text-right text-sm text-fog"><span id="cText" class="font-display text-navy-deep text-3xl mr-2 align-middle">12</span> destinations</div>
+      </div>
+      <div class="flex flex-wrap gap-2 md:gap-3">
+        <button onclick="setFilter('all',this)" class="chip active text-navy-deep text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 shadow-sm">All</button>
+        <button onclick="setFilter('international',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">public</span>International</button>
+        <button onclick="setFilter('india',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">explore</span>India</button>
+        <button onclick="setFilter('beach',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">beach_access</span>Beach</button>
+        <button onclick="setFilter('mountain',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">terrain</span>Mountain</button>
+        <button onclick="setFilter('cultural',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">museum</span>Cultural</button>
+        <button onclick="setFilter('luxury',this)" class="chip text-navy-deep/80 text-sm font-semibold px-5 py-3 rounded-full bg-white border border-navy/10 flex items-center gap-1.5"><span class="material-symbols-outlined text-base">workspace_premium</span>Luxury</button>
+      </div>
+    </div>
+
+    <div id="dGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-7"></div>
+    <div id="noR" class="hidden text-center py-20">
+      <div class="font-display text-3xl text-navy-deep mb-3">No destination matched that.</div>
+      <button onclick="setFilter('all',document.querySelectorAll('.chip')[0])" class="mt-5 inline-flex items-center gap-2 bg-navy-deep text-white px-8 py-4 rounded-full font-semibold tracking-wide hover:bg-ocean transition soft-lift">
+        Reset filter <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">refresh</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MAP / BANNER -->
+<section class="bg-stone py-20 md:py-28 px-6 md:px-14 xl:px-24">
+  <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-center">
+    <div class="reveal relative rounded-[32px] overflow-hidden aspect-[5/4]">
+      <img src="https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1200&q=80" alt="Map pins world" class="absolute inset-0 w-full h-full object-cover"/>
+      <div class="absolute inset-0 bg-gradient-to-r from-navy-deep/55 to-transparent"></div>
+      <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end text-white max-w-md">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="w-10 h-px bg-sunset"></span>
+          <span class="font-sans text-eyebrow text-sunset">Request Custom Destination</span>
+        </div>
+        <div class="font-display text-3xl md:text-4xl leading-tight mb-4">
+          Don't see your dream on the list?
+        </div>
+        <p class="text-white/75 font-serif italic text-lg mb-7">Our travel architects specialise in truly custom itineraries — Patagonia, Iceland, the Silk Road. Ask us anything.</p>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <h2 class="font-display text-section-title text-navy-deep mb-6 leading-[1.08]">
+        Custom journeys,<br/>
+        <span class="italic font-serif text-navy/70">designed in 15 minutes.</span>
+      </h2>
+      <p class="text-fog text-lg mb-8 leading-relaxed">
+        Tell us your dates, group size and budget. We'll craft a completely custom itinerary, sourced from our on-ground partners across 42 countries.
+      </p>
+      <div class="space-y-4 mb-9">
+        <div class="flex items-start gap-4 p-5 rounded-2xl bg-white">
+          <div class="w-11 h-11 shrink-0 rounded-xl bg-ocean/10 text-ocean flex items-center justify-center"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">draw</span></div>
+          <div>
+            <div class="font-display text-navy-deep text-xl mb-1">Day-by-day design</div>
+            <div class="text-fog text-sm leading-relaxed">Every breakfast, transfer and sunset — all pre-mapped.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 p-5 rounded-2xl bg-white">
+          <div class="w-11 h-11 shrink-0 rounded-xl bg-sunset/15 text-sunset flex items-center justify-center"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">confirmation_number</span></div>
+          <div>
+            <div class="font-display text-navy-deep text-xl mb-1">Guaranteed pricing</div>
+            <div class="text-fog text-sm leading-relaxed">Quote locked for 14 days. No hidden charges later.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 p-5 rounded-2xl bg-white">
+          <div class="w-11 h-11 shrink-0 rounded-xl bg-forest/12 text-forest flex items-center justify-center"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">support_agent</span></div>
+          <div>
+            <div class="font-display text-navy-deep text-xl mb-1">24/7 WhatsApp concierge</div>
+            <div class="text-fog text-sm leading-relaxed">One human, one number, entire journey.</div>
+          </div>
+        </div>
+      </div>
+      <a href="contact.html" class="inline-flex items-center gap-3 bg-sunset text-navy-deep px-9 py-[17px] rounded-full font-bold tracking-widest uppercase text-[0.82rem] soft-lift shadow-[0_12px_36px_-8px_rgba(244,162,97,.6)]">
+        Request Custom Itinerary
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+const DEST = [
+  {id:0, n:"Georgia", tag:"$300 Special", from:"$300", tags:"Tbilisi · Kazbegi · Gudauri · Mtskheta", type:"international,cultural,mountain,luxury", img:"https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80", href:"georgia-package.html"},
+  {id:1, n:"Turkey", tag:"Bestseller", from:"₹42,999", tags:"Istanbul · Cappadocia · Pamukkale", type:"international,cultural,luxury", img:"https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=800&q=80", href:"turkey-package.html"},
+  {id:2, n:"Dubai", tag:"Luxury", from:"₹65,000", tags:"Burj Khalifa · Desert Safari · Marina", type:"international,luxury", img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80", href:"dubai-package.html"},
+  {id:3, n:"Thailand", tag:"4★ Premium", from:"₹63,000", tags:"Phuket · Krabi · Koh Samui", type:"international,beach", img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80", href:"thailand-package.html"},
+  {id:4, n:"Bali", tag:"Honeymoon", from:"₹75,000", tags:"Kuta · Nusa Penida · Ubud Swings", type:"international,beach,luxury", img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80", href:"bali-package.html"},
+  {id:5, n:"Malaysia", tag:"Family Pick", from:"₹55,000", tags:"Kuala Lumpur · Genting Highlands", type:"international,family", img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80", href:"malaysia-package.html"},
+  {id:6, n:"Singapore", tag:"City Explorer", from:"₹50,000", tags:"Marina Bay · Sentosa · Universal Studios", type:"international,family", img:"https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80", href:"singapore-package.html"},
+  {id:7, n:"Vietnam", tag:"12D Grand Tour", from:"₹60,000", tags:"Hanoi · Sapa · Da Nang · Phu Quoc", type:"international,cultural", img:"https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80", href:"vietnam-package.html"},
+  {id:8, n:"Sri Lanka", tag:"Island Wonder", from:"₹30,000", tags:"Kandy · Nuwara Eliya · Bentota · Colombo", type:"international,beach", img:"https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80", href:"srilanka-package.html"},
+  {id:9, n:"Andaman", tag:"Island Special", from:"₹40,000", tags:"Port Blair · Havelock · Neil Island", type:"india,beach", img:"https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=800&q=80", href:"andaman-package.html"},
+  {id:10, n:"Kerala", tag:"God's Own Country", from:"₹35,000", tags:"Kochi · Munnar · Alleppey Houseboat", type:"india,family", img:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", href:"kerala-package.html"},
+  {id:11, n:"Goa", tag:"Beach Party", from:"₹30,000", tags:"North & South Goa · Beach Shacks · Cruise", type:"india,beach", img:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:12, n:"Kashmir", tag:"Paradise on Earth", from:"₹30,000", tags:"Srinagar · Sonmarg · Gulmarg Gondola", type:"india,mountain", img:"https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", href:"kashmir-package.html"},
+  {id:13, n:"Manali", tag:"Snow Special", from:"₹40,000", tags:"Hadimba · Solang Adventure · Naggar Castle", type:"india,mountain", img:"https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80", href:"manali-package.html"},
+  {id:14, n:"Ujjain", tag:"Spiritual Yatra", from:"₹28,000", tags:"Mahakaleshwar Corridor · Omkareshwar · Indore", type:"india,cultural", img:"https://images.unsplash.com/photo-1609949279531-cf48d64bed89?auto=format&fit=crop&w=800&q=80", href:"ujjain-package.html"},
+  {id:15, n:"Nepal", tag:"Himalayan Charm", from:"₹25,000", tags:"Kathmandu · Pokhara · Muktinath 4x4 · Chitwan", type:"international,mountain", img:"https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80", href:"nepal-package.html"},
+];
+let stateF = "all";
+function render(){
+  const list = stateF === "all" ? DEST : DEST.filter(d => d.type && d.type.split(",").includes(stateF));
+  document.getElementById("cText").textContent = list.length;
+  const g = document.getElementById("dGrid"); const nr = document.getElementById("noR");
+  if(list.length===0){g.innerHTML="";nr.classList.remove("hidden");return}
+  nr.classList.add("hidden");
+  g.innerHTML = list.map((d,i)=>`
+    <a href="${d.href}" class="dest-card reveal reveal-delay-${(i%6)+1} rounded-[28px] overflow-hidden bg-white relative aspect-[3/4] block">
+      <img src="${d.img}" alt="${d.n}" class="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
+      <div class="dest-overlay absolute inset-0"></div>
+      <div class="absolute top-5 left-5">
+        <span class="bg-white/92 backdrop-blur-sm text-navy-deep font-sans text-[0.68rem] px-3 py-1.5 rounded-full tracking-[0.18em] uppercase font-bold">${d.tag}</span>
+      </div>
+      <div class="dest-meta absolute bottom-0 left-0 right-0 p-6 md:p-7 text-white">
+        <div class="font-sans text-eyebrow text-sunset mb-2">From ${d.from}</div>
+        <h3 class="font-display text-[1.85rem] md:text-[2rem] leading-[1.02] mb-2">${d.n}</h3>
+        <p class="font-serif italic text-white/75 text-sm mb-5">${d.tags}</p>
+        <span class="inline-flex items-center gap-2 text-sm font-medium group">
+          Explore <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
+        </span>
+      </div>
+    </a>`).join("");
+  const els = g.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && els.length){
+    const io = new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in-view");io.unobserve(e.target)}})},{threshold:.12});
+    els.forEach(el=>io.observe(el));
+  } else els.forEach(el=>el.classList.add("in-view"));
+}
+function setFilter(v, el){
+  stateF = v;
+  el.parentElement.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active");
+  render();
+}
+(function(){
+  const els = document.querySelectorAll("body > section .reveal");
+  if(!("IntersectionObserver" in window) || els.length===0){els.forEach(e=>e.classList.add("in-view"));return}
+  const io = new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in-view");io.unobserve(e.target)}})},{threshold:.14,rootMargin:"0px 0px -6% 0px"});
+  els.forEach(e=>io.observe(e));
+})();
+render();
+</script>
+</body>
+</html>

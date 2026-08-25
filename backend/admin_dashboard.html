@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Azure Horizon | Mission Control</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Work+Sans:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0B1F3A",
+                        "secondary": "#1E88E5",
+                        "accent": "#F4A261",
+                        "background": "#F9FAFC",
+                        "on-background": "#0F172A",
+                        "on-surface-variant": "#64748B",
+                        "surface-container-low": "#ffffff",
+                        "surface-container": "#F9FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0F172A",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1E88E5",
+                        "on-primary-container": "#ffffff",
+                        "secondary-container": "#F4A261",
+                        "on-secondary-container": "#ffffff",
+                        "surface-tint": "#E2E8F0",
+                        "outline-variant": "#CBD5E1",
+                        "error": "#EF4444",
+                        "inverse-surface": "#0B1F3A",
+                        "inverse-primary": "#38BDF8",
+                        "inverse-on-surface": "#F9FAFC",
+                        "surface": "#ffffff",
+                        "primary-fixed": "#1E88E5",
+                        "primary-fixed-dim": "#1565C0",
+                        "on-primary-fixed": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "gutter": "1rem",
+                        "cell-padding-v": "0.5rem",
+                        "cell-padding-h": "1rem",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Montserrat", "Work Sans"],
+                        "headline-lg": ["Montserrat", "Work Sans"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "data-mono": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c5c6cf; border-radius: 10px; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary flex flex-col py-6 border-r border-outline-variant z-50">
+<div class="px-6 mb-8">
+  <a href="../home.html" class="inline-block mb-4">
+    <img src="../images/logo.png" alt="Let's Explore DMC" style="height: 72px; width: auto; max-width: 230px; object-fit: contain; border-radius: 10px; filter: drop-shadow(0 3px 10px rgba(0,0,0,0.3)); display: block;">
+  </a>
+  <h1 class="font-headline-md text-headline-md font-bold text-on-primary text-sm">Let's Explore DMC</h1>
+  <p class="font-label-caps text-on-primary-container tracking-widest mt-1 text-[10px] opacity-70">ADMIN PANEL</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-3">
+<a href="/admin" class="border-l-4 border-primary-fixed-dim bg-primary-container text-on-primary-container font-bold px-3 py-3 flex items-center gap-3 cursor-pointer transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a href="/admin/packages" class="text-on-primary-container opacity-70 hover:opacity-100 hover:bg-primary-container px-3 py-3 flex items-center gap-3 cursor-pointer transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Packages & Deals</span>
+</a>
+<a href="/admin/leads" class="text-on-primary-container opacity-70 hover:opacity-100 hover:bg-primary-container px-3 py-3 flex items-center gap-3 cursor-pointer transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">question_answer</span>
+<span>Inquiries</span>
+</a>
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+<button class="bg-primary-fixed text-on-primary-fixed font-bold py-3 px-4 rounded hover:bg-primary-fixed-dim transition-all active:scale-95 text-sm uppercase tracking-wider">
+                Quick Action
+            </button>
+<div class="flex flex-col gap-1 border-t border-on-primary-container/20 pt-4">
+<div class="text-on-primary-container opacity-70 hover:opacity-100 flex items-center gap-3 py-2 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">help</span>
+<span class="text-body-sm">Help Center</span>
+</div>
+<div class="text-on-primary-container opacity-70 hover:opacity-100 flex items-center gap-3 py-2 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-body-sm">Logout</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-body-md focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/10 transition-all" placeholder="Search inquiries, bookings, travelers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-outline-variant pr-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">apps</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-body-sm font-bold text-on-surface-variant cursor-pointer hover:text-primary">Help</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded text-body-sm font-bold hover:bg-primary-container transition-all active:scale-95 shadow-sm">
+                    New Booking
+                </button>
+<div class="w-10 h-10 rounded-full border border-outline-variant overflow-hidden cursor-pointer active:scale-95">
+<img class="w-full h-full object-cover" data-alt="Professional corporate headshot of a travel administrator in a high-tech office setting with soft blue lighting. The person is smiling confidently, conveying authority and reliability for a premium travel brand. The background shows blurred data screens and modern architectural elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcBqs4JUp6CldRnn6U87SF4_XsPH13WiFipVjEcMrSUeKfp8TeUN6Opyg6_4O6o1IWa_edgEGD3iweldnl3oWDUjrAVVQX42D3pQWd7v5RCdpTSUOrh2eN1XyU_5TARNECJ-ExUqF_aDoQP_TKECy4c_6cZ_Jf8Zdb2EHuKxMu7j0yvAhpEk1CEgnuNI9zXRIOYAVkoWqNiqERTYL-BLu9v0x0rxCAFpJTDl2oz7X78C-pGgyADQKh3A"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] pt-16 p-gutter min-h-screen">
+<div class="max-w-[1440px] mx-auto space-y-gutter">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h2>
+<p class="text-on-surface-variant text-body-md">Welcome back, Admin. Here's your mission status for today.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant bg-surface rounded text-body-sm font-bold text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+                        Last 30 Days
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant bg-surface rounded text-body-sm font-bold text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Export
+                    </button>
+</div>
+</div>
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-white border border-outline-variant p-6 rounded shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container rounded">
+<span class="material-symbols-outlined text-on-primary-container">payments</span>
+</div>
+<span class="text-green-600 font-bold text-xs flex items-center">+12.5%</span>
+</div>
+<p class="font-label-caps text-on-surface-variant uppercase mb-1">Total Revenue</p>
+<h3 class="font-headline-md text-headline-md font-extrabold">₹1.2Cr</h3>
+</div>
+<div class="bg-white border border-outline-variant p-6 rounded shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container rounded">
+<span class="material-symbols-outlined text-on-primary-container">confirmation_number</span>
+</div>
+<span class="text-green-600 font-bold text-xs flex items-center">+4.2%</span>
+</div>
+<p class="font-label-caps text-on-surface-variant uppercase mb-1">Active Bookings</p>
+<h3 class="font-headline-md text-headline-md font-extrabold">142</h3>
+</div>
+<div class="bg-white border border-outline-variant p-6 rounded shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container rounded">
+<span class="material-symbols-outlined text-on-primary-container">campaign</span>
+</div>
+<span class="text-error font-bold text-xs flex items-center">-2.1%</span>
+</div>
+<p class="font-label-caps text-on-surface-variant uppercase mb-1">New Inquiries</p>
+<h3 class="font-headline-md text-headline-md font-extrabold">12</h3>
+</div>
+<div class="bg-white border border-outline-variant p-6 rounded shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container rounded">
+<span class="material-symbols-outlined text-on-primary-container">grade</span>
+</div>
+<span class="text-on-surface-variant font-bold text-xs flex items-center">Stable</span>
+</div>
+<p class="font-label-caps text-on-surface-variant uppercase mb-1">Avg. Rating</p>
+<h3 class="font-headline-md text-headline-md font-extrabold">4.8</h3>
+</div>
+</div>
+<!-- Bottom Layout: Table + Side Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Main Table Section -->
+<div class="lg:col-span-2 space-y-gutter">
+<!-- Recent Bookings -->
+<div class="bg-white border border-outline-variant rounded overflow-hidden">
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
+<h4 class="font-headline-md text-on-surface">Recent Bookings</h4>
+<a class="text-primary font-bold text-body-sm hover:underline" href="#">View All</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Date</th>
+<th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Customer</th>
+<th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Package</th>
+<th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Amount</th>
+<th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Status</th>
+<th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="font-data-mono px-6 py-cell-padding-v text-on-surface-variant">2023-10-24</td>
+<td class="px-6 py-cell-padding-v font-bold text-on-surface">Aditya Sharma</td>
+<td class="px-6 py-cell-padding-v text-on-surface-variant">Turkey Escape</td>
+<td class="font-data-mono px-6 py-cell-padding-v">₹1,45,000</td>
+<td class="px-6 py-cell-padding-v">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-green-100 text-green-800 border border-green-200">Confirmed</span>
+</td>
+<td class="px-6 py-cell-padding-v text-right">
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="font-data-mono px-6 py-cell-padding-v text-on-surface-variant">2023-10-24</td>
+<td class="px-6 py-cell-padding-v font-bold text-on-surface">Priya Kapur</td>
+<td class="px-6 py-cell-padding-v text-on-surface-variant">Swiss Alps Luxury</td>
+<td class="font-data-mono px-6 py-cell-padding-v">₹4,20,000</td>
+<td class="px-6 py-cell-padding-v">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-yellow-100 text-yellow-800 border border-yellow-200">Pending</span>
+</td>
+<td class="px-6 py-cell-padding-v text-right">
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="font-data-mono px-6 py-cell-padding-v text-on-surface-variant">2023-10-23</td>
+<td class="px-6 py-cell-padding-v font-bold text-on-surface">Vikram Mehta</td>
+<td class="px-6 py-cell-padding-v text-on-surface-variant">Bali Spiritual Journey</td>
+<td class="font-data-mono px-6 py-cell-padding-v">₹85,500</td>
+<td class="px-6 py-cell-padding-v">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-green-100 text-green-800 border border-green-200">Confirmed</span>
+</td>
+<td class="px-6 py-cell-padding-v text-right">
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="font-data-mono px-6 py-cell-padding-v text-on-surface-variant">2023-10-23</td>
+<td class="px-6 py-cell-padding-v font-bold text-on-surface">Elena Rodriguez</td>
+<td class="px-6 py-cell-padding-v text-on-surface-variant">Jaipur Heritage</td>
+<td class="font-data-mono px-6 py-cell-padding-v">₹52,000</td>
+<td class="px-6 py-cell-padding-v">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-yellow-100 text-yellow-800 border border-yellow-200">Pending</span>
+</td>
+<td class="px-6 py-cell-padding-v text-right">
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<button class="bg-white border border-outline-variant p-4 flex flex-col items-center justify-center gap-3 hover:bg-primary-container hover:text-on-primary transition-all group rounded active:scale-95">
+<span class="material-symbols-outlined text-3xl text-primary group-hover:text-on-primary">add_box</span>
+<span class="font-bold text-body-sm">Add New Package</span>
+</button>
+<button class="bg-white border border-outline-variant p-4 flex flex-col items-center justify-center gap-3 hover:bg-primary-container hover:text-on-primary transition-all group rounded active:scale-95">
+<span class="material-symbols-outlined text-3xl text-primary group-hover:text-on-primary">assessment</span>
+<span class="font-bold text-body-sm">Generate Sales Report</span>
+</button>
+<button class="bg-white border border-outline-variant p-4 flex flex-col items-center justify-center gap-3 hover:bg-primary-container hover:text-on-primary transition-all group rounded active:scale-95">
+<span class="material-symbols-outlined text-3xl text-primary group-hover:text-on-primary">mail</span>
+<span class="font-bold text-body-sm">Email All Travelers</span>
+</button>
+</div>
+</div>
+<!-- Right Side Panel: Inquiry Inbox -->
+<div class="space-y-gutter">
+<div class="bg-white border border-outline-variant rounded flex flex-col h-full overflow-hidden">
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h4 class="font-headline-md text-on-surface">Inquiry Inbox</h4>
+<span class="bg-error text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">3 NEW</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3 max-h-[600px]">
+<div id="inbox-container">
+<!-- Inbox cards will be loaded dynamically here -->
+</div>
+<button class="w-full py-4 bg-primary text-on-primary font-bold text-body-sm hover:bg-primary-container transition-colors uppercase tracking-widest active:scale-95">
+                            Open Full Inbox
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch Stats
+            fetch('/api/admin/stats')
+              .then(res => res.json())
+              .then(data => {
+                  if(data.success && data.data) {
+                      const stats = data.data;
+                      const kpiElements = document.querySelectorAll('.font-headline-md.text-headline-md.font-extrabold');
+                      if(kpiElements.length >= 4) {
+                          // Revenue (Using total packages as proxy or assuming empty if no revenue logic)
+                          kpiElements[0].textContent = "₹0.0";
+                          // Active Bookings
+                          kpiElements[1].textContent = stats.bookings;
+                          // New Inquiries
+                          kpiElements[2].textContent = stats.newContacts;
+                          // Avg Rating (Assuming fixed for now)
+                          kpiElements[3].textContent = "4.8";
+                      }
+                  }
+              })
+              .catch(console.error);
+
+            // Fetch Bookings
+            fetch('/api/admin/bookings')
+              .then(res => res.json())
+              .then(data => {
+                  if(data.success && data.data) {
+                      const tbody = document.querySelector('tbody');
+                      if(tbody) {
+                          tbody.innerHTML = '';
+                          data.data.slice(0,5).forEach(b => {
+                              tbody.innerHTML += `
+                              <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors cursor-pointer">
+                                  <td class="p-3">
+                                      <div class="font-bold text-sm text-on-surface">#B${b.id.toString().padStart(4, '0')}</div>
+                                  </td>
+                                  <td class="p-3">
+                                      <div class="text-sm font-bold text-on-surface">${b.user_id || 'Guest'}</div>
+                                  </td>
+                                  <td class="p-3">
+                                      <div class="text-sm text-on-surface-variant font-bold">${b.package_id}</div>
+                                  </td>
+                                  <td class="p-3">
+                                      <div class="font-data-mono text-sm text-on-surface-variant">${new Date(b.created_at).toLocaleDateString()}</div>
+                                  </td>
+                                  <td class="p-3">
+                                      <div class="font-bold text-sm text-on-surface">₹${b.total_price || 0}</div>
+                                  </td>
+                                  <td class="p-3">
+                                      <span class="px-2 py-1 bg-surface-container text-on-surface font-label-caps text-[10px] uppercase rounded border border-outline-variant">${b.status}</span>
+                                  </td>
+                              </tr>`;
+                          });
+                      }
+                  }
+              })
+              .catch(console.error);
+
+            // Fetch Inquiries for Inbox
+            fetch('/api/admin/contacts')
+              .then(res => res.json())
+              .then(data => {
+                  if(data.success && data.data) {
+                      const container = document.getElementById('inbox-container');
+                      if(container) {
+                          container.innerHTML = '';
+                          data.data.slice(0,4).forEach(c => {
+                              const isNew = c.status === 'new';
+                              const dot = isNew ? `<div class="w-2 h-2 bg-primary rounded-full"></div>` : '';
+                              const opacityClass = isNew ? '' : 'opacity-60';
+                              container.innerHTML += `
+                              <div class="p-4 border border-outline-variant rounded-lg hover:border-primary-fixed-dim transition-colors cursor-pointer group ${opacityClass}">
+                                  <div class="flex justify-between items-start mb-2">
+                                      <div class="flex items-center gap-2">
+                                          ${dot}
+                                          <span class="font-bold text-body-sm">${c.name}</span>
+                                      </div>
+                                      <span class="font-data-mono text-[10px] text-on-surface-variant">${new Date(c.created_at).toLocaleDateString()}</span>
+                                  </div>
+                                  <p class="text-body-sm text-on-surface-variant line-clamp-2 italic mb-3">"${c.message}"</p>
+                                  <div class="flex gap-2">
+                                      <span class="text-[9px] font-extrabold px-1.5 py-0.5 bg-surface-variant text-primary uppercase rounded">${c.destination || 'General'}</span>
+                                  </div>
+                              </div>`;
+                          });
+                      }
+                  }
+              })
+              .catch(console.error);
+        });
+    </script>
+</body></html>

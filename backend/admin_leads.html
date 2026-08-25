@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Azure Horizon CRM - Inquiries &amp; Leads</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Work+Sans:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Chart.js for Analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#0B1F3A",
+              "secondary": "#1E88E5",
+              "accent": "#F4A261",
+              "background": "#F9FAFC",
+              "on-background": "#0F172A",
+              "on-surface-variant": "#64748B",
+              "surface-container-low": "#ffffff",
+              "surface-container": "#F9FAFC",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#0F172A",
+              "on-primary": "#ffffff",
+              "primary-container": "#1E88E5",
+              "on-primary-container": "#ffffff",
+              "secondary-container": "#F4A261",
+              "on-secondary-container": "#ffffff",
+              "surface-tint": "#E2E8F0",
+              "outline-variant": "#CBD5E1",
+              "error": "#EF4444",
+              "inverse-surface": "#0B1F3A",
+              "inverse-primary": "#38BDF8",
+              "inverse-on-surface": "#F9FAFC",
+              "surface": "#ffffff",
+              "primary-fixed": "#1E88E5",
+              "primary-fixed-dim": "#1565C0",
+              "on-primary-fixed": "#ffffff"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "container-max": "1440px",
+              "gutter": "1rem",
+              "cell-padding-v": "0.5rem",
+              "cell-padding-h": "1rem",
+              "sidebar-width": "260px"
+            },
+            "fontFamily": {
+              "body-md": ["Inter"],
+              "headline-md": ["Montserrat", "Work Sans"],
+              "headline-lg": ["Montserrat", "Work Sans"],
+              "body-sm": ["Inter"],
+              "label-caps": ["Inter"],
+              "data-mono": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "data-mono": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9ff; color: #0b1c30; }
+        .material-symbols-outlined { font-size: 20px; vertical-align: middle; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c5c6cf; border-radius: 10px; }
+        .glass-card { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.8); border: 1px solid #e2e8f0; }
+        .sidebar-item { transition: all 0.2s ease; }
+    </style>
+</head>
+<body class="font-body-md overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary dark:bg-primary border-r border-outline-variant flex flex-col py-6 z-50" id="sidebar">
+<div class="px-6 mb-10">
+  <a href="../home.html" class="inline-block mb-3">
+    <img src="../images/logo.png" alt="Let's Explore DMC" style="height: 72px; width: auto; max-width: 230px; object-fit: contain; border-radius: 10px; filter: drop-shadow(0 3px 10px rgba(0,0,0,0.3)); display: block;">
+  </a>
+  <h1 class="font-headline-md text-headline-md font-bold text-on-primary text-sm">Let's Explore DMC</h1>
+  <p class="text-on-primary-container text-[10px] uppercase tracking-widest font-bold opacity-70">Admin Panel</p>
+</div>
+<nav class="flex-grow flex flex-col space-y-1 px-3">
+<a href="/admin" class="sidebar-item cursor-pointer active:scale-95 flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container opacity-70 hover:opacity-100 hover:bg-primary-container transition-colors duration-200">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a href="/admin/packages" class="sidebar-item cursor-pointer active:scale-95 flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container opacity-70 hover:opacity-100 hover:bg-primary-container transition-colors duration-200">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-md">Packages & Deals</span>
+</a>
+<!-- ACTIVE TAB: Inquiries -->
+<a href="/admin/leads" class="sidebar-item cursor-pointer active:scale-95 flex items-center gap-3 px-4 py-3 rounded-lg border-l-4 border-primary-fixed-dim bg-primary-container text-on-primary-container font-bold">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">question_answer</span>
+<span class="font-body-md">Inquiries</span>
+</a>
+</nav>
+<div class="px-3 mt-auto pt-6 border-t border-white/10 space-y-1">
+<div class="sidebar-item cursor-pointer active:scale-95 flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container opacity-70 hover:opacity-100 transition-colors duration-200">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Help Center</span>
+</div>
+<div class="sidebar-item cursor-pointer active:scale-95 flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container opacity-70 hover:opacity-100 transition-colors duration-200">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md">Logout</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-surface dark:bg-surface border-b border-outline-variant flex justify-between items-center px-6 z-40">
+<div class="flex items-center gap-4 flex-grow">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-sm focus:ring-2 focus:ring-primary-container" placeholder="Search inquiries, names, or destinations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">apps</span>
+</div>
+<div class="h-6 w-[1px] bg-outline-variant"></div>
+<span class="font-body-md text-primary font-bold cursor-pointer hover:underline">Help</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-md font-bold transition-transform active:scale-95">New Booking</button>
+<div class="flex items-center gap-3 pl-4">
+<div class="text-right">
+<p class="font-body-sm font-bold text-on-surface leading-tight">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">System Manager</p>
+</div>
+<img class="w-9 h-9 rounded-full border border-outline-variant object-cover" data-alt="A professional headshot of a middle-aged travel management administrator with a clean-cut look, wearing a dark navy blazer. The lighting is soft studio quality against a neutral gray background. The aesthetic is corporate, reliable, and high-end, matching a mission control command center vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJeT3Y92Rck5cqKQduK5aCJbppLFcba-4gDEZm_Yxyycw4LhK-ios6PsqFCA1WS-S3VikDbTjxBP1PJxFvHunWZsGfUQYx3y34LevOwHhLntne3wGs62FdFPWNbZkmWy88svY8_3tGS6Rcax3Q4dnMfjxbHWgAC7glt-Ojf4yYtyKA2d_APXg6netsghw5KzQh79nCAF4HxDdVxNYe32SmOL-0bjhXV9nnp34ZXkW05d5PhXCPLwS2xg"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="fixed top-16 right-0 w-[calc(100%-260px)] h-[calc(100vh-64px)] overflow-y-auto bg-background p-8 custom-scrollbar">
+<!-- Dashboard Header & Stats -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Inquiries &amp; Leads</h2>
+<p class="text-on-surface-variant font-body-md">Manage incoming requests from Web and WhatsApp channels.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 border border-outline-variant bg-white px-4 py-2 rounded-lg text-body-sm font-bold hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+                </button>
+<button class="flex items-center gap-2 border border-outline-variant bg-white px-4 py-2 rounded-lg text-body-sm font-bold hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px]">download</span> Export Leads
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-6 mb-8">
+<!-- Analytics Chart -->
+<div class="col-span-12 lg:col-span-8 bg-white border border-outline-variant rounded-xl p-6 h-[320px]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Most Requested Destinations (This Month)</h3>
+<span class="text-primary text-[12px] font-bold">Updated 2m ago</span>
+</div>
+<div class="h-[220px]">
+<canvas id="destinationsChart"></canvas>
+</div>
+</div>
+<!-- Stats Recap Cards -->
+<div class="col-span-12 lg:col-span-4 grid grid-rows-2 gap-6">
+<div class="bg-white border border-outline-variant rounded-xl p-6 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 28px;">bolt</span>
+</div>
+<div>
+<p class="font-label-caps text-on-surface-variant uppercase">New Leads Today</p>
+<p class="font-headline-lg text-on-surface">24</p>
+<p class="text-success text-[12px] font-bold text-green-600">↑ 12% from yesterday</p>
+</div>
+</div>
+<div class="bg-white border border-outline-variant rounded-xl p-6 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 28px;">avg_pace</span>
+</div>
+<div>
+<p class="font-label-caps text-on-surface-variant uppercase">Avg. Response Time</p>
+<p class="font-headline-lg text-on-surface">18m</p>
+<p class="text-error text-[12px] font-bold text-red-600">↓ 4m target missed</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Inquiries Table -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden mb-12">
+<div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<h3 class="font-label-caps text-on-surface-variant uppercase">Recent Inquiries</h3>
+<div class="flex gap-4">
+<button class="text-body-sm font-bold text-primary underline">All Channels</button>
+<button class="text-body-sm font-medium text-on-surface-variant">WhatsApp</button>
+<button class="text-body-sm font-medium text-on-surface-variant">Web Forms</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead class="bg-surface-container-lowest sticky top-0 border-b border-outline-variant">
+<tr>
+<th class="font-label-caps text-on-surface-variant text-left px-6 py-3 uppercase tracking-wider">Date</th>
+<th class="font-label-caps text-on-surface-variant text-left px-6 py-3 uppercase tracking-wider">Name</th>
+<th class="font-label-caps text-on-surface-variant text-left px-6 py-3 uppercase tracking-wider">Destination Interest</th>
+<th class="font-label-caps text-on-surface-variant text-left px-6 py-3 uppercase tracking-wider">Source</th>
+<th class="font-label-caps text-on-surface-variant text-left px-6 py-3 uppercase tracking-wider">Status</th>
+<th class="font-label-caps text-on-surface-variant text-right px-6 py-3 uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-on-surface whitespace-nowrap">2023-10-24 14:20</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-body-md font-bold text-on-surface">Elena Rodriguez</span>
+<span class="text-body-sm text-on-surface-variant">elena.r@example.com</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-surface-container px-3 py-1 rounded-full text-body-sm font-medium">Santorini, Greece</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2 text-green-600">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span class="font-body-sm font-bold">WhatsApp</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-body-sm font-bold uppercase tracking-tighter">New</span>
+</td>
+<td class="px-6 py-4 text-right whitespace-nowrap">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-sm font-bold active:scale-95 transition-transform">Reply</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-on-surface whitespace-nowrap">2023-10-24 11:05</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-body-md font-bold text-on-surface">Marcus Thorne</span>
+<span class="text-body-sm text-on-surface-variant">m.thorne@corp.com</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-surface-container px-3 py-1 rounded-full text-body-sm font-medium">Kyoto, Japan</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span class="font-body-sm font-bold">Web Form</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-lg text-body-sm font-bold uppercase tracking-tighter">Followed Up</span>
+</td>
+<td class="px-6 py-4 text-right whitespace-nowrap">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-sm font-bold active:scale-95 transition-transform">Log Call</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-on-surface whitespace-nowrap">2023-10-23 18:45</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-body-md font-bold text-on-surface">Sophia Chen</span>
+<span class="text-body-sm text-on-surface-variant">sophia@travel.me</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-surface-container px-3 py-1 rounded-full text-body-sm font-medium">Amalfi Coast, Italy</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2 text-green-600">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span class="font-body-sm font-bold">WhatsApp</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-green-100 text-green-800 px-3 py-1 rounded-lg text-body-sm font-bold uppercase tracking-tighter">Closed</span>
+</td>
+<td class="px-6 py-4 text-right whitespace-nowrap">
+<button class="border border-outline text-on-surface-variant px-4 py-2 rounded-lg text-body-sm font-bold cursor-default opacity-50">View Deal</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-on-surface whitespace-nowrap">2023-10-23 15:30</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-body-md font-bold text-on-surface">Julian Weber</span>
+<span class="text-body-sm text-on-surface-variant">jw@provider.net</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-surface-container px-3 py-1 rounded-full text-body-sm font-medium">Safari, Kenya</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span class="font-body-sm font-bold">Web Form</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-body-sm font-bold uppercase tracking-tighter">New</span>
+</td>
+<td class="px-6 py-4 text-right whitespace-nowrap">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-sm font-bold active:scale-95 transition-transform">Reply</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-on-surface whitespace-nowrap">2023-10-23 09:12</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-body-md font-bold text-on-surface">Li Na</span>
+<span class="text-body-sm text-on-surface-variant">lina88@web.cn</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-surface-container px-3 py-1 rounded-full text-body-sm font-medium">Bora Bora, French Polynesia</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2 text-green-600">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span class="font-body-sm font-bold">WhatsApp</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-body-sm font-bold uppercase tracking-tighter">New</span>
+</td>
+<td class="px-6 py-4 text-right whitespace-nowrap">
+<!-- Rows populated via JS -->
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
+<span id="leads-count-text" class="text-body-sm text-on-surface-variant">Live Client Enquiries</span>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION: Atlas AI Client Chat & Trip Generation Logs          -->
+<!-- ============================================================ -->
+<div class="bg-white border border-outline-variant rounded overflow-hidden mt-8 shadow-sm">
+  <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-mist/30">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary">auto_awesome</span>
+      <h4 class="font-headline-md font-bold text-on-surface">Atlas AI Client Conversations &amp; Itinerary Requests</h4>
+    </div>
+    <span class="text-xs font-bold bg-primary text-white px-3 py-1 rounded-full uppercase">Real-Time AI Logs</span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-surface-container-low border-b border-outline-variant">
+          <th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Timestamp</th>
+          <th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Type</th>
+          <th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">Client Query / Trip Request</th>
+          <th class="font-label-caps text-on-surface-variant px-6 py-3 uppercase">AI Response / Recommended Package</th>
+        </tr>
+      </thead>
+      <tbody id="ai-logs-tbody" class="divide-y divide-outline-variant">
+        <tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">Loading AI chats...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Analytics Chart Implementation
+        const ctx = document.getElementById('destinationsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Georgia', 'Turkey', 'Bali', 'Dubai', 'Thailand', 'Europe'],
+                datasets: [{
+                    label: 'Inquiries',
+                    data: [42, 35, 28, 24, 19, 15],
+                    backgroundColor: '#1E88E5',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { font: { family: 'Inter', size: 11 }, color: '#44474e' } },
+                    x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 11 }, color: '#44474e' } }
+                }
+            }
+        });
+
+        // Fetch Inquiries
+        fetch('/api/admin/contacts')
+          .then(res => res.json())
+          .then(data => {
+              if(data.success && data.data) {
+                  const tbody = document.querySelector('tbody');
+                  if(tbody) {
+                      tbody.innerHTML = '';
+                      data.data.forEach(c => {
+                          let statusClass = 'bg-blue-100 text-blue-800';
+                          if (c.status === 'responded') statusClass = 'bg-yellow-100 text-yellow-800';
+                          if (c.status === 'resolved') statusClass = 'bg-green-100 text-green-800';
+                          
+                          tbody.innerHTML += `
+                          <tr class="hover:bg-surface-container transition-colors group">
+                              <td class="px-6 py-4 font-data-mono text-on-surface whitespace-nowrap">${new Date(c.created_at).toLocaleString()}</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="flex flex-col">
+                                      <span class="font-body-md font-bold text-on-surface">${c.name}</span>
+                                      <span class="text-body-sm text-on-surface-variant">${c.email}</span>
+                                  </div>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="bg-surface-container px-3 py-1 rounded-full text-body-sm font-medium">${c.destination || 'General'}</span>
+                              </td>
+                              <td class="px-6 py-4">
+                                  <span class="text-body-sm text-on-surface line-clamp-2" title="${c.message}">${c.message}</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="px-3 py-1 rounded-lg text-body-sm font-bold uppercase tracking-tighter ${statusClass}">${c.status || 'new'}</span>
+                              </td>
+                              <td class="px-6 py-4 text-right whitespace-nowrap">
+                                  <button onclick="updateStatus(${c.id}, 'resolved')" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-sm font-bold active:scale-95 transition-transform">Resolve</button>
+                              </td>
+                          </tr>`;
+                      });
+                  }
+              }
+          })
+          .catch(console.error);
+
+        // Fetch AI Logs
+        fetch('/api/admin/ai-logs')
+          .then(res => res.json())
+          .then(data => {
+            const aiBody = document.getElementById('ai-logs-tbody');
+            if(aiBody && data.success && data.data) {
+              if (data.data.length === 0) {
+                aiBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No AI chats recorded yet. Interactive AI queries by clients will appear here live.</td></tr>';
+              } else {
+                aiBody.innerHTML = data.data.map(l => `
+                  <tr class="hover:bg-surface-container transition-colors">
+                    <td class="px-6 py-4 font-data-mono text-xs text-on-surface-variant whitespace-nowrap">${new Date(l.created_at).toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2.5 py-1 rounded-full text-xs font-bold ${l.type === 'generator' ? 'bg-purple-100 text-purple-800' : 'bg-cyan-100 text-cyan-800'}">
+                        ${l.type === 'generator' ? '30s Trip Generator' : 'AI Chat Prompt'}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm font-semibold text-on-surface">${l.prompt}</td>
+                    <td class="px-6 py-4 text-xs text-on-surface-variant">${l.reply ? l.reply.substring(0, 150) + '...' : '—'}</td>
+                  </tr>
+                `).join('');
+              }
+            }
+          })
+          .catch(console.error);
+          
+        function updateStatus(id, status) {
+            fetch('/api/admin/contacts/' + id, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            }).then(() => window.location.reload());
+        }
+    </script>
+</body></html>
