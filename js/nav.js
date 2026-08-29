@@ -863,39 +863,23 @@
   }
 
 
-  /* Premium Global Preloader */
+  /* Premium Global Preloader — Pure Solid White */
   #global-preloader {
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(34px) saturate(180%);
-    -webkit-backdrop-filter: blur(34px) saturate(180%);
+    background: #ffffff !important;
     z-index: 999999;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
-                visibility 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
-                clip-path 0.9s cubic-bezier(0.76, 0, 0.24, 1);
-    clip-path: circle(160% at 50% 50%);
-  }
-  #global-preloader::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 22% 18%, rgba(30,136,229,0.12) 0%, transparent 52%),
-      radial-gradient(circle at 78% 82%, rgba(244,162,97,0.14) 0%, transparent 55%),
-      radial-gradient(circle at 50% 50%, rgba(123,97,255,0.08) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   #global-preloader.fade-out {
     opacity: 0;
     visibility: hidden;
-    clip-path: circle(0% at 50% 50%);
   }
   .preloader-content {
     position: relative;
@@ -1217,7 +1201,7 @@
     // Progress Bar Animation
     let progress = 0;
     const progressInterval = setInterval(() => {
-      progress += Math.floor(Math.random() * 8) + 2;
+      progress += Math.floor(Math.random() * 15) + 8;
       if (progress >= 100) {
         progress = 100;
         clearInterval(progressInterval);
@@ -1226,7 +1210,7 @@
       const fillEl = document.getElementById('preloader-fill');
       if (pctEl) pctEl.textContent = progress + '%';
       if (fillEl) fillEl.style.width = progress + '%';
-    }, 45);
+    }, 25);
 
     // Remove preloader on complete load
     const fadeOutPreloader = () => {
@@ -1240,17 +1224,17 @@
         const loader = document.getElementById('global-preloader');
         if (loader) {
           loader.classList.add('fade-out');
-          setTimeout(() => loader.remove(), 600);
+          setTimeout(() => loader.remove(), 500);
         }
-      }, 250);
+      }, 150);
     };
 
     if (document.readyState === 'complete') {
       fadeOutPreloader();
     } else {
       window.addEventListener('load', fadeOutPreloader);
-      // Safety timeout after 2.8 seconds
-      setTimeout(fadeOutPreloader, 2800);
+      // Safety timeout after 1.5 seconds max
+      setTimeout(fadeOutPreloader, 1500);
     }
 
     // Inject Google Fonts if not already there
