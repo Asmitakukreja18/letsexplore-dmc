@@ -1235,18 +1235,47 @@ app.get('/api/health', (_, res) => {
     }
   });
 
+  function getSmartAIReply(prompt) {
+    const p = (prompt || '').trim().toLowerCase();
+    if (p.includes('hindi') || p.includes('baat karo') || p.includes('namaste') || p.includes('suhani') || p.includes('mera naam') || p.includes('mera name')) {
+      const nameMatch = prompt.match(/(?:im|i am|mera name|mera naam)\s+([a-zA-Z]+)/i);
+      const user = nameMatch ? nameMatch[1] : '';
+      return `Namaste ${user ? user + ' ji' : ''}! 🙏 Welcome to Let's Explore DMC. Main aapki travel planning me help kar sakta hu! Aap kahan ghoomne ka plan kar rahe hain? (Georgia $300, Bali, Turkey, Dubai, Thailand, Kashmir, Kerala ya koi customized trip?).`;
+    }
+    if (p.startsWith('hi') || p.startsWith('hello') || p.startsWith('hey') || p === 'im suhani' || p.includes('i am suhani') || p.includes('my name is')) {
+      const nameMatch = prompt.match(/(?:im|i am|my name is)\s+([a-zA-Z]+)/i);
+      const user = nameMatch ? nameMatch[1] : '';
+      return `Hello ${user ? user : 'there'}! 👋 Welcome to Let's Explore DMC! How can I help you plan your dream vacation today? Tell me your preferred destination (like Georgia, Bali, Turkey, Dubai, Thailand) or budget, and I'll build a custom itinerary for you!`;
+    }
+    if (p.includes('thailand')) {
+      return `🇹🇭 **Thailand Islands & Beach Paradise**: 5D/4N Package starting at **₹29,999 / $360**! Includes Phuket Island Hopping, Phi Phi Island Speedboat Tour, James Bond Island, 4★ Beachfront Hotel & Private Airport Transfers. Would you like me to share a customized day-by-day plan?`;
+    }
+    if (p.includes('bali')) {
+      return `🇮🇩 **Bali Tropical Luxury Escape**: 6D/5N Package starting at **$450 / ₹37,500**! Includes Ubud Private Pool Villa, Kuta Beach Sunset, Nusa Penida Island Tour, Bali Swing & Rice Terraces. Perfect for couples, honeymoons & luxury breaks!`;
+    }
+    if (p.includes('georgia') || p.includes('300')) {
+      return `🇬🇪 **Georgia Special**: 5D/4N Package for **USD 300**! Includes Tbilisi Historic Old Town, Kazbegi 4x4 Jeep Safari, Gudauri Ski Resort, Gergeti Trinity Church, 4★ Boutique Hotel & Private Transfers.`;
+    }
+    if (p.includes('turkey')) {
+      return `🇹🇷 **Turkey Escape & Wonders**: 5D/4N Package starting at **₹42,999 / $520**! Includes Istanbul Bosphorus Cruise, Hagia Sophia, Cappadocia Hot Air Balloon flight & Cave Hotel stay.`;
+    }
+    if (p.includes('dubai')) {
+      return `🇦🇪 **Dubai Luxury & Desert Safari**: 5D/4N Package starting at **$499 / ₹41,500**! Includes Burj Khalifa 124th Floor Observation Deck, Desert Safari with BBQ Dinner, Dhow Cruise & Dubai Frame.`;
+    }
+    if (p.includes('kashmir')) {
+      return `🏔️ **Kashmir Heaven on Earth**: 5D/4N Package starting at **₹18,500**! Includes Srinagar Houseboat Stay, Shikara Ride on Dal Lake, Gulmarg Gondola Cable Car & Pahalgam Valley.`;
+    }
+    if (p.includes('kerala')) {
+      return `🌴 **Kerala Backwaters & Tea Gardens**: 5D/4N Package starting at **₹16,999**! Includes Munnar Hills, Alleppey Houseboat Cruise with all meals & Kovalam Beach.`;
+    }
+    return `🤖 **Atlas AI Concierge**: I'm here to assist you with your trip! We offer direct DMC packages to **Georgia ($300)**, **Thailand (₹29,999)**, **Bali ($450)**, **Turkey (₹42,999)**, **Dubai ($499)**, **Kashmir**, **Kerala** and more. Tell me your preferred destination or travel date!`;
+  }
+
   app.post('/api/chat', async (req, res) => {
     const { message } = req.body;
     if (!message) return res.status(400).json({ error: 'Message required' });
 
-    const fallbackReply = `Atlas here! 👋 Regarding "${message}", I recommend exploring our flagship **Discover the Magic of Georgia ($300 / 5D4N)** or **Turkey Escape (₹42,999)** packages! Both include 4★ hotel stays, private transfers, and top guided tours. Let me know if you'd like to book!`;
-
-    if (!process.env.GEMINI_API_KEY || !ai) {
-      try {
-        await query('INSERT INTO ai_logs (type, prompt, reply) VALUES ($1, $2, $3)', ['chat', message, fallbackReply]);
-      } catch(e){}
-      return res.json({ success: true, reply: fallbackReply });
-    }
+    const fallbackReply = getSmartAIReply(message);
 
     try {
       const packagesRes = await query("SELECT id, name, destination, duration, price, category FROM packages");

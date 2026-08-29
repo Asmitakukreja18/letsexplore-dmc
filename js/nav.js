@@ -23,11 +23,113 @@
 
       <!-- Desktop Links -->
       <div class="nav-links" id="nav-links">
-        <a href="home.html"           class="nav-link ${isActive('home.html')}">Home</a>
-        <a href="deals.html"          class="nav-link ${isActive('deals.html')}">Packages</a>
-        <a href="georgia-package.html" class="nav-link ${isActive('georgia-package.html')}">Georgia $300</a>
-        <a href="turkey-package.html" class="nav-link ${isActive('turkey-package.html')}">Turkey</a>
-        <a href="contact.html"        class="nav-link ${isActive('contact.html')}">Contact</a>
+        <a href="home.html" class="nav-link ${isActive('home.html')}">HOME</a>
+        
+        <!-- GROUP TOURS DROPDOWN -->
+        <div class="nav-dropdown-wrap">
+          <a href="explore.html" class="nav-link ${isActive('explore.html')} flex items-center gap-1">
+            GROUP TOURS <span class="material-symbols-outlined text-sm">expand_more</span>
+          </a>
+          <div class="nav-dropdown-menu mega-menu-wide">
+            <div class="mega-grid">
+              <div class="mega-sidebar">
+                <div class="mega-sidebar-title">GROUP TOURS</div>
+                <p class="mega-sidebar-desc">Handcrafted group departures with verified hotels, English & Hindi speaking guides and 24/7 on-ground support.</p>
+                <a href="explore.html" class="mega-btn">View All Group Tours</a>
+              </div>
+              <div class="mega-cols">
+                <div>
+                  <div class="dropdown-header">INTERNATIONAL GROUPS</div>
+                  <a href="georgia-package.html" class="dropdown-item">🇬🇪 Georgia ($300 Special)</a>
+                  <a href="turkey-package.html" class="dropdown-item">🇹🇷 Turkey Escape & Wonders</a>
+                  <a href="bali-package.html" class="dropdown-item">🇮🇩 Bali Paradise Group</a>
+                  <a href="dubai-package.html" class="dropdown-item">🇦🇪 Dubai & Abu Dhabi</a>
+                  <a href="thailand-package.html" class="dropdown-item">🇹🇭 Thailand Island Hopping</a>
+                  <a href="vietnam-package.html" class="dropdown-item">🇻🇳 Vietnam Heritage Tour</a>
+                </div>
+                <div>
+                  <div class="dropdown-header">DOMESTIC GROUPS</div>
+                  <a href="kashmir-package.html" class="dropdown-item">🏔️ Kashmir Paradise Group</a>
+                  <a href="kerala-package.html" class="dropdown-item">🌴 Kerala Backwaters Tour</a>
+                  <a href="andaman-package.html" class="dropdown-item">🏖️ Andaman Tropical Group</a>
+                  <a href="manali-package.html" class="dropdown-item">❄️ Himachal & Manali Escape</a>
+                  <a href="ujjain-package.html" class="dropdown-item">🛕 Ujjain Spiritual Yatra</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPECIALITY TOURS DROPDOWN -->
+        <div class="nav-dropdown-wrap">
+          <a href="deals.html" class="nav-link flex items-center gap-1">
+            SPECIALITY TOURS <span class="material-symbols-outlined text-sm">expand_more</span>
+          </a>
+          <div class="nav-dropdown-menu mega-menu-wide">
+            <div class="mega-grid">
+              <div class="mega-sidebar">
+                <div class="mega-sidebar-title">SPECIALITY TOURS</div>
+                <p class="mega-sidebar-desc">Tailored journeys designed for specific interests, honeymooners, families, senior citizens, and luxury seekers.</p>
+                <a href="deals.html" class="mega-btn">Explore Specialities</a>
+              </div>
+              <div class="mega-cols">
+                <div>
+                  <a href="deals.html" class="dropdown-item font-bold">💕 HONEYMOON SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item font-bold">👨‍👩‍👧 FAMILY SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item font-bold">✨ LUXURY ESCAPES</a>
+                  <a href="deals.html" class="dropdown-item font-bold">⚡ CHHOTA BREAK (WEEKEND)</a>
+                </div>
+                <div>
+                  <a href="deals.html" class="dropdown-item font-bold">💰 BUDGET & ECONOMY TOURS</a>
+                  <a href="deals.html" class="dropdown-item font-bold">🥗 VEG / JAIN FOOD SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item font-bold">🎓 STUDENT SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item font-bold">👩 MY FAIR LADY (WOMEN ONLY)</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CUSTOMISE HOLIDAYS -->
+        <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE HOLIDAYS</a>
+
+        <!-- EXPERIENCES DROPDOWN -->
+        <div class="nav-dropdown-wrap">
+          <a href="explore.html" class="nav-link flex items-center gap-1">
+            EXPERIENCES <span class="material-symbols-outlined text-sm">expand_more</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <div class="dropdown-header">TRAVEL THEMES</div>
+            <a href="explore.html" class="dropdown-item">🏖️ BEACH & ISLANDS</a>
+            <a href="explore.html" class="dropdown-item">🏔️ MOUNTAIN & SNOW</a>
+            <a href="explore.html" class="dropdown-item">🐪 DESERT SAFARIS</a>
+            <a href="explore.html" class="dropdown-item">🏛️ CULTURAL & HERITAGE</a>
+            <a href="explore.html" class="dropdown-item">🥾 HIKING & TREKKING</a>
+            <a href="explore.html" class="dropdown-item">🚢 CRUISE & WATERWAYS</a>
+          </div>
+        </div>
+
+        <!-- DEALS -->
+        <a href="deals.html" class="nav-link ${isActive('deals.html')}">DEALS</a>
+
+        <!-- OUR BRANCHES -->
+        <a href="contact.html#offices" class="nav-link">OUR BRANCHES</a>
+
+        <!-- MORE DROPDOWN -->
+        <div class="nav-dropdown-wrap">
+          <a href="#" class="nav-link flex items-center gap-1">
+            MORE <span class="material-symbols-outlined text-sm">expand_more</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="reviews.html" class="dropdown-item">⭐ Client Reviews & Photos</a>
+            <a href="guides.html" class="dropdown-item">📖 Travel Guides</a>
+            <a href="compare.html" class="dropdown-item">⚖️ Compare Packages</a>
+            <a href="wishlist.html" class="dropdown-item">❤️ My Wishlist</a>
+            <a href="contact.html" class="dropdown-item">📍 Contact Us & Support</a>
+          </div>
+        </div>
+
+        <!-- ATLAS AI -->
         <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai-travel.html')}">
           <span class="ai-badge">AI</span>
           <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1; color: #fff;">smart_toy</span>
@@ -53,18 +155,14 @@
     <!-- Mobile Drawer -->
     <div class="mobile-drawer" id="mobile-drawer">
       <a href="home.html"           class="mobile-link ${isActive('home.html')}"><span class="material-symbols-outlined mr-2">home</span> Home</a>
-      <a href="explore.html"        class="mobile-link ${isActive('explore.html')}"><span class="material-symbols-outlined mr-2">public</span> Explore Destinations</a>
-      <a href="deals.html"          class="mobile-link ${isActive('deals.html')}"><span class="material-symbols-outlined mr-2">confirmation_number</span> All Packages</a>
-      <a href="georgia-package.html" class="mobile-link ${isActive('georgia-package.html')}"><span class="material-symbols-outlined mr-2">landscape</span> Georgia ($300 Special)</a>
-      <a href="turkey-package.html" class="mobile-link ${isActive('turkey-package.html')}"><span class="material-symbols-outlined mr-2">flight_takeoff</span> Turkey Escape</a>
-      <a href="turkey-guide.html"   class="mobile-link ${isActive('turkey-guide.html')}"><span class="material-symbols-outlined mr-2">menu_book</span> Turkey Guide</a>
-      <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai-travel.html')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Atlas AI Trip Architect</a>
+      <a href="explore.html"        class="mobile-link ${isActive('explore.html')}"><span class="material-symbols-outlined mr-2">groups</span> Group Tours</a>
+      <a href="deals.html"          class="mobile-link ${isActive('deals.html')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Speciality Tours & Deals</a>
+      <a href="booking.html"        class="mobile-link ${isActive('booking.html')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Holidays</a>
+      <a href="contact.html#offices" class="mobile-link"><span class="material-symbols-outlined mr-2">storefront</span> Our 6 Global Branches</a>
+      <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai-travel.html')}"><span class="material-symbols-outlined mr-2">smart_toy</span> Atlas AI Trip Architect</a>
+      <a href="reviews.html"        class="mobile-link ${isActive('reviews.html')}"><span class="material-symbols-outlined mr-2">star</span> Client Reviews</a>
       <a href="guides.html"         class="mobile-link ${isActive('guides.html')}"><span class="material-symbols-outlined mr-2">travel_explore</span> Travel Guides</a>
-      <a href="reviews.html"        class="mobile-link ${isActive('reviews.html')}"><span class="material-symbols-outlined mr-2">reviews</span> Client Reviews</a>
-      <a href="compare.html"        class="mobile-link ${isActive('compare.html')}"><span class="material-symbols-outlined mr-2">compare_arrows</span> Compare Packages</a>
-      <a href="wishlist.html"       class="mobile-link ${isActive('wishlist.html')}"><span class="material-symbols-outlined mr-2">favorite</span> My Wishlist</a>
-      <a href="search.html"         class="mobile-link ${isActive('search.html')}"><span class="material-symbols-outlined mr-2">search</span> Search Trips</a>
-      <a href="contact.html"        class="mobile-link ${isActive('contact.html')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact &amp; Office</a>
+      <a href="contact.html"        class="mobile-link ${isActive('contact.html')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact Us</a>
       <div class="mobile-contact">
         <a href="tel:+918007586871" class="mobile-contact-link"><span class="material-symbols-outlined text-base align-middle mr-1">call</span> +91-8007586871</a>
         <a href="https://wa.me/918007586871" target="_blank" class="mobile-wa-btn">WhatsApp Us</a>
@@ -311,6 +409,119 @@
   .nav-link.active {
     color: var(--accent);
     font-weight: 700;
+  }
+
+  /* Dropdown Menu CSS */
+  .nav-dropdown-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 270px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(11,31,58,0.1);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px -10px rgba(11,31,58,0.18);
+    padding: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1000;
+    margin-top: 6px;
+  }
+  .nav-dropdown-wrap:hover .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Mega Menu Wide Layout (Kesari Style) */
+  .mega-menu-wide {
+    width: 680px !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  .mega-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
+  .mega-sidebar {
+    background: #F8FAFC;
+    padding: 24px;
+    border-right: 1px solid rgba(11,31,58,0.06);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .mega-sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700;
+    color: #0B1F3A; margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .mega-sidebar-desc {
+    font-size: 12px; line-height: 1.6;
+    color: #64748B; margin-bottom: 20px;
+  }
+  .mega-btn {
+    display: inline-block;
+    background: #F4A261; color: #0B1F3A;
+    font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 10px 16px; border-radius: 99px;
+    text-decoration: none; text-align: center;
+    box-shadow: 0 4px 14px rgba(244,162,97,0.3);
+    transition: all 0.2s ease;
+  }
+  .mega-btn:hover { background: #E08E4D; color: #fff; }
+  .mega-cols {
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding: 20px; gap: 16px;
+  }
+  .dropdown-header {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #64748B;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(11,31,58,0.06);
+  }
+  .dropdown-item {
+    display: block;
+    padding: 8px 12px;
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .dropdown-item:hover {
+    background: rgba(30,136,229,0.08);
+    color: #1E88E5;
+    transform: translateX(4px);
+  }
+  .dropdown-view-all {
+    display: block;
+    margin-top: 6px;
+    padding: 10px 12px;
+    background: rgba(244,162,97,0.12);
+    color: #F4A261;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .dropdown-view-all:hover {
+    background: #F4A261;
+    color: #0B1F3A;
   }
 
   /* 🤖 Atlas AI Button — Premium neural interface feel */
