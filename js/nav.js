@@ -69,21 +69,22 @@
             <div class="mega-grid">
               <div class="mega-sidebar">
                 <div class="mega-sidebar-title">SPECIALITY TOURS</div>
-                <p class="mega-sidebar-desc">Tailored journeys designed for specific interests, honeymooners, families, senior citizens, and luxury seekers.</p>
-                <a href="deals.html" class="mega-btn">Explore Specialities</a>
+                <p class="mega-sidebar-desc">Specialty tours are designed to cater to specific interests and passions, offering unique and immersive experiences that go beyond the typical tourist activities.</p>
+                <a href="deals.html" class="mega-btn">View All Speciality Tours</a>
               </div>
               <div class="mega-cols">
                 <div>
-                  <a href="deals.html" class="dropdown-item font-bold">💕 HONEYMOON SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item font-bold">👨‍👩‍👧 FAMILY SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item font-bold">✨ LUXURY ESCAPES</a>
-                  <a href="deals.html" class="dropdown-item font-bold">⚡ CHHOTA BREAK (WEEKEND)</a>
+                  <a href="deals.html" class="dropdown-item">ADVENTURE TOUR</a>
+                  <a href="deals.html" class="dropdown-item">GUJARATI SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item">MARIGOLD</a>
+                  <a href="deals.html" class="dropdown-item">STUDENT SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item">ECONOMY TOURS</a>
                 </div>
                 <div>
-                  <a href="deals.html" class="dropdown-item font-bold">💰 BUDGET & ECONOMY TOURS</a>
-                  <a href="deals.html" class="dropdown-item font-bold">🥗 VEG / JAIN FOOD SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item font-bold">🎓 STUDENT SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item font-bold">👩 MY FAIR LADY (WOMEN ONLY)</a>
+                  <a href="deals.html" class="dropdown-item">CHHOTA BREAK</a>
+                  <a href="deals.html" class="dropdown-item">HONEYMOON SPECIAL</a>
+                  <a href="deals.html" class="dropdown-item">MY FAIR LADY</a>
+                  <a href="deals.html" class="dropdown-item">VEG TOUR</a>
                 </div>
               </div>
             </div>
@@ -98,14 +99,31 @@
           <a href="explore.html" class="nav-link flex items-center gap-1">
             EXPERIENCES <span class="material-symbols-outlined text-sm">expand_more</span>
           </a>
-          <div class="nav-dropdown-menu">
-            <div class="dropdown-header">TRAVEL THEMES</div>
-            <a href="explore.html" class="dropdown-item">🏖️ BEACH & ISLANDS</a>
-            <a href="explore.html" class="dropdown-item">🏔️ MOUNTAIN & SNOW</a>
-            <a href="explore.html" class="dropdown-item">🐪 DESERT SAFARIS</a>
-            <a href="explore.html" class="dropdown-item">🏛️ CULTURAL & HERITAGE</a>
-            <a href="explore.html" class="dropdown-item">🥾 HIKING & TREKKING</a>
-            <a href="explore.html" class="dropdown-item">🚢 CRUISE & WATERWAYS</a>
+          <div class="nav-dropdown-menu mega-menu-wide">
+            <div class="mega-grid">
+              <div class="mega-sidebar">
+                <div class="mega-sidebar-title">EXPERIENCES</div>
+                <p class="mega-sidebar-desc">Experiences are thrilling adventures that will immerse you in nature's most awe-inspiring landscapes, offering an escape from the ordinary.</p>
+                <a href="explore.html" class="mega-btn">View All Experiences</a>
+              </div>
+              <div class="mega-cols mega-cols-3">
+                <div>
+                  <a href="explore.html" class="dropdown-item">ADVENTURE</a>
+                  <a href="explore.html" class="dropdown-item">DESERT</a>
+                  <a href="explore.html" class="dropdown-item">RIVER CRUISE</a>
+                </div>
+                <div>
+                  <a href="explore.html" class="dropdown-item">BEACH</a>
+                  <a href="explore.html" class="dropdown-item">FOOD AND CULINARY</a>
+                  <a href="explore.html" class="dropdown-item">SAFARI</a>
+                </div>
+                <div>
+                  <a href="explore.html" class="dropdown-item">CRUISE</a>
+                  <a href="explore.html" class="dropdown-item">HIKING AND TREKKING</a>
+                  <a href="explore.html" class="dropdown-item">EXPLORE EUROPE</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -121,11 +139,11 @@
             MORE <span class="material-symbols-outlined text-sm">expand_more</span>
           </a>
           <div class="nav-dropdown-menu">
-            <a href="reviews.html" class="dropdown-item">⭐ Client Reviews & Photos</a>
-            <a href="guides.html" class="dropdown-item">📖 Travel Guides</a>
-            <a href="compare.html" class="dropdown-item">⚖️ Compare Packages</a>
-            <a href="wishlist.html" class="dropdown-item">❤️ My Wishlist</a>
-            <a href="contact.html" class="dropdown-item">📍 Contact Us & Support</a>
+            <a href="reviews.html" class="dropdown-item">TESTIMONIALS</a>
+            <a href="guides.html" class="dropdown-item">TRAVEL GUIDES</a>
+            <a href="contact.html" class="dropdown-item">ABOUT US</a>
+            <a href="contact.html" class="dropdown-item">CONTACT</a>
+            <a href="compare.html" class="dropdown-item">COMPARE PACKAGES</a>
           </div>
         </div>
 
@@ -273,21 +291,19 @@
 
   .site-nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background: rgba(255, 255, 255, 0.88);
-    border-bottom: 1px solid rgba(255,255,255,0.45);
-    box-shadow: 0 4px 20px rgba(11,31,58,0.06);
+    background: #ffffff;
+    border-bottom: 1px solid rgba(11,31,58,0.08);
+    box-shadow: 0 2px 12px rgba(11,31,58,0.06);
     transition: all 0.3s ease;
     padding-top: 4px;
     padding-bottom: 4px;
   }
 
-  /* ✅ PERMANENT WHITE GLASS: sleek compact state on scroll */
+  /* Compact state on scroll */
   .site-nav.scrolled {
-    background: rgba(255, 255, 255, 0.94);
-    border-bottom: 1px solid rgba(11,31,58,0.08);
-    box-shadow: 0 8px 30px rgba(11,31,58,0.10);
+    background: #ffffff;
+    border-bottom: 1px solid rgba(11,31,58,0.1);
+    box-shadow: 0 4px 20px rgba(11,31,58,0.10);
     padding-top: 2px;
     padding-bottom: 2px;
   }
@@ -296,43 +312,7 @@
     filter: drop-shadow(0 2px 10px rgba(11,31,58,0.15));
   }
 
-  /* 🏠 HOME NAV SPECIFIC STYLES: Fully transparent bg & borders on top */
-  .site-nav.home-nav:not(.scrolled) {
-    background: transparent !important;
-    border-bottom-color: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  /* White links for dark hero sections on top */
-  .site-nav.home-nav:not(.scrolled) .nav-link {
-    color: rgba(255, 255, 255, 0.9) !important;
-  }
-  .site-nav.home-nav:not(.scrolled) .nav-link:hover {
-    color: var(--accent) !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-  }
-  .site-nav.home-nav:not(.scrolled) .nav-link.active {
-    color: var(--accent) !important;
-  }
-
-  /* White hamburger spans on top */
-  .site-nav.home-nav:not(.scrolled) .nav-hamburger span {
-    background: #ffffff !important;
-  }
-
-  /* White button icons on top */
-  .site-nav.home-nav:not(.scrolled) .nav-icon-btn {
-    color: rgba(255, 255, 255, 0.88) !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-  }
-  .site-nav.home-nav:not(.scrolled) .nav-icon-btn:hover {
-    color: var(--accent) !important;
-    background: rgba(255, 255, 255, 0.25) !important;
-  }
-
-  /* Wishlist badge — always high contrast, preserved accent */
+  /* Wishlist badge */
   .nav-wish-badge {
     position: absolute;
     top: -4px;
@@ -353,23 +333,15 @@
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.02em;
   }
-  .site-nav.home-nav:not(.scrolled) .nav-wish-badge {
-    border-color: rgba(11, 31, 58, 0.6) !important;
-  }
-
-  /* Logo adjustment on transparent state */
-  .site-nav.home-nav:not(.scrolled) .nav-logo-img {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
-  }
 
   .nav-inner {
-    max-width: 1280px; margin: 0 auto;
+    max-width: 1440px; margin: 0 auto;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 20px; height: 58px;
-    gap: 12px;
+    padding: 0 16px; height: 58px;
+    gap: 8px;
   }
   .nav-logo {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 8px;
     text-decoration: none;
     flex-shrink: 0;
     transition: opacity 0.2s;
@@ -377,9 +349,9 @@
   .nav-logo:hover { opacity: 0.92; }
 
   .nav-logo-img {
-    height: 44px;
+    height: 40px;
     width: auto;
-    max-width: 200px;
+    max-width: 180px;
     object-fit: contain;
     border-radius: 8px;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
@@ -390,25 +362,27 @@
   }
 
   .nav-links {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 4px;
     flex-wrap: nowrap;
   }
   .nav-link {
-    color: rgba(15,23,42,0.85);
+    color: #0F172A;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-size: 13.5px; font-weight: 600;
-    padding: 6px 14px; border-radius: 8px;
+    font-size: 11.5px; font-weight: 700;
+    padding: 6px 7px; border-radius: 6px;
     transition: all 0.22s ease;
     white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
   .nav-link:hover {
-    color: var(--secondary);
-    background: rgba(30,136,229,0.06);
+    color: #E53935;
+    background: rgba(229,57,53,0.06);
   }
   .nav-link.active {
-    color: var(--accent);
-    font-weight: 700;
+    color: #E53935;
+    font-weight: 800;
   }
 
   /* Dropdown Menu CSS */
@@ -480,6 +454,9 @@
   .mega-cols {
     display: grid; grid-template-columns: 1fr 1fr;
     padding: 20px; gap: 16px;
+  }
+  .mega-cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
   }
   .dropdown-header {
     font-size: 10px;
