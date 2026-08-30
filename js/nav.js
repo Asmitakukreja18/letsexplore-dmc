@@ -855,8 +855,10 @@
                 visibility 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   #global-preloader.fade-out {
-    opacity: 0;
-    visibility: hidden;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
   }
   .preloader-content {
     position: relative;
@@ -864,20 +866,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 34px;
-    transform: translateY(0) scale(1);
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    gap: 20px;
+    transform: scale(1);
+    transition: opacity 0.35s ease, transform 0.35s ease;
   }
   #global-preloader.fade-out .preloader-content {
-    transform: translateY(-18px) scale(1.04);
-    opacity: 0.1;
+    transform: scale(0.96);
+    opacity: 0;
   }
   .preloader-logo-wrap {
     position: relative;
-    width: 220px;
+    width: 200px;
     height: auto;
-    animation: preLogoFloat 3.4s infinite ease-in-out;
+    animation: preLogoFloat 3s infinite ease-in-out;
   }
   .preloader-logo-wrap::after {
     content: "";
@@ -1133,14 +1134,9 @@
 
   const preloaderHTML = `
   <div id="global-preloader">
-    <div class="preloader-glow"></div>
     <div class="preloader-content">
       <div class="preloader-logo-wrap">
         <img src="images/logo.png" alt="Let's Explore DMC Logo">
-      </div>
-      <div class="preloader-brand">
-        Let's Explore
-        <small>Luxury \u00B7 Tailored \u00B7 Journeys</small>
       </div>
       <div class="preloader-spinner-box">
         <div class="preloader-ring ring-a"></div>
