@@ -16,136 +16,20 @@
   const navHTML = `
   <nav id="site-nav" class="site-nav">
     <div class="nav-inner">
-      <!-- Logo -->
+      <!-- Logo (Bigger & Prominent) -->
       <a href="home.html" class="nav-logo" aria-label="Let's Explore DMC Home">
         <img src="images/logo.png" alt="Let's Explore DMC" class="nav-logo-img">
       </a>
 
-      <!-- Desktop Links -->
+      <!-- Clean Main Desktop Links (No Redundant Mega Menus) -->
       <div class="nav-links" id="nav-links">
         <a href="home.html" class="nav-link ${isActive('home.html')}">HOME</a>
-        
-        <!-- GROUP TOURS DROPDOWN -->
-        <div class="nav-dropdown-wrap">
-          <a href="explore.html" class="nav-link ${isActive('explore.html')}">
-            GROUP TOURS <span class="material-symbols-outlined">expand_more</span>
-          </a>
-          <div class="nav-dropdown-menu mega-menu-wide">
-            <div class="mega-grid">
-              <div class="mega-sidebar">
-                <div class="mega-sidebar-title">GROUP TOURS</div>
-                <p class="mega-sidebar-desc">Handcrafted group departures with verified hotels, English & Hindi speaking guides and 24/7 on-ground support.</p>
-                <a href="explore.html" class="mega-btn">View All Group Tours</a>
-              </div>
-              <div class="mega-cols">
-                <div>
-                  <div class="dropdown-header">INTERNATIONAL GROUPS</div>
-                  <a href="georgia-package.html" class="dropdown-item">🇬🇪 Georgia ($300 Special)</a>
-                  <a href="turkey-package.html" class="dropdown-item">🇹🇷 Turkey Escape & Wonders</a>
-                  <a href="bali-package.html" class="dropdown-item">🇮🇩 Bali Paradise Group</a>
-                  <a href="dubai-package.html" class="dropdown-item">🇦🇪 Dubai & Abu Dhabi</a>
-                  <a href="thailand-package.html" class="dropdown-item">🇹🇭 Thailand Island Hopping</a>
-                  <a href="vietnam-package.html" class="dropdown-item">🇻🇳 Vietnam Heritage Tour</a>
-                </div>
-                <div>
-                  <div class="dropdown-header">DOMESTIC GROUPS</div>
-                  <a href="kashmir-package.html" class="dropdown-item">🏔️ Kashmir Paradise Group</a>
-                  <a href="kerala-package.html" class="dropdown-item">🌴 Kerala Backwaters Tour</a>
-                  <a href="andaman-package.html" class="dropdown-item">🏖️ Andaman Tropical Group</a>
-                  <a href="manali-package.html" class="dropdown-item">❄️ Himachal & Manali Escape</a>
-                  <a href="ujjain-package.html" class="dropdown-item">🛕 Ujjain Spiritual Yatra</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- SPECIALITY TOURS DROPDOWN -->
-        <div class="nav-dropdown-wrap">
-          <a href="deals.html" class="nav-link">
-            SPECIALITY <span class="material-symbols-outlined">expand_more</span>
-          </a>
-          <div class="nav-dropdown-menu mega-menu-wide">
-            <div class="mega-grid">
-              <div class="mega-sidebar">
-                <div class="mega-sidebar-title">SPECIALITY TOURS</div>
-                <p class="mega-sidebar-desc">Specialty tours are designed to cater to specific interests and passions, offering unique and immersive experiences that go beyond the typical tourist activities.</p>
-                <a href="deals.html" class="mega-btn">View All Speciality Tours</a>
-              </div>
-              <div class="mega-cols">
-                <div>
-                  <a href="deals.html" class="dropdown-item">ADVENTURE TOUR</a>
-                  <a href="deals.html" class="dropdown-item">GUJARATI SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item">MARIGOLD</a>
-                  <a href="deals.html" class="dropdown-item">STUDENT SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item">ECONOMY TOURS</a>
-                </div>
-                <div>
-                  <a href="deals.html" class="dropdown-item">CHHOTA BREAK</a>
-                  <a href="deals.html" class="dropdown-item">HONEYMOON SPECIAL</a>
-                  <a href="deals.html" class="dropdown-item">MY FAIR LADY</a>
-                  <a href="deals.html" class="dropdown-item">VEG TOUR</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CUSTOMISE -->
-        <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE</a>
-
-        <!-- EXPERIENCES DROPDOWN -->
-        <div class="nav-dropdown-wrap">
-          <a href="explore.html" class="nav-link">
-            EXPERIENCES <span class="material-symbols-outlined">expand_more</span>
-          </a>
-          <div class="nav-dropdown-menu mega-menu-wide">
-            <div class="mega-grid">
-              <div class="mega-sidebar">
-                <div class="mega-sidebar-title">EXPERIENCES</div>
-                <p class="mega-sidebar-desc">Experiences are thrilling adventures that will immerse you in nature's most awe-inspiring landscapes, offering an escape from the ordinary.</p>
-                <a href="explore.html" class="mega-btn">View All Experiences</a>
-              </div>
-              <div class="mega-cols mega-cols-3">
-                <div>
-                  <a href="explore.html" class="dropdown-item">ADVENTURE</a>
-                  <a href="explore.html" class="dropdown-item">DESERT</a>
-                  <a href="explore.html" class="dropdown-item">RIVER CRUISE</a>
-                </div>
-                <div>
-                  <a href="explore.html" class="dropdown-item">BEACH</a>
-                  <a href="explore.html" class="dropdown-item">FOOD AND CULINARY</a>
-                  <a href="explore.html" class="dropdown-item">SAFARI</a>
-                </div>
-                <div>
-                  <a href="explore.html" class="dropdown-item">CRUISE</a>
-                  <a href="explore.html" class="dropdown-item">HIKING AND TREKKING</a>
-                  <a href="explore.html" class="dropdown-item">EXPLORE EUROPE</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- DEALS -->
-        <a href="deals.html" class="nav-link ${isActive('deals.html')}">DEALS</a>
-
-        <!-- BRANCHES -->
-        <a href="contact.html#offices" class="nav-link">BRANCHES</a>
-
-        <!-- MORE DROPDOWN -->
-        <div class="nav-dropdown-wrap">
-          <a href="#" class="nav-link">
-            MORE <span class="material-symbols-outlined">expand_more</span>
-          </a>
-          <div class="nav-dropdown-menu">
-            <a href="reviews.html" class="dropdown-item">TESTIMONIALS</a>
-            <a href="guides.html" class="dropdown-item">TRAVEL GUIDES</a>
-            <a href="contact.html" class="dropdown-item">ABOUT US</a>
-            <a href="contact.html" class="dropdown-item">CONTACT</a>
-            <a href="compare.html" class="dropdown-item">COMPARE PACKAGES</a>
-          </div>
-        </div>
+        <a href="explore.html" class="nav-link ${isActive('explore.html')}">GROUP TOURS</a>
+        <a href="deals.html" class="nav-link ${isActive('deals.html')}">DEALS & PACKAGES</a>
+        <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE TRIP</a>
+        <a href="contact.html#offices" class="nav-link">OUR BRANCHES</a>
+        <a href="reviews.html" class="nav-link ${isActive('reviews.html')}">REVIEWS</a>
+        <a href="contact.html" class="nav-link ${isActive('contact.html')}">CONTACT</a>
       </div>
 
       <!-- Right Actions -->
@@ -166,12 +50,11 @@
     <div class="mobile-drawer" id="mobile-drawer">
       <a href="home.html"           class="mobile-link ${isActive('home.html')}"><span class="material-symbols-outlined mr-2">home</span> Home</a>
       <a href="explore.html"        class="mobile-link ${isActive('explore.html')}"><span class="material-symbols-outlined mr-2">groups</span> Group Tours</a>
-      <a href="deals.html"          class="mobile-link ${isActive('deals.html')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Speciality Tours & Deals</a>
-      <a href="booking.html"        class="mobile-link ${isActive('booking.html')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Holidays</a>
-      <a href="contact.html#offices" class="mobile-link"><span class="material-symbols-outlined mr-2">storefront</span> Our 6 Global Branches</a>
+      <a href="deals.html"          class="mobile-link ${isActive('deals.html')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Deals & Packages</a>
+      <a href="booking.html"        class="mobile-link ${isActive('booking.html')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Trip</a>
+      <a href="contact.html#offices" class="mobile-link"><span class="material-symbols-outlined mr-2">storefront</span> Our Branches</a>
       <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai-travel.html')}"><span class="material-symbols-outlined mr-2">smart_toy</span> Atlas AI Trip Architect</a>
       <a href="reviews.html"        class="mobile-link ${isActive('reviews.html')}"><span class="material-symbols-outlined mr-2">star</span> Client Reviews</a>
-      <a href="guides.html"         class="mobile-link ${isActive('guides.html')}"><span class="material-symbols-outlined mr-2">travel_explore</span> Travel Guides</a>
       <a href="contact.html"        class="mobile-link ${isActive('contact.html')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact Us</a>
       <div class="mobile-contact">
         <a href="tel:+918007586871" class="mobile-contact-link"><span class="material-symbols-outlined text-base align-middle mr-1">call</span> +91-8007586871</a>
@@ -285,43 +168,21 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 999;
     background: #ffffff;
     border-bottom: 1px solid rgba(11,31,58,0.08);
-    box-shadow: 0 1px 8px rgba(11,31,58,0.05);
+    box-shadow: 0 2px 14px rgba(11,31,58,0.06);
     transition: all 0.3s ease;
     padding: 0;
-    height: 52px;
+    height: 64px;
   }
 
   /* Compact state on scroll */
   .site-nav.scrolled {
     background: #ffffff;
     border-bottom: 1px solid rgba(11,31,58,0.1);
-    box-shadow: 0 2px 14px rgba(11,31,58,0.08);
+    box-shadow: 0 4px 20px rgba(11,31,58,0.08);
   }
 
   .site-nav.scrolled .nav-logo-img {
     filter: drop-shadow(0 2px 10px rgba(11,31,58,0.15));
-  }
-
-  /* Wishlist badge */
-  .nav-wish-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 99px;
-    background: #F4A261 !important;
-    color: #fff !important;
-    font-size: 10px;
-    font-weight: 800;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
-    box-shadow: 0 3px 8px rgba(244,162,97,0.5);
-    border: 2px solid rgba(255,255,255,0.95) !important;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: -0.02em;
   }
 
   .nav-inner {
@@ -330,60 +191,55 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 14px;
-    height: 52px;
-    gap: 8px;
+    padding: 0 20px;
+    height: 64px;
+    gap: 16px;
     box-sizing: border-box;
   }
   .nav-logo {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     text-decoration: none;
     flex-shrink: 0;
     transition: opacity 0.2s;
   }
   .nav-logo:hover { opacity: 0.92; }
 
+  /* BADA & PROMINENT LOGO */
   .nav-logo-img {
-    height: 32px;
+    height: 48px;
     width: auto;
-    max-width: 145px;
+    max-width: 210px;
     object-fit: contain;
-    border-radius: 6px;
-    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.08));
-    transition: transform 0.2s ease;
+    border-radius: 8px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+    transition: transform 0.25s ease;
   }
   .nav-logo:hover .nav-logo-img {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 6px;
     flex-wrap: nowrap;
-    flex-shrink: 1;
   }
   .nav-link {
     color: #0F172A;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
-    padding: 4px 6px;
-    border-radius: 5px;
-    transition: all 0.15s ease;
+    padding: 7px 12px;
+    border-radius: 8px;
+    transition: all 0.18s ease;
     white-space: nowrap;
     text-transform: uppercase;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     display: inline-flex;
     align-items: center;
-    gap: 1px;
-  }
-  .nav-link .material-symbols-outlined {
-    font-size: 13px !important;
-    margin-left: -2px;
   }
   .nav-link:hover {
     color: #E53935;
@@ -392,6 +248,7 @@
   .nav-link.active {
     color: #E53935;
     font-weight: 800;
+    background: rgba(229,57,53,0.06);
   }
 
   /* Dropdown Menu CSS */
