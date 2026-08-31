@@ -27,8 +27,8 @@
         
         <!-- GROUP TOURS DROPDOWN -->
         <div class="nav-dropdown-wrap">
-          <a href="explore.html" class="nav-link ${isActive('explore.html')} flex items-center gap-1">
-            GROUP TOURS <span class="material-symbols-outlined text-sm">expand_more</span>
+          <a href="explore.html" class="nav-link ${isActive('explore.html')}">
+            GROUP TOURS <span class="material-symbols-outlined">expand_more</span>
           </a>
           <div class="nav-dropdown-menu mega-menu-wide">
             <div class="mega-grid">
@@ -62,8 +62,8 @@
 
         <!-- SPECIALITY TOURS DROPDOWN -->
         <div class="nav-dropdown-wrap">
-          <a href="deals.html" class="nav-link flex items-center gap-1">
-            SPECIALITY TOURS <span class="material-symbols-outlined text-sm">expand_more</span>
+          <a href="deals.html" class="nav-link">
+            SPECIALITY <span class="material-symbols-outlined">expand_more</span>
           </a>
           <div class="nav-dropdown-menu mega-menu-wide">
             <div class="mega-grid">
@@ -91,13 +91,13 @@
           </div>
         </div>
 
-        <!-- CUSTOMISE HOLIDAYS -->
-        <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE HOLIDAYS</a>
+        <!-- CUSTOMISE -->
+        <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE</a>
 
         <!-- EXPERIENCES DROPDOWN -->
         <div class="nav-dropdown-wrap">
-          <a href="explore.html" class="nav-link flex items-center gap-1">
-            EXPERIENCES <span class="material-symbols-outlined text-sm">expand_more</span>
+          <a href="explore.html" class="nav-link">
+            EXPERIENCES <span class="material-symbols-outlined">expand_more</span>
           </a>
           <div class="nav-dropdown-menu mega-menu-wide">
             <div class="mega-grid">
@@ -130,13 +130,13 @@
         <!-- DEALS -->
         <a href="deals.html" class="nav-link ${isActive('deals.html')}">DEALS</a>
 
-        <!-- OUR BRANCHES -->
-        <a href="contact.html#offices" class="nav-link">OUR BRANCHES</a>
+        <!-- BRANCHES -->
+        <a href="contact.html#offices" class="nav-link">BRANCHES</a>
 
         <!-- MORE DROPDOWN -->
         <div class="nav-dropdown-wrap">
-          <a href="#" class="nav-link flex items-center gap-1">
-            MORE <span class="material-symbols-outlined text-sm">expand_more</span>
+          <a href="#" class="nav-link">
+            MORE <span class="material-symbols-outlined">expand_more</span>
           </a>
           <div class="nav-dropdown-menu">
             <a href="reviews.html" class="dropdown-item">TESTIMONIALS</a>
@@ -146,24 +146,16 @@
             <a href="compare.html" class="dropdown-item">COMPARE PACKAGES</a>
           </div>
         </div>
-
-        <!-- ATLAS AI -->
-        <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai-travel.html')}">
-          <span class="ai-badge">AI</span>
-          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1; color: #fff;">smart_toy</span>
-          <span class="ai-chip-label">Atlas AI</span>
-        </a>
       </div>
 
       <!-- Right Actions -->
       <div class="nav-actions">
-        <a href="wishlist.html" class="nav-icon-btn ${isActive('wishlist.html')}" title="My Wishlist" style="position: relative;">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
-          <span data-wishlist-badge class="nav-wish-badge">0</span>
+        <!-- ATLAS AI -->
+        <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai-travel.html')}" title="Atlas AI Trip Architect">
+          <span class="ai-badge">AI</span>
+          <span class="ai-chip-label">Atlas AI</span>
         </a>
-        <a href="booking.html" class="nav-cta">Plan My Trip</a>
+        <a href="booking.html" class="nav-cta">Plan Trip</a>
         <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
           <span></span><span></span><span></span>
         </button>
@@ -293,19 +285,17 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 999;
     background: #ffffff;
     border-bottom: 1px solid rgba(11,31,58,0.08);
-    box-shadow: 0 2px 12px rgba(11,31,58,0.06);
+    box-shadow: 0 1px 8px rgba(11,31,58,0.05);
     transition: all 0.3s ease;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding: 0;
+    height: 52px;
   }
 
   /* Compact state on scroll */
   .site-nav.scrolled {
     background: #ffffff;
     border-bottom: 1px solid rgba(11,31,58,0.1);
-    box-shadow: 0 4px 20px rgba(11,31,58,0.10);
-    padding-top: 2px;
-    padding-bottom: 2px;
+    box-shadow: 0 2px 14px rgba(11,31,58,0.08);
   }
 
   .site-nav.scrolled .nav-logo-img {
@@ -335,14 +325,14 @@
   }
 
   .nav-inner {
-    max-width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
-    height: 56px;
-    gap: 6px;
+    padding: 0 14px;
+    height: 52px;
+    gap: 8px;
     box-sizing: border-box;
   }
   .nav-logo {
@@ -356,16 +346,16 @@
   .nav-logo:hover { opacity: 0.92; }
 
   .nav-logo-img {
-    height: 36px;
+    height: 32px;
     width: auto;
-    max-width: 160px;
+    max-width: 145px;
     object-fit: contain;
     border-radius: 6px;
-    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.1));
-    transition: transform 0.25s ease;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.08));
+    transition: transform 0.2s ease;
   }
   .nav-logo:hover .nav-logo-img {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
 
   .nav-links {
@@ -374,7 +364,6 @@
     gap: 2px;
     flex-wrap: nowrap;
     flex-shrink: 1;
-    min-width: 0;
   }
   .nav-link {
     color: #0F172A;
@@ -382,18 +371,18 @@
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    padding: 5px 6px;
-    border-radius: 6px;
-    transition: all 0.18s ease;
+    padding: 4px 6px;
+    border-radius: 5px;
+    transition: all 0.15s ease;
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.01em;
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
   }
   .nav-link .material-symbols-outlined {
-    font-size: 14px !important;
+    font-size: 13px !important;
     margin-left: -2px;
   }
   .nav-link:hover {
