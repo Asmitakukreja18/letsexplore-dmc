@@ -423,9 +423,19 @@
     transform: translateY(0);
   }
 
+  /* Right-align dropdowns on the right half of the navbar */
+  .nav-dropdown-wrap:nth-child(n+4) .mega-menu-wide {
+    left: auto;
+    right: 0;
+  }
+  .nav-dropdown-wrap:nth-child(n+6) .nav-dropdown-menu:not(.mega-menu-wide) {
+    left: auto;
+    right: 0;
+  }
+
   /* Mega Menu Wide Layout (Kesari Style) */
   .mega-menu-wide {
-    width: 680px !important;
+    width: 650px !important;
     padding: 0 !important;
     overflow: hidden;
   }
