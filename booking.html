@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Book Your Journey · Let's Explore DMC</title>
-<meta name="description" content="Secure your handcrafted travel package. Transparent pricing, 100% refundable up to 45 days, with Let's Explore DMC — Amravati's most trusted travel architects."/>
+<title>Customise &amp; Book Your Journey | Let's Explore DMC</title>
+<meta name="description" content="Customise your handcrafted travel package with Let's Explore DMC. Transparent wholesale pricing, direct ground operations in Turkey, Bali, Georgia, Dubai, Thailand &amp; more."/>
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,13 +42,13 @@ tailwind.config = {
         'eyebrow': ['0.7rem', { letterSpacing: '0.28em', fontWeight: '600' }],
       },
       keyframes: {
-        kenBurns: { '0%': { transform: 'scale(1) translate(0,0)' }, '100%': { transform: 'scale(1.22) translate(-2%, -1.5%)' } },
-        fadeUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        kenBurns: { '0%': { transform: 'scale(1) translate(0,0)' }, '100%': { transform: 'scale(1.15) translate(-1%, -1%)' } },
+        fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
         shimmer: { '0%': { backgroundPosition: '200% 0' }, '100%': { backgroundPosition: '-200% 0' } },
       },
       animation: {
-        kenBurns: 'kenBurns 28s ease-in-out infinite alternate',
-        fadeUp: 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
+        kenBurns: 'kenBurns 24s ease-in-out infinite alternate',
+        fadeUp: 'fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both',
         shimmer: 'shimmer 2.4s linear infinite',
       },
     }
@@ -60,29 +60,18 @@ tailwind.config = {
 .material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align: middle; }
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.22s ease-out, transform 0.22s ease-out; will-change: opacity, transform; }
 .reveal.in-view { opacity: 1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.04s; }
-.reveal-delay-2 { transition-delay: 0.08s; }
-.reveal-delay-3 { transition-delay: 0.12s; }
-.reveal-delay-4 { transition-delay: 0.32s; }
-.reveal-delay-5 { transition-delay: 0.40s; }
 .btn-premium { position: relative; overflow: hidden; isolation: isolate; }
 .btn-premium::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.32) 50%, transparent 70%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s; z-index: -1; }
 .btn-premium:hover::before { opacity: 1; animation: shimmer 2.4s linear infinite; }
-.glass-card { background: rgba(255,255,255,0.88); backdrop-filter: blur(14px); border: 1px solid rgba(11,31,58,0.06); }
-.sticky-book { position: sticky; top: 110px; }
-.tile-hover { transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
-.tile-hover:hover { box-shadow: 0 30px 60px -20px rgba(11,31,58,0.22); transform: translateY(-6px); }
+.glass-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(14px); border: 1px solid rgba(11,31,58,0.08); }
+.sticky-book { position: sticky; top: 90px; }
+.tile-hover { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.tile-hover:hover { box-shadow: 0 20px 45px -15px rgba(11,31,58,0.18); transform: translateY(-4px); }
 .form-field { transition: all 0.25s ease; }
-.form-field:focus { box-shadow: 0 0 0 4px rgba(244,162,97,0.14); border-color: rgba(244,162,97,0.5) !important; }
-.included-badge { transition: all 0.3s; }
-.included-badge:hover { transform: translateX(4px); }
-.step-dot.active { background: #F4A261; border-color: #F4A261; color: #fff; }
-.stepper-line.done { background: linear-gradient(90deg, #16a34a, #16a34a); }
-::selection { background: rgba(244,162,97,0.35); color: #0B1F3A; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #F1F5F9; }
-::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: #0B1F3A; }
+.form-field:focus { box-shadow: 0 0 0 4px rgba(244,162,97,0.18); border-color: rgba(244,162,97,0.8) !important; background: #ffffff !important; }
+.dest-chip { transition: all 0.25s ease; cursor: pointer; }
+.dest-chip.active { background: #0B1F3A !important; color: #ffffff !important; border-color: #0B1F3A !important; box-shadow: 0 6px 18px -4px rgba(11,31,58,0.35); }
+.dest-chip.active .chip-tag { background: #F4A261; color: #0B1F3A; }
 </style>
 </head>
 <body class="bg-sand font-sans text-ink overflow-x-hidden antialiased">
@@ -90,439 +79,226 @@ tailwind.config = {
 <main class="pt-0">
 
 <!-- ============ HERO CINEMATIC ============ -->
-<section class="relative h-[60vh] min-h-[460px] w-full overflow-hidden">
-  <div class="absolute inset-0 -z-2 animate-kenBurns" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80'); background-size:cover; background-position:center;"></div>
+<section class="relative min-h-[520px] w-full overflow-hidden flex flex-col justify-center">
+  <div id="hero-bg" class="absolute inset-0 -z-2 animate-kenBurns" style="background-image:url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=2000&q=85'); background-size:cover; background-position:center;"></div>
   <div class="absolute inset-0 -z-1" style="background:
     radial-gradient(ellipse 60% 50% at 80% 20%, rgba(244,162,97,0.24) 0%, transparent 55%),
     radial-gradient(ellipse 60% 50% at 20% 90%, rgba(30,136,229,0.18) 0%, transparent 55%),
-    linear-gradient(180deg, rgba(11,31,58,0.52) 0%, rgba(11,31,58,0.68) 55%, rgba(11,31,58,0.88) 100%);">
+    linear-gradient(180deg, rgba(11,31,58,0.45) 0%, rgba(11,31,58,0.65) 55%, rgba(11,31,58,0.92) 100%);">
   </div>
 
-  <div class="relative h-full max-w-7xl mx-auto px-6 md:px-16 flex flex-col justify-center pb-12 text-white">
-    <div class="flex items-center gap-3 mb-5 text-sm text-white/70" style="animation: fadeUp .9s .1s both;">
+  <div class="relative max-w-7xl mx-auto px-6 md:px-16 w-full pt-28 pb-12 text-white">
+    <div class="flex items-center gap-3 mb-4 text-sm text-white/80 animate-fadeUp">
       <a href="home.html" class="hover:text-sunset transition-colors">Home</a>
       <span class="material-symbols-outlined text-base opacity-50">chevron_right</span>
       <a href="deals.html" class="hover:text-sunset transition-colors">Packages</a>
       <span class="material-symbols-outlined text-base opacity-50">chevron_right</span>
-      <a href="turkey-package.html" class="hover:text-sunset transition-colors">Turkey Escape</a>
-      <span class="material-symbols-outlined text-base opacity-50">chevron_right</span>
-      <span class="text-white font-medium">Booking</span>
+      <span id="crumb-dest" class="text-sunset font-medium">Customise Journey</span>
     </div>
 
-    <!-- Stepper -->
-    <div class="flex items-center gap-4 mb-8" style="animation: fadeUp .9s .24s both;">
-      <div class="flex items-center gap-3">
-        <div class="step-dot w-10 h-10 rounded-full bg-white text-navy flex items-center justify-center font-bold border-2 border-white">1</div>
-        <span class="font-sans text-sm font-semibold hidden sm:block">Review</span>
-      </div>
-      <div class="stepper-line w-10 md:w-20 h-0.5 bg-white/25"></div>
-      <div class="flex items-center gap-3">
-        <div class="step-dot w-10 h-10 rounded-full border-2 border-white/50 text-white/60 flex items-center justify-center font-bold">2</div>
-        <span class="font-sans text-sm text-white/50 hidden sm:block">Details</span>
-      </div>
-      <div class="stepper-line w-10 md:w-20 h-0.5 bg-white/15"></div>
-      <div class="flex items-center gap-3">
-        <div class="step-dot w-10 h-10 rounded-full border-2 border-white/30 text-white/40 flex items-center justify-center font-bold">3</div>
-        <span class="font-sans text-sm text-white/40 hidden sm:block">Payment</span>
-      </div>
-    </div>
+    <span class="font-sans text-eyebrow uppercase text-sunset mb-3 block tracking-widest animate-fadeUp">
+      <span class="material-symbols-outlined text-[13px] align-middle mr-1.5">auto_awesome</span>
+      Direct DMC Wholesale Pricing · 100% Handcrafted
+    </span>
 
-    <span class="font-sans text-eyebrow uppercase text-sunset mb-5 tracking-widest" style="animation: fadeUp .9s .36s both;"><span class="material-symbols-outlined text-[11px] align-middle mr-1.5">verified_user</span> Secure Checkout</span>
-    <h1 class="font-display font-medium leading-[0.98] tracking-tight" style="font-size:clamp(2rem, 4.5vw, 4rem); animation: fadeUp .9s .48s both;">
-      Just one step away from<br>
-      <span class="italic font-serif text-white/88 font-normal">your Turkey sunrise.</span>
+    <h1 id="hero-title" class="font-display font-medium leading-[1.02] tracking-tight mb-4 text-3xl md:text-5xl lg:text-6xl animate-fadeUp">
+      Customise your dream<br>
+      <span id="hero-subtitle" class="italic font-serif text-sunset font-normal">Turkey Escape &amp; Wonders</span>
     </h1>
+    <p id="hero-tagline" class="font-serif italic text-lg text-white/85 max-w-2xl mb-8 animate-fadeUp">
+      Cave suites &amp; sunrise hot air balloons in Cappadocia with private ground chauffeur.
+    </p>
+
+    <!-- Quick Destination Switcher Pills -->
+    <div class="animate-fadeUp">
+      <span class="text-xs uppercase tracking-wider text-white/70 font-bold block mb-3">Choose Destination to Customise:</span>
+      <div class="flex flex-wrap gap-2.5" id="dest-pill-container">
+        <!-- Injected dynamically by JS -->
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============ BOOKING CONTENT GRID ============ -->
-<section class="py-20 md:py-28 bg-sand">
+<section class="py-12 md:py-20 bg-sand">
   <div class="max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-    <!-- LEFT MAIN (7col) -->
-    <div class="lg:col-span-7 space-y-10">
+    <!-- LEFT MAIN FORM (7 cols) -->
+    <div class="lg:col-span-7 space-y-8">
 
       <!-- PACKAGE SUMMARY CARD -->
       <div class="reveal glass-card rounded-[28px] p-6 md:p-8 tile-hover">
         <div class="flex flex-col md:flex-row gap-6 md:gap-8">
           <div class="w-full md:w-2/5 aspect-[5/4] rounded-[20px] overflow-hidden shrink-0 relative">
-            <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80" alt="Turkey Escape Cappadocia" loading="eager"/>
-            <div class="absolute top-4 left-4 bg-navy/90 backdrop-blur text-white font-sans text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5"><span class="material-symbols-outlined text-[13px]">flight</span>Turkey</div>
-          </div>
-          <div class="flex-grow">
-            <div class="flex items-start justify-between mb-3">
-              <div>
-                <h2 class="font-display text-3xl font-medium text-navy leading-tight mb-2">Turkey Escape &amp; Wonders</h2>
-                <div class="flex items-center gap-2">
-                  <div class="flex gap-0.5 text-sunset">
-                    <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">star</span>
-                    <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">star</span>
-                    <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">star</span>
-                    <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">star</span>
-                    <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">star</span>
-                  </div>
-                  <span class="font-serif italic text-base text-fog">4.9 · 2,847 travellers</span>
-                </div>
-              </div>
-              <a href="turkey-package.html" class="font-sans text-xs font-bold tracking-widest uppercase text-ocean hover:text-sunset transition-colors shrink-0">↻ Modify</a>
+            <img id="pkg-card-img" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80" alt="Destination Preview"/>
+            <div id="pkg-card-badge" class="absolute top-4 left-4 bg-navy/90 backdrop-blur text-white font-sans text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow">
+              <span class="material-symbols-outlined text-[13px]">flight</span>
+              <span id="pkg-badge-text">Turkey</span>
             </div>
-            <p class="font-serif italic text-lg text-ink/65 leading-relaxed mb-5">5 days of fairy chimneys, silk roads, Bosphorus sunsets — and one morning that'll make your Instagram 100x better.</p>
+          </div>
 
-            <div class="grid grid-cols-2 gap-x-6 gap-y-4 mb-5">
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-ocean/10 text-ocean flex items-center justify-center"><span class="material-symbols-outlined text-lg">calendar_month</span></span>
-                <div>
-                  <div class="font-sans text-[10px] uppercase tracking-widest text-fog font-bold mb-0.5">Duration</div>
-                  <div class="font-display text-navy font-semibold">5D / 4N</div>
-                </div>
+          <div class="flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="font-sans text-[11px] font-bold uppercase tracking-wider text-sunset bg-sunset/15 px-2.5 py-0.5 rounded-full">DMC Direct</span>
+                <span id="pkg-duration" class="font-sans text-[11px] font-semibold text-fog">5 Days / 4 Nights</span>
               </div>
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-sunset/10 text-sunset flex items-center justify-center"><span class="material-symbols-outlined text-lg">group</span></span>
-                <div>
-                  <div class="font-sans text-[10px] uppercase tracking-widest text-fog font-bold mb-0.5">Travellers</div>
-                  <div class="font-display text-navy font-semibold" id="traveller-count-display">2 Adults</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-forest/10 text-forest flex items-center justify-center"><span class="material-symbols-outlined text-lg">event_available</span></span>
-                <div>
-                  <div class="font-sans text-[10px] uppercase tracking-widest text-fog font-bold mb-0.5">Departs</div>
-                  <div class="font-display text-navy font-semibold">15 Apr 2026</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-navy/10 text-navy flex items-center justify-center"><span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">workspace_premium</span></span>
-                <div>
-                  <div class="font-sans text-[10px] uppercase tracking-widest text-fog font-bold mb-0.5">Status</div>
-                  <div class="font-display text-forest font-semibold">Verified Route</div>
-                </div>
-              </div>
+              <h2 id="pkg-card-name" class="font-display text-2xl md:text-3xl font-bold text-navy leading-tight mb-2">
+                Turkey Escape &amp; Wonders
+              </h2>
+              <p id="pkg-card-desc" class="font-serif italic text-fog text-sm leading-relaxed mb-4">
+                Cave suites &amp; sunrise hot air balloons in Cappadocia with 24/7 dedicated local concierge.
+              </p>
             </div>
 
             <!-- Inclusions strip -->
-            <div class="pt-5 border-t border-navy/8">
-              <div class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold mb-3">Your Premium Inclusions</div>
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div class="included-badge flex items-center gap-2 text-sm text-ink/70"><span class="material-symbols-outlined text-ocean text-base" style="font-variation-settings:'FILL'1">hotel</span> 5★ Hotels</div>
-                <div class="included-badge flex items-center gap-2 text-sm text-ink/70"><span class="material-symbols-outlined text-ocean text-base" style="font-variation-settings:'FILL'1">local_taxi</span> Pvt Chauffeur</div>
-                <div class="included-badge flex items-center gap-2 text-sm text-ink/70"><span class="material-symbols-outlined text-ocean text-base" style="font-variation-settings:'FILL'1">restaurant</span> Breakfast + 2 Dinners</div>
-                <div class="included-badge flex items-center gap-2 text-sm text-ink/70"><span class="material-symbols-outlined text-ocean text-base" style="font-variation-settings:'FILL'1">tour</span> English Guide</div>
+            <div class="pt-4 border-t border-navy/8">
+              <div class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold mb-2.5">Included Ground Services</div>
+              <div id="pkg-inclusions-grid" class="grid grid-cols-2 gap-2 text-xs font-medium text-navy/80">
+                <!-- Dynamic inclusions -->
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TRAVELLER DETAILS -->
-      <div class="reveal reveal-delay-1 glass-card rounded-[28px] p-6 md:p-8 relative overflow-hidden">
-        <div class="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-ocean/8 blur-3xl pointer-events-none"></div>
-        <div class="relative">
-          <div class="flex items-center gap-3 mb-8">
-            <div class="w-12 h-12 rounded-2xl bg-sunset/12 text-sunset flex items-center justify-center">
-              <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">person</span>
-            </div>
-            <div>
-              <div class="font-sans text-eyebrow uppercase text-ocean tracking-widest mb-1">Step 02</div>
-              <h3 class="font-display text-3xl font-medium text-navy leading-tight">Your details, please.</h3>
-            </div>
+      <!-- TRAVELLER & TRIP CUSTOMIZATION DETAILS -->
+      <div class="reveal glass-card rounded-[28px] p-6 md:p-8 relative overflow-hidden">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-12 h-12 rounded-2xl bg-sunset/15 text-sunset flex items-center justify-center">
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">edit_calendar</span>
           </div>
+          <div>
+            <div class="font-sans text-eyebrow uppercase text-ocean tracking-widest mb-1">Step 02</div>
+            <h3 class="font-display text-2xl md:text-3xl font-bold text-navy leading-tight">Your Travel Specifications</h3>
+          </div>
+        </div>
 
+        <form id="customise-form" onsubmit="event.preventDefault(); submitBooking();" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">Full Name *</label>
-              <input id="bk-name" required style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-semibold placeholder:text-gray-400 focus:bg-white focus:border-sunset outline-none text-base shadow-sm" placeholder="Rahul Sharma" type="text">
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Full Name *</label>
+              <input id="bk-name" required class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-semibold placeholder:text-gray-400 outline-none text-sm shadow-sm" placeholder="e.g. Rahul Sharma" type="text">
             </div>
             <div>
-              <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">Email Address *</label>
-              <input id="bk-email" required style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-semibold placeholder:text-gray-400 focus:bg-white focus:border-sunset outline-none text-base shadow-sm" placeholder="rahul@example.com" type="email">
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Phone / WhatsApp *</label>
+              <input id="bk-phone" required class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-semibold placeholder:text-gray-400 outline-none text-sm shadow-sm" placeholder="+91 98765 43210" type="tel">
             </div>
             <div>
-              <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">Phone / WhatsApp *</label>
-              <input id="bk-phone" required style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-semibold placeholder:text-gray-400 focus:bg-white focus:border-sunset outline-none text-base shadow-sm" placeholder="+91 98765 43210" type="tel">
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Email Address</label>
+              <input id="bk-email" class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-semibold placeholder:text-gray-400 outline-none text-sm shadow-sm" placeholder="rahul@example.com" type="email">
             </div>
             <div>
-              <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">Preferred Departure *</label>
-              <input id="bk-date" required style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-semibold focus:bg-white focus:border-sunset outline-none text-base shadow-sm" type="date" value="2026-04-15">
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Approx Travel Date *</label>
+              <input id="bk-date" required class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-semibold outline-none text-sm shadow-sm" type="date">
             </div>
             <div>
-              <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">No. of Travellers</label>
-              <select id="bk-travellers" onchange="updateTravellers()" style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-semibold focus:bg-white focus:border-sunset outline-none text-base shadow-sm appearance-none">
-                <option value="2" selected>2 Adults</option>
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Number of Travellers</label>
+              <select id="bk-travellers" onchange="updateTravellers()" class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-semibold outline-none text-sm shadow-sm appearance-none cursor-pointer">
+                <option value="1">1 Solo Traveller</option>
+                <option value="2" selected>2 Adults (Couple / Friends)</option>
                 <option value="3">3 Adults</option>
-                <option value="4">4 Adults (Family)</option>
-                <option value="5">5+ (Group — get a call)</option>
+                <option value="4">4 Persons (Family Group)</option>
+                <option value="5">5+ Persons (Private VIP Group)</option>
               </select>
             </div>
             <div>
-              <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">Room Preference</label>
-              <select style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-semibold focus:bg-white focus:border-sunset outline-none text-base shadow-sm appearance-none">
-                <option>Twin / Double (Standard)</option>
-                <option>King Bed (Subject to avail)</option>
-                <option>Connecting Rooms (Family)</option>
-                <option>Upgrade: Sea/Bosphorus View +₹8,500</option>
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Travel Vibe / Stay Style</label>
+              <select id="bk-vibe" class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-semibold outline-none text-sm shadow-sm appearance-none cursor-pointer">
+                <option selected>Luxury 4★/5★ Boutique Stays</option>
+                <option>Honeymoon Special (Romantic Perks)</option>
+                <option>Family Friendly (Connecting Rooms)</option>
+                <option>Adventure &amp; Scenic Sightseeing</option>
+                <option>Budget-Friendly Direct Wholesale</option>
               </select>
             </div>
           </div>
 
-          <!-- Addons -->
-          <div class="mt-10 pt-8 border-t border-navy/8">
-            <div class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold mb-4">Optional Extras — pick one or more</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <label class="cursor-pointer group">
-                <input type="checkbox" id="addon-balloon" onchange="calcTotal()" class="peer sr-only"/>
-                <div class="p-5 rounded-2xl border border-navy/10 bg-white peer-checked:border-sunset peer-checked:bg-sunset/5 transition-all flex items-start justify-between gap-4 group-hover:border-sunset/50">
-                  <div>
-                    <div class="flex items-center gap-2 font-display text-xl font-semibold text-navy"><span class="material-symbols-outlined text-base">balloon</span>Hot Air Balloon</div>
-                    <div class="font-serif italic text-sm text-fog mt-1">Cappadocia sunrise — 1hr licensed flight</div>
-                  </div>
-                  <div class="text-right shrink-0">
-                    <div class="font-display text-navy font-bold text-lg">+₹18,500</div>
-                    <div class="font-sans text-[10px] text-fog uppercase">/person</div>
-                  </div>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="checkbox" id="addon-flights" onchange="calcTotal()" class="peer sr-only"/>
-                <div class="p-5 rounded-2xl border border-navy/10 bg-white peer-checked:border-sunset peer-checked:bg-sunset/5 transition-all flex items-start justify-between gap-4 group-hover:border-sunset/50">
-                  <div>
-                    <div class="flex items-center gap-2 font-display text-xl font-semibold text-navy"><span class="material-symbols-outlined text-base">flight</span>India–Istanbul Flights</div>
-                    <div class="font-serif italic text-sm text-fog mt-1">Delhi/Mumbai — return, economy</div>
-                  </div>
-                  <div class="text-right shrink-0">
-                    <div class="font-display text-navy font-bold text-lg">+₹22,500</div>
-                    <div class="font-sans text-[10px] text-fog uppercase">/person</div>
-                  </div>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="checkbox" id="addon-visa" onchange="calcTotal()" class="peer sr-only"/>
-                <div class="p-5 rounded-2xl border border-navy/10 bg-white peer-checked:border-sunset peer-checked:bg-sunset/5 transition-all flex items-start justify-between gap-4 group-hover:border-sunset/50">
-                  <div>
-                    <div class="flex items-center gap-2 font-display text-xl font-semibold text-navy"><span class="material-symbols-outlined text-base">passport</span>Turkish e-Visa</div>
-                    <div class="font-serif italic text-sm text-fog mt-1">We handle everything — you just get it in inbox</div>
-                  </div>
-                  <div class="text-right shrink-0">
-                    <div class="font-display text-navy font-bold text-lg">+₹4,200</div>
-                    <div class="font-sans text-[10px] text-fog uppercase">/person</div>
-                  </div>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="checkbox" id="addon-insurance" onchange="calcTotal()" class="peer sr-only"/>
-                <div class="p-5 rounded-2xl border border-navy/10 bg-white peer-checked:border-sunset peer-checked:bg-sunset/5 transition-all flex items-start justify-between gap-4 group-hover:border-sunset/50">
-                  <div>
-                    <div class="font-display text-xl font-semibold text-navy flex items-center gap-2"><span class="material-symbols-outlined text-forest">health_and_safety</span>Travel Insurance</div>
-                    <div class="font-serif italic text-sm text-fog mt-1">$50,000 cover — medical, trip cancel, lost bags</div>
-                  </div>
-                  <div class="text-right shrink-0">
-                    <div class="font-display text-navy font-bold text-lg">+₹1,800</div>
-                    <div class="font-sans text-[10px] text-fog uppercase">/person</div>
-                  </div>
-                </div>
-              </label>
+          <!-- DYNAMIC ADDONS -->
+          <div class="pt-6 border-t border-navy/8">
+            <div class="font-sans text-xs uppercase tracking-widest text-fog font-bold mb-4">Select Optional Custom Add-ons:</div>
+            <div id="dynamic-addons-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <!-- Rendered dynamically based on destination -->
             </div>
           </div>
 
-          <!-- Special requests -->
-          <div class="mt-10">
-            <label class="font-sans text-[11px] uppercase tracking-widest text-fog font-bold block mb-2">Anything special? (Birthday, Honeymoon, dietary…)</label>
-            <textarea rows="3" style="background:#F7F7F7; color:#0F172A;" class="form-field w-full bg-[#F7F7F7] border border-navy/15 rounded-2xl p-4 text-navy-deep font-medium placeholder:text-gray-400 focus:bg-white focus:border-sunset outline-none text-base resize-none shadow-sm" placeholder="Celebrating our anniversary — could use a surprise room upgrade?"></textarea>
+          <!-- Special Requests -->
+          <div>
+            <label class="font-sans text-xs uppercase tracking-widest text-fog font-bold block mb-2">Special Requests / Notes (Optional)</label>
+            <textarea id="bk-notes" rows="2" class="form-field w-full bg-[#F8FAFC] border border-navy/15 rounded-2xl p-4 text-navy font-medium placeholder:text-gray-400 outline-none text-sm resize-none shadow-sm" placeholder="e.g. Vegetarian food preferences, airport chauffeur timing, anniversary celebration…"></textarea>
           </div>
-        </div>
-      </div>
-
-      <!-- WHAT HAPPENS NEXT -->
-      <div class="reveal reveal-delay-2 rounded-[28px] overflow-hidden relative text-white p-8 md:p-10" style="background:
-        radial-gradient(ellipse 60% 80% at 0% 0%, rgba(244,162,97,0.22) 0%, transparent 55%),
-        linear-gradient(140deg, #07152A 0%, #0B1F3A 80%);">
-        <div class="absolute -right-16 -top-16 w-52 h-52 rounded-full bg-sunset/15 blur-3xl pointer-events-none"></div>
-        <div class="relative">
-          <div class="font-sans text-eyebrow uppercase text-sunset tracking-widest mb-4">After you hit submit</div>
-          <h3 class="font-display font-medium text-clamp-sm mb-10 leading-[1.05]">What happens <span class="italic font-serif text-white/70 font-normal">next.</span></h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <div>
-              <div class="w-12 h-12 rounded-2xl bg-white/7 text-ocean flex items-center justify-center mb-4 border border-white/10 font-display text-xl font-bold">01</div>
-              <div class="font-display text-xl font-semibold mb-2">Instant Confirmation</div>
-              <p class="font-serif italic text-base text-white/60 leading-relaxed">We lock your seats. WhatsApp + email with booking ID arrive in 30 seconds.</p>
-            </div>
-            <div>
-              <div class="w-12 h-12 rounded-2xl bg-white/7 text-sunset flex items-center justify-center mb-4 border border-white/10 font-display text-xl font-bold">02</div>
-              <div class="font-display text-xl font-semibold mb-2">Architect Calls You</div>
-              <p class="font-serif italic text-base text-white/60 leading-relaxed">A real human architect calls within 2 business hours to fine-tune every detail.</p>
-            </div>
-            <div>
-              <div class="w-12 h-12 rounded-2xl bg-white/7 text-forest flex items-center justify-center mb-4 border border-white/10 font-display text-xl font-bold">03</div>
-              <div class="font-display text-xl font-semibold mb-2">Pay Only ₹15K</div>
-              <p class="font-serif italic text-base text-white/60 leading-relaxed">Hold with a 25% deposit. Balance due 15 days before. Fully refundable.</p>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
 
     </div>
 
-    <!-- RIGHT STICKY SIDEBAR (5col) -->
+    <!-- RIGHT STICKY SIDEBAR (5 cols) -->
     <aside class="lg:col-span-5 relative">
       <div class="sticky-book space-y-6">
 
         <!-- PRICE SUMMARY GLASS CARD -->
-        <div class="reveal reveal-delay-1 rounded-[28px] p-8 shadow-2xl shadow-navy/10 relative overflow-hidden glass-card">
-          <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-sunset/20 blur-3xl pointer-events-none"></div>
-          
-          <!-- Selling fast badge -->
-          <div class="mb-4">
-            <span class="inline-flex items-center gap-1.5 bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/20 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-              <span class="w-2 h-2 rounded-full bg-[#EF4444] animate-ping"></span>
-              🔥 Only 5 Seats Left
+        <div class="glass-card rounded-[28px] p-6 md:p-8 shadow-xl relative overflow-hidden border border-navy/10">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <div class="font-sans text-xs uppercase tracking-widest text-fog font-bold mb-0.5">Estimated DMC Rate</div>
+              <div class="font-serif italic text-xs text-fog">Direct Ground Wholesale (No 3rd-party fee)</div>
+            </div>
+            <span class="inline-flex items-center gap-1 bg-forest/10 text-forest px-3 py-1 rounded-full text-xs font-bold">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Best Price
             </span>
           </div>
 
-          <div class="relative">
-            <div class="flex items-center justify-between mb-6">
-              <div>
-                <div class="font-sans text-xs uppercase tracking-widest text-fog font-bold mb-1">Payment Summary</div>
-                <div class="font-serif italic text-base text-ink/55">All taxes included · GST extra as per govt</div>
-              </div>
-              <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wide">
-                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">verified</span>
-                Best Price
-              </span>
-            </div>
-
-            <!-- Price lines -->
-            <div class="space-y-3.5 mb-6">
-              <div class="flex justify-between items-end">
-                <div>
-                  <div class="flex items-center gap-1.5 font-sans text-sm text-navy font-medium">Package Base (2 Adults)</div>
-                  <div class="font-serif italic text-xs text-fog">₹42,999 × 2 persons</div>
-                </div>
-                <div class="font-display text-navy text-xl font-semibold" id="line-base">₹85,998</div>
-              </div>
-              <div class="flex justify-between items-end" id="line-balloon-row" style="display:none;">
-                <div>
-                  <div class="flex items-center gap-1.5 font-sans text-sm text-navy font-medium"><span class="material-symbols-outlined text-base">balloon</span>Hot Air Balloon</div>
-                  <div class="font-serif italic text-xs text-fog">Sunrise flight × 2</div>
-                </div>
-                <div class="font-display text-navy text-xl font-semibold" id="line-balloon">₹37,000</div>
-              </div>
-              <div class="flex justify-between items-end" id="line-flights-row" style="display:none;">
-                <div>
-                  <div class="flex items-center gap-1.5 font-sans text-sm text-navy font-medium"><span class="material-symbols-outlined text-base">flight</span>Return Flights</div>
-                  <div class="font-serif italic text-xs text-fog">India → Istanbul × 2</div>
-                </div>
-                <div class="font-display text-navy text-xl font-semibold" id="line-flights">₹45,000</div>
-              </div>
-              <div class="flex justify-between items-end" id="line-visa-row" style="display:none;">
-                <div>
-                  <div class="flex items-center gap-1.5 font-sans text-sm text-navy font-medium"><span class="material-symbols-outlined text-base">passport</span>e-Visa Service</div>
-                  <div class="font-serif italic text-xs text-fog">Full assistance × 2</div>
-                </div>
-                <div class="font-display text-navy text-xl font-semibold" id="line-visa">₹8,400</div>
-              </div>
-              <div class="flex justify-between items-end" id="line-insurance-row" style="display:none;">
-                <div>
-                  <div class="font-sans text-sm text-navy font-medium flex items-center gap-1.5"><span class="material-symbols-outlined text-forest text-base">health_and_safety</span>Travel Insurance</div>
-                  <div class="font-serif italic text-xs text-fog">$50K cover × 2</div>
-                </div>
-                <div class="font-display text-navy text-xl font-semibold" id="line-insurance">₹3,600</div>
-              </div>
-            </div>
-
-            <div class="h-px w-full bg-navy/10 mb-5"></div>
-
-            <!-- Total -->
-            <div class="flex items-end justify-between mb-5">
-              <div>
-                <div class="font-sans text-xs uppercase tracking-widest text-fog font-bold mb-1">Total Amount Payable</div>
-                <div class="font-serif italic text-xs text-ink/45">4.35% GST &amp; TCS will be added at checkout</div>
-              </div>
-              <div class="font-display leading-none text-navy font-bold text-4xl" id="line-total">₹85,998</div>
-            </div>
-
-            <!-- CTA Buttons -->
-            <div class="space-y-3 pt-2">
-              <button onclick="submitBooking(event)" class="btn-premium w-full flex items-center justify-center gap-2 bg-sunset text-navy-deep py-4 rounded-2xl font-bold tracking-wide hover:bg-[#E8904F] transition-all shadow-xl shadow-sunset/30 text-base">
-                <span class="material-symbols-outlined text-xl">lock</span>
-                Lock Seat — Pay ₹15,000 Only
-              </button>
-
-              <div class="relative flex py-1 items-center">
-                <div class="flex-grow border-t border-navy/10"></div>
-                <span class="flex-shrink mx-3 text-xs font-semibold uppercase tracking-wider text-fog">or pay full</span>
-                <div class="flex-grow border-t border-navy/10"></div>
-              </div>
-
-              <button onclick="submitBooking(event)" class="w-full flex items-center justify-center gap-2 bg-navy text-white py-3.5 rounded-2xl font-bold tracking-wide hover:bg-navy-deep transition-all shadow-lg text-sm">
-                <span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">credit_score</span>
-                Pay Full Amount (₹85,998)
-              </button>
-
-              <div class="border-t border-navy/10 my-3"></div>
-
-              <a href="https://wa.me/918007586871?text=Hi!%20I%20am%20looking%20at%20the%20Turkey%20Escape%20package%20and%20need%20assistance." target="_blank" class="w-full flex items-center justify-center gap-2 bg-[#27AE60] text-white py-3.5 rounded-2xl font-bold tracking-wide hover:bg-[#219653] transition-all shadow-md text-sm">
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                <span>Chat with Tour Concierge</span>
-              </a>
-            </div>
-
-            <p class="text-center font-sans text-[11px] text-fog/80 mt-6 leading-relaxed">
-              100% refundable up to 45 days before departure.<br>
-              Your data is encrypted & never shared.
-            </p>
+          <!-- Destination Name & Price Breakup -->
+          <div class="p-4 rounded-2xl bg-mist/60 border border-ocean/15 mb-5">
+            <div class="font-display text-lg font-bold text-navy mb-1" id="side-pkg-name">Turkey Escape &amp; Wonders</div>
+            <div class="text-xs text-fog" id="side-traveller-label">2 Adults × ₹42,999</div>
           </div>
+
+          <!-- Dynamic Price Line Items -->
+          <div class="space-y-3 mb-6 text-sm" id="side-price-lines">
+            <div class="flex justify-between items-center text-navy">
+              <span>Base Package Rate:</span>
+              <span class="font-bold font-display text-base" id="line-base-price">₹85,998</span>
+            </div>
+            <div id="side-addons-summary" class="space-y-2 pt-2 border-t border-navy/5 text-xs text-fog">
+              <!-- Active addons will render here -->
+            </div>
+          </div>
+
+          <!-- Total Calculation -->
+          <div class="pt-4 border-t border-navy/10 mb-6">
+            <div class="flex justify-between items-baseline mb-1">
+              <span class="font-sans text-xs uppercase tracking-widest text-fog font-bold">Total Estimated:</span>
+              <div class="font-display text-3xl font-bold text-navy" id="total-price-display">₹85,998</div>
+            </div>
+            <p class="text-[11px] text-fog text-right">Includes all ground transfers &amp; hotel taxes</p>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="button" onclick="submitBooking()" class="btn-premium w-full py-4 rounded-2xl bg-sunset text-navy-deep font-bold text-sm tracking-wider uppercase hover:brightness-105 transition shadow-lg flex items-center justify-center gap-2 mb-3">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">send</span>
+            <span>Get Instant Itinerary on WhatsApp</span>
+          </button>
+
+          <p class="text-center text-xs text-fog">
+            ⚡ Direct connection with official Amravati/International desk (+91 80075 86871)
+          </p>
         </div>
 
-        <!-- TRUST ROW -->
-        <div class="reveal reveal-delay-2 flex items-center justify-around px-4 py-5 text-fog">
-          <div class="text-center flex flex-col items-center gap-1.5">
-            <span class="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center"><span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">gpp_good</span></span>
-            <div class="font-sans text-[10px] uppercase tracking-widest font-bold">Secure Pay</div>
+        <!-- TRUST BADGES -->
+        <div class="rounded-2xl p-5 bg-white border border-navy/10 flex items-center justify-between text-xs text-navy/70 font-semibold shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-forest text-lg" style="font-variation-settings:'FILL'1">check_circle</span>
+            <span>Zero Booking Fee</span>
           </div>
-          <div class="w-px h-10 bg-navy/10"></div>
-          <div class="text-center flex flex-col items-center gap-1.5">
-            <span class="w-9 h-9 rounded-full bg-ocean/10 text-ocean flex items-center justify-center"><span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">support_agent</span></span>
-            <div class="font-sans text-[10px] uppercase tracking-widest font-bold">24/7 Expert</div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-ocean text-lg" style="font-variation-settings:'FILL'1">support_agent</span>
+            <span>24/7 Ground Team</span>
           </div>
-          <div class="w-px h-10 bg-navy/10"></div>
-          <div class="text-center flex flex-col items-center gap-1.5">
-            <span class="w-9 h-9 rounded-full bg-sunset/10 text-sunset flex items-center justify-center"><span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">refund</span></span>
-            <div class="font-sans text-[10px] uppercase tracking-widest font-bold">Refundable</div>
-          </div>
-        </div>
-
-        <!-- LICENSES CARD -->
-        <div class="reveal reveal-delay-3 rounded-[28px] p-6 text-white relative overflow-hidden" style="background: linear-gradient(140deg, #07152A 0%, #0B1F3A 100%);">
-          <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-4">
-              <span class="w-10 h-10 rounded-xl bg-white/7 border border-white/12 text-ocean flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">verified_user</span>
-              </span>
-              <div>
-                <div class="font-sans text-xs uppercase tracking-widest text-white/50 font-bold mb-0.5">Licensed &amp; Bonded</div>
-                <div class="font-display text-lg font-semibold leading-tight">IATO · TURSAB · IATA</div>
-              </div>
-            </div>
-            <div class="h-px w-full bg-white/8"></div>
-            <div class="flex items-center gap-4">
-              <span class="w-10 h-10 rounded-xl bg-white/7 border border-white/12 text-sunset flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">flag</span>
-              </span>
-              <div>
-                <div class="font-sans text-xs uppercase tracking-widest text-white/50 font-bold mb-0.5">Dual Country Operations</div>
-                <div class="font-sans text-sm text-white/75">India Booking Office + Turkey Ground Team</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CONCIERGE HELP CARD -->
-        <div class="reveal reveal-delay-4 rounded-[28px] p-6 bg-white border border-navy/5 flex items-center gap-4 tile-hover">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-ocean to-navy flex items-center justify-center text-white shrink-0">
-            <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">support_agent</span>
-          </div>
-          <div>
-            <div class="font-display text-lg font-semibold text-navy leading-tight mb-1">Need a hand?</div>
-            <div class="flex items-center gap-1.5 font-serif italic text-sm text-fog">Our concierge is typing…  +91-8007586871 &nbsp;<span class="material-symbols-outlined text-[14px]" style="color:#1E88E5">call</span></div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-sunset text-lg" style="font-variation-settings:'FILL'1">verified_user</span>
+            <span>100% Direct DMC</span>
           </div>
         </div>
 
@@ -532,132 +308,403 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- ============ BOOKING SUCCESS MODAL ============ -->
+<div id="booking-success-modal" class="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-navy-deep/80 backdrop-blur-md hidden transition-opacity duration-300" style="z-index: 999999 !important;">
+  <div class="bg-white rounded-3xl p-8 max-w-lg w-full text-center shadow-2xl border border-sunset/30 relative">
+    <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-navy text-2xl font-bold">&times;</button>
+    <div class="w-20 h-20 rounded-full bg-forest/15 text-forest mx-auto flex items-center justify-center mb-4 border-2 border-forest/30">
+      <span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL'1">check_circle</span>
+    </div>
+    <span class="inline-block bg-sunset/15 text-sunset px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Custom Request Received</span>
+    <h3 id="modal-title" class="font-display text-2xl md:text-3xl font-bold text-navy mb-2">Thank you!</h3>
+    <p id="modal-desc" class="text-fog text-sm leading-relaxed mb-6">
+      Your customized itinerary request has been prepared. Click below to open WhatsApp and get your day-by-day proposal!
+    </p>
+
+    <div class="space-y-3">
+      <a id="modal-wa-link" href="#" target="_blank" class="w-full py-4 rounded-2xl bg-[#27AE60] text-white font-bold text-sm hover:bg-[#219653] transition shadow-lg flex items-center justify-center gap-2">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>Open WhatsApp Chat Now</span>
+      </a>
+      <button onclick="closeBookingModal()" class="w-full py-3.5 rounded-2xl bg-stone text-navy font-bold text-xs uppercase tracking-wider hover:bg-stone/80 transition">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <script>
-/* Scroll reveal */
-(function () {
-  const els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window) || els.length === 0) {
-    els.forEach(el => el.classList.add('in-view'));
-    return;
+// ==========================================
+// 🌍 GLOBAL DMC DESTINATION CATALOG
+// ==========================================
+const DESTINATIONS = {
+  turkey: {
+    key: "turkey",
+    name: "Turkey Escape & Wonders",
+    country: "Turkey",
+    flag: "🇹🇷",
+    duration: "5 Days / 4 Nights",
+    basePrice: 42999,
+    image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=2000&q=85",
+    tagline: "Cave suites & sunrise hot air balloons in Cappadocia with 24/7 private chauffeur.",
+    inclusions: [
+      "🏨 5★ Cave Resort Stay",
+      "🚗 Private Chauffeur Transfers",
+      "🍳 Daily Breakfast + 2 Dinners",
+      "🧭 Licensed English Guide"
+    ],
+    addons: [
+      { id: "balloon", label: "Hot Air Balloon Flight", desc: "Cappadocia sunrise 1hr flight", price: 18500 },
+      { id: "flights", label: "India-Istanbul Return Flights", desc: "Economy return air tickets", price: 22500 },
+      { id: "visa", label: "Turkish e-Visa Processing", desc: "Direct embassy clearance", price: 4200 },
+      { id: "insurance", label: "Travel Insurance ($50k Cover)", desc: "Medical & cancellation", price: 1800 }
+    ]
+  },
+  georgia: {
+    key: "georgia",
+    name: "Georgia Flash Deal ($300 USD Special)",
+    country: "Georgia",
+    flag: "🇬🇪",
+    duration: "5 Days / 4 Nights",
+    basePrice: 25999,
+    image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=2000&q=85",
+    tagline: "Snowy Kazbegi mountains, Gudauri ski resort & historic Old Tbilisi.",
+    inclusions: [
+      "🏨 4★ Boutique Central Hotel",
+      "🚙 Private 4x4 Mountain Cab",
+      "🍳 Daily Buffet Breakfast",
+      "🏔️ Kazbegi & Gudauri Passes"
+    ],
+    addons: [
+      { id: "ski", label: "Gudauri Ski & Snowmobile Pass", desc: "Full-day snow adventure", price: 6500 },
+      { id: "flights", label: "International Flights Assistance", desc: "Tbilisi return tickets", price: 24500 },
+      { id: "visa", label: "Georgia e-Visa & Docs", desc: "Fast approval assistance", price: 3500 },
+      { id: "insurance", label: "Travel Insurance ($50k Cover)", desc: "Medical & trip insurance", price: 1800 }
+    ]
+  },
+  bali: {
+    key: "bali",
+    name: "Bali Island Luxury & Nusa Penida",
+    country: "Bali",
+    flag: "🏝️",
+    duration: "6 Days / 5 Nights",
+    basePrice: 48999,
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2000&q=85",
+    tagline: "Private pool villas in Ubud, Nusa Penida speedboats & Mt. Batur sunrise safari.",
+    inclusions: [
+      "🏡 5★ Private Pool Villa in Ubud",
+      "🚗 Dedicated 24/7 Chauffeur",
+      "🍽️ Floating Breakfast & Dinners",
+      "🛥️ Nusa Penida Speedboat Tour"
+    ],
+    addons: [
+      { id: "jeep", label: "Mt. Batur Sunrise 4x4 Jeep Tour", desc: "Volcano sunrise + hot springs", price: 4500 },
+      { id: "flights", label: "Return Flights (Bali Denpasar)", desc: "Direct connecting flights", price: 28500 },
+      { id: "visa", label: "Bali Visa On Arrival & e-VOA", desc: "Airport fast-track", price: 3200 },
+      { id: "insurance", label: "Travel Insurance ($50k Cover)", desc: "Full health & baggage cover", price: 1800 }
+    ]
+  },
+  dubai: {
+    key: "dubai",
+    name: "Dubai Grand Luxury Experience",
+    country: "Dubai",
+    flag: "🏙️",
+    duration: "5 Days / 4 Nights",
+    basePrice: 34999,
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2000&q=85",
+    tagline: "Burj Khalifa 124th floor, Desert Safari BBQ & Marina Dhow Cruise.",
+    inclusions: [
+      "🏨 4★/5★ Central Luxury Hotel",
+      "🚙 Private Airport Transfers",
+      "🏜️ Desert Safari + BBQ Dinner",
+      "🗼 Burj Khalifa Observatory"
+    ],
+    addons: [
+      { id: "yacht", label: "Private Marina Sunset Yacht Cruise", desc: "2-hour luxury cruise", price: 5500 },
+      { id: "flights", label: "Return Flights to Dubai", desc: "Direct flight tickets", price: 21500 },
+      { id: "visa", label: "Dubai 30-Day Express Visa", desc: "Approval in 48 hours", price: 6800 },
+      { id: "insurance", label: "Travel Insurance ($50k Cover)", desc: "Medical & trip cover", price: 1800 }
+    ]
+  },
+  thailand: {
+    key: "thailand",
+    name: "Thailand Island Hopper (Phuket & Krabi)",
+    country: "Thailand",
+    flag: "🇹🇭",
+    duration: "5 Days / 4 Nights",
+    basePrice: 28999,
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=2000&q=85",
+    tagline: "4-Island speedboat tours, luxury beach resorts & Bangkok shopping.",
+    inclusions: [
+      "🏖️ 4★ Beachfront Resort",
+      "🚐 Private AC Island Transfers",
+      "🚤 4-Island Speedboat Tour",
+      "🍳 Daily Buffet Breakfast"
+    ],
+    addons: [
+      { id: "phiphi", label: "Phi Phi & Maya Bay Speedboat Tour", desc: "Snorkeling + buffet lunch", price: 3800 },
+      { id: "flights", label: "Return Flights to Bangkok/Phuket", desc: "Return tickets", price: 19500 },
+      { id: "visa", label: "Thailand Visa On Arrival Support", desc: "Express clearance", price: 2500 },
+      { id: "insurance", label: "Travel Insurance ($50k Cover)", desc: "Full cover", price: 1800 }
+    ]
+  },
+  vietnam: {
+    key: "vietnam",
+    name: "Vietnam Scenic Wonder & Halong Bay",
+    country: "Vietnam",
+    flag: "🇻🇳",
+    duration: "7 Days / 6 Nights",
+    basePrice: 49999,
+    image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=2000&q=85",
+    tagline: "5★ Halong Bay overnight cruise, Da Nang Golden Bridge & Hanoi culture.",
+    inclusions: [
+      "🚢 5★ Halong Bay Overnight Cruise",
+      "✈️ Domestic Connecting Flights",
+      "🚗 Private Ground Chauffeur",
+      "🥢 All Gourmet Meals On Cruise"
+    ],
+    addons: [
+      { id: "cruise", label: "Halong Bay Balcony Suite Upgrade", desc: "Panoramic ocean suite", price: 7500 },
+      { id: "flights", label: "International Return Flights", desc: "Delhi/Mumbai to Hanoi", price: 26500 },
+      { id: "visa", label: "Vietnam Express e-Visa", desc: "Fast approval in 72hrs", price: 3200 },
+      { id: "insurance", label: "Travel Insurance ($50k Cover)", desc: "Medical & luggage", price: 1800 }
+    ]
+  },
+  kashmir: {
+    key: "kashmir",
+    name: "Kashmir Paradise Escape (Srinagar & Gulmarg)",
+    country: "Kashmir",
+    flag: "🏔️",
+    duration: "5 Days / 4 Nights",
+    basePrice: 21999,
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=2000&q=85",
+    tagline: "Dal Lake luxury houseboats, Gulmarg snow gondolas & Pahalgam valleys.",
+    inclusions: [
+      "⛵ Luxury Dal Lake Houseboat",
+      "🚗 Private Heated Chauffeur Cab",
+      "🍲 Daily Breakfast & Dinners",
+      "🛶 Complimentary Shikara Ride"
+    ],
+    addons: [
+      { id: "gondola", label: "Gulmarg Gondola Phase 1 & 2 Passes", desc: "Cable car snow tickets", price: 3200 },
+      { id: "flights", label: "Srinagar Return Flights", desc: "Air tickets from major hubs", price: 12500 },
+      { id: "insurance", label: "Domestic Travel Insurance", desc: "Medical & trip insurance", price: 1200 }
+    ]
+  },
+  kerala: {
+    key: "kerala",
+    name: "Kerala Backwaters & Tea Hills",
+    country: "Kerala",
+    flag: "🌴",
+    duration: "5 Days / 4 Nights",
+    basePrice: 18999,
+    image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=80",
+    heroBg: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2000&q=85",
+    tagline: "Private Alleppey houseboat with chef, Munnar tea hills & waterfalls.",
+    inclusions: [
+      "🚢 Private Deluxe Houseboat",
+      "🍛 All Meals On Houseboat (Chef)",
+      "🚗 AC Private Chauffeur Cab",
+      "🍃 Munnar Tea Garden Excursions"
+    ],
+    addons: [
+      { id: "treehouse", label: "Munnar Treehouse Luxury Night", desc: "1 night treehouse upgrade", price: 4200 },
+      { id: "flights", label: "Kochi Return Flights", desc: "Return flight tickets", price: 11500 },
+      { id: "insurance", label: "Domestic Travel Insurance", desc: "Full cover", price: 1200 }
+    ]
   }
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-    }
-  }, { threshold: 0.10, rootMargin: '0px 0px -6% 0px' });
-  els.forEach(el => io.observe(el));
-})();
-
-/* Pricing calculator */
-const PRICE_PER_PERSON = 42999;
-const ADDONS = {
-  balloon: 18500,
-  flights: 22500,
-  visa: 4200,
-  insurance: 1800,
 };
 
-function getTravellers() {
-  const v = document.getElementById('bk-travellers').value;
-  if (v === '5+') return 5;
-  return parseInt(v) || 2;
+let currentDestKey = 'turkey';
+
+// Initialize Destination from URL param if available (e.g. booking.html?pkg=georgia)
+const urlParams = new URLSearchParams(window.location.search);
+const paramPkg = urlParams.get('pkg') || urlParams.get('dest');
+if (paramPkg && DESTINATIONS[paramPkg.toLowerCase()]) {
+  currentDestKey = paramPkg.toLowerCase();
 }
 
 function formatINR(n) {
   return '₹' + n.toLocaleString('en-IN');
 }
 
-function updateTravellers() {
-  const n = getTravellers();
-  document.getElementById('traveller-count-display').textContent = n === 5 ? '5+ Travellers' : (n + ' Adult' + (n > 1 ? 's' : ''));
+function getTravellers() {
+  const v = document.getElementById('bk-travellers').value;
+  return parseInt(v) || 2;
+}
+
+// Render Destination Switcher Pills
+function renderDestPills() {
+  const container = document.getElementById('dest-pill-container');
+  container.innerHTML = '';
+  Object.keys(DESTINATIONS).forEach(k => {
+    const d = DESTINATIONS[k];
+    const isActive = k === currentDestKey;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `dest-chip px-4 py-2 rounded-full text-xs font-bold border transition flex items-center gap-1.5 shadow-sm ${isActive ? 'active' : 'bg-white/15 text-white border-white/20 hover:bg-white/25 backdrop-blur'}`;
+    btn.innerHTML = `<span>${d.flag} ${d.country}</span> <span class="chip-tag text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? 'bg-sunset text-navy' : 'bg-white/20 text-white'}">${formatINR(d.basePrice)}</span>`;
+    btn.onclick = () => selectDestination(k);
+    container.appendChild(btn);
+  });
+}
+
+// Switch Destination
+function selectDestination(key) {
+  if (!DESTINATIONS[key]) return;
+  currentDestKey = key;
+  const d = DESTINATIONS[key];
+
+  // Update Hero
+  document.getElementById('hero-bg').style.backgroundImage = `url('${d.heroBg}')`;
+  document.getElementById('hero-subtitle').textContent = d.name;
+  document.getElementById('hero-tagline').textContent = d.tagline;
+  document.getElementById('crumb-dest').textContent = d.name;
+
+  // Update Package Card
+  document.getElementById('pkg-card-img').src = d.image;
+  document.getElementById('pkg-badge-text').textContent = d.country;
+  document.getElementById('pkg-duration').textContent = d.duration;
+  document.getElementById('pkg-card-name').textContent = d.name;
+  document.getElementById('pkg-card-desc').textContent = d.tagline;
+
+  // Update Inclusions
+  const incGrid = document.getElementById('pkg-inclusions-grid');
+  incGrid.innerHTML = d.inclusions.map(inc => `<div class="flex items-center gap-1.5 p-1.5 rounded-lg bg-sand border border-navy/5"><span>${inc}</span></div>`).join('');
+
+  // Update Addons Form
+  renderAddons(d.addons);
+
+  // Update Sidebar
+  document.getElementById('side-pkg-name').textContent = d.name;
+
+  renderDestPills();
   calcTotal();
 }
 
-function calcTotal() {
-  const n = getTravellers();
-  const addBalloon   = document.getElementById('addon-balloon').checked;
-  const addFlights   = document.getElementById('addon-flights').checked;
-  const addVisa      = document.getElementById('addon-visa').checked;
-  const addInsurance = document.getElementById('addon-insurance').checked;
-
-  let base = PRICE_PER_PERSON * n;
-  let balloon   = addBalloon   ? ADDONS.balloon   * n : 0;
-  let flights   = addFlights   ? ADDONS.flights   * n : 0;
-  let visa      = addVisa      ? ADDONS.visa      * n : 0;
-  let insurance = addInsurance ? ADDONS.insurance * n : 0;
-  let total = base + balloon + flights + visa + insurance;
-
-  document.getElementById('line-base').textContent    = formatINR(base);
-  document.getElementById('line-balloon').textContent = formatINR(balloon);
-  document.getElementById('line-flights').textContent = formatINR(flights);
-  document.getElementById('line-visa').textContent    = formatINR(visa);
-  document.getElementById('line-insurance').textContent = formatINR(insurance);
-  document.getElementById('line-total').textContent   = formatINR(total);
-
-  document.getElementById('line-balloon-row').style.display   = addBalloon   ? 'flex' : 'none';
-  document.getElementById('line-flights-row').style.display   = addFlights   ? 'flex' : 'none';
-  document.getElementById('line-visa-row').style.display      = addVisa      ? 'flex' : 'none';
-  document.getElementById('line-insurance-row').style.display = addInsurance ? 'flex' : 'none';
-}
-calcTotal();
-
-/* Submit booking */
-function submitBooking(e) {
-  e.preventDefault();
-  const name  = document.getElementById('bk-name').value.trim();
-  const email = document.getElementById('bk-email').value.trim();
-  const phone = document.getElementById('bk-phone').value.trim();
-  const date  = document.getElementById('bk-date').value;
-  if (!name || (!email && !phone)) {
-    alert('Please enter Name + Phone or Email so we can confirm your seats 🙏');
-    return;
-  }
-  const total = document.getElementById('line-total').textContent;
-  const btn = e.currentTarget;
-  const orig = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="inline-flex items-center gap-2"><span class="material-symbols-outlined animate-spin">progress_activity</span> Securing seats…</span>';
-
-  fetch('/api/booking', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name, email, phone, travel_date: date,
-      package_name: 'Turkey Escape & Wonders (5D/4N)',
-      travellers: getTravellers(),
-      total,
-      addons: {
-        balloon: document.getElementById('addon-balloon').checked,
-        flights: document.getElementById('addon-flights').checked,
-        visa: document.getElementById('addon-visa').checked,
-        insurance: document.getElementById('addon-insurance').checked,
-      }
-    })
-  })
-  .then(r => r.json())
-  .catch(() => ({ success: true, id: 'DEMO-' + Math.floor(Math.random()*9000+1000) }))
-  .then(d => {
-    btn.innerHTML = '<span class="inline-flex items-center gap-2"><span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">check_circle</span> Booking Received!</span>';
-    btn.classList.remove('bg-sunset', 'text-navy-deep');
-    btn.classList.add('bg-forest', 'text-white');
-    
-    // Auto WhatsApp Redirect to Agency Phone
-    const waText = `Hello Let's Explore DMC,\n\nI would like to book a trip package:\n\n* Name: ${name}\n* Phone: ${phone || 'N/A'}\n* Email: ${email || 'N/A'}\n* Travel Date: ${date || 'Flexible'}\n* Travelers: ${getTravellers()} Adults\n* Estimated Total: ${total}\n\nPlease confirm seat availability and payment details.`;
-
-    window.open(`https://wa.me/918007586871?text=${encodeURIComponent(waText)}`, '_blank');
-
-    setTimeout(() => {
-      alert(`Thank you, ${name}!\n\nBooking #${d.id || 'TUR-2026'} confirmed.\nOur trip architect will contact you shortly on ${phone || email}.\n\nTotal: ${total}\nSeats held: ${getTravellers()}\n\nSafe travels!`);
-      btn.disabled = false;
-      btn.innerHTML = orig;
-      btn.classList.add('bg-sunset', 'text-navy-deep');
-      btn.classList.remove('bg-forest', 'text-white');
-    }, 900);
+// Render dynamic Add-ons
+function renderAddons(addons) {
+  const container = document.getElementById('dynamic-addons-container');
+  container.innerHTML = '';
+  addons.forEach(addon => {
+    const label = document.createElement('label');
+    label.className = 'cursor-pointer group block';
+    label.innerHTML = `
+      <input type="checkbox" id="addon-${addon.id}" data-price="${addon.price}" data-label="${addon.label}" onchange="calcTotal()" class="peer sr-only"/>
+      <div class="p-4 rounded-2xl border border-navy/10 bg-white peer-checked:border-sunset peer-checked:bg-sunset/5 transition flex items-start justify-between gap-3 group-hover:border-sunset/50 shadow-sm">
+        <div>
+          <div class="font-display text-base font-semibold text-navy">${addon.label}</div>
+          <div class="text-xs text-fog mt-0.5">${addon.desc}</div>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="font-display text-navy font-bold text-sm">+${formatINR(addon.price)}</div>
+          <div class="text-[9px] text-fog uppercase">/person</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(label);
   });
 }
+
+function updateTravellers() {
+  calcTotal();
+}
+
+// Calculate Total Price Realtime
+function calcTotal() {
+  const d = DESTINATIONS[currentDestKey];
+  const n = getTravellers();
+  const baseTotal = d.basePrice * n;
+
+  document.getElementById('side-traveller-label').textContent = `${n} Adult${n > 1 ? 's' : ''} × ${formatINR(d.basePrice)}`;
+  document.getElementById('line-base-price').textContent = formatINR(baseTotal);
+
+  let addonsTotal = 0;
+  const activeAddons = [];
+  d.addons.forEach(a => {
+    const el = document.getElementById(`addon-${a.id}`);
+    if (el && el.checked) {
+      const lineCost = a.price * n;
+      addonsTotal += lineCost;
+      activeAddons.push({ label: a.label, cost: lineCost });
+    }
+  });
+
+  const summaryContainer = document.getElementById('side-addons-summary');
+  if (activeAddons.length > 0) {
+    summaryContainer.innerHTML = activeAddons.map(item => `
+      <div class="flex justify-between items-center text-navy font-medium">
+        <span>+ ${item.label}:</span>
+        <span class="font-bold">${formatINR(item.cost)}</span>
+      </div>
+    `).join('');
+    summaryContainer.style.display = 'block';
+  } else {
+    summaryContainer.innerHTML = '';
+    summaryContainer.style.display = 'none';
+  }
+
+  const grandTotal = baseTotal + addonsTotal;
+  document.getElementById('total-price-display').textContent = formatINR(grandTotal);
+}
+
+// Submit Booking to WhatsApp & Modal
+function submitBooking() {
+  const name  = document.getElementById('bk-name').value.trim();
+  const phone = document.getElementById('bk-phone').value.trim();
+  const email = document.getElementById('bk-email').value.trim();
+  const date  = document.getElementById('bk-date').value;
+  const vibe  = document.getElementById('bk-vibe').value;
+  const notes = document.getElementById('bk-notes').value.trim();
+
+  if (!name || !phone) {
+    alert('Please enter your Name and Phone / WhatsApp number so our destination team can contact you 🙏');
+    document.getElementById('bk-name').focus();
+    return;
+  }
+
+  const d = DESTINATIONS[currentDestKey];
+  const travellers = getTravellers();
+  const total = document.getElementById('total-price-display').textContent;
+
+  // Collect checked add-ons
+  const selectedAddons = [];
+  d.addons.forEach(a => {
+    const el = document.getElementById(`addon-${a.id}`);
+    if (el && el.checked) selectedAddons.push(a.label);
+  });
+
+  const waText = `*CUSTOM TRIP BOOKING INQUIRY — LET'S EXPLORE DMC*\n----------------------------------\n* Name: ${name}\n* Phone: ${phone}\n* Email: ${email || 'N/A'}\n* Destination: ${d.name} (${d.duration})\n* Approximate Date: ${date || 'Flexible'}\n* Travellers: ${travellers} Person(s)\n* Vibe / Style: ${vibe}\n* Add-ons: ${selectedAddons.length > 0 ? selectedAddons.join(', ') : 'None'}\n* Estimated Total: ${total}\n* Special Notes: ${notes || 'None'}\n----------------------------------\nSent via LetsExplore Customise Trip`;
+
+  const waURL = `https://wa.me/918007586871?text=${encodeURIComponent(waText)}`;
+
+  // Show Modal
+  document.getElementById('modal-title').textContent = `Thank you, ${name}!`;
+  document.getElementById('modal-desc').innerHTML = `Your customized inquiry for <strong>${d.name}</strong> (${travellers} Travellers — Estimated ${total}) has been prepared. Click below to chat directly with our destination desk!`;
+  document.getElementById('modal-wa-link').href = waURL;
+  document.getElementById('booking-success-modal').classList.remove('hidden');
+
+  // Auto trigger WhatsApp
+  window.open(waURL, '_blank');
+}
+
+function closeBookingModal() {
+  document.getElementById('booking-success-modal').classList.add('hidden');
+}
+
+// Initial Run
+selectDestination(currentDestKey);
 </script>
+
 <script src="js/app.js"></script>
 </body>
 </html>
