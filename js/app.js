@@ -696,12 +696,22 @@ function sendChatMessage() {
 
     if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
       reply = "✨ <strong>Great!</strong> Our destination manager is ready with your customized wholesale itinerary.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>📲 Chat on WhatsApp (+91 80075 86871)</a>";
+    } else if (msgLower.match(/\b(where should i go|suggest|recommend|confused|kuch bhi|any place|best place|best destination|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
+      reply = "✨ <strong>Top Trending Getaways Right Now</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999 (Pool Villas)<br/>4. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999<br/><br/>Which vibe do you prefer: <strong>Mountains, Beaches, or City Luxury</strong>?";
+    } else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
+      reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!<br/><br/>Where would you like to travel next?";
     } else if (msgLower.match(/\b(china|beijing|shanghai)\b/i)) {
       reply = "🏯 <strong>China Luxury DMC Packages</strong>: We curate private guided tours covering the Great Wall, Forbidden City, and Shanghai.<br/><br/>Would you like me to send the complete day-by-day plan to your WhatsApp?";
     } else if (msgLower.match(/\b(turkey|cappadocia|istanbul)\b/i)) {
       reply = "🇹🇷 <strong>Turkey Ground Packages</strong>: Direct ground ops from ₹42,999/person (4N/5D) with Cappadocia Cave stays.<br/><br/>Shall I share the itinerary on WhatsApp?";
+    } else if (msgLower.match(/\b(georgia|tbilisi)\b/i)) {
+      reply = "🇬🇪 <strong>Georgia Flash Deal ($300 USD Special)</strong>: 5D/4N covering Tbilisi, Kazbegi Mountains, Gudauri snow resort, and Ananuri Fortress. Includes 4★ hotel & private 4x4 transfers!";
+    } else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida)\b/i)) {
+      reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office with private pool villas & speedboat transfers. Starts from ₹48,999/person.";
     } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|how much)\b/i)) {
       reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. Which destination are you planning?";
+    } else if (msgLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no)\b/i)) {
+      reply = "📍 <strong>Our Global DMC Network</strong>:<br/><br/>• <strong>India HQ</strong>: Amravati, Mumbai, Jaipur, Nagpur<br/>• <strong>International</strong>: Bali (Denpasar) & Turkey (Taksim, Istanbul)<br/>• <strong>Official Hotline</strong>: +91 80075 86871";
     } else {
       reply = `✨ <strong>Let's Explore DMC</strong>: For <strong>${msg}</strong>, we provide tailor-made private tours, 4★/5★ luxury stays, and 24/7 dedicated ground support.<br/><br/>Would you like to connect on WhatsApp (+91 80075 86871)?`;
     }

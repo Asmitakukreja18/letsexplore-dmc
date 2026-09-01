@@ -683,15 +683,25 @@ async function submitChat(e) {
     const valLower = val.toLowerCase().trim();
     if (valLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
       reply = "✨ **Great!** Our destination manager is ready with your customized wholesale itinerary and private chauffeur quote.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Chat directly on WhatsApp (+91 80075 86871)</a>";
+    } else if (valLower.match(/\b(where should i go|suggest|recommend|confused|kuch bhi|any place|best place|best destination|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
+      reply = "✨ <strong>Top Trending Getaways Right Now</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999 (Cave suites & hot air balloons)<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi & Tbilisi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999 (Private pool villas & beaches)<br/>4. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999 (Desert safaris & Marina)<br/><br/>Which vibe do you prefer: <strong>Mountains, Tropical Beaches, or City Luxury</strong>?";
+    } else if (valLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
+      reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me where you wish to explore or your budget, and I will craft a custom itinerary for you!<br/><br/>Where would you like to travel next?";
+    } else if (valLower.match(/\b(honeymoon|romantic|couple|anniversary)\b/i)) {
+      reply = "💍 <strong>Romantic Luxury Escapes</strong>: Our top couple packages are <strong>Bali Private Pool Villas</strong> (Ubud & Seminyak) and <strong>Cappadocia Cave Suites</strong> with sunrise hot air balloon champagne flights. Both include private airport transfers & candlelight dinners. Would you like a honeymoon quote?";
     } else if (valLower.match(/\b(china|beijing|shanghai|guangzhou)\b/i)) {
       reply = "🏯 **China Luxury DMC Packages**: We curate private guided tours covering the Great Wall of China, Forbidden City, Shanghai skyline cruises, and Zhangjiajie Avatar mountains.<br/><br/>• <strong>Duration</strong>: 7N/8D or 10N/11D<br/>• <strong>Inclusions</strong>: 4★/5★ Hotels, Bullet Train passes, English Guide & Visa assistance.<br/><br/>Would you like me to send the complete day-by-day plan to your WhatsApp?";
     } else if (valLower.match(/\b(turkey|cappadocia|istanbul)\b/i)) {
       reply = "🇹🇷 **Turkey Ground Packages**: Direct ground ops by Let's Explore Istanbul desk.<br/><br/>• <strong>Starts from</strong>: ₹42,999/person (4N/5D)<br/>• <strong>Highlights</strong>: Hot Air Balloon in Cappadocia, Bosphorus Yacht Cruise, Cave Suites.<br/><br/>Shall I share the departure calendar on WhatsApp?";
     } else if (valLower.match(/\b(georgia|tbilisi)\b/i)) {
       reply = "🇬🇪 **Georgia Flash Deal ($300 USD Special)**: 5D/4N covering Tbilisi, Kazbegi Mountains, Gudauri snow resort, and Ananuri Fortress. Includes 4★ hotel & private 4x4 transfers!";
+    } else if (valLower.match(/\b(bali|indonesia|ubud|nusa penida)\b/i)) {
+      reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office.<br/><br/>• <strong>Highlights</strong>: Private Pool Villas, Nusa Penida speedboat tour, Mt. Batur sunrise jeep safari.<br/>• <strong>Starting at</strong>: ₹48,999/person.";
+    } else if (valLower.match(/\b(dubai|uae|burj khalifa)\b/i)) {
+      reply = "🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹34,999/person.";
     } else if (valLower.match(/\b(price|cost|rate|cheap|budget|quote|how much)\b/i)) {
       reply = "💎 **100% Direct DMC Wholesale Pricing**: Because we manage ground operations directly with our own hotel allotments and vehicle fleets, you save 20–30% with zero middleman markup. Which destination are you planning?";
-    } else if (valLower.match(/\b(office|branches|location|where|address|contact|phone)\b/i)) {
+    } else if (valLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no)\b/i)) {
       reply = "📍 **Our Global DMC Network**:<br/><br/>• <strong>India HQ</strong>: Amravati, Mumbai, Jaipur, Nagpur<br/>• <strong>International</strong>: Bali (Denpasar) & Turkey (Taksim, Istanbul)<br/>• <strong>Official Hotline</strong>: +91 80075 86871";
     } else {
       reply = `✨ **Let's Explore DMC Concierge**: For <strong>${val}</strong>, we provide tailor-made private tours, 4★/5★ luxury stays, and 24/7 dedicated on-ground support.<br/><br/>Would you like us to customize this for your preferred dates and group size?`;
