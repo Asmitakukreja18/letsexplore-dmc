@@ -719,7 +719,142 @@
   }
 
 
+  /* ==========================================================================
+     ✨ LUXURY SEAMLESS PRELOADER — PURE SOLID WHITE (#FFFFFF)
+     ========================================================================== */
+  #global-preloader {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #FFFFFF !important;
+    z-index: 99999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #global-preloader.fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+  }
+  .preloader-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    max-width: 380px;
+    transform: scale(1);
+    transition: transform 0.4s ease;
+  }
+  #global-preloader.fade-out .preloader-box {
+    transform: scale(0.96);
+  }
+  .preloader-logo-ring {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .preloader-ring-pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #F4A261;
+    border-right-color: #1E88E5;
+    animation: preloaderSpin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+  .preloader-ring-pulse-2 {
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(244,162,97,0.35);
+    animation: preloaderSpinRev 3s linear infinite;
+  }
+  .preloader-logo-img {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    border-radius: 12px;
+    filter: drop-shadow(0 6px 14px rgba(11,31,58,0.12));
+  }
+  .preloader-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0B1F3A;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  .preloader-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #F4A261;
+    margin: -8px 0 0 0;
+  }
+  .preloader-bar-bg {
+    width: 180px;
+    height: 3.5px;
+    background: #F1F5F9;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 6px;
+  }
+  .preloader-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #F4A261, #1E88E5);
+    border-radius: 10px;
+    transition: width 0.15s ease;
+    box-shadow: 0 0 8px rgba(244,162,97,0.5);
+  }
+  .preloader-msg {
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    color: #64748B;
+    font-weight: 500;
+  }
+
+  @keyframes preloaderSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes preloaderSpinRev {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+  }
   `;
+
+  // ── Preloader HTML ───────────────────────────────────────────────────────
+  const preloaderHTML = `
+  <div id="global-preloader">
+    <div class="preloader-box">
+      <div class="preloader-logo-ring">
+        <div class="preloader-ring-pulse"></div>
+        <div class="preloader-ring-pulse-2"></div>
+        <img src="images/logo.png" alt="Let's Explore DMC" class="preloader-logo-img"/>
+      </div>
+      <h2 class="preloader-title">Let's Explore DMC</h2>
+      <p class="preloader-sub">Luxury Travel Architect</p>
+      <div class="preloader-bar-bg">
+        <div class="preloader-bar-fill" id="preloader-bar-fill"></div>
+      </div>
+      <span class="preloader-msg" id="preloader-text">Crafting your escape…</span>
+    </div>
+  </div>`;
 
   // ── Inject into DOM ──────────────────────────────────────────────────────
   function init() {
@@ -731,6 +866,45 @@
     styleEl.id = 'site-nav-styles';
     styleEl.textContent = css;
     document.head.appendChild(styleEl);
+
+    // Inject Seamless Preloader at top of body
+    if (!document.getElementById('global-preloader')) {
+      document.body.insertAdjacentHTML('afterbegin', preloaderHTML);
+    }
+
+    // Progress Bar Animation
+    let progress = 10;
+    const progressInterval = setInterval(() => {
+      progress += Math.floor(Math.random() * 18) + 12;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(progressInterval);
+      }
+      const fillEl = document.getElementById('preloader-bar-fill');
+      if (fillEl) fillEl.style.width = progress + '%';
+    }, 30);
+
+    // Dismiss Preloader on window load
+    const dismissPreloader = () => {
+      clearInterval(progressInterval);
+      const fillEl = document.getElementById('preloader-bar-fill');
+      if (fillEl) fillEl.style.width = '100%';
+
+      setTimeout(() => {
+        const loader = document.getElementById('global-preloader');
+        if (loader) {
+          loader.classList.add('fade-out');
+          setTimeout(() => loader.remove(), 450);
+        }
+      }, 180);
+    };
+
+    if (document.readyState === 'complete') {
+      dismissPreloader();
+    } else {
+      window.addEventListener('load', dismissPreloader);
+      setTimeout(dismissPreloader, 1200); // Safety fallback
+    }
 
     // Inject Google Fonts if not already there
     if (!document.querySelector('link[href*="Montserrat"]')) {
