@@ -5,11 +5,20 @@
  */
 
 (function () {
-  // ── Detect active page ──────────────────────────────────────────────────
-  const page = window.location.pathname.split('/').pop() || 'home.html';
+  // ── Detect active page accurately ──────────────────────────────────────
+  const currentPath = window.location.pathname.toLowerCase();
+  const rawPage = currentPath.split('/').pop().replace('.html', '') || 'home';
+  const page = (rawPage === '' || rawPage === 'index') ? 'home' : rawPage;
 
-  function isActive(href) {
-    return page === href ? 'active' : '';
+  function isActive(key) {
+    if (key === 'home' && (page === 'home' || page === 'index')) return 'active';
+    if (key === 'explore' && page === 'explore') return 'active';
+    if (key === 'deals' && (page === 'deals' || page === 'turkey-package' || page === 'georgia-package')) return 'active';
+    if (key === 'booking' && page === 'booking') return 'active';
+    if (key === 'reviews' && page === 'reviews') return 'active';
+    if (key === 'contact' && page === 'contact') return 'active';
+    if (key === 'ai' && (page === 'ai-travel' || page === 'ai')) return 'active';
+    return '';
   }
 
   // ── Nav HTML ────────────────────────────────────────────────────────────
@@ -21,20 +30,20 @@
         <img src="images/logo.png" alt="Let's Explore DMC" class="nav-logo-img">
       </a>
 
-      <!-- Clean Main Desktop Links (No Redundant Mega Menus) -->
+      <!-- Clean Main Desktop Links -->
       <div class="nav-links" id="nav-links">
-        <a href="home.html" class="nav-link ${isActive('home.html')}">HOME</a>
-        <a href="explore.html" class="nav-link ${isActive('explore.html')}">GROUP TOURS</a>
-        <a href="deals.html" class="nav-link ${isActive('deals.html')}">DEALS & PACKAGES</a>
-        <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE TRIP</a>
-        <a href="reviews.html" class="nav-link ${isActive('reviews.html')}">REVIEWS</a>
-        <a href="contact.html" class="nav-link ${isActive('contact.html')}">CONTACT</a>
+        <a href="home.html" class="nav-link ${isActive('home')}">HOME</a>
+        <a href="explore.html" class="nav-link ${isActive('explore')}">GROUP TOURS</a>
+        <a href="deals.html" class="nav-link ${isActive('deals')}">DEALS &amp; PACKAGES</a>
+        <a href="booking.html" class="nav-link ${isActive('booking')}">CUSTOMISE TRIP</a>
+        <a href="reviews.html" class="nav-link ${isActive('reviews')}">REVIEWS</a>
+        <a href="contact.html" class="nav-link ${isActive('contact')}">CONTACT</a>
       </div>
 
       <!-- Right Actions -->
       <div class="nav-actions">
         <!-- ✨ AI TRIP PLANNER -->
-        <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai-travel.html')}" title="AI Trip Planner">
+        <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai')}" title="AI Trip Planner">
           <span class="ai-sparkle">✨</span>
           <span class="ai-chip-label">AI Trip Planner</span>
         </a>
@@ -47,13 +56,13 @@
 
     <!-- Mobile Drawer -->
     <div class="mobile-drawer" id="mobile-drawer">
-      <a href="home.html"           class="mobile-link ${isActive('home.html')}"><span class="material-symbols-outlined mr-2">home</span> Home</a>
-      <a href="explore.html"        class="mobile-link ${isActive('explore.html')}"><span class="material-symbols-outlined mr-2">groups</span> Group Tours</a>
-      <a href="deals.html"          class="mobile-link ${isActive('deals.html')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Deals & Packages</a>
-      <a href="booking.html"        class="mobile-link ${isActive('booking.html')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Trip</a>
-      <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai-travel.html')}"><span class="material-symbols-outlined mr-2">smart_toy</span> Atlas AI Trip Architect</a>
-      <a href="reviews.html"        class="mobile-link ${isActive('reviews.html')}"><span class="material-symbols-outlined mr-2">star</span> Client Reviews</a>
-      <a href="contact.html"        class="mobile-link ${isActive('contact.html')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact Us</a>
+      <a href="home.html"           class="mobile-link ${isActive('home')}"><span class="material-symbols-outlined mr-2">home</span> Home</a>
+      <a href="explore.html"        class="mobile-link ${isActive('explore')}"><span class="material-symbols-outlined mr-2">groups</span> Group Tours</a>
+      <a href="deals.html"          class="mobile-link ${isActive('deals')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Deals &amp; Packages</a>
+      <a href="booking.html"        class="mobile-link ${isActive('booking')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Trip</a>
+      <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai')}"><span class="material-symbols-outlined mr-2">smart_toy</span> Atlas AI Trip Architect</a>
+      <a href="reviews.html"        class="mobile-link ${isActive('reviews')}"><span class="material-symbols-outlined mr-2">star</span> Client Reviews</a>
+      <a href="contact.html"        class="mobile-link ${isActive('contact')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact Us</a>
       <div class="mobile-contact">
         <a href="tel:+918007586871" class="mobile-contact-link"><span class="material-symbols-outlined text-base align-middle mr-1">call</span> +91-8007586871</a>
         <a href="https://wa.me/918007586871" target="_blank" class="mobile-wa-btn">WhatsApp Us</a>
@@ -240,13 +249,14 @@
     align-items: center;
   }
   .nav-link:hover {
-    color: #E53935;
-    background: rgba(229,57,53,0.06);
+    color: #F4A261;
+    background: rgba(244, 162, 97, 0.08);
   }
   .nav-link.active {
-    color: #E53935;
+    color: #0B1F3A;
     font-weight: 800;
-    background: rgba(229,57,53,0.06);
+    background: rgba(11, 31, 58, 0.07);
+    box-shadow: inset 0 -2px 0 0 #F4A261;
   }
 
   /* Dropdown Menu CSS */
