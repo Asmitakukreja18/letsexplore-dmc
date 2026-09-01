@@ -108,10 +108,12 @@ tailwind.config = {
       Cave suites &amp; sunrise hot air balloons in Cappadocia with private ground chauffeur.
     </p>
 
-    <!-- Quick Destination Switcher Pills -->
-    <div class="animate-fadeUp">
-      <span class="text-xs uppercase tracking-wider text-white/70 font-bold block mb-3">Choose Destination to Customise:</span>
-      <div class="flex flex-wrap gap-2.5" id="dest-pill-container">
+    <!-- Quick Destination Switcher Grid / Cards -->
+    <div class="animate-fadeUp mt-4">
+      <span class="text-xs uppercase tracking-wider text-white/80 font-bold block mb-3">
+        Select Any Destination to Instant-Customise Itinerary &amp; Pricing:
+      </span>
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5" id="dest-pill-container">
         <!-- Injected dynamically by JS -->
       </div>
     </div>
@@ -541,17 +543,28 @@ function getTravellers() {
   return parseInt(v) || 2;
 }
 
-// Render Destination Switcher Pills
+// Render Destination Switcher Mini Cards
 function renderDestPills() {
   const container = document.getElementById('dest-pill-container');
+  if (!container) return;
   container.innerHTML = '';
   Object.keys(DESTINATIONS).forEach(k => {
     const d = DESTINATIONS[k];
     const isActive = k === currentDestKey;
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = `dest-chip px-4 py-2 rounded-full text-xs font-bold border transition flex items-center gap-1.5 shadow-sm ${isActive ? 'active' : 'bg-white/15 text-white border-white/20 hover:bg-white/25 backdrop-blur'}`;
-    btn.innerHTML = `<span>${d.flag} ${d.country}</span> <span class="chip-tag text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? 'bg-sunset text-navy' : 'bg-white/20 text-white'}">${formatINR(d.basePrice)}</span>`;
+    btn.className = `p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md cursor-pointer ${
+      isActive 
+        ? 'bg-navy text-white border-sunset scale-105 ring-2 ring-sunset shadow-lg' 
+        : 'bg-white/20 hover:bg-white/30 text-white border-white/20 backdrop-blur'
+    }`;
+    btn.innerHTML = `
+      <div class="flex items-center justify-between gap-1">
+        <span class="text-base">${d.flag}</span>
+        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ${isActive ? 'bg-sunset text-navy' : 'bg-white/25 text-white'}">${formatINR(d.basePrice)}</span>
+      </div>
+      <div class="font-bold text-xs leading-tight line-clamp-1">${d.country}</div>
+    `;
     btn.onclick = () => selectDestination(k);
     container.appendChild(btn);
   });
