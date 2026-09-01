@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>✨ AI Trip Planner · Custom Itinerary & Instant DMC Booking | Let's Explore DMC</title>
+<title>AI Trip Planner · Custom Itinerary &amp; Instant DMC Booking | Let's Explore DMC</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -55,12 +55,12 @@ body {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(28px);
     border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 30px 90px -20px rgba(0,0,0,0.55);
+    box-shadow: 0 25px 70px -15px rgba(0,0,0,0.5);
 }
 
 .ai-field-input {
-    background: #F7F7F7;
-    border: 1.5px solid #E2E8F0;
+    background: #F8FAFC;
+    border: 1.5px solid #CBD5E1;
     color: #0F172A;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -72,14 +72,14 @@ body {
     outline: none;
 }
 .ai-field-input::placeholder {
-    color: #888888;
+    color: #94A3B8;
     font-weight: 400;
 }
 
 .chip-btn {
     transition: all 0.2s ease;
     cursor: pointer;
-    background: #F7F7F7;
+    background: #F1F5F9;
     border: 1.5px solid #E2E8F0;
     color: #334155;
     font-weight: 600;
@@ -91,10 +91,20 @@ body {
     transform: translateY(-1px);
 }
 .chip-btn.active {
-    background: #0B1F3A;
-    border-color: #0B1F3A;
-    color: #FFFFFF;
+    background: #0B1F3A !important;
+    border-color: #0B1F3A !important;
+    color: #FFFFFF !important;
     box-shadow: 0 4px 14px rgba(11,31,58,0.25);
+}
+
+.trending-pill {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.trending-pill.active {
+    background: #0B1F3A !important;
+    color: #FFFFFF !important;
+    border-color: #0B1F3A !important;
 }
 
 .btn-generate-ai {
@@ -127,210 +137,210 @@ body {
 </head>
 <body class="relative overflow-x-hidden antialiased">
 
-<main class="relative z-10 pt-28 pb-24 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto">
+<main class="relative z-10 pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-10 max-w-6xl mx-auto">
 
   <!-- ============ HERO BANNER ============ -->
-  <div class="text-center max-w-3xl mx-auto mb-10 text-white">
-    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur text-xs font-bold uppercase tracking-widest text-sunset mb-4 border border-white/20 shadow-lg">
+  <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-12 text-white px-2">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur text-[11px] sm:text-xs font-bold uppercase tracking-widest text-sunset mb-3 sm:mb-4 border border-white/20 shadow-lg">
       <span class="w-2 h-2 rounded-full bg-sunset animate-ping"></span>
       ✨ Google Gemini AI · Let's Explore DMC Travel Engine
     </div>
     
-    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-[1.08]">
+    <h1 class="font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-3 sm:mb-4 leading-tight">
       Build your Dream Trip <span class="italic font-serif text-sunset font-normal">with AI.</span>
     </h1>
 
-    <p class="text-white/80 text-base sm:text-lg max-w-2xl mx-auto mb-8">
-      Tell AI where you want to go, your travel style, and special wishes. We generate verified, day-by-day custom DMC itineraries with live pricing in seconds.
+    <p class="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed">
+      Choose destination, vibe &amp; budget. Our intelligent travel engine crafts verified day-by-day itineraries with wholesale rates instantly!
     </p>
 
     <!-- Tab Switcher -->
     <div class="inline-flex p-1.5 rounded-2xl bg-white/10 backdrop-blur border border-white/20 mb-2">
-      <button id="tab-visual-btn" onclick="switchTab('visual')" class="px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sunset text-navy-deep shadow-md transition-all">
+      <button id="tab-visual-btn" onclick="switchTab('visual')" class="px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sunset text-navy-deep shadow-md transition-all cursor-pointer">
         ⚡ AI Trip Builder
       </button>
-      <button id="tab-chat-btn" onclick="switchTab('chat')" class="px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all">
-        🤖 Gemini AI Live Concierge
+      <button id="tab-chat-btn" onclick="switchTab('chat')" class="px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all cursor-pointer">
+        🤖 Gemini Live Concierge
       </button>
     </div>
   </div>
 
   <!-- ============ MODE 1: MODERN AI TRIP BUILDER ============ -->
-  <div id="view-visual" class="ai-glass-card rounded-3xl p-6 sm:p-10 md:p-12 mb-12 relative overflow-hidden">
+  <div id="view-visual" class="ai-glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 mb-10 relative overflow-hidden">
 
     <!-- 1. WHERE DO YOU WANT TO GO? -->
-    <div class="mb-8">
+    <div class="mb-6 sm:mb-8">
       <label class="block font-sans text-xs font-bold uppercase tracking-widest text-ocean mb-2">
-        Where do you want to go?
+        1. Where do you want to go?
       </label>
-      <div class="relative">
+      <div class="relative mb-3">
         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl">travel_explore</span>
-        <input type="text" id="dest-input" placeholder="Search destination (e.g. Turkey, Georgia, Bali, Switzerland, Dubai, Kashmir)..." value="Turkey" class="ai-field-input w-full rounded-2xl py-4 pl-12 pr-4 text-base font-semibold shadow-sm"/>
+        <input type="text" id="dest-input" placeholder="e.g. Turkey, Georgia, Bali, Swiss Alps, Dubai, Thailand, Kashmir..." value="Turkey" class="ai-field-input w-full rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 text-sm sm:text-base font-semibold shadow-sm"/>
       </div>
       
       <!-- Quick Chips -->
-      <div class="flex flex-wrap items-center gap-2 mt-3">
+      <div class="flex flex-wrap items-center gap-2">
         <span class="text-xs font-semibold text-fog mr-1">Trending:</span>
-        <button onclick="setDestQuick('Turkey')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-stone/70 text-navy hover:bg-sunset hover:text-white transition">🇹🇷 Turkey</button>
-        <button onclick="setDestQuick('Georgia')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-stone/70 text-navy hover:bg-sunset hover:text-white transition">🇬🇪 Georgia ($300)</button>
-        <button onclick="setDestQuick('Bali')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-stone/70 text-navy hover:bg-sunset hover:text-white transition">🌴 Bali Villas</button>
-        <button onclick="setDestQuick('Switzerland')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-stone/70 text-navy hover:bg-sunset hover:text-white transition">🇨🇭 Swiss Alps</button>
-        <button onclick="setDestQuick('Dubai')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-stone/70 text-navy hover:bg-sunset hover:text-white transition">🇦🇪 Dubai Safari</button>
-        <button onclick="setDestQuick('Thailand')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-stone/70 text-navy hover:bg-sunset hover:text-white transition">🏝️ Thailand</button>
+        <button type="button" onclick="setDestQuick('Turkey', this)" class="trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-navy text-white border border-navy shadow-sm">🇹🇷 Turkey</button>
+        <button type="button" onclick="setDestQuick('Georgia', this)" class="trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-stone/80 text-navy border border-navy/10 hover:bg-sunset hover:text-white">🇬🇪 Georgia ($300)</button>
+        <button type="button" onclick="setDestQuick('Bali', this)" class="trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-stone/80 text-navy border border-navy/10 hover:bg-sunset hover:text-white">🌴 Bali Villas</button>
+        <button type="button" onclick="setDestQuick('Switzerland', this)" class="trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-stone/80 text-navy border border-navy/10 hover:bg-sunset hover:text-white">🇨🇭 Swiss Alps</button>
+        <button type="button" onclick="setDestQuick('Dubai', this)" class="trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-stone/80 text-navy border border-navy/10 hover:bg-sunset hover:text-white">🇦🇪 Dubai Safari</button>
+        <button type="button" onclick="setDestQuick('Thailand', this)" class="trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-stone/80 text-navy border border-navy/10 hover:bg-sunset hover:text-white">🏝️ Thailand</button>
       </div>
     </div>
 
     <!-- 2. TRAVEL STYLE (MULTI-CHOICE) -->
-    <div class="mb-8">
+    <div class="mb-6 sm:mb-8">
       <label class="block font-sans text-xs font-bold uppercase tracking-widest text-ocean mb-3">
-        Travel Style
+        2. Travel Style &amp; Vibe
       </label>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <button onclick="toggleStyle(this, 'Luxury')" class="chip-btn style-chip active py-3.5 px-4 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-2">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
+        <button type="button" onclick="toggleStyle(this, 'Luxury')" class="chip-btn style-chip active py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-1.5">
           <span>✨</span> Luxury 5★
         </button>
-        <button onclick="toggleStyle(this, 'Honeymoon')" class="chip-btn style-chip py-3.5 px-4 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-2">
+        <button type="button" onclick="toggleStyle(this, 'Honeymoon')" class="chip-btn style-chip py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-1.5">
           <span>💍</span> Honeymoon
         </button>
-        <button onclick="toggleStyle(this, 'Family')" class="chip-btn style-chip py-3.5 px-4 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-2">
+        <button type="button" onclick="toggleStyle(this, 'Family')" class="chip-btn style-chip py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-1.5">
           <span>👨‍👩‍👧</span> Family
         </button>
-        <button onclick="toggleStyle(this, 'Adventure')" class="chip-btn style-chip py-3.5 px-4 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-2">
+        <button type="button" onclick="toggleStyle(this, 'Adventure')" class="chip-btn style-chip py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-1.5">
           <span>🏔️</span> Adventure
         </button>
-        <button onclick="toggleStyle(this, 'Budget')" class="chip-btn style-chip py-3.5 px-4 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-2">
+        <button type="button" onclick="toggleStyle(this, 'Budget')" class="chip-btn style-chip py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-bold text-center flex items-center justify-center gap-1.5">
           <span>🎒</span> Budget Friendly
         </button>
       </div>
     </div>
 
     <!-- 3. DURATION & BUDGET (2 COLUMNS) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
       <div>
         <label class="block font-sans text-xs font-bold uppercase tracking-widest text-ocean mb-3">
-          Duration
+          3. Duration
         </label>
-        <div class="grid grid-cols-4 gap-3">
-          <button onclick="setDuration(this, '3 Days')" class="chip-btn dur-chip py-3.5 rounded-2xl text-xs font-bold text-center">3 Days</button>
-          <button onclick="setDuration(this, '5 Days')" class="chip-btn dur-chip active py-3.5 rounded-2xl text-xs font-bold text-center">5 Days</button>
-          <button onclick="setDuration(this, '7 Days')" class="chip-btn dur-chip py-3.5 rounded-2xl text-xs font-bold text-center">7 Days</button>
-          <button onclick="setDuration(this, '10+ Days')" class="chip-btn dur-chip py-3.5 rounded-2xl text-xs font-bold text-center">10+ Days</button>
+        <div class="grid grid-cols-4 gap-2 sm:gap-3">
+          <button type="button" onclick="setDuration(this, '3 Days')" class="chip-btn dur-chip py-3 rounded-2xl text-xs font-bold text-center">3 Days</button>
+          <button type="button" onclick="setDuration(this, '5 Days')" class="chip-btn dur-chip active py-3 rounded-2xl text-xs font-bold text-center">5 Days</button>
+          <button type="button" onclick="setDuration(this, '7 Days')" class="chip-btn dur-chip py-3 rounded-2xl text-xs font-bold text-center">7 Days</button>
+          <button type="button" onclick="setDuration(this, '10+ Days')" class="chip-btn dur-chip py-3 rounded-2xl text-xs font-bold text-center">10+ Days</button>
         </div>
       </div>
 
       <div>
         <label class="block font-sans text-xs font-bold uppercase tracking-widest text-ocean mb-3">
-          Rough Budget (per person)
+          4. Rough Budget (per person)
         </label>
-        <div class="grid grid-cols-3 gap-3">
-          <button onclick="setBudget(this, '₹50k-1L')" class="chip-btn budget-chip active py-3.5 rounded-2xl text-xs font-bold text-center">₹50K–1L</button>
-          <button onclick="setBudget(this, '₹1-2L')" class="chip-btn budget-chip py-3.5 rounded-2xl text-xs font-bold text-center">₹1L–2L</button>
-          <button onclick="setBudget(this, '₹2L+')" class="chip-btn budget-chip py-3.5 rounded-2xl text-xs font-bold text-center">Premium ₹2L+</button>
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+          <button type="button" onclick="setBudget(this, '₹50k-1L')" class="chip-btn budget-chip active py-3 rounded-2xl text-xs font-bold text-center">₹50K–1L</button>
+          <button type="button" onclick="setBudget(this, '₹1-2L')" class="chip-btn budget-chip py-3 rounded-2xl text-xs font-bold text-center">₹1L–2L</button>
+          <button type="button" onclick="setBudget(this, '₹2L+')" class="chip-btn budget-chip py-3 rounded-2xl text-xs font-bold text-center">Premium ₹2L+</button>
         </div>
       </div>
     </div>
 
     <!-- 4. SPECIAL REQUESTS / PROMPT -->
-    <div class="mb-10">
+    <div class="mb-8">
       <label class="block font-sans text-xs font-bold uppercase tracking-widest text-ocean mb-2">
-        Special Requests &amp; Notes for AI
+        5. Special Wishes / Specific Sightseeing (Optional)
       </label>
-      <textarea id="special-requests" rows="3" placeholder="e.g. I want hot air balloon ride at sunrise, private cave suite with pool, romantic dinners and photography spots..." class="ai-field-input w-full rounded-2xl p-4 text-sm font-medium resize-none shadow-sm"></textarea>
-      <div class="flex items-center gap-2 mt-2 text-xs text-fog">
+      <textarea id="special-requests" rows="2" placeholder="e.g. Sunrise hot air balloon ride, private cave suite, vegetarian dinners, snow activities..." class="ai-field-input w-full rounded-2xl p-3.5 sm:p-4 text-sm font-medium resize-none shadow-sm"></textarea>
+      <div class="flex items-center gap-1.5 mt-2 text-xs text-fog">
         <span class="material-symbols-outlined text-sm text-sunset">tips_and_updates</span>
-        <span>AI Tip: You can mention dietary preferences, kid activities, or preferred airline hub.</span>
+        <span>Tip: Mention kid activities, flight preference, or anniversary surprises!</span>
       </div>
     </div>
 
     <!-- 5. GENERATE BUTTON -->
-    <button onclick="startAIGeneration()" class="w-full btn-generate-ai py-5 rounded-2xl font-bold text-white text-lg flex items-center justify-center gap-3 shadow-xl">
+    <button type="button" onclick="startAIGeneration()" class="w-full btn-generate-ai py-4 sm:py-5 rounded-2xl font-bold text-white text-base sm:text-lg flex items-center justify-center gap-2.5 shadow-xl cursor-pointer">
       <span class="text-xl">⚡</span>
-      <span class="tracking-wide">Generate AI Itinerary</span>
+      <span class="tracking-wide">Generate AI Itinerary &amp; Pricing</span>
       <span class="material-symbols-outlined">arrow_forward</span>
     </button>
 
     <!-- TRUST STRIP -->
-    <div class="mt-8 pt-6 border-t border-navy/10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-xs text-fog font-medium">
-      <div class="flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-sunset text-lg" style="font-variation-settings:'FILL'1">verified</span>
-        <span>100% Direct DMC Wholesale Rates</span>
+    <div class="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-navy/10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center text-xs text-fog font-semibold">
+      <div class="flex items-center justify-center gap-1.5">
+        <span class="material-symbols-outlined text-sunset text-base" style="font-variation-settings:'FILL'1">verified</span>
+        <span>Direct DMC Wholesale Pricing</span>
       </div>
-      <div class="flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-ocean text-lg" style="font-variation-settings:'FILL'1">support_agent</span>
-        <span>24/7 Dedicated Concierge</span>
+      <div class="flex items-center justify-center gap-1.5">
+        <span class="material-symbols-outlined text-ocean text-base" style="font-variation-settings:'FILL'1">support_agent</span>
+        <span>24/7 Ground Concierge</span>
       </div>
-      <div class="flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-forest text-lg" style="font-variation-settings:'FILL'1">chat</span>
-        <span>Instant WhatsApp Itinerary Export</span>
+      <div class="flex items-center justify-center gap-1.5">
+        <span class="material-symbols-outlined text-forest text-base" style="font-variation-settings:'FILL'1">chat</span>
+        <span>Instant WhatsApp Export</span>
       </div>
     </div>
 
   </div>
 
   <!-- ============ DYNAMIC PROGRESSIVE AI PLANNING LOADER ============ -->
-  <div id="ai-loader-modal" class="hidden ai-glass-card rounded-3xl p-8 sm:p-12 text-center max-w-xl mx-auto mb-12 shadow-2xl relative overflow-hidden">
-    <div class="w-20 h-20 rounded-full bg-sunset/15 text-sunset border-2 border-sunset/40 flex items-center justify-center mx-auto mb-6 ai-glow-orb">
-      <span class="material-symbols-outlined text-4xl animate-spin">smart_toy</span>
+  <div id="ai-loader-modal" class="hidden ai-glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-center max-w-xl mx-auto mb-12 shadow-2xl relative overflow-hidden">
+    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-sunset/15 text-sunset border-2 border-sunset/40 flex items-center justify-center mx-auto mb-5 ai-glow-orb">
+      <span class="material-symbols-outlined text-3xl sm:text-4xl animate-spin">smart_toy</span>
     </div>
     
     <h3 class="font-display text-2xl sm:text-3xl font-bold text-navy mb-2">
       🤖 AI is planning your trip...
     </h3>
-    <p class="text-fog text-xs sm:text-sm mb-8">
-      Analyzing thousands of verified DMC routes, weather conditions &amp; hotel availability.
+    <p class="text-fog text-xs sm:text-sm mb-6 sm:mb-8">
+      Analyzing verified DMC routes, weather conditions &amp; hotel allotments.
     </p>
 
     <!-- Step Progress Checklist -->
-    <div class="space-y-3.5 text-left max-w-md mx-auto mb-8 font-sans text-sm">
+    <div class="space-y-3 text-left max-w-md mx-auto mb-6 sm:mb-8 font-sans text-xs sm:text-sm">
       <div id="step-1" class="flex items-center gap-3 text-fog transition-all duration-300">
-        <span class="step-icon w-6 h-6 rounded-full bg-stone/80 text-gray-400 flex items-center justify-center text-xs font-bold">1</span>
-        <span class="step-label">Finding handpicked 5-star hotels &amp; luxury suites</span>
+        <span class="step-icon w-6 h-6 rounded-full bg-stone text-gray-400 flex items-center justify-center text-xs font-bold">1</span>
+        <span class="step-label">Selecting handpicked 4★/5★ boutique hotels</span>
       </div>
       <div id="step-2" class="flex items-center gap-3 text-fog transition-all duration-300">
-        <span class="step-icon w-6 h-6 rounded-full bg-stone/80 text-gray-400 flex items-center justify-center text-xs font-bold">2</span>
-        <span class="step-label">Checking optimal flight routes &amp; airport chauffeurs</span>
+        <span class="step-icon w-6 h-6 rounded-full bg-stone text-gray-400 flex items-center justify-center text-xs font-bold">2</span>
+        <span class="step-label">Arranging private chauffeured transfers</span>
       </div>
       <div id="step-3" class="flex items-center gap-3 text-fog transition-all duration-300">
-        <span class="step-icon w-6 h-6 rounded-full bg-stone/80 text-gray-400 flex items-center justify-center text-xs font-bold">3</span>
-        <span class="step-label">Matching local weather &amp; seasonal highlights</span>
+        <span class="step-icon w-6 h-6 rounded-full bg-stone text-gray-400 flex items-center justify-center text-xs font-bold">3</span>
+        <span class="step-label">Matching local highlights &amp; scenic photo spots</span>
       </div>
       <div id="step-4" class="flex items-center gap-3 text-fog transition-all duration-300">
-        <span class="step-icon w-6 h-6 rounded-full bg-stone/80 text-gray-400 flex items-center justify-center text-xs font-bold">4</span>
-        <span class="step-label">Building customized day-by-day smart itinerary</span>
+        <span class="step-icon w-6 h-6 rounded-full bg-stone text-gray-400 flex items-center justify-center text-xs font-bold">4</span>
+        <span class="step-label">Building day-by-day smart itinerary</span>
       </div>
     </div>
 
     <!-- Progress Bar -->
-    <div class="w-full bg-stone/80 rounded-full h-2.5 overflow-hidden">
+    <div class="w-full bg-stone rounded-full h-2.5 overflow-hidden">
       <div id="loader-bar" class="bg-gradient-to-r from-sunset via-ai-purple to-ocean h-full w-0 transition-all duration-500 rounded-full"></div>
     </div>
   </div>
 
   <!-- ============ AI GENERATED ITINERARY RESULTS ============ -->
-  <div id="results-panel" class="hidden space-y-8">
+  <div id="results-panel" class="hidden space-y-6 sm:space-y-8">
     
     <!-- Top Result Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <div class="inline-flex items-center gap-2 bg-sunset/20 text-sunset px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+        <div class="inline-flex items-center gap-1.5 bg-sunset/20 text-sunset px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
           <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">auto_awesome</span>
           <span>🎯 98% AI Match for your vibe</span>
         </div>
-        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">Your Custom Generated Itinerary</h2>
+        <h2 class="font-display text-2xl sm:text-4xl font-bold text-white">Your Custom Generated Itinerary</h2>
       </div>
-      <button onclick="modifyPlan()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition border border-white/20 self-start sm:self-auto">
+      <button type="button" onclick="modifyPlan()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition border border-white/20 self-start sm:self-auto cursor-pointer">
         ↻ Change Options
       </button>
     </div>
 
     <!-- Package Highlight Card -->
-    <div class="ai-glass-card rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <div class="ai-glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
         
         <!-- 16:9 Image -->
         <div class="lg:col-span-5 aspect-[16/9] lg:aspect-[4/3] rounded-2xl overflow-hidden relative shadow-md">
-          <img id="res-img" src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=80" alt="Turkey Escape" class="w-full h-full object-cover">
-          <div class="absolute top-3 left-3 bg-navy-deep/85 backdrop-blur text-white text-xs font-bold px-3 py-1 rounded-full">
+          <img id="res-img" src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=80" alt="Destination Preview" class="w-full h-full object-cover">
+          <div class="absolute top-3 left-3 bg-navy-deep/85 backdrop-blur text-white text-xs font-bold px-3 py-1 rounded-full shadow">
             ⭐ 4.9 · Verified DMC Route
           </div>
         </div>
@@ -338,43 +348,31 @@ body {
         <div class="lg:col-span-7 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span id="res-tag" class="text-xs uppercase tracking-widest text-ocean font-bold">Flagship DMC Package</span>
-              <span id="res-price" class="font-display text-3xl font-bold text-navy-deep">₹42,999</span>
+              <span id="res-tag" class="text-xs uppercase tracking-widest text-ocean font-bold">Direct DMC Package</span>
+              <span id="res-price" class="font-display text-2xl sm:text-3xl font-bold text-navy-deep">₹42,999</span>
             </div>
 
-            <h3 id="res-title" class="font-display text-2xl sm:text-3xl text-navy-deep font-bold mb-3 leading-snug">
+            <h3 id="res-title" class="font-display text-xl sm:text-3xl text-navy-deep font-bold mb-2 sm:mb-3 leading-snug">
               Turkey Escape &amp; Wonders
             </h3>
-            <p id="res-desc" class="text-fog text-sm leading-relaxed mb-6">
+            <p id="res-desc" class="text-fog text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
               Handcrafted itinerary combining Istanbul Bosphorus sunsets, Cappadocia cave suite &amp; sunrise hot air balloon flight, with 4★ boutique stays and private chauffeurs.
             </p>
 
-            <!-- AI Insight Pills -->
-            <div class="space-y-2 mb-6 text-xs bg-mist/60 p-4 rounded-2xl border border-navy/5">
-              <div class="flex items-center gap-2 text-navy-deep font-medium">
-                <span class="material-symbols-outlined text-sunset text-sm" style="font-variation-settings:'FILL'1">savings</span>
-                <span id="res-budget-insight"><strong>Based on your budget:</strong> Includes luxury cave stay with daily buffet breakfast &amp; private airport transfers.</span>
-              </div>
-              <div class="flex items-center gap-2 text-navy-deep font-medium">
-                <span class="material-symbols-outlined text-ocean text-sm" style="font-variation-settings:'FILL'1">photo_camera</span>
-                <span id="res-ai-tip"><strong>AI Recommends:</strong> Book the sunrise balloon ride on Day 2 for golden hour lighting with zero crowd delay.</span>
-              </div>
-              <div class="flex items-center gap-2 text-forest font-medium">
-                <span class="material-symbols-outlined text-forest text-sm" style="font-variation-settings:'FILL'1">trending_up</span>
-                <span><strong>Trending:</strong> 18 travellers booked this exact route this month.</span>
-              </div>
+            <div id="res-ai-tip" class="p-3.5 rounded-xl bg-sunset/10 border border-sunset/20 text-xs text-navy font-medium mb-5 sm:mb-6">
+              ✨ <strong>AI Ground Guarantee:</strong> 100% private airport reception, local English guide, and 24/7 on-ground assistance included.
             </div>
           </div>
 
-          <!-- Action Buttons -->
-          <div class="flex flex-wrap items-center gap-4">
-            <a id="res-wa-btn" href="#" target="_blank" class="flex-grow sm:flex-grow-0 px-8 py-4 rounded-2xl bg-[#27AE60] text-white font-bold text-sm hover:bg-[#219653] transition shadow-lg flex items-center justify-center gap-2">
-              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              <span>Instant WhatsApp Booking</span>
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a id="res-wa-btn" href="#" target="_blank" class="flex-1 py-3.5 rounded-2xl bg-[#27AE60] hover:bg-[#219653] text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg text-center">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <span>Export Itinerary on WhatsApp</span>
             </a>
-            <a id="res-book-btn" href="booking.html" class="px-6 py-4 rounded-2xl bg-navy text-white font-bold text-sm hover:bg-navy-deep transition shadow flex items-center gap-2">
-              <span>Checkout Online</span>
-              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <a id="res-book-btn" href="booking.html" class="flex-1 py-3.5 rounded-2xl bg-sunset hover:bg-[#E8904F] text-navy-deep font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-1.5 transition shadow-lg text-center">
+              <span>Book / Customise Trip</span>
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
             </a>
           </div>
         </div>
@@ -382,24 +380,22 @@ body {
       </div>
     </div>
 
-    <!-- Day-by-Day Timeline -->
-    <div class="ai-glass-card rounded-3xl p-6 sm:p-8 shadow-xl">
-      <div class="flex items-center justify-between mb-6 pb-4 border-b border-navy/10">
-        <h4 class="font-display text-2xl font-bold text-navy-deep flex items-center gap-2">
-          <span class="material-symbols-outlined text-ocean">calendar_month</span>
-          Day-by-Day Smart Timeline
-        </h4>
-        <span class="text-xs font-bold text-fog uppercase tracking-wider">Curated by Gemini AI</span>
-      </div>
-      <div id="day-list" class="space-y-4">
-        <!-- Days injected dynamically -->
+    <!-- Day by Day Timeline Card -->
+    <div class="ai-glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl">
+      <h4 class="font-display text-xl sm:text-2xl font-bold text-navy mb-5 flex items-center gap-2">
+        <span class="material-symbols-outlined text-sunset">calendar_month</span>
+        Day-by-Day Customized Breakdown
+      </h4>
+
+      <div class="space-y-3.5" id="day-list">
+        <!-- Rendered dynamically by JS -->
       </div>
     </div>
 
   </div>
 
   <!-- ============ MODE 2: LIVE CHAT CONCIERGE ============ -->
-  <div id="view-chat" class="hidden ai-glass-card rounded-3xl p-6 sm:p-8 max-w-3xl mx-auto mb-12 shadow-2xl">
+  <div id="view-chat" class="hidden ai-glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-3xl mx-auto mb-12 shadow-2xl">
     <div class="flex items-center gap-3 pb-4 border-b border-navy/10 mb-6">
       <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sunset to-ocean text-white font-bold flex items-center justify-center text-xl shadow">🤖</div>
       <div>
@@ -408,18 +404,18 @@ body {
       </div>
     </div>
 
-    <div id="chat-box" class="space-y-4 max-h-[400px] overflow-y-auto pr-2 mb-6 text-sm">
+    <div id="chat-box" class="space-y-4 max-h-[380px] overflow-y-auto pr-2 mb-6 text-sm">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">🤖</div>
-        <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-md leading-relaxed border border-navy/5 shadow-sm">
+        <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-md leading-relaxed border border-navy/5 shadow-sm text-sm">
           Hey there! 👋 I am your Gemini AI Travel Concierge. Tell me where you wish to explore or your budget, and I'll craft a bespoke travel proposal for you instantly!
         </div>
       </div>
     </div>
 
-    <form onsubmit="submitChat(event)" class="flex gap-3">
-      <input type="text" id="chat-input-text" placeholder="Ask AI a question (e.g. Can you customize a 5-day honeymoon in Turkey with balloons?)..." class="ai-field-input flex-grow rounded-2xl px-4 py-3.5 text-sm">
-      <button type="submit" class="px-6 py-3.5 rounded-2xl bg-sunset font-bold text-navy-deep text-sm hover:bg-ocean hover:text-white transition-all shadow flex items-center gap-1.5">
+    <form onsubmit="submitChat(event)" class="flex gap-2 sm:gap-3">
+      <input type="text" id="chat-input-text" placeholder="Ask AI (e.g. 5-day Georgia itinerary or Bali honeymoon quote)..." class="ai-field-input flex-grow rounded-2xl px-4 py-3.5 text-xs sm:text-sm">
+      <button type="submit" class="px-5 sm:px-6 py-3.5 rounded-2xl bg-sunset font-bold text-navy-deep text-xs sm:text-sm hover:bg-ocean hover:text-white transition-all shadow flex items-center gap-1 cursor-pointer shrink-0">
         <span>Send</span>
         <span class="material-symbols-outlined text-sm">send</span>
       </button>
@@ -437,21 +433,27 @@ let selBudget = "₹50k-1L";
 function switchTab(t) {
   document.getElementById('view-visual').classList.add('hidden');
   document.getElementById('view-chat').classList.add('hidden');
-  document.getElementById('tab-visual-btn').className = "px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all";
-  document.getElementById('tab-chat-btn').className = "px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all";
+  document.getElementById('tab-visual-btn').className = "px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all cursor-pointer";
+  document.getElementById('tab-chat-btn').className = "px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all cursor-pointer";
 
   if (t === 'visual') {
     document.getElementById('view-visual').classList.remove('hidden');
-    document.getElementById('tab-visual-btn').className = "px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sunset text-navy-deep shadow-md transition-all";
+    document.getElementById('tab-visual-btn').className = "px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sunset text-navy-deep shadow-md transition-all cursor-pointer";
   } else {
     document.getElementById('view-chat').classList.remove('hidden');
-    document.getElementById('tab-chat-btn').className = "px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sunset text-navy-deep shadow-md transition-all";
+    document.getElementById('tab-chat-btn').className = "px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sunset text-navy-deep shadow-md transition-all cursor-pointer";
   }
 }
 
-function setDestQuick(dest) {
+function setDestQuick(dest, btn) {
   document.getElementById('dest-input').value = dest;
   selDest = dest;
+  document.querySelectorAll('.trending-pill').forEach(el => {
+    el.className = "trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-stone/80 text-navy border border-navy/10 hover:bg-sunset hover:text-white";
+  });
+  if (btn) {
+    btn.className = "trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-navy text-white border border-navy shadow-sm";
+  }
 }
 
 function toggleStyle(btn, styleName) {
@@ -493,47 +495,46 @@ function startAIGeneration() {
   // Reset loader steps
   for (let s = 1; s <= 4; s++) {
     const el = document.getElementById(`step-${s}`);
-    el.querySelector('.step-icon').innerHTML = s;
-    el.querySelector('.step-icon').className = "step-icon w-6 h-6 rounded-full bg-stone/80 text-gray-400 flex items-center justify-center text-xs font-bold";
-    el.className = "flex items-center gap-3 text-fog transition-all duration-300";
+    if (el) {
+      el.querySelector('.step-icon').innerHTML = s;
+      el.querySelector('.step-icon').className = "step-icon w-6 h-6 rounded-full bg-stone text-gray-400 flex items-center justify-center text-xs font-bold";
+      el.className = "flex items-center gap-3 text-fog transition-all duration-300";
+    }
   }
   document.getElementById('loader-bar').style.width = "10%";
 
-  // Step 1 check
   setTimeout(() => {
     markStepDone(1);
     document.getElementById('loader-bar').style.width = "35%";
-  }, 500);
+  }, 400);
 
-  // Step 2 check
   setTimeout(() => {
     markStepDone(2);
     document.getElementById('loader-bar').style.width = "65%";
-  }, 1100);
+  }, 900);
 
-  // Step 3 check
   setTimeout(() => {
     markStepDone(3);
     document.getElementById('loader-bar').style.width = "85%";
-  }, 1700);
+  }, 1400);
 
-  // Step 4 check & render
   setTimeout(() => {
     markStepDone(4);
     document.getElementById('loader-bar').style.width = "100%";
     setTimeout(() => {
       document.getElementById('ai-loader-modal').classList.add('hidden');
       renderAIResult(selDest, selDuration, selBudget, requests);
-    }, 400);
-  }, 2300);
+    }, 350);
+  }, 1900);
 }
 
 function markStepDone(stepNum) {
   const el = document.getElementById(`step-${stepNum}`);
+  if (!el) return;
   const icon = el.querySelector('.step-icon');
-  icon.innerHTML = '<span class="material-symbols-outlined text-sm check-anim text-white">check</span>';
-  icon.className = "step-icon w-6 h-6 rounded-full bg-forest flex items-center justify-center text-xs font-bold shadow";
-  el.className = "flex items-center gap-3 text-navy-deep font-semibold transition-all duration-300";
+  icon.innerHTML = '<span class="material-symbols-outlined text-sm check-anim text-white" style="font-variation-settings:\'FILL\'1">check</span>';
+  icon.className = "step-icon w-6 h-6 rounded-full bg-[#16a34a] flex items-center justify-center text-xs font-bold shadow";
+  el.className = "flex items-center gap-3 text-navy font-semibold transition-all duration-300";
 }
 
 function renderAIResult(destination, duration, budget, notes) {
@@ -544,11 +545,11 @@ function renderAIResult(destination, duration, budget, notes) {
   let price = budget === "₹2L+" ? "₹1,45,000" : budget === "₹1-2L" ? "₹85,000" : "₹42,999";
   let img = "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=80";
   let desc = `Custom AI curated itinerary for ${destination} (${duration}) designed with 5★ luxury stays, private chauffeured transfers, and verified DMC ground arrangements.`;
-  let bookLink = "booking.html";
+  let bookLink = `booking.html?pkg=${encodeURIComponent(destination.toLowerCase())}`;
   
   let days = [
-    { day: 1, title: `${destination} Arrival & VIP Transfer`, desc: "Private airport reception, luxury vehicle transfer to hotel, check-in & welcome rooftop dinner." },
-    { day: 2, title: "Iconic Landmarks & Guided Tour", desc: "Private guided tour covering must-visit UNESCO sites, historic architecture, and local culinary hotspots." },
+    { day: 1, title: `${destination} VIP Arrival & Chauffeur Check-in`, desc: "Private airport reception, luxury vehicle transfer to boutique hotel, check-in & welcome rooftop dinner." },
+    { day: 2, title: "Iconic Landmarks & Guided Exploration", desc: "Private guided tour covering must-visit UNESCO sites, historic architecture, and local culinary hotspots." },
     { day: 3, title: "Scenic Countryside & 4x4 Excursion", desc: "Full day excursion to picturesque mountain viewpoints, hidden lakes & authentic artisan village trails." },
     { day: 4, title: "Leisure, Cafe Trail & Sunset Cruise", desc: "Relaxed morning at leisure, afternoon boutique shopping, and golden hour sunset private cruise." },
     { day: 5, title: "Farewell & Chauffeur Airport Drop-off", desc: "Breakfast at hotel, souvenir shopping, luggage handling and private transfer to the airport." }
@@ -556,10 +557,10 @@ function renderAIResult(destination, duration, budget, notes) {
 
   if (d.includes('georgia')) {
     title = "Georgia Magic & High Caucasus Escape";
-    price = "USD 300";
-    img = "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1200&q=80";
+    price = "USD 300 ($300 Special)";
+    img = "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1200&q=80";
     desc = "Breathtaking 5-day journey across Old Tbilisi, Kazbegi 4x4 Jeep Safari, Gudauri Mountains & Gergeti Trinity Church.";
-    bookLink = "georgia-package.html";
+    bookLink = "booking.html?pkg=georgia";
     days = [
       { day: 1, title: "Tbilisi Arrival & Old Town Sulfur Baths", desc: "Private airport transfer to boutique hotel. Evening stroll across Bridge of Peace and Meidan square." },
       { day: 2, title: "Narikala Aerial Cable Car & Sameba Cathedral", desc: "Cable car up to Narikala Fortress with 360° Tbilisi views followed by Holy Trinity Cathedral tour." },
@@ -572,7 +573,7 @@ function renderAIResult(destination, duration, budget, notes) {
     price = "₹42,999";
     img = "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=80";
     desc = "5 days of fairy chimneys, Bosphorus sunset yacht cruise, Hagia Sophia & sunrise hot air balloon flight with private chauffeurs.";
-    bookLink = "turkey-package.html";
+    bookLink = "booking.html?pkg=turkey";
     days = [
       { day: 1, title: "Istanbul Arrival & Private Bosphorus Yacht Cruise", desc: "Chauffeured Mercedes Sprinter pickup, check-in at Taksim 5-star hotel, and private sunset yacht cruise on Bosphorus Strait." },
       { day: 2, title: "Hagia Sophia, Blue Mosque & Grand Bazaar", desc: "Guided VIP exploration of Sultanahmet historic district, Topkapi Palace and vibrant Grand Bazaar spice markets." },
@@ -582,26 +583,35 @@ function renderAIResult(destination, duration, budget, notes) {
     ];
   } else if (d.includes('bali')) {
     title = "Bali Tropical Luxury & Private Pool Villa";
-    price = "₹75,000";
+    price = "₹48,999";
     img = "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80";
-    desc = "Direct PT. Chrysthalia ground DMC arrangements: Ubud private pool villa, floating breakfast, and Nusa Penida speedboat tour.";
+    desc = "Direct ground DMC arrangements: Ubud private pool villa, floating breakfast, and Nusa Penida speedboat tour.";
+    bookLink = "booking.html?pkg=bali";
     days = [
       { day: 1, title: "Ngurah Rai Airport VIP Reception & Ubud Villa", desc: "Welcome flower lei garland, private van transfer to Ubud luxury jungle villa with private plunge pool." },
-      { day: 2, title: "Tegalalang Rice Terraces, Bali Swing & Kintamani Volcano", desc: "Iconic jungle swing photos, coffee plantation tasting, and volcano lunch overlooking Lake Batur." },
+      { day: 2, title: "Tegalalang Rice Terraces & Bali Swing", desc: "Iconic jungle swing photos, coffee plantation tasting, and volcano lunch overlooking Lake Batur." },
       { day: 3, title: "Nusa Penida West Island Speedboat Day Tour", desc: "Fast boat from Sanur to Nusa Penida, Kelingking T-Rex cliff viewpoint, Broken Beach & Angel's Billabong." },
       { day: 4, title: "Uluwatu Sunset Temple & Kecak Fire Dance", desc: "Cliffside temple views, playful monkey forest, and dramatic sunset Kecak performance with Jimbaran seafood dinner." },
       { day: 5, title: "Seminyak Beach Club & Departure Transfer", desc: "Morning at leisure, beach club lunch, Balinese spa massage session and transfer to Denpasar airport." }
     ];
   } else if (d.includes('dubai')) {
     title = "Dubai Luxury Skylines & VIP Desert Safari";
-    price = "₹65,000";
+    price = "₹34,999";
     img = "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80";
     desc = "Burj Khalifa 124th floor, VIP 4x4 Land Cruiser desert dune bashing, Gold Souk & Marina dinner cruise.";
+    bookLink = "booking.html?pkg=dubai";
+  } else if (d.includes('thailand')) {
+    title = "Thailand Island Hopper (Phuket & Krabi)";
+    price = "₹28,999";
+    img = "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=80";
+    desc = "Phuket & Krabi beachfront luxury resort, 4-Island speedboat tour, and vibrant street markets.";
+    bookLink = "booking.html?pkg=thailand";
   } else if (d.includes('swiss') || d.includes('switzerland')) {
     title = "Swiss Alps, Titlis Glacier & Scenic Rail Pass";
     price = "₹1,45,000";
     img = "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80";
     desc = "Swiss Rail Pass included: Zurich, Lucerne, Mount Titlis rotating cable car & Interlaken glacier views.";
+    bookLink = "booking.html";
   }
 
   document.getElementById('res-title').textContent = title;
@@ -611,21 +621,21 @@ function renderAIResult(destination, duration, budget, notes) {
   document.getElementById('res-book-btn').href = bookLink;
 
   if (notes) {
-    document.getElementById('res-ai-tip').innerHTML = `<strong>Special Request Integrated:</strong> "${notes}" has been factored into your itinerary timings.`;
+    document.getElementById('res-ai-tip').innerHTML = `✨ <strong>Custom Request Integrated:</strong> "${notes}" has been factored into your itinerary timings!`;
   }
 
   // Pre-fill clean WhatsApp message
-  const waMsg = `Hello Let's Explore DMC,\n\nI generated a custom AI itinerary on your website:\n\n* Destination: ${destination}\n* Duration: ${duration}\n* Budget: ${budget}\n* Travel Style: ${selStyles.join(', ') || 'Luxury 5-Star'}\n* Matched Package: ${title} (${price})\n* Special Requests: ${notes || 'Standard VIP DMC Inclusions'}\n\nPlease connect me with the destination manager to confirm dates and booking.`;
+  const waMsg = `Hello Let's Explore DMC,\n\nI generated a custom AI itinerary on your website:\n\n* Destination: ${destination}\n* Duration: ${duration}\n* Budget: ${budget}\n* Travel Style: ${selStyles.join(', ') || 'Luxury 5-Star'}\n* Matched Package: ${title} (${price})\n* Special Requests: ${notes || 'Standard VIP DMC Inclusions'}\n\nPlease share the day-by-day proposal and confirm available departure dates!`;
 
   document.getElementById('res-wa-btn').href = `https://wa.me/918007586871?text=${encodeURIComponent(waMsg)}`;
 
   // Render Day List
   const dayContainer = document.getElementById('day-list');
   dayContainer.innerHTML = days.map(item => `
-    <div class="bg-mist/70 hover:bg-mist transition rounded-2xl p-5 border border-navy/5 flex items-start gap-4 shadow-sm">
-      <span class="w-10 h-10 rounded-xl bg-sunset text-navy-deep font-display font-bold text-base flex items-center justify-center shrink-0 shadow">D${item.day}</span>
+    <div class="bg-mist/70 hover:bg-mist transition rounded-2xl p-4 sm:p-5 border border-navy/5 flex items-start gap-3.5 shadow-sm">
+      <span class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sunset text-navy-deep font-display font-bold text-sm sm:text-base flex items-center justify-center shrink-0 shadow">D${item.day}</span>
       <div class="flex-grow min-w-0">
-        <h5 class="font-display font-bold text-navy-deep text-base mb-1">${item.title}</h5>
+        <h5 class="font-display font-bold text-navy-deep text-sm sm:text-base mb-1">${item.title}</h5>
         <p class="font-sans text-fog text-xs sm:text-sm leading-relaxed">${item.desc}</p>
       </div>
     </div>
@@ -644,7 +654,7 @@ async function submitChat(e) {
   const box = document.getElementById('chat-box');
   box.innerHTML += `
     <div class="flex items-start justify-end gap-3 mb-4">
-      <div class="bg-ocean text-white rounded-2xl rounded-tr-none p-3.5 max-w-md shadow font-medium">
+      <div class="bg-ocean text-white rounded-2xl rounded-tr-none p-3.5 max-w-md shadow font-medium text-sm">
         ${val}
       </div>
       <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">👤</div>
@@ -682,7 +692,7 @@ async function submitChat(e) {
   if (!reply) {
     const valLower = val.toLowerCase().trim();
     if (valLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
-      reply = "✨ **Great!** Our destination manager is ready with your customized wholesale itinerary and private chauffeur quote.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Chat directly on WhatsApp (+91 80075 86871)</a>";
+      reply = "✨ <strong>Great!</strong> Our destination manager is ready with your customized wholesale itinerary and private chauffeur quote.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Chat directly on WhatsApp (+91 80075 86871)</a>";
     } else if (valLower.match(/\b(i cant click|cant click|link not working|not clickable|how to open|phone|whatsapp number|call you)\b/i)) {
       reply = "📲 <strong>Direct WhatsApp & Call Hotline</strong>:<br/><br/>• <strong>Direct Hotline</strong>: +91 80075 86871<br/>• <strong>Direct WhatsApp</strong>: <a href='https://wa.me/918007586871' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>Open WhatsApp Now</a>";
     } else if (valLower.match(/\b(idk|i dont know|dont know|not sure|confused|no idea|kuch bhi|suggest|recommend|any place|best place|best destination|where should i go|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
@@ -731,6 +741,7 @@ async function submitChat(e) {
           ${formatted}
         </div>
       </div>
+    `;
     box.scrollTop = box.scrollHeight;
   }, 400);
 }
