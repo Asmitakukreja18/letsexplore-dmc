@@ -691,7 +691,22 @@ function sendChatMessage() {
   })
   .catch(err => {
     document.getElementById(typingIndicatorId)?.remove();
-    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#fee2e2; color:#991b1b; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem;">Oops, connection error. Please try again.</div>`;
+    const msgLower = (msg || '').toLowerCase().trim();
+    let reply = '';
+
+    if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
+      reply = "✨ <strong>Great!</strong> Our destination manager is ready with your customized wholesale itinerary.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>📲 Chat on WhatsApp (+91 80075 86871)</a>";
+    } else if (msgLower.match(/\b(china|beijing|shanghai)\b/i)) {
+      reply = "🏯 <strong>China Luxury DMC Packages</strong>: We curate private guided tours covering the Great Wall, Forbidden City, and Shanghai.<br/><br/>Would you like me to send the complete day-by-day plan to your WhatsApp?";
+    } else if (msgLower.match(/\b(turkey|cappadocia|istanbul)\b/i)) {
+      reply = "🇹🇷 <strong>Turkey Ground Packages</strong>: Direct ground ops from ₹42,999/person (4N/5D) with Cappadocia Cave stays.<br/><br/>Shall I share the itinerary on WhatsApp?";
+    } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|how much)\b/i)) {
+      reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. Which destination are you planning?";
+    } else {
+      reply = `✨ <strong>Let's Explore DMC</strong>: For <strong>${msg}</strong>, we provide tailor-made private tours, 4★/5★ luxury stays, and 24/7 dedicated ground support.<br/><br/>Would you like to connect on WhatsApp (+91 80075 86871)?`;
+    }
+
+    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; line-height:1.5;">${reply}</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
   });
 }
