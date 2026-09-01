@@ -15,6 +15,7 @@
     if (key === 'explore' && page === 'explore') return 'active';
     if (key === 'deals' && (page === 'deals' || page === 'turkey-package' || page === 'georgia-package')) return 'active';
     if (key === 'booking' && page === 'booking') return 'active';
+    if (key === 'about' && page === 'about') return 'active';
     if (key === 'reviews' && page === 'reviews') return 'active';
     if (key === 'contact' && page === 'contact') return 'active';
     if (key === 'ai' && (page === 'ai-travel' || page === 'ai')) return 'active';
@@ -36,7 +37,8 @@
         <a href="explore.html" class="nav-link ${isActive('explore')}">GROUP TOURS</a>
         <a href="deals.html" class="nav-link ${isActive('deals')}">DEALS &amp; PACKAGES</a>
         <a href="booking.html" class="nav-link ${isActive('booking')}">CUSTOMISE TRIP</a>
-        <a href="reviews.html" class="nav-link ${isActive('reviews')}">REVIEWS</a>
+        <a href="about.html" class="nav-link ${isActive('about')}">ABOUT US</a>
+        <a href="reviews.html" class="nav-link ${isActive('reviews')}">TESTIMONIALS</a>
         <a href="contact.html" class="nav-link ${isActive('contact')}">CONTACT</a>
       </div>
 
@@ -60,8 +62,9 @@
       <a href="explore.html"        class="mobile-link ${isActive('explore')}"><span class="material-symbols-outlined mr-2">groups</span> Group Tours</a>
       <a href="deals.html"          class="mobile-link ${isActive('deals')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Deals &amp; Packages</a>
       <a href="booking.html"        class="mobile-link ${isActive('booking')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Trip</a>
+      <a href="about.html"          class="mobile-link ${isActive('about')}"><span class="material-symbols-outlined mr-2">corporate_fare</span> About Us</a>
+      <a href="reviews.html"        class="mobile-link ${isActive('reviews')}"><span class="material-symbols-outlined mr-2">star</span> Testimonials &amp; Reviews</a>
       <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai')}"><span class="material-symbols-outlined mr-2">smart_toy</span> Atlas AI Trip Architect</a>
-      <a href="reviews.html"        class="mobile-link ${isActive('reviews')}"><span class="material-symbols-outlined mr-2">star</span> Client Reviews</a>
       <a href="contact.html"        class="mobile-link ${isActive('contact')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact Us</a>
       <div class="mobile-contact">
         <a href="tel:+918007586871" class="mobile-contact-link"><span class="material-symbols-outlined text-base align-middle mr-1">call</span> +91-8007586871</a>
@@ -73,63 +76,93 @@
   // ── Footer HTML ─────────────────────────────────────────────────────────
   const footerHTML = `
   <footer class="site-footer">
+    <!-- Top Trust & Associated With Bar -->
+    <div class="footer-trust-strip">
+      <div class="trust-strip-inner">
+        <div class="trust-pill"><span class="material-symbols-outlined text-sunset text-sm">verified</span> Direct DMC Wholesale Pricing</div>
+        <div class="trust-pill"><span class="material-symbols-outlined text-ocean text-sm">apartment</span> Amravati HQ · Bali &amp; Turkey Desks</div>
+        <div class="trust-pill"><span class="material-symbols-outlined text-forest text-sm">directions_car</span> Private Chauffeurs &amp; 4x4 Fleets</div>
+        <div class="trust-pill"><span class="material-symbols-outlined text-[#F59E0B] text-sm">star</span> 4.9/5★ Rated by 10,000+ Guests</div>
+      </div>
+    </div>
+
     <div class="footer-inner">
+      <!-- Col 1: Brand Authority -->
       <div class="footer-brand">
         <a href="home.html" style="display: inline-block; margin-bottom: 12px;">
-          <img src="images/logo.png" alt="Let's Explore DMC Logo" style="height: 76px; width: auto; border-radius: 10px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.18));" />
+          <img src="images/logo.png" alt="Let's Explore DMC Logo" style="height: 72px; width: auto; border-radius: 10px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.12));" />
         </a>
-        <p class="footer-tagline">Real packages. Real prices.<br>From Amravati to the world.</p>
+        <p class="footer-tagline"><strong>Let's Explore DMC Pvt. Ltd.</strong><br>Direct Ground Operations from Amravati (Maharashtra) to Istanbul, Bali, Georgia, Dubai &amp; Beyond.</p>
         <div class="footer-social">
-          <a href="https://wa.me/918007586871" target="_blank" class="social-btn wa">
+          <a href="https://wa.me/918007586871" target="_blank" class="social-btn wa" title="WhatsApp Us">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           </a>
-          <a href="https://instagram.com/lets_exploredmc" target="_blank" class="social-btn ig">
+          <a href="https://instagram.com/lets_exploredmc" target="_blank" class="social-btn ig" title="Instagram">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           </a>
-          <a href="mailto:letsexploredmc@gmail.com" class="social-btn email">
+          <a href="mailto:letsexploredmc@gmail.com" class="social-btn email" title="Email Us">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </a>
         </div>
       </div>
 
+      <!-- Col 2: Top Destinations -->
       <div class="footer-col">
-        <h5>Destinations</h5>
-        <a href="georgia-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">landscape</span>Georgia ($300)</a>
-        <a href="turkey-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">flight</span>Turkey</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">apartment</span>Dubai</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">palette</span>Thailand</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">wb_sunny</span>Bali</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">beach_access</span>Goa</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">island</span>Andaman</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">forest</span>Kerala</a>
-        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-60">castle</span>Europe</a>
+        <h5>Top Destinations</h5>
+        <a href="georgia-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-sunset">landscape</span>Georgia ($300 Special)</a>
+        <a href="turkey-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-ocean">flight</span>Turkey Cappadocia</a>
+        <a href="bali-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-forest">wb_sunny</span>Bali Pool Villas</a>
+        <a href="dubai-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">apartment</span>Dubai &amp; Abu Dhabi</a>
+        <a href="thailand-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">palette</span>Thailand (Phuket/Krabi)</a>
+        <a href="vietnam-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">directions_boat</span>Vietnam Halong Cruise</a>
+        <a href="kashmir-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">ac_unit</span>Kashmir Dal Lake</a>
+        <a href="kerala-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">forest</span>Kerala Houseboat</a>
+        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">castle</span>Swiss Alps &amp; Europe</a>
       </div>
 
+      <!-- Col 3: Speciality & Group Tours -->
       <div class="footer-col">
-        <h5>Quick Links</h5>
-        <a href="explore.html">Explore All</a>
-        <a href="deals.html">Packages & Deals</a>
-        <a href="ai-travel.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-80" style="color:#7B61FF">auto_awesome</span>Atlas AI Trip Architect</a>
-        <a href="compare.html">Compare Packages</a>
-        <a href="guides.html">Travel Guides</a>
-        <a href="reviews.html">Client Reviews</a>
-        <a href="wishlist.html">My Wishlist</a>
-        <a href="booking.html">Book Now</a>
+        <h5>Speciality Tours</h5>
+        <a href="explore.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">groups</span>International Group Tours</a>
+        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">favorite</span>Honeymoon Luxury Suites</a>
+        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">family_restroom</span>Family &amp; Kids Specials</a>
+        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">terrain</span>4x4 Mountain Safaris</a>
+        <a href="contact.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">business_center</span>Corporate &amp; MICE Travel</a>
+        <a href="deals.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">savings</span>Budget-Friendly Escapes</a>
+        <a href="ai-travel.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-[#7B61FF]">auto_awesome</span>Atlas AI Trip Architect</a>
       </div>
 
+      <!-- Col 4: Guest Corner & Trust -->
       <div class="footer-col">
-        <h5>Contact Us</h5>
-        <p class="footer-address"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">location_on</span>Sahakar Nagar, Opp. New Cotton Market,<br>Shiv Krupa Residence, Amravati, MH</p>
-        <a href="tel:+918007586871" class="footer-phone"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">call</span>+91-8007586871</a>
+        <h5>Guest Corner</h5>
+        <a href="about.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">corporate_fare</span>About Our DMC Story</a>
+        <a href="reviews.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-sunset">star</span>Client Reviews &amp; Stories</a>
+        <a href="guides.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">menu_book</span>Travel Guides &amp; Visas</a>
+        <a href="booking.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">how_to_reg</span>How to Book Online</a>
+        <a href="compare.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">compare_arrows</span>Compare Packages</a>
+        <a href="contact.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">payments</span>Online Payment &amp; Bank Info</a>
+        <a href="contact.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">handshake</span>Partner With Us (B2B Agent)</a>
+      </div>
+
+      <!-- Col 5: 24/7 Helpline & Offices -->
+      <div class="footer-col">
+        <h5>24/7 Support &amp; Desks</h5>
+        <p class="footer-address"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">location_on</span><strong>Amravati Global HQ:</strong><br>Sahakar Nagar, Opp. New Cotton Market, Shiv Krupa Residence, Amravati, MH</p>
+        <a href="tel:+918007586871" class="footer-phone"><span class="material-symbols-outlined text-base align-middle mr-1 text-forest">call</span>+91-8007586871</a>
         <a href="mailto:letsexploredmc@gmail.com" class="footer-email"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">mail</span>letsexploredmc@gmail.com</a>
         <a href="https://instagram.com/lets_exploredmc" target="_blank" class="footer-ig"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">photo_camera</span>@lets_exploredmc</a>
-        <a href="booking.html" class="footer-cta">Plan My Trip →</a>
+        <a href="https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20I%20would%20like%20to%20plan%20a%20holiday!" target="_blank" class="footer-cta">Chat on WhatsApp →</a>
       </div>
     </div>
 
+    <!-- Bottom Legal Bar -->
     <div class="footer-bottom">
-      <p>© 2026 Let's Explore DMC. All rights reserved. Amravati, Maharashtra.</p>
+      <p>© 2026 Let's Explore DMC Pvt. Ltd. All rights reserved. Amravati, Maharashtra · Direct Ground Alliances in Bali &amp; Turkey.</p>
       <p class="footer-bottom-links">
+        <a href="about.html">About Us</a>
+        <span>·</span>
+        <a href="reviews.html">Testimonials</a>
+        <span>·</span>
         <a href="contact.html">Privacy Policy</a>
         <span>·</span>
         <a href="contact.html">Terms of Service</a>
@@ -579,23 +612,37 @@
     height: 3px;
     background: linear-gradient(90deg, #F4A261, #1E88E5, #F4A261);
   }
-  .site-footer::after {
-    display: none;
+  .footer-trust-strip {
+    background: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 14px 24px;
+  }
+  .trust-strip-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .trust-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; color: #0F172A;
   }
   .footer-inner {
     max-width: 1280px; margin: 0 auto;
-    padding: 72px 24px 44px;
+    padding: 60px 24px 40px;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 48px;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr 1.3fr;
+    gap: 36px;
     position: relative;
     z-index: 1;
   }
-  @media (max-width: 900px) {
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
+  @media (max-width: 1100px) {
+    .footer-inner { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
   }
-  @media (max-width: 560px) {
-    .footer-inner { grid-template-columns: 1fr; }
+  @media (max-width: 768px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 24px; }
+  }
+  @media (max-width: 520px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   }
   .footer-tagline {
     font-size: 14px; line-height: 1.7;
