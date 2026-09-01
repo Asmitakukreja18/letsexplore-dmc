@@ -684,9 +684,12 @@ function sendChatMessage() {
   .then(data => {
     document.getElementById(typingIndicatorId)?.remove();
     let reply = data.reply || "Sorry, I couldn't process that request right now.";
-    // Simple markdown to HTML conversion for bold text if any
-    reply = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem;">${reply}</div>`;
+    // Simple markdown to HTML conversion for bold and links
+    reply = reply
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;">$1</a>')
+      .replace(/\n/g, '<br/>');
+    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; line-height:1.5;">${reply}</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
   })
   .catch(err => {
@@ -696,10 +699,14 @@ function sendChatMessage() {
 
     if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
       reply = "✨ <strong>Great!</strong> Our destination manager is ready with your customized wholesale itinerary.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>📲 Chat on WhatsApp (+91 80075 86871)</a>";
-    } else if (msgLower.match(/\b(where should i go|suggest|recommend|confused|kuch bhi|any place|best place|best destination|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
-      reply = "✨ <strong>Top Trending Getaways Right Now</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999 (Pool Villas)<br/>4. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999<br/><br/>Which vibe do you prefer: <strong>Mountains, Beaches, or City Luxury</strong>?";
+    } else if (msgLower.match(/\b(i cant click|cant click|link not working|not clickable|how to open|phone|whatsapp number|call you)\b/i)) {
+      reply = "📲 <strong>Direct WhatsApp & Call Hotline</strong>:<br/><br/>• <strong>Direct Hotline</strong>: +91 80075 86871<br/>• <strong>Direct WhatsApp</strong>: <a href='https://wa.me/918007586871' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>Open WhatsApp Now</a>";
+    } else if (msgLower.match(/\b(idk|i dont know|dont know|not sure|confused|no idea|kuch bhi|suggest|recommend|any place|best place|best destination|where should i go|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
+      reply = "✨ <strong>No worries! Let me help you pick the perfect trip</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999<br/>4. 🇹🇭 <strong>Thailand (Phuket & Krabi)</strong> — ₹28,999<br/>5. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999<br/><br/>Which vibe do you prefer: <strong>Mountains, Beaches, or City Luxury</strong>?";
     } else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
       reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!<br/><br/>Where would you like to travel next?";
+    } else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
+      reply = "🇹🇭 <strong>Thailand Tropical DMC Packages</strong>: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping. Starts from ₹28,999/person (5D/4N).";
     } else if (msgLower.match(/\b(china|beijing|shanghai)\b/i)) {
       reply = "🏯 <strong>China Luxury DMC Packages</strong>: We curate private guided tours covering the Great Wall, Forbidden City, and Shanghai.<br/><br/>Would you like me to send the complete day-by-day plan to your WhatsApp?";
     } else if (msgLower.match(/\b(turkey|cappadocia|istanbul)\b/i)) {
@@ -708,12 +715,14 @@ function sendChatMessage() {
       reply = "🇬🇪 <strong>Georgia Flash Deal ($300 USD Special)</strong>: 5D/4N covering Tbilisi, Kazbegi Mountains, Gudauri snow resort, and Ananuri Fortress. Includes 4★ hotel & private 4x4 transfers!";
     } else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida)\b/i)) {
       reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office with private pool villas & speedboat transfers. Starts from ₹48,999/person.";
+    } else if (msgLower.match(/\b(dubai|uae|burj khalifa)\b/i)) {
+      reply = "🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹34,999/person.";
     } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|how much)\b/i)) {
       reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. Which destination are you planning?";
     } else if (msgLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no)\b/i)) {
       reply = "📍 <strong>Our Global DMC Network</strong>:<br/><br/>• <strong>India HQ</strong>: Amravati, Mumbai, Jaipur, Nagpur<br/>• <strong>International</strong>: Bali (Denpasar) & Turkey (Taksim, Istanbul)<br/>• <strong>Official Hotline</strong>: +91 80075 86871";
     } else {
-      reply = `✨ <strong>Let's Explore DMC</strong>: For <strong>${msg}</strong>, we provide tailor-made private tours, 4★/5★ luxury stays, and 24/7 dedicated ground support.<br/><br/>Would you like to connect on WhatsApp (+91 80075 86871)?`;
+      reply = "✨ <strong>Let's Explore DMC Concierge</strong>: I'd love to help plan your getaway! We specialize in direct ground packages across <strong>Turkey, Georgia ($300), Bali, Dubai, Thailand, Vietnam, Kashmir, and Europe</strong>.<br/><br/>Tell me which destination or budget you have in mind!";
     }
 
     chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; line-height:1.5;">${reply}</div>`;

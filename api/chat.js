@@ -60,10 +60,22 @@ HOW YOU COMMUNICATE:
 
   if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
     reply = "✨ **Great!** Our destination manager is ready with your customized wholesale itinerary and private chauffeur quote.\n\n📲 [**Click here to chat directly on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hi%20Let's%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!) or reply with your travel dates!";
-  } else if (msgLower.match(/\b(where should i go|suggest|recommend|confused|kuch bhi|any place|best place|best destination|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
-    reply = "✨ **Top Trending Getaways Right Now**:\n\n1. 🇹🇷 **Turkey (Istanbul & Cappadocia)** — ₹42,999 (Cave suites & hot air balloons)\n2. 🇬🇪 **Georgia Special** — $300 USD (Snowy Kazbegi mountains & Tbilisi)\n3. 🏝️ **Bali & Nusa Penida** — ₹48,999 (Private pool villas & tropical beaches)\n4. 🏙️ **Dubai Luxury** — ₹34,999 (Desert safaris & Marina yachts)\n\nWhich vibe do you prefer: **Mountains, Tropical Beaches, or City Luxury**?";
+  } else if (msgLower.match(/\b(i cant click|cant click|link not working|not clickable|how to open|phone|whatsapp number|call you)\b/i)) {
+    reply = "📲 **Direct WhatsApp & Phone Support**:\n\n* **Direct Number**: +91 80075 86871\n* **Direct WhatsApp**: https://wa.me/918007586871\n* **Email**: letsexploredmc@gmail.com\n\nYou can message us directly on WhatsApp anytime!";
+  } else if (msgLower.match(/\b(idk|i dont know|dont know|not sure|confused|no idea|kuch bhi|suggest|recommend|any place|best place|best destination|where should i go|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
+    reply = "✨ **No worries! Let me help you pick the perfect trip**:\n\n1. 🇹🇷 **Turkey (Istanbul & Cappadocia)** — ₹42,999 (Cave suites & sunrise hot air balloons)\n2. 🇬🇪 **Georgia Special** — $300 USD (Snowy Kazbegi & old Tbilisi)\n3. 🏝️ **Bali & Nusa Penida** — ₹48,999 (Private pool villas & tropical beaches)\n4. 🇹🇭 **Thailand (Phuket & Krabi)** — ₹28,999 (Island cruises & beaches)\n5. 🏙️ **Dubai Luxury** — ₹34,999 (Desert safaris & Burj Khalifa)\n\nWhich vibe do you feel like: **Mountains, Beaches, or City Luxury**?";
   } else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
     reply = "👋 **Hello! Welcome to Let's Explore DMC.**\n\nI am your AI Travel Concierge. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!\n\nWhere would you like to travel next?";
+  } else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
+    reply = "🇹🇭 **Thailand Tropical DMC Packages**: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping.\n\n* **Starts from**: ₹28,999/person (5D/4N)\n* **Inclusions**: 4★ Resort, airport transfers, 4-Island tour & city tour.\n\nWould you like me to send the itinerary to your WhatsApp?";
+  } else if (msgLower.match(/\b(vietnam|hanoi|da nang|ha long bay|halong)\b/i)) {
+    reply = "🇻🇳 **Vietnam Explorer Package**: 5★ Halong Bay overnight cruise, Da Nang Golden Bridge, and Hanoi cultural tours.\n\n* **Duration**: 7N/8D or 11N/12D\n* **Starts from**: ₹49,999/person.\n\nShall I share the package details on WhatsApp?";
+  } else if (msgLower.match(/\b(singapore|malaysia|kuala lumpur|genting)\b/i)) {
+    reply = "🦁 **Singapore & Malaysia Combo**: Universal Studios, Marina Bay Sands, Genting Highlands cable cars & Petronas Towers. Perfect for families and couples!";
+  } else if (msgLower.match(/\b(kashmir|srinagar|gulmarg|pahalgam)\b/i)) {
+    reply = "🏔️ **Kashmir Heaven on Earth**: Dal Lake luxury houseboat stay, Gulmarg Gondola snow rides, and Pahalgam valleys. Starts from ₹21,999/person (4N/5D).";
+  } else if (msgLower.match(/\b(kerala|munnar|alleppey|kochi)\b/i)) {
+    reply = "🌴 **Kerala God's Own Country**: Alleppey private luxury backwater houseboat with all meals, Munnar tea hills & waterfalls. Starts from ₹18,999/person.";
   } else if (msgLower.match(/\b(honeymoon|romantic|couple|anniversary)\b/i)) {
     reply = "💍 **Romantic Luxury Escapes**: Our top couple packages are **Bali Private Pool Villas** (Ubud & Seminyak) and **Cappadocia Cave Suites** with sunrise hot air balloon champagne flights. Both include private airport transfers & candlelight dinners. Would you like a honeymoon quote?";
   } else if (msgLower.match(/\b(family|kids|children|parents)\b/i)) {
@@ -85,7 +97,7 @@ HOW YOU COMMUNICATE:
   } else if (msgLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no|amravati office|mumbai office)\b/i)) {
     reply = "📍 **Our Global DMC Network**:\n\n* **India HQ**: Amravati, Mumbai, Jaipur, Nagpur\n* **International**: Bali (Denpasar) & Turkey (Taksim, Istanbul)\n* **Official Hotline**: +91 80075 86871";
   } else {
-    reply = `✨ **Let's Explore DMC Concierge**: For **${message.trim()}**, we provide tailor-made private tours, 4★/5★ luxury stays, and 24/7 dedicated on-ground support.\n\nWould you like us to customize this for your preferred dates and group size?`;
+    reply = "✨ **Let's Explore DMC Concierge**: I'd love to help plan your getaway! We specialize in direct ground packages across **Turkey, Georgia ($300), Bali, Dubai, Thailand, Vietnam, Kashmir, and Europe**.\n\nTell me which country or budget you have in mind, and I will share a custom proposal!";
   }
 
   return res.status(200).json({ reply });

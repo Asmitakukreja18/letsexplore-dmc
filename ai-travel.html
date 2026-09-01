@@ -683,10 +683,20 @@ async function submitChat(e) {
     const valLower = val.toLowerCase().trim();
     if (valLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
       reply = "✨ **Great!** Our destination manager is ready with your customized wholesale itinerary and private chauffeur quote.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Chat directly on WhatsApp (+91 80075 86871)</a>";
-    } else if (valLower.match(/\b(where should i go|suggest|recommend|confused|kuch bhi|any place|best place|best destination|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
-      reply = "✨ <strong>Top Trending Getaways Right Now</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999 (Cave suites & hot air balloons)<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi & Tbilisi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999 (Private pool villas & beaches)<br/>4. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999 (Desert safaris & Marina)<br/><br/>Which vibe do you prefer: <strong>Mountains, Tropical Beaches, or City Luxury</strong>?";
+    } else if (valLower.match(/\b(i cant click|cant click|link not working|not clickable|how to open|phone|whatsapp number|call you)\b/i)) {
+      reply = "📲 <strong>Direct WhatsApp & Call Hotline</strong>:<br/><br/>• <strong>Direct Hotline</strong>: +91 80075 86871<br/>• <strong>Direct WhatsApp</strong>: <a href='https://wa.me/918007586871' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>Open WhatsApp Now</a>";
+    } else if (valLower.match(/\b(idk|i dont know|dont know|not sure|confused|no idea|kuch bhi|suggest|recommend|any place|best place|best destination|where should i go|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
+      reply = "✨ <strong>No worries! Let me help you pick the perfect trip</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999 (Cave suites & sunrise balloons)<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi & old Tbilisi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999 (Private pool villas & beaches)<br/>4. 🇹🇭 <strong>Thailand (Phuket & Krabi)</strong> — ₹28,999 (Island cruises)<br/>5. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999 (Desert safaris & Burj Khalifa)<br/><br/>Which vibe do you feel like: <strong>Mountains, Beaches, or City Luxury</strong>?";
     } else if (valLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
       reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me where you wish to explore or your budget, and I will craft a custom itinerary for you!<br/><br/>Where would you like to travel next?";
+    } else if (valLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
+      reply = "🇹🇭 <strong>Thailand Tropical DMC Packages</strong>: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping.<br/><br/>• <strong>Starts from</strong>: ₹28,999/person (5D/4N)<br/>• <strong>Inclusions</strong>: 4★ Resort, airport transfers, 4-Island tour & city tour.<br/><br/>Would you like me to send the complete itinerary on WhatsApp?";
+    } else if (valLower.match(/\b(vietnam|hanoi|da nang|ha long bay|halong)\b/i)) {
+      reply = "🇻🇳 <strong>Vietnam Explorer Package</strong>: 5★ Halong Bay overnight cruise, Da Nang Golden Bridge, and Hanoi cultural tours.<br/><br/>• <strong>Duration</strong>: 7N/8D or 11N/12D<br/>• <strong>Starts from</strong>: ₹49,999/person.<br/><br/>Shall I share the package details on WhatsApp?";
+    } else if (valLower.match(/\b(kashmir|srinagar|gulmarg|pahalgam)\b/i)) {
+      reply = "🏔️ <strong>Kashmir Heaven on Earth</strong>: Dal Lake luxury houseboat stay, Gulmarg Gondola snow rides, and Pahalgam valleys. Starts from ₹21,999/person (4N/5D).";
+    } else if (valLower.match(/\b(kerala|munnar|alleppey|kochi)\b/i)) {
+      reply = "🌴 <strong>Kerala God's Own Country</strong>: Alleppey private luxury backwater houseboat with all meals, Munnar tea hills & waterfalls. Starts from ₹18,999/person.";
     } else if (valLower.match(/\b(honeymoon|romantic|couple|anniversary)\b/i)) {
       reply = "💍 <strong>Romantic Luxury Escapes</strong>: Our top couple packages are <strong>Bali Private Pool Villas</strong> (Ubud & Seminyak) and <strong>Cappadocia Cave Suites</strong> with sunrise hot air balloon champagne flights. Both include private airport transfers & candlelight dinners. Would you like a honeymoon quote?";
     } else if (valLower.match(/\b(china|beijing|shanghai|guangzhou)\b/i)) {
@@ -704,13 +714,16 @@ async function submitChat(e) {
     } else if (valLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no)\b/i)) {
       reply = "📍 **Our Global DMC Network**:<br/><br/>• <strong>India HQ</strong>: Amravati, Mumbai, Jaipur, Nagpur<br/>• <strong>International</strong>: Bali (Denpasar) & Turkey (Taksim, Istanbul)<br/>• <strong>Official Hotline</strong>: +91 80075 86871";
     } else {
-      reply = `✨ **Let's Explore DMC Concierge**: For <strong>${val}</strong>, we provide tailor-made private tours, 4★/5★ luxury stays, and 24/7 dedicated on-ground support.<br/><br/>Would you like us to customize this for your preferred dates and group size?`;
+      reply = "✨ <strong>Let's Explore DMC Concierge</strong>: I'd love to help plan your holiday! We specialize in direct ground packages across <strong>Turkey, Georgia ($300), Bali, Dubai, Thailand, Vietnam, Kashmir, and Europe</strong>.<br/><br/>Tell me which destination or budget you have in mind!";
     }
   }
 
   setTimeout(() => {
     document.getElementById(typingId)?.remove();
-    const formatted = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    const formatted = reply
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow">$1</a>')
+      .replace(/\n/g, '<br/>');
     box.innerHTML += `
       <div class="flex items-start gap-3 mb-4">
         <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">🤖</div>
@@ -718,7 +731,6 @@ async function submitChat(e) {
           ${formatted}
         </div>
       </div>
-    `;
     box.scrollTop = box.scrollHeight;
   }, 400);
 }
