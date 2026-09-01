@@ -691,7 +691,30 @@ async function submitChat(e) {
 
   if (!reply) {
     const valLower = val.toLowerCase().trim();
-    if (valLower.match(/^(no|nope|nah|nahi|na|never|not interested|dont want|cancel|stop)\b/i)) {
+
+    // Parse Budget Numbers (e.g. 10k, 10,482, 50k, 1 lakh, etc.)
+    const numMatch = valLower.match(/\b(\d{1,3}(?:,\d{3})*|\d+)\s*(k|lakh|lac|l|thousand|rs|inr|usd|\$)?\b/i);
+    let parsedBudget = 0;
+    if (numMatch && !valLower.match(/\b(day|days|night|nights|pax|people|person|adult|adults|child|kids)\b/i)) {
+      let rawNum = parseFloat(numMatch[1].replace(/,/g, ''));
+      let unit = (numMatch[2] || '').toLowerCase();
+      if (unit === 'k' || unit === 'thousand') rawNum *= 1000;
+      else if (unit === 'l' || unit === 'lakh' || unit === 'lac') rawNum *= 100000;
+      else if (unit === 'usd' || unit === '$') rawNum *= 86;
+      if (rawNum >= 1000) {
+        parsedBudget = rawNum;
+      }
+    }
+
+    if (parsedBudget > 0 && parsedBudget < 20000) {
+      reply = `💡 <strong>Best Options for your ~₹${Math.round(parsedBudget).toLocaleString('en-IN')} Budget</strong>:<br/><br/>• 🛕 <strong>Ujjain Mahakal & Omkareshwar</strong>: 3D/2N from ₹8,999/person<br/>• 🏖️ <strong>Goa Beach Break</strong>: 4D/3N 4★ resort from ₹12,999/person<br/>• 🏔️ <strong>Manali Snow Valley</strong>: 4D/3N private cab from ₹14,999/person<br/><br/><em>Pro Tip:</em> If you can stretch your budget slightly to ~₹21,000–₹25,000, you can do international <strong>Georgia 5D ($300 USD / ₹25K)</strong> or <strong>Kashmir Dal Lake (₹21,999)</strong>!<br/><br/>Would you prefer domestic hill stations or an international deal?`;
+    } else if (parsedBudget >= 20000 && parsedBudget <= 45000) {
+      reply = `💎 <strong>Best International Direct DMC Packages for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')}</strong>:<br/><br/>1. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (~₹25,999) (5D/4N snowy Kazbegi & Tbilisi)<br/>2. 🇹🇭 <strong>Thailand Island Hopper</strong> — ₹28,999 (5D/4N Phuket & Krabi 4★ resort)<br/>3. 🏙️ <strong>Dubai Grand Luxury</strong> — ₹34,999 (5D/4N Desert safari & Burj Khalifa)<br/>4. 🇹🇷 <strong>Turkey Escape</strong> — ₹42,999 (5D/4N Cappadocia balloons & Bosphorus yacht)<br/>5. 🏔️ <strong>Kashmir Heaven</strong> — ₹21,999 (5D/4N Dal Lake luxury houseboat & snow)<br/><br/>Which destination fits your mood: <strong>Mountains, Beaches, or City Luxury</strong>?`;
+    } else if (parsedBudget > 45000 && parsedBudget <= 120000) {
+      reply = `✨ <strong>Premium 5-Star Luxury Packages for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')}</strong>:<br/><br/>1. 🏝️ <strong>Bali Tropical Luxury & Private Pool Villa</strong> (6D/5N ~₹48,999 with floating breakfast & Nusa Penida)<br/>2. 🇻🇳 <strong>Vietnam Scenic Wonder & Halong Cruise</strong> (7D/6N ~₹49,999)<br/>3. 🇹🇷 <strong>Turkey 7-Day Grand Circuit & Cave Suite</strong> (~₹65,000)<br/><br/><a href='https://wa.me/918007586871?text=Hello%20Let%27s%20Explore%20DMC,%20please%20share%20luxury%20itineraries%20for%20budget%20of%20around%20₹${Math.round(parsedBudget)}!' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Options to WhatsApp</a>`;
+    } else if (parsedBudget > 120000) {
+      reply = `👑 <strong>Ultra-Luxury Signature Experiences for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')}</strong>:<br/><br/>1. 🇨🇭 <strong>Swiss Alps, Glacier Express & Interlaken</strong> (7D/6N from ₹1,45,000)<br/>2. 🏯 <strong>China Luxury Silk Route & Avatar Mountains</strong> (~₹1,25,000)<br/>3. 🏝️ <strong>Maldives / Bali Overwater Private Pool Villa</strong><br/><br/><a href='https://wa.me/918007586871?text=Hello%20Let%27s%20Explore%20DMC,%20please%20connect%20me%20with%20a%20luxury%20travel%20expert!' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Chat with Luxury Specialist</a>`;
+    } else if (valLower.match(/^(no|nope|nah|nahi|na|never|not interested|dont want|cancel|stop)\b/i)) {
       reply = "No problem at all! Take your time. 😊<br/><br/>Whenever you're ready, I can help you with:<br/>• 🏔️ <strong>Snow & Mountains</strong> (Georgia $300 or Kashmir ₹21K)<br/>• 🏝️ <strong>Tropical Beaches</strong> (Bali Pool Villas ₹48K or Thailand ₹28K)<br/>• 🏙️ <strong>City Luxury</strong> (Dubai ₹34K)<br/><br/>What kind of holiday do you usually enjoy?";
     } else if (valLower.match(/\b(wtf|wth|what|kya|huh|bakwas|pagal|robot|nonsense|confused|glitch|bug|error)\b/i)) {
       reply = "Haha, sorry about that! 😅 Let's restart cleanly.<br/><br/>I am <strong>Atlas</strong>, the AI Travel Architect at Let's Explore DMC. You can ask me anything naturally:<br/><br/>1. <em>\"What is included in the Georgia $300 package?\"</em><br/>2. <em>\"Best time to visit Turkey for hot air balloons?\"</em><br/>3. <em>\"Suggest a 5-day honeymoon package under ₹1 Lakh\"</em><br/>4. <em>\"Do Indians get visa on arrival in Bali?\"</em><br/><br/>Tell me in your own words, what are you looking for?";
