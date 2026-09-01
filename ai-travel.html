@@ -797,7 +797,7 @@ async function submitChat(e) {
     document.getElementById(typingId)?.remove();
     
     // Auto-generate rich custom WhatsApp prefilled message based on what user asked
-    const customWaMsg = `Hello Let's Explore DMC,\n\nI was chatting with your AI Concierge about: "${val}".\n\nPlease share the customized wholesale proposal, locked day-by-day itinerary & available dates!`;
+    const customWaMsg = `Hello Let's Explore DMC,\n\nI am planning a holiday for: "${val}".\n\nPlease share the customized day-by-day itinerary, best package quotation & available dates!`;
     const customWaUrl = "https://wa.me/918007586871?text=" + encodeURIComponent(customWaMsg);
 
     let formatted = reply
