@@ -674,50 +674,45 @@ async function submitChat(e) {
   `;
   box.scrollTop = box.scrollHeight;
 
-  // Maintain in-memory chat history for multi-turn Gemini conversation
-  if (!window._geminiChatHistory) window._geminiChatHistory = [];
-  window._geminiChatHistory.push({ role: 'user', parts: [{ text: val }] });
-
   let reply = '';
-  // 1. Try backend serverless /api/chat
+  const directKey = atob("QVEuQWI4Uk42SXQ5aGtQWlFuZTU4Q2V6RlFyRnlTZlZDbE5TODYzLThQUHRpYTlBRmlhR1E=");
+  const systemPrompt = "You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Georgia ($300 USD Special with Kazbegi & Gudauri), Turkey (₹42K), Bali (₹48K), Dubai (₹34K), Thailand (₹28K), Vietnam, Kashmir, Kerala. Talk naturally in user's language (Hindi, English, Hinglish). Always answer whatever user asks (budgets, hotels, visa, weather, food, dates). Keep response clean (2 to 3 paragraphs) and include 1-click WhatsApp link [📲 Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!).";
+
+  // 1. Direct Real Google Gemini 2.5 Flash Call
   try {
-    const res = await fetch('/api/chat', {
+    const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${directKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: val, history: window._geminiChatHistory.map(h => ({ role: h.role, text: h.parts[0].text })) })
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents: [{ role: 'user', parts: [{ text: val }] }]
+      })
     });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.reply) reply = data.reply;
+    if (gRes.ok) {
+      const gData = await gRes.json();
+      const genText = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (genText) {
+        reply = genText;
+      }
     }
-  } catch(err) {
-    console.log('Serverless /api/chat unreachable, calling Gemini 2.5 Flash directly...');
+  } catch(gErr) {
+    console.warn('Direct Gemini API call error:', gErr);
   }
 
-  // 2. Direct Gemini 2.5 Flash call if static host (GitHub Pages / Local)
+  // 2. Serverless /api/chat fallback
   if (!reply) {
     try {
-      const directKey = atob("QVEuQWI4Uk42SXQ5aGtQWlFuZTU4Q2V6RlFyRnlTZlZDbE5TODYzLThQUHRpYTlBRmlhR1E=");
-      const systemPrompt = "You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Georgia ($300 USD Special), Turkey (₹42K), Bali (₹48K), Dubai (₹34K), Thailand (₹28K), Vietnam, Kashmir, Kerala. Talk naturally in user's language (Hindi, English, Hinglish). Always answer whatever user asks (budgets, hotels, visa, weather, food, dates). Keep response clean (2 to 3 paragraphs) and include 1-click WhatsApp link [📲 Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!).";
-      
-      const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${directKey}`, {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-          contents: window._geminiChatHistory.slice(-8)
-        })
+        body: JSON.stringify({ message: val })
       });
-      if (gRes.ok) {
-        const gData = await gRes.json();
-        const genText = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (genText) {
-          reply = genText;
-          window._geminiChatHistory.push({ role: 'model', parts: [{ text: genText }] });
-        }
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.reply) reply = data.reply;
       }
-    } catch(gErr) {
-      console.warn('Direct Gemini API call error:', gErr);
+    } catch(err) {
+      console.log('Serverless fallback unreachable');
     }
   }
 
