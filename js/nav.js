@@ -27,17 +27,16 @@
         <a href="explore.html" class="nav-link ${isActive('explore.html')}">GROUP TOURS</a>
         <a href="deals.html" class="nav-link ${isActive('deals.html')}">DEALS & PACKAGES</a>
         <a href="booking.html" class="nav-link ${isActive('booking.html')}">CUSTOMISE TRIP</a>
-        <a href="contact.html#offices" class="nav-link">OUR BRANCHES</a>
         <a href="reviews.html" class="nav-link ${isActive('reviews.html')}">REVIEWS</a>
         <a href="contact.html" class="nav-link ${isActive('contact.html')}">CONTACT</a>
       </div>
 
       <!-- Right Actions -->
       <div class="nav-actions">
-        <!-- ATLAS AI -->
-        <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai-travel.html')}" title="Atlas AI Trip Architect">
-          <span class="ai-badge">AI</span>
-          <span class="ai-chip-label">Atlas AI</span>
+        <!-- ✨ AI TRIP PLANNER -->
+        <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai-travel.html')}" title="AI Trip Planner">
+          <span class="ai-sparkle">✨</span>
+          <span class="ai-chip-label">AI Trip Planner</span>
         </a>
         <a href="booking.html" class="nav-cta">Plan Trip</a>
         <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
@@ -52,7 +51,6 @@
       <a href="explore.html"        class="mobile-link ${isActive('explore.html')}"><span class="material-symbols-outlined mr-2">groups</span> Group Tours</a>
       <a href="deals.html"          class="mobile-link ${isActive('deals.html')}"><span class="material-symbols-outlined mr-2">auto_awesome</span> Deals & Packages</a>
       <a href="booking.html"        class="mobile-link ${isActive('booking.html')}"><span class="material-symbols-outlined mr-2">edit_calendar</span> Customise Trip</a>
-      <a href="contact.html#offices" class="mobile-link"><span class="material-symbols-outlined mr-2">storefront</span> Our Branches</a>
       <a href="ai-travel.html"      class="mobile-link mobile-ai ${isActive('ai-travel.html')}"><span class="material-symbols-outlined mr-2">smart_toy</span> Atlas AI Trip Architect</a>
       <a href="reviews.html"        class="mobile-link ${isActive('reviews.html')}"><span class="material-symbols-outlined mr-2">star</span> Client Reviews</a>
       <a href="contact.html"        class="mobile-link ${isActive('contact.html')}"><span class="material-symbols-outlined mr-2">location_on</span> Contact Us</a>
@@ -171,7 +169,7 @@
     box-shadow: 0 2px 14px rgba(11,31,58,0.06);
     transition: all 0.3s ease;
     padding: 0;
-    height: 64px;
+    height: 70px;
   }
 
   /* Compact state on scroll */
@@ -192,7 +190,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    height: 64px;
+    height: 70px;
     gap: 16px;
     box-sizing: border-box;
   }
@@ -204,20 +202,20 @@
     flex-shrink: 0;
     transition: opacity 0.2s;
   }
-  .nav-logo:hover { opacity: 0.92; }
+  .nav-logo:hover { opacity: 0.95; }
 
   /* BADA & PROMINENT LOGO */
   .nav-logo-img {
-    height: 48px;
+    height: 56px;
     width: auto;
-    max-width: 210px;
+    max-width: 250px;
     object-fit: contain;
     border-radius: 8px;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
     transition: transform 0.25s ease;
   }
   .nav-logo:hover .nav-logo-img {
-    transform: scale(1.03);
+    transform: scale(1.04);
   }
 
   .nav-links {
@@ -377,47 +375,47 @@
     color: #0B1F3A;
   }
 
-  /* 🤖 Atlas AI Button — Premium neural interface feel */
+  /* 🤖 ✨ AI Trip Planner Button — Orange → Purple → Blue Gradient Pulse */
   @keyframes ai-scan {
     0%   { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
     30%  { opacity: 0.6; }
     100% { transform: translateX(350%) skewX(-15deg); opacity: 0; }
   }
   @keyframes ai-glow {
-    0%   { box-shadow: 0 0 10px rgba(123,97,255,0.4), 0 0 20px rgba(0,198,255,0.12), inset 0 1px 0 rgba(255,255,255,0.15); }
-    50%  { box-shadow: 0 0 22px rgba(123,97,255,0.7), 0 0 44px rgba(0,198,255,0.28), inset 0 1px 0 rgba(255,255,255,0.2); }
-    100% { box-shadow: 0 0 10px rgba(123,97,255,0.4), 0 0 20px rgba(0,198,255,0.12), inset 0 1px 0 rgba(255,255,255,0.15); }
+    0%   { box-shadow: 0 0 10px rgba(244,162,97,0.5), 0 0 20px rgba(123,97,255,0.3); }
+    50%  { box-shadow: 0 0 22px rgba(244,162,97,0.8), 0 0 35px rgba(30,136,229,0.5); }
+    100% { box-shadow: 0 0 10px rgba(244,162,97,0.5), 0 0 20px rgba(123,97,255,0.3); }
   }
   .nav-ai-pill {
     position: relative;
-    display: flex; align-items: center; gap: 4px;
-    background: linear-gradient(135deg, #5B3FD8 0%, #7B61FF 45%, #00C6FF 100%);
+    display: flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, #F4A261 0%, #7B61FF 48%, #1E88E5 100%);
     background-size: 200% 200%;
-    color: #fff; text-decoration: none;
+    color: #fff !important; text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-size: 10.5px; font-weight: 700;
-    padding: 4px 9px 4px 6px; border-radius: 50px;
-    letter-spacing: 0.02em;
+    font-size: 11px; font-weight: 800;
+    padding: 6px 14px; border-radius: 50px;
+    letter-spacing: 0.03em;
     transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     flex-shrink: 0;
-    animation: ai-glow 2.8s infinite ease-in-out;
-    border: 1px solid rgba(255,255,255,0.2);
+    animation: ai-glow 2.4s infinite ease-in-out;
+    border: 1px solid rgba(255,255,255,0.3);
     overflow: hidden;
   }
-  /* Scan shimmer */
+  .ai-sparkle { font-size: 13px; line-height: 1; }
   .nav-ai-pill::after {
     content: '';
     position: absolute;
     top: 0; left: 0;
     width: 40%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
-    animation: ai-scan 3.5s ease-in-out 1.2s infinite;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: ai-scan 3.2s ease-in-out 1s infinite;
     border-radius: 50px;
   }
   .nav-ai-pill:hover {
-    transform: translateY(-1px) scale(1.03);
-    box-shadow: 0 0 20px rgba(123,97,255,0.7), 0 4px 16px rgba(0,0,0,0.15) !important;
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 0 25px rgba(244,162,97,0.9), 0 4px 20px rgba(30,136,229,0.5) !important;
   }
   .nav-ai-pill:hover::after { animation-play-state: paused; }
   .site-nav.scrolled .nav-ai-pill {
@@ -553,34 +551,26 @@
     box-shadow: 0 4px 16px rgba(39,174,96,0.3);
   }
 
-  /* =========  FOOTER — ✨ WHITE GLASS MORPHISM (Header jaisa premium)  ========= */
+  /* =========  FOOTER — ✨ PURE CRISP WHITE BACKGROUND  ========= */
   .site-footer {
     position: relative;
     margin-top: 80px;
     overflow: hidden;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    background: rgba(255, 255, 255, 0.78);
-    border-top: 1px solid rgba(255, 255, 255, 0.55);
-    box-shadow: 0 -10px 40px rgba(11,31,58,0.08);
-    color: rgba(15, 23, 42, 0.78);
+    background: #FFFFFF !important;
+    border-top: 1.5px solid #E2E8F0 !important;
+    box-shadow: 0 -10px 40px rgba(11,31,58,0.06);
+    color: #0F172A !important;
     font-family: 'Inter', sans-serif;
   }
   .site-footer::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(244,162,97,0.7), transparent);
+    height: 3px;
+    background: linear-gradient(90deg, #F4A261, #1E88E5, #F4A261);
   }
   .site-footer::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 50% 70% at 90% 0%, rgba(30,136,229,0.08) 0%, transparent 55%),
-      radial-gradient(ellipse 45% 55% at 5% 100%, rgba(244,162,97,0.09) 0%, transparent 55%);
-    pointer-events: none;
+    display: none;
   }
   .footer-inner {
     max-width: 1280px; margin: 0 auto;
@@ -599,7 +589,7 @@
   }
   .footer-tagline {
     font-size: 14px; line-height: 1.7;
-    color: rgba(15,23,42,0.62);
+    color: #475569 !important;
     margin-bottom: 20px;
   }
   .footer-social { display: flex; gap: 10px; }
@@ -607,46 +597,46 @@
     width: 40px; height: 40px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     text-decoration: none; transition: all 0.25s ease;
-    background: rgba(11,31,58,0.04);
-    border: 1px solid rgba(11,31,58,0.08);
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
   }
   .social-btn.wa    { color: #27AE60; }
   .social-btn.ig    { color: #E1306C; }
   .social-btn.email { color: var(--accent); }
   .social-btn:hover {
     transform: translateY(-3px) scale(1.05);
-    background: rgba(11,31,58,0.07);
-    border-color: rgba(11,31,58,0.15);
+    background: #F1F5F9;
+    border-color: #CBD5E1;
   }
   .footer-col h5 {
-    color: var(--primary);
-    font-size: 12px; font-weight: 800;
+    color: #0B1F3A !important;
+    font-size: 13px; font-weight: 800;
     text-transform: uppercase; letter-spacing: 0.12em;
     margin-bottom: 18px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(11,31,58,0.1);
+    border-bottom: 2px solid #F1F5F9;
   }
   .footer-col a {
     display: block;
-    color: rgba(15,23,42,0.62);
-    text-decoration: none; font-size: 14px;
+    color: #334155 !important;
+    text-decoration: none; font-size: 14px; font-weight: 500;
     margin-bottom: 9px;
     transition: all 0.2s ease;
   }
   .footer-col a:hover {
-    color: var(--accent);
+    color: #F4A261 !important;
     transform: translateX(3px);
   }
   .footer-address {
     font-size: 13px; margin-bottom: 12px; line-height: 1.7;
-    color: rgba(15,23,42,0.6);
+    color: #475569 !important;
   }
   .footer-phone, .footer-email, .footer-ig {
     font-size: 13px; margin-bottom: 9px !important;
-    color: rgba(15,23,42,0.72) !important;
+    color: #0F172A !important; font-weight: 600;
   }
   .footer-phone:hover, .footer-email:hover, .footer-ig:hover {
-    color: var(--accent) !important;
+    color: #F4A261 !important;
   }
   .footer-cta {
     display: inline-block; margin-top: 14px !important;
@@ -665,13 +655,14 @@
     box-shadow: 0 8px 24px rgba(244,162,97,0.45) !important;
   }
   .footer-bottom {
-    border-top: 1px solid rgba(11,31,58,0.08);
+    border-top: 1px solid #E2E8F0 !important;
     padding: 22px 24px;
     max-width: 1280px; margin: 0 auto;
     display: flex; justify-content: space-between; align-items: center;
     flex-wrap: wrap; gap: 10px;
-    font-size: 12px;
-    color: rgba(15,23,42,0.55);
+    font-size: 13px;
+    color: #64748B !important;
+    background: #FAFAFA;
     position: relative;
     z-index: 1;
   }
@@ -702,14 +693,14 @@
   /* =========  RESPONSIVE NAV  ========= */
   @media (max-width: 1280px) {
     .nav-link { font-size: 11px; padding: 5px 8px; }
-    .nav-logo-img { height: 40px; max-width: 175px; }
+    .nav-logo-img { height: 50px; max-width: 220px; }
     .nav-ai-pill { padding: 5px 10px; font-size: 10.5px; }
     .nav-cta { padding: 7px 13px; font-size: 11px; }
     .nav-inner { padding: 0 12px; gap: 6px; }
   }
   @media (max-width: 980px) {
     .nav-link { font-size: 10px; padding: 4px 6px; }
-    .nav-logo-img { height: 36px; max-width: 150px; }
+    .nav-logo-img { height: 46px; max-width: 190px; }
     .nav-ai-pill { padding: 4px 8px; font-size: 10px; }
     .nav-cta { padding: 6px 10px; font-size: 10.5px; }
     .nav-inner { padding: 0 8px; gap: 4px; }
@@ -717,12 +708,13 @@
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
-    .nav-inner { height: 60px; padding: 0 14px; }
-    .nav-logo-img { height: 38px; max-width: 160px; }
+    .site-nav { height: 64px; }
+    .nav-inner { height: 64px; padding: 0 14px; }
+    .nav-logo-img { height: 46px; max-width: 180px; }
   }
   @media (max-width: 480px) {
     .nav-inner { padding: 0 10px; }
-    .nav-logo-img { height: 32px; max-width: 130px; }
+    .nav-logo-img { height: 42px; max-width: 160px; }
     .nav-cta { display: none; }
   }
 

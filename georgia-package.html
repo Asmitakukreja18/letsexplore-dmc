@@ -551,7 +551,7 @@ document.getElementById('georgia-book-form').addEventListener('submit', async fu
   }
 
   document.getElementById('booking-msg').classList.remove('hidden');
-  const waMsg = `Hello Escape Travels! I would like to book the Georgia Package ($300 USD / 5D4N) for ${data.travelers} travelers on ${data.travelDate}. My name is ${data.name}.`;
+  const waMsg = `Hello Let's Explore DMC,\n\nI would like to book the Georgia 5D4N Package ($300 USD Special):\n\n* Name: ${data.name}\n* Travelers: ${data.travelers} Persons\n* Travel Date: ${data.travelDate}\n\nPlease confirm availability and payment details.`;
   window.open(`https://wa.me/918007586871?text=${encodeURIComponent(waMsg)}`, '_blank');
 });
 </script>

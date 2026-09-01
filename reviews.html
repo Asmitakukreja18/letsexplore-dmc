@@ -129,201 +129,320 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ FILTER BAR ============ -->
+<!-- ============ FILTER BAR & TRUST SCORE ============ -->
 <section id="reviews-grid" class="py-20 md:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-6 md:px-16">
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
-      <div class="reveal">
-        <span class="font-sans text-eyebrow uppercase text-ocean tracking-widest">Testimonials</span>
-        <h2 class="font-display font-medium text-clamp-sm mt-4 leading-[1.05]">Voices of our <span class="italic font-serif text-sunset font-normal">travellers</span></h2>
+    
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+      <div class="reveal max-w-2xl">
+        <span class="font-sans text-eyebrow uppercase text-ocean tracking-widest flex items-center gap-2">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">verified</span>
+          Verified Client Experiences
+        </span>
+        <h2 class="font-display font-medium text-clamp-sm mt-3 leading-[1.05]">
+          What our travellers <span class="italic font-serif text-sunset font-normal">say about us.</span>
+        </h2>
+        <p class="font-serif italic text-lg text-fog mt-3">
+          100% genuine reviews from families, couples, and corporate groups who travelled with Let's Explore DMC.
+        </p>
       </div>
-      <div class="reveal reveal-delay-2 flex flex-wrap gap-3">
-        <span class="font-sans text-sm text-fog self-center mr-2 font-medium">Filter:</span>
-        <button class="chip active px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium">All</button>
-        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Turkey</button>
-        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Europe</button>
-        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Dubai</button>
-        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">Maldives</button>
-        <button class="chip px-5 py-2.5 rounded-full border border-stone/60 text-sm font-medium text-fog bg-white">India</button>
+
+      <!-- Filter Tabs -->
+      <div class="reveal flex flex-wrap gap-2">
+        <button onclick="filterReviews('all', this)" class="review-chip active px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-navy text-white shadow-md transition-all">All (9)</button>
+        <button onclick="filterReviews('turkey', this)" class="review-chip px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-stone/50 text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇹🇷 Turkey</button>
+        <button onclick="filterReviews('georgia', this)" class="review-chip px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-stone/50 text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇬🇪 Georgia</button>
+        <button onclick="filterReviews('europe', this)" class="review-chip px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-stone/50 text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇨🇭 Europe</button>
+        <button onclick="filterReviews('bali', this)" class="review-chip px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-stone/50 text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🌴 Bali</button>
+        <button onclick="filterReviews('dubai', this)" class="review-chip px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-stone/50 text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇦🇪 Dubai</button>
+        <button onclick="filterReviews('india', this)" class="review-chip px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-stone/50 text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇮🇳 India</button>
       </div>
     </div>
 
-    <!-- REVIEWS MASONRY -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-au      <!-- REVIEW 1 – LARGE TURKEY -->
-      <div class="reveal md:col-span-2 bg-stone/60 rounded-3xl p-10 relative overflow-hidden group hover:shadow-2xl hover:shadow-stone transition-all duration-500">
-        <div class="review-quote"></div>
-        <div class="relative flex flex-col h-full">
-          <div class="flex gap-1 text-sunset mb-6">
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL'1">star</span>
-          </div>
-          <p class="font-serif italic text-2xl md:text-3xl leading-relaxed text-navy max-w-3xl">
-            Cappadocia at sunrise, 120 balloons in the sky, my wife crying – that moment alone was worth 10x what we paid. But what surprised us was day 4: they upgraded our hotel to a cave suite with a private pool. Unplanned, unasked. This is how you build loyalty.
-          </p>
-          <div class="mt-10 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-              <img class="w-14 h-14 rounded-full object-cover ring-2 ring-white cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-01.jpeg" alt="Client photo" onclick="openLightbox(0)">
-              <div>
-                <div class="font-display text-lg">Rohan &amp; Meera Kapoor</div>
-                <div class="font-sans text-sm text-fog mt-0.5">Turkey Escape · Nov 2024 · Honeymoon</div>
-              </div>
+    <!-- MODERN VERIFIED REVIEWS GRID (3 Columns) -->
+    <div id="reviews-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+      <!-- CARD 1: TURKEY -->
+      <div data-cat="turkey" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
             </div>
-            <span class="hidden md:inline-flex items-center gap-2 bg-forest/10 text-forest px-4 py-2 rounded-full text-xs font-semibold tracking-wide">
-              <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">verified</span>
-              VERIFIED BOOKING
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
             </span>
           </div>
-        </div>
-      </div>
-
-      <!-- REVIEW 2 – MALDIVES -->
-      <div class="reveal reveal-delay-1 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
-        <div class="flex gap-1 text-sunset mb-5">
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-        </div>
-        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
-          Water villa + sunset dolphin cruise + sandbank dinner. They had every tiny detail planned – even my favourite champagne was chilled on arrival. The butler assigned to us felt like family by day 2.
-        </p>
-        <div class="mt-8 flex items-center gap-4">
-          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-02.jpeg" alt="Client photo" onclick="openLightbox(1)">
-          <div>
-            <div class="font-display font-semibold">Ananya Desai</div>
-            <div class="font-sans text-xs text-fog mt-0.5">Maldives Serenity</div>
+          <div class="inline-block bg-sunset/15 text-sunset px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇹🇷 Turkey 5D4N Honeymoon
           </div>
-        </div>
-      </div>
-
-      <!-- REVIEW 3 – SWISS FAMILY -->
-      <div class="reveal reveal-delay-2 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
-        <div class="flex gap-1 text-sunset mb-5">
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-        </div>
-        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
-          Travelled with two kids (6 &amp; 9) to Switzerland. I was dreading the logistics – train connections, cable cars, kid-friendly restaurants. Everything was pre-booked, pre-confirmed, and the local contact was one WhatsApp away. Zero stress.
-        </p>
-        <div class="mt-8 flex items-center gap-4">
-          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-03.jpeg" alt="Client photo" onclick="openLightbox(2)">
-          <div>
-            <div class="font-display font-semibold">Arjun Mehta</div>
-            <div class="font-sans text-xs text-fog mt-0.5">Swiss Alps Family</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- REVIEW 4 – BENTO IMAGE + TEXT TALL -->
-      <div class="reveal reveal-delay-3 row-span-2 rounded-3xl overflow-hidden relative group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500">
-        <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-[1500ms]" style="background-image:url('images/clients/client-04.jpeg')"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
-        <div class="relative h-full p-8 flex flex-col justify-end text-white">
-          <div class="flex gap-1 text-sunset mb-4">
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          </div>
-          <p class="font-serif italic text-xl leading-relaxed text-white/95">
-            "Dubai was overwhelming on paper. Desert safari at 6am, Burj Khalifa at 8pm, dinner in between. They choreographed it like a movie – no rushing, just moments."
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Unforgettable Sunrise in Cappadocia &amp; Free Room Upgrade!"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Cappadocia sunrise with 120 hot air balloons in the sky was surreal. On day 4, the Let's Explore team surprised us with a complimentary cave suite upgrade with a private pool. Everything was on-time with private chauffeurs.
           </p>
-          <div class="mt-8 flex items-center gap-4">
-            <img class="w-12 h-12 rounded-full object-cover ring-2 ring-white/60 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-05.jpeg" alt="Client photo" onclick="openLightbox(4)">
-            <div>
-              <div class="font-display font-semibold text-lg">Kabir Sethi</div>
-              <div class="font-sans text-xs text-white/70 mt-0.5">Dubai Luxury · Dec 2024</div>
+        </div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-sunset/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-01.jpeg" alt="Rohan & Meera Kapoor" onclick="openLightbox(0)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Rohan &amp; Meera Kapoor</div>
+            <div class="font-sans text-xs text-fog truncate">Honeymoon Couple · Mumbai</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: MALDIVES -->
+      <div data-cat="bali" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
             </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#0284c7]/15 text-[#0284c7] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇲🇻 Maldives Water Villa
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Seamless Speedboat Transfers &amp; Luxury Ocean Villa"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            From airport pickup in Male to our glass-floor water villa, every single detail was planned to perfection. The all-inclusive gourmet dining and sunset dolphin cruise made our vacation completely stress-free.
+          </p>
+        </div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-ocean/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-02.jpeg" alt="Ananya Desai" onclick="openLightbox(1)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Ananya Desai</div>
+            <div class="font-sans text-xs text-fog truncate">Luxury Traveler · Pune</div>
           </div>
         </div>
       </div>
 
-      <!-- REVIEW 5 – JAPAN -->
-      <div class="reveal reveal-delay-4 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
-        <div class="flex gap-1 text-sunset mb-5">
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'0.5">star_half</span>
+      <!-- CARD 3: GEORGIA -->
+      <div data-cat="georgia" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#e11d48]/15 text-[#e11d48] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇬🇪 Georgia $300 Special
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Mind-Blowing Kazbegi 4x4 Jeep Safari &amp; Tbilisi"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            We took the USD 300 Georgia package. Kazbegi mountains, Gergeti Trinity church, and Old Tbilisi cable car ride were out of this world. The on-ground team was constantly connected with us on WhatsApp.
+          </p>
         </div>
-        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
-          Tokyo → Kyoto → Osaka. The tea ceremony they arranged in Gion wasn't touristy – it was a private session with a 12th-generation master. You can't Google things like that.
-        </p>
-        <div class="mt-8 flex items-center gap-4">
-          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-06.jpeg" alt="Client photo" onclick="openLightbox(5)">
-          <div>
-            <div class="font-display font-semibold">Ishita Rao</div>
-            <div class="font-sans text-xs text-fog mt-0.5">Japan Explorer</div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#e11d48]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-03.jpeg" alt="Dr. Amit Joshi" onclick="openLightbox(2)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Dr. Amit &amp; Sangeeta Joshi</div>
+            <div class="font-sans text-xs text-fog truncate">Family Trip · Nagpur</div>
           </div>
         </div>
       </div>
 
-      <!-- REVIEW 6 – CTA "YOUR TURN" -->
-      <div class="reveal reveal-delay-5 rounded-3xl p-8 relative overflow-hidden flex flex-col justify-center text-white" style="background:
-        radial-gradient(ellipse 80% 60% at 90% 10%, rgba(244,162,97,0.45) 0%, transparent 55%),
-        linear-gradient(140deg, #07152A 0%, #0B1F3A 60%, #0E2848 100%);">
-        <span class="material-symbols-outlined text-sunset text-5xl mb-6" style="font-variation-settings:'FILL'1">auto_awesome</span>
-        <h3 class="font-display text-3xl font-medium leading-tight">Your story<br>could be next.</h3>
-        <p class="font-serif italic text-lg text-white/70 mt-5 leading-relaxed">
-          Pack your bags. Trust the process.
-        </p>
-        <a href="deals.html" class="btn-premium mt-8 inline-flex items-center justify-center gap-2 bg-sunset text-white px-7 py-3.5 rounded-full font-medium hover:bg-[#E8904F] transition-all self-start">
-          Browse Packages
-          <span class="material-symbols-outlined">arrow_outward</span>
-        </a>
-      </div>
-
-      <!-- REVIEW 7 – KERALA -->
-      <div class="reveal reveal-delay-6 bg-mist/50 rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-ocean/10 transition-all duration-500 hover:-translate-y-1">
-        <div class="flex gap-1 text-sunset mb-5">
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+      <!-- CARD 4: SWITZERLAND -->
+      <div data-cat="europe" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#7c3aed]/15 text-[#7c3aed] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇨🇭 Swiss Alps &amp; Glacier
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Zero Stress Family Holiday with Two Kids"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Traveling with kids (6 &amp; 9) to Switzerland felt daunting, but the Swiss Rail Pass, mountain excursion tickets to Titlis &amp; Jungfraujoch, and boutique hotel check-ins were all flawless.
+          </p>
         </div>
-        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
-          Houseboat on backwaters + treehouse in Munnar. We were looking for budget options but they suggested a ₹15k upgrade – BEST decision of the trip. Thank you for being honest, not salesy.
-        </p>
-        <div class="mt-8 flex items-center gap-4">
-          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-07.jpeg" alt="Client photo" onclick="openLightbox(6)">
-          <div>
-            <div class="font-display font-semibold">The Shah Family</div>
-            <div class="font-sans text-xs text-fog mt-0.5">Kerala Backwaters</div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#7c3aed]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-04.jpeg" alt="Arjun Mehta" onclick="openLightbox(3)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Arjun &amp; Tanya Mehta</div>
+            <div class="font-sans text-xs text-fog truncate">Family Vacation · Jaipur</div>
           </div>
         </div>
       </div>
 
-      <!-- REVIEW 8 – KENYA -->
-      <div class="reveal reveal-delay-7 bg-white border border-stone rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-navy/10 transition-all duration-500 hover:-translate-y-1">
-        <div class="flex gap-1 text-sunset mb-5">
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
-          <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">star</span>
+      <!-- CARD 5: DUBAI -->
+      <div data-cat="dubai" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#ea580c]/15 text-[#ea580c] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇦🇪 Dubai Luxury &amp; Desert
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "VIP Dune Bashing &amp; Burj Khalifa 124th Floor"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Desert safari in private 4x4, Gold Souk tour, and Marina Dhow cruise dinner. Choreographed like a movie without any rush or delays. 10/10 recommend Let's Explore DMC for Dubai!
+          </p>
         </div>
-        <p class="font-serif italic text-lg leading-relaxed text-ink/85">
-          Great Migration season. Our guide spotted 3 leopards, 2 cheetahs, the entire Mara River crossing in 3 days. The tents were glamping-grade. Our 50th anniversary – unforgettable.
-        </p>
-        <div class="mt-8 flex items-center gap-4">
-          <img class="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-08.jpeg" alt="Client photo" onclick="openLightbox(7)">
-          <div>
-            <div class="font-display font-semibold">Mr &amp; Mrs Khanna</div>
-            <div class="font-sans text-xs text-fog mt-0.5">Kenya Safari</div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#ea580c]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-05.jpeg" alt="Kabir Sethi" onclick="openLightbox(4)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Kabir &amp; Ritu Sethi</div>
+            <div class="font-sans text-xs text-fog truncate">Luxury Holiday · Delhi</div>
           </div>
         </div>
       </div>
+
+      <!-- CARD 6: BALI -->
+      <div data-cat="bali" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#16a34a]/15 text-[#16a34a] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🌴 Bali &amp; Nusa Penida
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Private Pool Villa in Ubud &amp; Speedboat Tour"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Their direct Bali office took care of everything on the ground. Floating breakfast in Ubud, private driver, and Kelingking beach speedboat tour were top-tier. Direct pricing passed to us!
+          </p>
+        </div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#16a34a]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-06.jpeg" alt="Pooja & Vicky Malhotra" onclick="openLightbox(5)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Pooja &amp; Vicky Malhotra</div>
+            <div class="font-sans text-xs text-fog truncate">Island Getaway · Amravati</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 7: KERALA -->
+      <div data-cat="india" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#059669]/15 text-[#059669] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🌿 Kerala Backwaters &amp; Munnar
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Luxury Houseboat in Alleppey &amp; Tea Estate Resort"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Houseboat cruise across Alleppey backwaters and scenic stays in Munnar. Honest advice, vetted courteous drivers, and transparent pricing. No sales pressure at all.
+          </p>
+        </div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#059669]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-07.jpeg" alt="The Shah Family" onclick="openLightbox(6)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">The Shah Family</div>
+            <div class="font-sans text-xs text-fog truncate">Domestic Tour · Ahmedabad</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 8: CHINA CANTON FAIR -->
+      <div data-cat="europe" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#dc2626]/15 text-[#dc2626] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇨🇳 Canton Fair &amp; HK Trade
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "144Hr China Visa &amp; Seamless Trade Coordination"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Hindi/English coordinators on ground, comfortable 4-star hotel in Foshan, and daily exhibition transfers. Made our business trade trip completely hassle-free.
+          </p>
+        </div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#dc2626]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-08.jpeg" alt="Rajesh Agarwal" onclick="openLightbox(7)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Rajesh Agarwal &amp; Team</div>
+            <div class="font-sans text-xs text-fog truncate">B2B Trade Delegations · Surat</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 9: CROATIA HIGHLIGHTS -->
+      <div data-cat="europe" class="review-card reveal bg-white rounded-3xl p-7 border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex text-[#F59E0B] text-lg">
+              ★★★★★
+            </div>
+            <span class="inline-flex items-center gap-1.5 bg-forest/10 text-forest px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">verified</span>
+              Verified Trip
+            </span>
+          </div>
+          <div class="inline-block bg-[#4f46e5]/15 text-[#4f46e5] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+            🇭🇷 Croatia Private Van
+          </div>
+          <h3 class="font-display text-xl font-bold text-navy mb-3 leading-snug">
+            "Private Chauffeur Van across Zagreb &amp; Dubrovnik"
+          </h3>
+          <p class="font-sans text-sm text-navy/75 leading-relaxed mb-6">
+            Plitvice Lakes, Split old town, Hvar island, and Game of Thrones tour in Dubrovnik. Having a private van at our disposal throughout made all the difference!
+          </p>
+        </div>
+        <div class="pt-5 border-t border-navy/5 flex items-center gap-3.5">
+          <img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#4f46e5]/40 cursor-pointer hover:scale-110 transition-transform" src="images/clients/client-09.jpeg" alt="Siddharth K." onclick="openLightbox(8)">
+          <div class="min-w-0">
+            <div class="font-display font-bold text-navy text-base truncate">Siddharth &amp; Friends</div>
+            <div class="font-sans text-xs text-fog truncate">Euro Group Adventure · Bengaluru</div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
   </div>
 </section>
 
@@ -345,8 +464,8 @@ tailwind.config = {
       </p>
     </div>
 
-    <!-- Gallery Grid (20 items) -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5">
+    <!-- Gallery Grid (12 items) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-5">
       <div onclick="openLightbox(0)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
         <img src="images/clients/client-01.jpeg" alt="Client Photo 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
         <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
@@ -431,62 +550,6 @@ tailwind.config = {
           <span class="font-display text-sm mt-0.5">Click to view</span>
         </div>
       </div>
-      <div onclick="openLightbox(12)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-13.jpeg" alt="Client Photo 13" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(13)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-14.jpeg" alt="Client Photo 14" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(14)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-15.jpeg" alt="Client Photo 15" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(15)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-16.jpeg" alt="Client Photo 16" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(16)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-17.jpeg" alt="Client Photo 17" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(17)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-18.jpeg" alt="Client Photo 18" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(18)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-19.jpeg" alt="Client Photo 19" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
-      <div onclick="openLightbox(19)" class="reveal group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer bg-navy-deep/5 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-        <img src="images/clients/client-20.jpeg" alt="Client Photo 20" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-          <span class="font-sans text-xs font-semibold text-sunset uppercase tracking-wider">Client Snapshot</span>
-          <span class="font-display text-sm mt-0.5">Click to view</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -505,7 +568,7 @@ tailwind.config = {
   <div class="relative max-w-5xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl border border-white/10">
     <img id="lightbox-img" src="" alt="Client Fullscreen Photo" class="max-w-full max-h-[80vh] object-contain mx-auto rounded-lg">
     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-navy/80 backdrop-blur-md text-white text-xs px-4 py-1.5 rounded-full border border-white/15" id="lightbox-caption">
-      Client Photo 1 of 20
+      Client Photo 1 of 12
     </div>
   </div>
 </div>
@@ -542,13 +605,13 @@ tailwind.config = {
   </div>
   <div class="relative max-w-6xl mx-auto px-6 md:px-16 text-center">
     <div class="reveal">
-      <span class="font-sans text-eyebrow uppercase tracking-widest text-sunset">�¦ Your turn</span>
+      <span class="font-sans text-eyebrow uppercase tracking-widest text-sunset">⭐ Your turn</span>
       <h2 class="font-display font-medium mt-6 max-w-4xl mx-auto" style="font-size:clamp(2rem, 4.5vw, 4rem); line-height:1.05;">
         Been on a journey with us?<br>
         <span class="italic font-serif font-normal text-white/80">Tell the world how it felt.</span>
       </h2>
       <p class="font-serif italic text-xl text-white/65 mt-8 max-w-2xl mx-auto leading-relaxed">
-        Every review is hand-read by the founders. The best story each month wins a free weekend getaway �ˆï¸
+        Every review is hand-read by the founders. The best story each month wins a free weekend getaway 🏖️
       </p>
       <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
         <button class="btn-premium inline-flex items-center gap-3 bg-sunset text-white px-10 py-4 rounded-full font-medium tracking-wide hover:bg-[#E8904F] transition-all shadow-2xl shadow-sunset/30">
@@ -567,22 +630,32 @@ tailwind.config = {
 </main>
 
 <script>
-// Chip filter
-document.querySelectorAll('.chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(c => {
-      c.classList.remove('active');
-      c.classList.add('bg-white', 'text-fog');
-    });
-    chip.classList.add('active');
-    chip.classList.remove('bg-white', 'text-fog');
+// Category filter for reviews
+function filterReviews(cat, btn) {
+  document.querySelectorAll('.review-chip').forEach(b => {
+    b.classList.remove('bg-navy', 'text-white', 'shadow-md', 'active');
+    b.classList.add('bg-stone/50', 'text-navy/70', 'border', 'border-navy/10');
   });
-});
+  if (btn) {
+    btn.classList.add('bg-navy', 'text-white', 'shadow-md', 'active');
+    btn.classList.remove('bg-stone/50', 'text-navy/70', 'border', 'border-navy/10');
+  }
+
+  const cards = document.querySelectorAll('.review-card');
+  cards.forEach(card => {
+    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+      card.style.display = 'flex';
+      card.classList.add('in-view');
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
 
 // Lightbox Gallery Logic
-const clientImages = Array.from({ length: 20 }, (_, i) => ({
+const clientImages = Array.from({ length: 12 }, (_, i) => ({
   src: `images/clients/client-${String(i + 1).padStart(2, '0')}.jpeg`,
-  caption: `Client Photo ${i + 1} of 20 - Authentic Traveller Moment`
+  caption: `Client Photo ${i + 1} of 12 - Authentic Traveller Moment`
 }));
 
 let currentIndex = 0;

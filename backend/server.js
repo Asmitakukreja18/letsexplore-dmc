@@ -43,61 +43,246 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..')));
 
 // ── Database Setup ───────────────────────────────────────────────────────────
+const fs = require('fs');
 let isSqlite = false;
 let dbSync = null;
+
+const localDbPath = path.join(__dirname, 'local_store.json');
+let localStore = {
+  contacts: [],
+  bookings: [],
+  packages: [],
+  reviews: [],
+  newsletters: [],
+  deals: [],
+  search_logs: [],
+  wishlists: [],
+  ai_logs: []
+};
+
+function loadLocalStore() {
+  try {
+    if (fs.existsSync(localDbPath)) {
+      const raw = fs.readFileSync(localDbPath, 'utf8');
+      const parsed = JSON.parse(raw);
+      localStore = { ...localStore, ...parsed };
+    }
+  } catch (e) {
+    console.warn('Could not load local_store.json:', e.message);
+  }
+}
+loadLocalStore();
+
+function saveLocalStore() {
+  try {
+    fs.writeFileSync(localDbPath, JSON.stringify(localStore, null, 2), 'utf8');
+  } catch (e) {
+    console.warn('Could not save local_store.json:', e.message);
+  }
+}
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.DATABASE_URL && process.env.DATABASE_URL.includes('supabase') ? { rejectUnauthorized: false } : false
 });
 
-// Helper for single queries
+// Helper for queries with local failover
 async function query(text, params = []) {
-  if (!isSqlite) {
+  if (!isSqlite && pool) {
     try {
       return await pool.query(text, params);
     } catch (pgErr) {
-      console.warn('⚠️ PostgreSQL query failed. Switching session to local storage...');
-      switchToSqlite();
-      return query(text, params);
+      isSqlite = true;
+      console.warn('⚠️ PostgreSQL query failed. Falling back to local data store...');
     }
-  } else if (dbSync) {
-    // SQLite pre-processor: Convert PG parameter tokens ($1, $2, etc.) to SQLite (?1, ?2, etc.)
-    const sqliteSql = text.replace(/\$(\d+)/g, '?$1');
-    try {
-      const stmt = dbSync.prepare(sqliteSql);
-      if (sqliteSql.trim().toUpperCase().startsWith('SELECT') || sqliteSql.trim().toUpperCase().startsWith('WITH')) {
-        const rows = stmt.all(...params);
-        return { rows: rows || [] };
-      } else {
-        const info = stmt.run(...params);
-        return { rows: [], info };
-      }
-    } catch (e) {
-      if (sqliteSql.includes('CREATE TABLE') || sqliteSql.includes('ALTER TABLE')) {
-        return { rows: [] };
-      }
-      throw e;
-    }
-  } else {
-    // Memory fallback when neither PG nor node:sqlite is present
-    if (text.includes('COUNT(*)')) {
-      return { rows: [{ c: 0 }] };
+  }
+
+  const sql = text.trim();
+  const upper = sql.toUpperCase();
+
+  // 1. Table creation/alters - silently succeed
+  if (upper.startsWith('CREATE TABLE') || upper.startsWith('ALTER TABLE')) {
+    return { rows: [] };
+  }
+
+  // 2. Count queries
+  if (upper.includes('COUNT(*)')) {
+    let tbl = 'contacts';
+    if (upper.includes('FROM BOOKINGS')) tbl = 'bookings';
+    else if (upper.includes('FROM PACKAGES')) tbl = 'packages';
+    else if (upper.includes('FROM REVIEWS')) tbl = 'reviews';
+    else if (upper.includes('FROM NEWSLETTERS')) tbl = 'newsletters';
+    else if (upper.includes('FROM WISHLISTS')) tbl = 'wishlists';
+    
+    let list = localStore[tbl] || [];
+    if (upper.includes("STATUS='PENDING'")) list = list.filter(x => x.status === 'pending');
+    if (upper.includes("STATUS='CONFIRMED'")) list = list.filter(x => x.status === 'confirmed');
+    if (upper.includes("STATUS='NEW'")) list = list.filter(x => x.status === 'new');
+    
+    return { rows: [{ c: list.length }] };
+  }
+
+  // 3. Contacts
+  if (upper.startsWith('INSERT INTO CONTACTS')) {
+    const id = localStore.contacts.length + 1;
+    const item = {
+      id,
+      name: params[0] || '',
+      email: params[1] || '',
+      phone: params[2] || '',
+      destination: params[3] || '',
+      message: params[4] || '',
+      status: 'new',
+      created_at: new Date().toISOString()
+    };
+    localStore.contacts.push(item);
+    saveLocalStore();
+    return { rows: [{ id }] };
+  }
+  if (upper.startsWith('SELECT * FROM CONTACTS')) {
+    return { rows: [...(localStore.contacts || [])].reverse() };
+  }
+  if (upper.startsWith('UPDATE CONTACTS')) {
+    const id = parseInt(params[1]);
+    const item = localStore.contacts.find(c => c.id === id);
+    if (item) { item.status = params[0]; saveLocalStore(); }
+    return { rows: [] };
+  }
+
+  // 4. Bookings
+  if (upper.startsWith('INSERT INTO BOOKINGS')) {
+    const id = localStore.bookings.length + 1;
+    const item = {
+      id,
+      name: params[0] || '',
+      email: params[1] || '',
+      phone: params[2] || '',
+      package_name: params[3] || '',
+      travel_date: params[4] || '',
+      num_persons: parseInt(params[5]) || 1,
+      budget: params[6] || '',
+      notes: params[7] || '',
+      status: 'pending',
+      created_at: new Date().toISOString()
+    };
+    localStore.bookings.push(item);
+    saveLocalStore();
+    return { rows: [{ id }] };
+  }
+  if (upper.startsWith('SELECT * FROM BOOKINGS')) {
+    return { rows: [...(localStore.bookings || [])].reverse() };
+  }
+  if (upper.startsWith('UPDATE BOOKINGS')) {
+    const id = parseInt(params[1]);
+    const item = localStore.bookings.find(b => b.id === id);
+    if (item) { item.status = params[0]; saveLocalStore(); }
+    return { rows: [] };
+  }
+
+  // 5. Packages
+  if (upper.startsWith('INSERT INTO PACKAGES')) {
+    const existing = localStore.packages.find(p => p.id_code === params[0]);
+    if (!existing) {
+      const id = localStore.packages.length + 1;
+      const pkg = {
+        id,
+        id_code: params[0],
+        name: params[1],
+        region: params[2],
+        destination: params[3],
+        duration: params[4],
+        price: parseFloat(params[5]) || 0,
+        original_price: parseFloat(params[6]) || 0,
+        rating: parseFloat(params[7]) || 4.88,
+        reviews_count: parseInt(params[8]) || 120,
+        badge: params[9] || 'Bestseller',
+        image: params[10] || '',
+        tags: params[11] || '[]',
+        highlights: params[12] || '[]',
+        inclusions: params[13] || '[]',
+        exclusions: params[14] || '[]',
+        itinerary: params[15] || '[]',
+        category: params[16] || 'international',
+        active: 1,
+        created_at: new Date().toISOString()
+      };
+      localStore.packages.push(pkg);
+      saveLocalStore();
+      return { rows: [{ id }] };
     }
     return { rows: [] };
   }
+  if (upper.includes('FROM PACKAGES')) {
+    let list = (localStore.packages || []).filter(p => p.active !== 0);
+    if (params[0]) {
+      const pId = String(params[0]).toLowerCase();
+      list = list.filter(p => p.id_code === pId || String(p.id) === pId || p.category === pId || p.region === pId);
+    }
+    return { rows: list };
+  }
+  if (upper.startsWith('UPDATE PACKAGES SET ACTIVE=0')) {
+    const id = parseInt(params[0]);
+    const pkg = localStore.packages.find(p => p.id === id);
+    if (pkg) { pkg.active = 0; saveLocalStore(); }
+    return { rows: [] };
+  }
+  if (upper.startsWith('UPDATE PACKAGES')) {
+    const id = parseInt(params[7]);
+    const pkg = localStore.packages.find(p => p.id === id);
+    if (pkg) {
+      pkg.name = params[0];
+      pkg.destination = params[1];
+      pkg.duration = params[2];
+      pkg.price = parseFloat(params[3]);
+      pkg.category = params[4];
+      pkg.badge = params[5];
+      pkg.active = params[6] !== undefined ? params[6] : 1;
+      saveLocalStore();
+    }
+    return { rows: [] };
+  }
+
+  // 6. Reviews
+  if (upper.includes('FROM REVIEWS')) {
+    return { rows: [...(localStore.reviews || [])].reverse() };
+  }
+  if (upper.startsWith('INSERT INTO REVIEWS')) {
+    const id = localStore.reviews.length + 1;
+    const r = { id, name: params[0], text: params[1], rating: params[2], created_at: new Date().toISOString() };
+    localStore.reviews.push(r);
+    saveLocalStore();
+    return { rows: [{ id }] };
+  }
+
+  // 7. Newsletters
+  if (upper.includes('FROM NEWSLETTERS')) {
+    return { rows: localStore.newsletters || [] };
+  }
+  if (upper.startsWith('INSERT INTO NEWSLETTERS')) {
+    if (!localStore.newsletters.find(n => n.email === params[0])) {
+      localStore.newsletters.push({ email: params[0], subscribed_at: new Date().toISOString() });
+      saveLocalStore();
+    }
+    return { rows: [] };
+  }
+
+  // 8. Wishlists & Search logs & AI logs
+  if (upper.startsWith('INSERT INTO AI_LOGS')) {
+    localStore.ai_logs.push({ type: params[0], prompt: params[1], destination: params[2], reply: params[3], created_at: new Date().toISOString() });
+    saveLocalStore();
+    return { rows: [] };
+  }
+  if (upper.startsWith('INSERT INTO SEARCH_LOGS')) {
+    localStore.search_logs.push({ query: params[0], results_count: params[1], created_at: new Date().toISOString() });
+    saveLocalStore();
+    return { rows: [] };
+  }
+
+  return { rows: [] };
 }
 
 function switchToSqlite() {
   isSqlite = true;
-  try {
-    const { DatabaseSync } = require('node:sqlite');
-    dbSync = new DatabaseSync(path.join(__dirname, 'tours_travels.db'));
-    console.log('✅ Local SQLite failover active.');
-  } catch (sqliteErr) {
-    console.warn('⚠️ Built-in node:sqlite module not present in Node v20. Active in-memory mode running.');
-    dbSync = null;
-  }
 }
 
 // Create tables
@@ -750,7 +935,12 @@ function adminAuth(req, res, next) {
 
 // ── 1. Contact Form ───────────────────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, destination, message } = req.body;
+  const name = req.body.name || req.body.fullName || '';
+  const email = req.body.email || '';
+  const phone = req.body.phone || req.body.mobile || '';
+  const destination = req.body.destination || req.body.dest || '';
+  const message = req.body.message || req.body.msg || req.body.notes || '';
+
   if (!name || (!email && !phone)) return res.status(400).json({ error: 'Name and email/phone required' });
 
   try {
@@ -774,7 +964,7 @@ app.post('/api/contact', async (req, res) => {
       </div>`
     );
 
-    res.json({ success: true, id: result.rows[0].id, message: 'Enquiry received! We\'ll contact you soon.' });
+    res.json({ success: true, id: (result.rows && result.rows[0]) ? result.rows[0].id : Date.now(), message: 'Enquiry received! We\'ll contact you soon.' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
@@ -783,9 +973,17 @@ app.post('/api/contact', async (req, res) => {
 
 // ── 2. Booking Form ───────────────────────────────────────────────────────────
 app.post('/api/booking', async (req, res) => {
-  const { name, email, phone, package_name, travel_date, num_persons, budget, notes } = req.body;
-  if (!name || !package_name) {
-    return res.status(400).json({ error: 'Name and package name are required' });
+  const name = req.body.name || req.body.fullName || '';
+  const email = req.body.email || '';
+  const phone = req.body.phone || req.body.mobile || '';
+  const package_name = req.body.package_name || req.body.packageName || req.body.package || 'Custom Tour';
+  const travel_date = req.body.travel_date || req.body.travelDate || req.body.date || '';
+  const num_persons = req.body.num_persons || req.body.travelers || req.body.persons || 1;
+  const budget = req.body.budget || req.body.total || '';
+  const notes = req.body.notes || req.body.message || '';
+
+  if (!name || (!email && !phone)) {
+    return res.status(400).json({ error: 'Name and phone/email are required' });
   }
 
   try {
@@ -812,7 +1010,7 @@ app.post('/api/booking', async (req, res) => {
       </div>`
     );
 
-    res.json({ success: true, id: result.rows[0].id, message: 'Booking request received! We\'ll confirm within 2 hours.' });
+    res.json({ success: true, id: (result.rows && result.rows[0]) ? result.rows[0].id : Date.now(), message: 'Booking request received! We\'ll confirm within 2 hours.' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });

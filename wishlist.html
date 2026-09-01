@@ -388,69 +388,65 @@ body { padding-top: 0 !important; }
   els.forEach(el => io.observe(el));
 })();
 
-/* ===== Lightweight In-Browser Wishlist (localStorage) ===== */
-function getWishlist() {
-  try { return JSON.parse(localStorage.getItem('ledmc_wishlist') || '[]'); }
-  catch (e) { return []; }
+<!-- Include Shared Wishlist Helper -->
+<script src="js/wishlist.js"></script>
+
+<script>
+/* ===== Integrated Wishlist Synchronization ===== */
+function getSavedItems() {
+  if (window.Wishlist && typeof window.Wishlist.getAll === 'function') {
+    return window.Wishlist.getAll();
+  }
+  try {
+    return JSON.parse(localStorage.getItem('letsexplore_wishlist') || localStorage.getItem('ledmc_wishlist') || '[]');
+  } catch (e) {
+    return [];
+  }
 }
-function saveWishlist(arr) {
-  localStorage.setItem('ledmc_wishlist', JSON.stringify(arr));
-  updateWishlistCounter();
-}
+
 function updateWishlistCounter() {
-  const n = getWishlist().length;
+  const items = getSavedItems();
+  const n = items.length;
   const el = document.getElementById('wishlist-counter-hero');
   if (el) el.textContent = n + (n === 1 ? ' package saved' : ' packages saved');
 }
-function addToWishlist(id, btn) {
-  const list = getWishlist();
-  if (list.includes(id)) {
-    saveWishlist(list.filter(x => x !== id));
-    if (btn) {
-      btn.classList.remove('bg-danger', 'text-white');
-      btn.classList.add('bg-white/90', 'text-navy');
-      const ico = btn.querySelector('.material-symbols-outlined');
-      if (ico) ico.classList.remove('fill-icon');
-    }
+
+function removeItemFromWishlist(id) {
+  if (window.Wishlist && typeof window.Wishlist.remove === 'function') {
+    window.Wishlist.remove(id);
   } else {
-    list.push(id);
-    saveWishlist(list);
-    if (btn) {
-      btn.classList.add('bg-danger', 'text-white');
-      btn.classList.remove('bg-white/90', 'text-navy');
-      const ico = btn.querySelector('.material-symbols-outlined');
-      if (ico) ico.classList.add('fill-icon');
-    }
+    let items = getSavedItems();
+    items = items.filter(x => (typeof x === 'string' ? x !== id : x.id !== id));
+    localStorage.setItem('letsexplore_wishlist', JSON.stringify(items));
+    localStorage.setItem('ledmc_wishlist', JSON.stringify(items));
   }
+  updateWishlistCounter();
   renderWishlistCards();
 }
 
-/* ===== Wishlist card renderer (fallback demo) ===== */
-const DEMO_WISHLIST = [
-  {
-    id: 'turkey-escape',
-    title: 'Turkey Escape & Wonders',
-    image: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80',
-    badge: 'Bestseller',
-    badgeClass: 'bg-navy-deep text-white',
-    duration: '5D / 4N · Istanbul · Cappadocia · Pamukkale',
-    tags: ['Hot Air Balloon', 'Bosphorus Cruise', 'Cave Hotel'],
-    price: '₹42,999',
-    priceUnit: '/person · quad sharing',
-    href: 'turkey-package.html',
+function addQuickToWishlist(id, btn) {
+  const defaults = {
+    'dubai-luxury': { title: 'Dubai Extravaganza', subtitle: '5D / 4N · Burj Khalifa & Safari', price: '₹34,999', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80', href: 'dubai-package.html' },
+    'bali-paradise': { title: 'Bali Tropical Luxury', subtitle: '6D / 5N · Ubud & Nusa Penida', price: '₹48,999', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80', href: 'bali-package.html' },
+    'swiss-alps': { title: 'Swiss Alpine Dreams', subtitle: '7D / 6N · Zurich & Interlaken', price: '₹1,24,999', img: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=900&q=80', href: 'deals.html' }
+  };
+
+  const data = defaults[id] || { title: id, subtitle: 'Custom Tour', price: '₹42,999', img: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80', href: 'explore.html' };
+
+  if (window.Wishlist) {
+    window.Wishlist.toggle(id, data);
   }
-];
+  updateWishlistCounter();
+  renderWishlistCards();
+}
+
 function renderWishlistCards() {
-  const ids = getWishlist();
+  const items = getSavedItems();
   const grid = document.getElementById('wishlist-items');
   const empty = document.getElementById('wishlist-empty');
   if (!grid || !empty) return;
 
-  const packages = ids.length
-    ? DEMO_WISHLIST.filter(p => ids.includes(p.id)).concat(ids.length > DEMO_WISHLIST.length ? [] : [])
-    : [];
-
-  if (packages.length === 0) {
+  if (!items || items.length === 0) {
     grid.classList.add('hidden');
     empty.classList.remove('hidden');
     return;
@@ -459,48 +455,60 @@ function renderWishlistCards() {
   empty.classList.add('hidden');
   grid.classList.remove('hidden');
 
-  grid.innerHTML = packages.map(p => `
-    <article class="pkg-card bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
-      <div class="relative aspect-[4/3] overflow-hidden">
-        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover"/>
-        <button onclick="addToWishlist('${p.id}', this)" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-danger text-white backdrop-blur flex items-center justify-center hover:scale-110 transition-all soft-lift" title="Remove from wishlist">
-          <span class="material-symbols-outlined text-xl fill-icon">favorite</span>
-        </button>
-        <div class="absolute top-5 left-5 flex gap-2">
-          <span class="${p.badgeClass} font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold">${p.badge}</span>
-        </div>
-        <div class="absolute top-5 right-16 bg-white/90 backdrop-blur rounded-full px-3 py-1.5 font-bold text-navy flex items-center gap-1 text-sm mr-14">
-          4.9<span class="text-sunset">★</span>
-        </div>
-      </div>
-      <div class="p-7 flex flex-col flex-grow">
-        <h3 class="font-display text-2xl text-navy mb-2">${p.title}</h3>
-        <p class="text-fog text-sm mb-5 flex items-center gap-2">
-          <span class="material-symbols-outlined text-base text-ocean fill-icon">calendar_month</span>
-          ${p.duration}
-        </p>
-        <div class="flex flex-wrap gap-2 mb-7">
-          ${p.tags.map(t => `<span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">${t}</span>`).join('')}
-        </div>
-        <div class="mt-auto flex items-end justify-between">
-          <div>
-            <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-            <div class="font-display text-3xl text-navy">${p.price}</div>
-            <div class="text-[11px] text-fog mt-0.5">${p.priceUnit}</div>
+  grid.innerHTML = items.map(raw => {
+    const item = typeof raw === 'string' ? { id: raw, title: raw.replace('-', ' ').toUpperCase(), price: '₹42,999', img: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80', href: 'explore.html' } : raw;
+
+    const img = item.img || item.image || 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80';
+    const title = item.title || 'Custom Tour';
+    const subtitle = item.subtitle || item.duration || 'Verified DMC Package';
+    const price = item.price || '₹42,999';
+    const href = item.href || 'explore.html';
+
+    return `
+      <article class="pkg-card bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col hover:shadow-2xl transition-all duration-300">
+        <div class="relative aspect-[4/3] overflow-hidden">
+          <img src="${img}" alt="${title}" class="w-full h-full object-cover"/>
+          <button onclick="removeItemFromWishlist('${item.id}')" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-danger text-white backdrop-blur flex items-center justify-center hover:scale-110 transition-all shadow-md" title="Remove from wishlist">
+            <span class="material-symbols-outlined text-xl fill-icon">favorite</span>
+          </button>
+          <div class="absolute top-5 left-5 flex gap-2">
+            <span class="bg-navy-deep/90 text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold">Saved</span>
           </div>
-          <a href="${p.href}" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy text-white hover:bg-ocean transition-colors soft-lift">
-            <span class="material-symbols-outlined fill-icon">arrow_forward</span>
-          </a>
+          <div class="absolute top-5 right-16 bg-white/95 backdrop-blur rounded-full px-3 py-1.5 font-bold text-navy flex items-center gap-1 text-xs mr-2 shadow-sm">
+            4.9<span class="text-sunset">★</span>
+          </div>
         </div>
-      </div>
-    </article>
-  `).join('');
+        <div class="p-7 flex flex-col flex-grow justify-between">
+          <div>
+            <h3 class="font-display text-2xl font-bold text-navy mb-2">${title}</h3>
+            <p class="text-fog text-sm mb-5 flex items-center gap-2">
+              <span class="material-symbols-outlined text-base text-ocean fill-icon">calendar_month</span>
+              ${subtitle}
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-navy/10 flex items-end justify-between">
+            <div>
+              <div class="font-sans text-eyebrow text-fog text-[10px] uppercase font-bold mb-0.5">Wholesale Price</div>
+              <div class="font-display text-2xl font-bold text-navy">${price}</div>
+            </div>
+            <a href="${href}" class="btn-premium inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-navy text-white hover:bg-ocean font-bold text-xs transition-colors shadow">
+              <span>View Tour</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
 }
 
 /* ===== Wire up when DOM is ready ===== */
 document.addEventListener('DOMContentLoaded', () => {
   updateWishlistCounter();
   renderWishlistCards();
+  if (window.Wishlist) {
+    window.Wishlist.initHearts();
+  }
 });
 </script>
 

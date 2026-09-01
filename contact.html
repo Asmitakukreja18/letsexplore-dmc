@@ -75,70 +75,71 @@ tailwind.config = {
 <main class="pt-0">
 
 <!-- ============ HERO CINEMATIC ============ -->
-<section class="relative h-[86vh] min-h-[600px] w-full overflow-hidden">
+<section class="relative w-full min-h-[85vh] pt-28 md:pt-36 pb-14 md:pb-16 overflow-hidden flex flex-col justify-center">
   <div class="absolute inset-0 -z-2 animate-kenBurns" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80'); background-size:cover; background-position:center;"></div>
   <div class="absolute inset-0 -z-1" style="background:
     radial-gradient(ellipse 70% 60% at 80% 30%, rgba(244,162,97,0.22) 0%, transparent 55%),
     radial-gradient(ellipse 60% 50% at 20% 80%, rgba(30,136,229,0.24) 0%, transparent 55%),
-    linear-gradient(180deg, rgba(11,31,58,0.55) 0%, rgba(11,31,58,0.82) 100%);">
+    linear-gradient(180deg, rgba(11,31,58,0.6) 0%, rgba(11,31,58,0.88) 100%);">
   </div>
 
-  <div class="relative h-full max-w-7xl mx-auto px-6 md:px-16 flex flex-col justify-center text-white">
-    <span class="font-sans text-eyebrow uppercase text-sunset mb-6 tracking-widest" style="animation: fadeUp .9s .2s both;"><span class="material-symbols-outlined text-[11px] align-middle mr-1.5" style="font-variation-settings:'FILL' 1;">storefront</span>6 Global Offices · India, Bali & Istanbul Hubs</span>
-    <h1 class="font-display font-medium leading-[0.98] tracking-tight" style="font-size:clamp(2.75rem, 6vw, 5.5rem); animation: fadeUp .9s .42s both;">
+  <div class="relative max-w-7xl mx-auto px-6 md:px-16 flex flex-col justify-center text-white my-auto">
+    <span class="font-sans text-eyebrow uppercase text-sunset mb-3 tracking-widest" style="animation: fadeUp .9s .2s both;"><span class="material-symbols-outlined text-[11px] align-middle mr-1.5" style="font-variation-settings:'FILL' 1;">storefront</span>6 Global Offices · India, Bali &amp; Istanbul Hubs</span>
+    <h1 class="font-display font-medium leading-[1.02] tracking-tight" style="font-size:clamp(2.4rem, 5vw, 4.5rem); animation: fadeUp .9s .35s both;">
       Six global offices.<br>
-      <span class="italic font-serif text-sunset/90 font-normal" style="line-height:1;">One promise.</span>
+      <span class="italic font-serif text-sunset font-normal" style="line-height:1.05;">One promise.</span>
     </h1>
-    <p class="font-serif italic text-xl md:text-2xl text-white/80 mt-8 max-w-3xl" style="animation: fadeUp .9s .72s both;">
+    <p class="font-serif italic text-lg md:text-xl text-white/80 mt-4 max-w-2xl leading-relaxed" style="animation: fadeUp .9s .5s both;">
       Amravati Head Office · Jaipur · Nagpur · Mumbai · Bali International · Istanbul Ops. 6 offices, 1 team — always a human at the end of the line.
     </p>
 
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl" style="animation: fadeUp .9s 1.02s both;">
+    <!-- Compact Modern Support Cards -->
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 max-w-5xl" style="animation: fadeUp .9s .65s both;">
       <!-- Card 1: Enquiry Support -->
-      <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-xl">
-        <div class="w-12 h-12 rounded-full bg-sunset/20 text-sunset flex items-center justify-center flex-shrink-0">
-          <span class="material-symbols-outlined text-2xl">call</span>
+      <div class="flex items-center gap-3 p-3.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-lg">
+        <div class="w-9 h-9 rounded-lg bg-sunset/20 text-sunset flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-lg">call</span>
         </div>
-        <div>
-          <div class="font-sans text-[11px] text-white/70 font-bold uppercase tracking-wider">Enquiry Support</div>
-          <div class="font-display text-lg font-bold text-white">+91-80075 86871</div>
-          <div class="font-sans text-xs text-white/60">Mon - Sun, 9:00 AM - 9:00 PM</div>
+        <div class="min-w-0">
+          <div class="font-sans text-[10px] text-white/70 font-bold uppercase tracking-wider">Enquiry Support</div>
+          <div class="font-display text-sm font-bold text-white truncate">+91-80075 86871</div>
+          <div class="font-sans text-[10px] text-white/60">Mon - Sun, 9am - 9pm</div>
         </div>
       </div>
 
       <!-- Card 2: After Booking Support -->
-      <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-xl">
-        <div class="w-12 h-12 rounded-full bg-ocean/20 text-ocean flex items-center justify-center flex-shrink-0">
-          <span class="material-symbols-outlined text-2xl">support_agent</span>
+      <div class="flex items-center gap-3 p-3.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-lg">
+        <div class="w-9 h-9 rounded-lg bg-ocean/20 text-ocean flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-lg">support_agent</span>
         </div>
-        <div>
-          <div class="font-sans text-[11px] text-white/70 font-bold uppercase tracking-wider">After Booking Support</div>
-          <div class="font-display text-lg font-bold text-white">+91-95459 55966</div>
-          <div class="font-sans text-xs text-white/60">Mon - Sat, 9:30 AM - 7:00 PM</div>
+        <div class="min-w-0">
+          <div class="font-sans text-[10px] text-white/70 font-bold uppercase tracking-wider">Booking Support</div>
+          <div class="font-display text-sm font-bold text-white truncate">+91-95459 55966</div>
+          <div class="font-sans text-[10px] text-white/60">Mon - Sat, 9:30am - 7pm</div>
         </div>
       </div>
 
       <!-- Card 3: WhatsApp Support -->
-      <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-xl">
-        <div class="w-12 h-12 rounded-full bg-forest/20 text-forest flex items-center justify-center flex-shrink-0">
-          <span class="material-symbols-outlined text-2xl">chat</span>
+      <div class="flex items-center gap-3 p-3.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-lg">
+        <div class="w-9 h-9 rounded-lg bg-forest/20 text-forest flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-lg">chat</span>
         </div>
-        <div>
-          <div class="font-sans text-[11px] text-white/70 font-bold uppercase tracking-wider">WhatsApp Support</div>
-          <a href="https://wa.me/918007586871" target="_blank" class="font-display text-lg font-bold text-white hover:text-sunset transition">+91 80075 86871</a>
-          <div class="font-sans text-xs text-white/60">Instant WhatsApp reply</div>
+        <div class="min-w-0">
+          <div class="font-sans text-[10px] text-white/70 font-bold uppercase tracking-wider">WhatsApp Support</div>
+          <a href="https://wa.me/918007586871" target="_blank" class="font-display text-sm font-bold text-white hover:text-sunset transition block truncate">+91 80075 86871</a>
+          <div class="font-sans text-[10px] text-emerald-300 font-medium">Instant reply</div>
         </div>
       </div>
 
       <!-- Card 4: Email Us -->
-      <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-xl">
-        <div class="w-12 h-12 rounded-full bg-sunset/20 text-sunset flex items-center justify-center flex-shrink-0">
-          <span class="material-symbols-outlined text-2xl">mail</span>
+      <div class="flex items-center gap-3 p-3.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 tile-hover shadow-lg">
+        <div class="w-9 h-9 rounded-lg bg-sunset/20 text-sunset flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-lg">mail</span>
         </div>
-        <div>
-          <div class="font-sans text-[11px] text-white/70 font-bold uppercase tracking-wider">Email Us</div>
-          <div class="font-display text-base font-bold text-white">info@letsexploredmc.com</div>
-          <div class="font-sans text-xs text-white/60">Reply within 2 hours</div>
+        <div class="min-w-0">
+          <div class="font-sans text-[10px] text-white/70 font-bold uppercase tracking-wider">Email Us</div>
+          <div class="font-display text-xs font-bold text-white truncate">info@letsexploredmc.com</div>
+          <div class="font-sans text-[10px] text-white/60">Reply within 2h</div>
         </div>
       </div>
     </div>
@@ -161,11 +162,11 @@ tailwind.config = {
     <div class="hidden md:block w-px h-12 bg-navy/12"></div>
     <div class="flex items-center gap-3">
       <span class="w-12 h-12 rounded-full bg-sunset/10 text-sunset flex items-center justify-center">
-        <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">workspace_premium</span>
+        <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL'1">verified</span>
       </span>
       <div>
-        <div class="font-display text-lg font-semibold text-navy">20+ Years of Trust</div>
-        <div class="font-sans text-sm text-fog">LetsExploreDMC — 2 decades of happy travellers & crafted journeys.</div>
+        <div class="font-display text-lg font-semibold text-navy">Direct DMC Wholesale Rates</div>
+        <div class="font-sans text-sm text-fog">LetsExploreDMC — 100% verified hotels, private transfers & zero middleman markup.</div>
       </div>
     </div>
     <div class="hidden md:block w-px h-12 bg-navy/12"></div>
@@ -181,355 +182,431 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ OFFICES BENTO + LEAD FORM ============ -->
-<section class="py-24 md:py-32 bg-white">
+<!-- ============ OFFICES NETWORK (6 GLOBAL HUBS) ============ -->
+<section id="offices" class="py-20 md:py-28 bg-stone/40 relative">
   <div class="max-w-7xl mx-auto px-6 md:px-16">
 
-    <div class="max-w-3xl mb-16">
-      <div class="reveal">
-        <span class="font-sans text-eyebrow uppercase text-ocean tracking-widest">Our Locations</span>
-        <h2 class="font-display font-medium text-clamp-sm mt-4 leading-[1.05]">Visit us <span class="italic font-serif text-sunset font-normal">in person.</span></h2>
-        <p class="font-serif italic text-xl text-fog mt-6 leading-relaxed">
-          Amravati HQ, Jaipur, Nagpur, Mumbai, Bali or Istanbul team — visit us or talk to our local team. All doors are always open.
+    <!-- Section Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+      <div class="reveal max-w-2xl">
+        <span class="font-sans text-eyebrow uppercase text-ocean tracking-widest flex items-center gap-2">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">domain</span>
+          Global DMC Network
+        </span>
+        <h2 class="font-display font-medium text-clamp-sm mt-3 leading-[1.05]">
+          Our Branch <span class="italic font-serif text-sunset font-normal">Offices.</span>
+        </h2>
+        <p class="font-serif italic text-lg md:text-xl text-fog mt-4 leading-relaxed">
+          4 Pan-India branch hubs + direct international DMC offices in Bali &amp; Istanbul. Real physical presence, zero middlemen, 100% accountability.
         </p>
       </div>
+
+      <!-- Filter Buttons -->
+      <div class="reveal flex flex-wrap gap-2.5">
+        <button onclick="filterOffices('all', this)" class="branch-tab active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-navy text-white shadow-md transition-all">All Locations (6)</button>
+        <button onclick="filterOffices('india', this)" class="branch-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇮🇳 India Hubs (4)</button>
+        <button onclick="filterOffices('international', this)" class="branch-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🌏 International (2)</button>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- 6-Card Branch Grid -->
+    <div id="branch-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
 
-      <!-- AMRAVATI OFFICE LARGE TILE -->
-      <div class="reveal lg:col-span-7 rounded-3xl overflow-hidden relative group tile-hover shadow-xl shadow-navy/5">
-        <div class="grid grid-cols-1 md:grid-cols-2 min-h-[420px]">
-          <div class="relative overflow-hidden min-h-[320px] md:min-h-0">
-            <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-[1500ms]" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80')"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/45 via-navy/15 to-transparent"></div>
-            <div class="absolute top-6 left-6 bg-white backdrop-blur px-4 py-2 rounded-full flex items-center gap-2 text-xs font-bold tracking-wide text-navy-deep shadow-2xl border border-navy/10">
-              <span class="w-2.5 h-2.5 rounded-full bg-forest animate-pulse"></span>
-              Amravati HQ · Open now
+      <!-- 1. AMRAVATI HEADQUARTERS -->
+      <div data-region="india" class="branch-card reveal bg-white rounded-3xl overflow-hidden border-2 border-sunset/30 shadow-xl hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80" alt="Amravati Headquarters" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-sunset text-navy-deep px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                👑 Global Head Office
+              </span>
             </div>
-            <div class="absolute bottom-6 left-6 right-6 bg-white backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-navy/10">
-              <div class="flex items-center gap-2.5 mb-3">
-                <span class="material-symbols-outlined text-ocean text-xl">location_on</span>
-                <span class="font-sans text-xs font-black tracking-[0.2em] uppercase text-navy-deep">HEAD OFFICE · AMRAVATI</span>
-              </div>
-              <div class="font-display text-3xl font-bold text-navy-deep mb-3.5 leading-tight">Sahakar Nagar</div>
-              <div class="font-sans text-base font-semibold text-navy-deep/90 leading-relaxed">
-                Sahakar Nagar, Opp. New Cotton Market,<br/>Shiv Krupa Residence, Amravati, Maharashtra
-              </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Open 9am - 9pm
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">Maharashtra · Central HQ</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Amravati, Maharashtra</h3>
             </div>
           </div>
-          <div class="p-8 md:p-10 bg-stone/60 flex flex-col">
-            <span class="inline-flex items-center gap-2 bg-forest/10 text-forest px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase w-fit mb-6">
-              <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">flag</span>
-              India
-            </span>
-            <h3 class="font-display text-4xl font-medium text-navy leading-tight mb-8">Where every journey begins.</h3>
-            <div class="space-y-6 flex-grow">
-              <div class="flex gap-4">
-                <span class="material-symbols-outlined text-ocean text-2xl flex-shrink-0">call</span>
-                <div>
-                  <div class="font-sans text-xs text-fog uppercase tracking-widest mb-1">Phone &amp; WhatsApp</div>
-                  <div class="font-display text-lg font-semibold text-navy">+91-80075 86871 · +91-95459 55966</div>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <span class="material-symbols-outlined text-sunset text-2xl flex-shrink-0">schedule</span>
-                <div>
-                  <div class="font-sans text-xs text-fog uppercase tracking-widest mb-1">Hours</div>
-                  <div class="font-sans text-base text-navy font-medium">Mon – Sun · 9:00 AM – 9:00 PM IST</div>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <span class="material-symbols-outlined text-navy text-2xl flex-shrink-0">mail</span>
-                <div>
-                  <div class="font-sans text-xs text-fog uppercase tracking-widest mb-1">Email</div>
-                  <div class="font-sans text-base text-navy font-medium">Info@letsexploredmc.com</div>
-                </div>
-              </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">Sahakar Nagar, Opp. New Cotton Market, Shiv Krupa Residence, Amravati, MH</span>
             </div>
-            <div class="mt-10 flex gap-3 flex-wrap">
-              <a href="tel:+918007586871" class="btn-premium inline-flex items-center gap-2 bg-navy text-white px-6 py-3.5 rounded-full font-medium hover:bg-navy-deep transition-all">
-                <span class="material-symbols-outlined text-base">call</span>
-                Call Amravati
-              </a>
-              <a href="https://maps.google.com/?q=Sahakar+Nagar+Amravati" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-medium border border-navy/15 text-navy hover:bg-navy/5 transition-all">
-                <span class="material-symbols-outlined text-base">map</span>
-                Open Maps
-              </a>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
+              <span>+91-80075 86871 · +91-95459 55966</span>
             </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>info@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="tel:+918007586871" class="flex-1 text-center py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep transition">Call Office</a>
+          <a href="https://wa.me/918007586871?text=Hi%20Amravati%20HQ%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition">WhatsApp</a>
+          <a href="https://maps.google.com/?q=Sahakar+Nagar+Amravati" target="_blank" class="px-3.5 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Open Google Maps">
+            <span class="material-symbols-outlined text-base">map</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. MUMBAI BRANCH -->
+      <div data-region="india" class="branch-card reveal bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=700&q=80" alt="Mumbai Branch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-ocean text-white px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                🏙️ West India Hub
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Open 9:30am - 7pm
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">Financial &amp; Cruise Hub</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Fort, Mumbai</h3>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">LV 3rd Floor, Maharashtra Bhavan, Bora Bazar, Behind Old Handloom House, Fort, Mumbai</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
+              <span>+91-80075 86871</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>mumbai@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="tel:+918007586871" class="flex-1 text-center py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep transition">Call Office</a>
+          <a href="https://wa.me/918007586871?text=Hi%20Mumbai%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition">WhatsApp</a>
+          <a href="https://maps.google.com/?q=Maharashtra+Bhavan+Bora+Bazar+Fort+Mumbai" target="_blank" class="px-3.5 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Open Google Maps">
+            <span class="material-symbols-outlined text-base">map</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. JAIPUR BRANCH -->
+      <div data-region="india" class="branch-card reveal bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=700&q=80" alt="Jaipur Branch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-[#e11d48] text-white px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                🏰 North India Hub
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Open 9:30am - 7pm
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">Rajasthan &amp; Heritage Desk</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Jagatpura, Jaipur</h3>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">405, 4th Floor, Redwood Nebula, Jagatpura, Near DMart, Jaipur, Rajasthan</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
+              <span>+91-80075 86871</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>jaipur@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="tel:+918007586871" class="flex-1 text-center py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep transition">Call Office</a>
+          <a href="https://wa.me/918007586871?text=Hi%20Jaipur%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition">WhatsApp</a>
+          <a href="https://maps.google.com/?q=Redwood+Nebula+Jagatpura+Jaipur" target="_blank" class="px-3.5 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Open Google Maps">
+            <span class="material-symbols-outlined text-base">map</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4. NAGPUR BRANCH -->
+      <div data-region="india" class="branch-card reveal bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=700&q=80" alt="Nagpur Branch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-[#16a34a] text-white px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                🌿 Vidarbha Regional Hub
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Open 9:30am - 7pm
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">Central Maharashtra Hub</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Mecosabagh, Nagpur</h3>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">C-6, Mecosabagh, Sindhi Colony, Nagpur, Maharashtra</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
+              <span>+91-95459 55966</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>nagpur@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="tel:+919545955966" class="flex-1 text-center py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep transition">Call Office</a>
+          <a href="https://wa.me/919545955966?text=Hi%20Nagpur%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition">WhatsApp</a>
+          <a href="https://maps.google.com/?q=Mecosabagh+Sindhi+Colony+Nagpur" target="_blank" class="px-3.5 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Open Google Maps">
+            <span class="material-symbols-outlined text-base">map</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 5. BALI INTERNATIONAL DMC -->
+      <div data-region="international" class="branch-card reveal bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=700&q=80" alt="Bali DMC Office" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-[#0284c7] text-white px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                🌴 Southeast Asia DMC
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest"></span> Direct Ops
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">PT. Chrysthalia Athena Sejahtera</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Denpasar, Bali</h3>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">Komplek Perhotelan Viking, Jalan Diponegoro, Denpasar, Bali, Indonesia</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">support_agent</span>
+              <span>Direct DMC Team · Luxury Villas &amp; Tours</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>bali@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="https://wa.me/918007586871?text=Hi%20Let's%20Explore%20Bali%20DMC%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition flex items-center justify-center gap-1.5">
+            <span>WhatsApp Bali Desk</span>
+          </a>
+          <a href="mailto:bali@letsexploredmc.com" class="px-4 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Send Email">
+            <span class="material-symbols-outlined text-base">mail</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 6. ISTANBUL OPERATIONS -->
+      <div data-region="international" class="branch-card reveal bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=700&q=80" alt="Istanbul Operations" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-[#7c3aed] text-white px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                🇹🇷 Europe &amp; Middle East DMC
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest"></span> Ground Team
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">Taksim Hub · Roots on Ground</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Taksim, Istanbul</h3>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">Cumhuriyet Cd. No:42, Taksim, Beyoğlu, 34437, Istanbul, Türkiye</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">support_agent</span>
+              <span>24/7 Hindi &amp; English Ground Concierge</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>turkey@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="https://wa.me/918007586871?text=Hi%20Istanbul%20Ground%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition flex items-center justify-center gap-1.5">
+            <span>WhatsApp Turkey Desk</span>
+          </a>
+          <a href="mailto:turkey@letsexploredmc.com" class="px-4 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Send Email">
+            <span class="material-symbols-outlined text-base">mail</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ QUICK ENQUIRY BANNER & FORM ============ -->
+    <div class="reveal rounded-3xl overflow-hidden shadow-2xl border border-navy/10 grid grid-cols-1 lg:grid-cols-12 bg-white">
+      
+      <!-- Left Info Side -->
+      <div class="lg:col-span-5 p-8 md:p-12 text-white relative flex flex-col justify-between" style="background:
+        radial-gradient(ellipse 80% 70% at 90% 10%, rgba(244,162,97,0.45) 0%, transparent 55%),
+        linear-gradient(140deg, #07152A 0%, #0B1F3A 60%, #0E2848 100%);">
+        
+        <div>
+          <span class="inline-flex items-center gap-2 bg-sunset/20 text-sunset px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase mb-6">
+            <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">bolt</span>
+            Fast Response Guarantee
+          </span>
+          <h3 class="font-display text-3xl md:text-4xl font-bold leading-tight mb-4">
+            Plan your custom journey with us.
+          </h3>
+          <p class="font-serif italic text-lg text-white/80 leading-relaxed mb-8">
+            Tell us where you want to go. Our direct DMC experts craft verified itineraries at unmatchable wholesale rates.
+          </p>
+
+          <div class="space-y-4 text-sm text-white/90">
+            <div class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-forest/20 text-forest flex items-center justify-center font-bold text-xs">✓</span>
+              <span>Zero Middlemen Markup (Direct DMC Pricing)</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-forest/20 text-forest flex items-center justify-center font-bold text-xs">✓</span>
+              <span>24/7 WhatsApp On-Trip Ground Support</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-6 h-6 rounded-full bg-forest/20 text-forest flex items-center justify-center font-bold text-xs">✓</span>
+              <span>100% Customized Family, Honeymoon &amp; Group Tours</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-8 mt-8 border-t border-white/10 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur flex items-center justify-center text-sunset shrink-0">
+            <span class="material-symbols-outlined text-2xl">call</span>
+          </div>
+          <div>
+            <div class="text-[11px] text-white/60 uppercase font-bold tracking-wider">Direct Hotline</div>
+            <div class="font-display text-lg font-bold text-white">+91-80075 86871</div>
           </div>
         </div>
       </div>
 
-      <!-- OFFICES & LEAD FORM 5-col -->
-      <div class="lg:col-span-5 space-y-8">
+      <!-- Right Form Side -->
+      <div class="lg:col-span-7 p-8 md:p-12 bg-stone/30 flex flex-col justify-center">
+        <span class="inline-flex items-center gap-2 bg-ocean/10 text-ocean px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase w-fit mb-4">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">send</span>
+          Quick enquiry
+        </span>
+        <h4 class="font-display text-2xl font-bold text-navy-deep mb-2">Send an inquiry to all offices</h4>
+        <p class="font-serif italic text-fog text-base mb-6">Our nearest branch manager will get in touch within 2 hours.</p>
 
-        <!-- BALI INTERNATIONAL OFFICE -->
-        <div class="reveal reveal-delay-1 rounded-3xl overflow-hidden relative tile-hover bg-white border border-navy/10 shadow-lg shadow-navy/5 h-fit">
-          <div class="p-7">
-            <div class="flex items-center justify-between mb-5">
-              <span class="inline-flex items-center gap-2 bg-[#0ea5e9]/15 text-[#0ea5e9] px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
-                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">wb_sunny</span>
-                Bali, Indonesia
-              </span>
-              <div class="flex items-center gap-2 text-xs font-semibold text-navy-deep">
-                <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span>
-                DMC Operations
-              </div>
+        <form id="contact-form" class="space-y-4" onsubmit="event.preventDefault(); handleFormSubmit(this);">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Your Name *</label>
+              <input id="contact-name" required type="text" placeholder="e.g. Asmita" class="glass-input w-full px-4 py-3.5 rounded-2xl text-navy font-semibold text-sm bg-white border border-navy/15 focus:border-sunset focus:ring-2 focus:ring-sunset/20 outline-none transition shadow-sm">
             </div>
-            <h3 class="font-display text-2xl font-bold text-navy-deep mb-1">Bali Office</h3>
-            <p class="font-sans text-xs font-bold uppercase tracking-wider text-ocean mb-3">PT. Chrysthalia Athena Sejahtera</p>
-            <p class="font-serif italic text-navy/70 text-base mb-5">Island travel, luxury villa & on-ground tour operations.</p>
-            <div class="space-y-4">
-              <div class="flex gap-3 items-start">
-                <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Address</div>
-                  <div class="font-sans text-sm font-semibold text-navy-deep leading-relaxed">Komplek Perhotelan Viking, Jalan Diponegoro, Denpasar, Bali, Indonesia</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Phone & WhatsApp</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">+91-80075 86871</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-navy-deep text-xl flex-shrink-0">mail</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Email</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">Info@letsexploredmc.com</div>
-                </div>
-              </div>
+            <div>
+              <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Phone / WhatsApp *</label>
+              <input id="contact-phone" required type="tel" placeholder="+91 95799 75476" class="glass-input w-full px-4 py-3.5 rounded-2xl text-navy font-semibold text-sm bg-white border border-navy/15 focus:border-sunset focus:ring-2 focus:ring-sunset/20 outline-none transition shadow-sm">
             </div>
           </div>
-        </div>
-
-        <!-- JAIPUR BRANCH -->
-        <div class="reveal reveal-delay-1 rounded-3xl overflow-hidden relative tile-hover bg-white border border-navy/10 shadow-lg shadow-navy/5 h-fit">
-          <div class="p-7">
-            <div class="flex items-center justify-between mb-5">
-              <span class="inline-flex items-center gap-2 bg-sunset/15 text-sunset px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
-                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">palace</span>
-                Rajasthan
-              </span>
-              <div class="flex items-center gap-2 text-xs font-semibold text-navy-deep">
-                <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span>
-                Open Now
-              </div>
-            </div>
-            <h3 class="font-display text-2xl font-bold text-navy-deep mb-1.5">Jaipur Branch</h3>
-            <p class="font-serif italic text-navy/70 text-lg mb-5">North India's heritage & palace specialist.</p>
-            <div class="space-y-4">
-              <div class="flex gap-3 items-start">
-                <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Address</div>
-                  <div class="font-sans text-sm font-semibold text-navy-deep leading-relaxed">405, 4th Floor, Redwood Nebula, Jagatpura, Near DMart, Jaipur, RJ</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Phone & WhatsApp</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">+91-80075 86871</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-navy-deep text-xl flex-shrink-0">mail</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Email</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">Info@letsexploredmc.com</div>
-                </div>
-              </div>
-            </div>
+          <div>
+            <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Preferred Destination</label>
+            <select id="contact-dest" class="glass-input w-full px-4 py-3.5 rounded-2xl text-navy font-semibold text-sm bg-white border border-navy/15 focus:border-sunset focus:ring-2 focus:ring-sunset/20 outline-none transition shadow-sm appearance-none">
+              <option>Georgia ($300 USD Special)</option>
+              <option>Turkey (Istanbul &amp; Cappadocia)</option>
+              <option selected>Bali &amp; Nusa Penida</option>
+              <option>Dubai &amp; Abu Dhabi</option>
+              <option>Thailand Islands</option>
+              <option>European Highlights (Swiss / Croatia)</option>
+              <option>Kashmir &amp; Kerala</option>
+              <option>Other Custom International</option>
+            </select>
           </div>
-        </div>
-
-        <!-- NAGPUR BRANCH -->
-        <div class="reveal reveal-delay-2 rounded-3xl overflow-hidden relative tile-hover bg-white border border-navy/10 shadow-lg shadow-navy/5 h-fit">
-          <div class="p-7">
-            <div class="flex items-center justify-between mb-5">
-              <span class="inline-flex items-center gap-2 bg-[#16a34a]/15 text-[#16a34a] px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
-                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">forest</span>
-                Maharashtra
-              </span>
-              <div class="flex items-center gap-2 text-xs font-semibold text-navy-deep">
-                <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span>
-                Open Now
-              </div>
-            </div>
-            <h3 class="font-display text-2xl font-bold text-navy-deep mb-1.5">Nagpur Branch</h3>
-            <p class="font-serif italic text-navy/70 text-lg mb-5">Central India's regional travel hub.</p>
-            <div class="space-y-4">
-              <div class="flex gap-3 items-start">
-                <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Address</div>
-                  <div class="font-sans text-sm font-semibold text-navy-deep leading-relaxed">C-6, Mecosabagh, Sindhi Colony, Nagpur, Maharashtra</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">call</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Phone & WhatsApp</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">+91-95459 55966</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-navy-deep text-xl flex-shrink-0">mail</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Email</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">Info@letsexploredmc.com</div>
-                </div>
-              </div>
-            </div>
+          <div>
+            <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Your Travel Notes (Dates, People, Budget)</label>
+            <textarea id="contact-msg" rows="3" placeholder="e.g. 4 Adults traveling in May, looking for private pool villa..." class="glass-input w-full px-4 py-3.5 rounded-2xl text-navy font-medium text-sm bg-white border border-navy/15 focus:border-sunset focus:ring-2 focus:ring-sunset/20 outline-none transition shadow-sm resize-none"></textarea>
           </div>
-        </div>
-
-        <!-- MUMBAI BRANCH -->
-        <div class="reveal reveal-delay-1 rounded-3xl overflow-hidden relative tile-hover text-white h-fit shadow-2xl" style="background:
-          radial-gradient(ellipse 60% 70% at 100% 0%, rgba(244,162,97,0.48) 0%, transparent 55%),
-          linear-gradient(140deg, #04101e 0%, #07152A 50%, #0B1F3A 100%);
-          border: 1px solid rgba(255,255,255,0.08);">
-          <div class="p-7">
-            <div class="flex items-center justify-between mb-5">
-              <span class="inline-flex items-center gap-2 bg-white/10 text-ocean px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase border border-white/10">
-                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">apartment</span>
-                Maharashtra
-              </span>
-              <div class="flex items-center gap-2 text-xs font-semibold text-white">
-                <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span>
-                Open Now
-              </div>
-            </div>
-            <h3 class="font-display text-2xl font-bold text-white mb-1.5">Mumbai Branch</h3>
-            <p class="font-serif italic text-white/70 text-lg mb-5">International flights & cruise gateway.</p>
-            <div class="space-y-4">
-              <div class="flex gap-3 items-start">
-                <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0 mt-0.5">location_on</span>
-                <div>
-                  <div class="font-sans text-[11px] text-white/60 font-black uppercase tracking-widest mb-1">Address</div>
-                  <div class="font-sans text-sm font-semibold text-white leading-relaxed">LV 3rd Floor, Maharashtra Bhavan, Bora Bazar, Behind Old Handloom House, Fort, Mumbai</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0">call</span>
-                <div>
-                  <div class="font-sans text-[11px] text-white/60 font-black uppercase tracking-widest mb-1">Phone & WhatsApp</div>
-                  <div class="font-sans text-sm font-bold text-white">+91-80075 86871</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-white text-xl flex-shrink-0">mail</span>
-                <div>
-                  <div class="font-sans text-[11px] text-white/60 font-black uppercase tracking-widest mb-1">Email</div>
-                  <div class="font-sans text-sm font-bold text-white">Info@letsexploredmc.com</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ISTANBUL OPERATIONS -->
-        <div class="reveal reveal-delay-2 rounded-3xl overflow-hidden relative tile-hover bg-white border border-navy/10 shadow-lg shadow-navy/5 h-fit">
-          <div class="p-7">
-            <div class="flex items-center justify-between mb-5">
-              <span class="inline-flex items-center gap-2 bg-[#7B61FF]/15 text-[#7B61FF] px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
-                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">flight_takeoff</span>
-                Türkiye
-              </span>
-              <div class="flex items-center gap-2 text-xs font-semibold text-navy-deep">
-                <span class="w-2 h-2 rounded-full bg-forest"></span>
-                Local Ground Ops
-              </div>
-            </div>
-            <h3 class="font-display text-2xl font-bold text-navy-deep mb-1.5">Istanbul Operations</h3>
-            <p class="font-serif italic text-navy/70 text-lg mb-5">Boots on the ground, from Taksim to Cappadocia.</p>
-            <div class="space-y-4">
-              <div class="flex gap-3 items-start">
-                <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Address</div>
-                  <div class="font-sans text-sm font-semibold text-navy-deep leading-relaxed">Cumhuriyet Cd. No:42, Taksim · Beyoğlu · 34437</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">support_agent</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">24/7 Concierge</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">English + Hindi Speaking Team</div>
-                </div>
-              </div>
-              <div class="flex gap-3 items-center">
-                <span class="material-symbols-outlined text-navy-deep text-xl flex-shrink-0">mail</span>
-                <div>
-                  <div class="font-sans text-[11px] text-navy/60 font-black uppercase tracking-widest mb-1">Email</div>
-                  <div class="font-sans text-sm font-bold text-navy-deep">Info@letsexploredmc.com</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- GLASS LEAD FORM -->
-        <div class="reveal reveal-delay-2 rounded-3xl overflow-hidden shadow-xl shadow-navy/5 relative" style="background:
-          linear-gradient(140deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.85) 100%);
-          backdrop-filter: blur(14px);
-          border: 1px solid rgba(11,31,58,0.07);">
-          <div class="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20 bg-sunset pointer-events-none"></div>
-          <div class="p-8 relative">
-            <span class="inline-flex items-center gap-2 bg-ocean/10 text-ocean px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-5">
-              <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL'1">send</span>
-              Quick enquiry
-            </span>
-            <h3 class="font-display text-2xl font-medium text-navy leading-tight mb-2">Tell us your dream trip.</h3>
-            <p class="font-serif italic text-fog text-lg mb-7">We reply within 2 hours, not 2 days.</p>
-
-            <form id="contact-form" class="space-y-4" onsubmit="event.preventDefault(); handleFormSubmit(this);">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Your name</label>
-                  <input required type="text" placeholder="e.g. Priya Sharma" class="glass-input w-full px-4 py-3.5 rounded-xl text-navy text-base placeholder:text-fog/50">
-                </div>
-                <div>
-                  <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Phone</label>
-                  <input required type="tel" placeholder="+91 ..." class="glass-input w-full px-4 py-3.5 rounded-xl text-navy text-base placeholder:text-fog/50">
-                </div>
-              </div>
-              <div>
-                <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Destination</label>
-                <select class="glass-input w-full px-4 py-3.5 rounded-xl text-navy text-base">
-                  <option>Turkey</option>
-                  <option>Dubai</option>
-                  <option>Maldives</option>
-                  <option>European Flavours 2026</option>
-                  <option>Japan Golden Route</option>
-                  <option>Malaysia · Genting</option>
-                  <option>Scandinavia · Northern Lights</option>
-                  <option>Europe</option>
-                  <option>Kerala / Andaman / Goa</option>
-                  <option>Custom International</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-sans text-xs uppercase tracking-widest text-fog font-semibold mb-2 block">Message (optional)</label>
-                <textarea rows="3" placeholder="Dates, travellers, budget, or anything on your mind…" class="glass-input w-full px-4 py-3.5 rounded-xl text-navy text-base placeholder:text-fog/50 resize-none"></textarea>
-              </div>
-              <button type="submit" class="btn-premium w-full inline-flex items-center justify-center gap-2 bg-sunset text-white py-4 rounded-xl font-semibold text-base hover:bg-[#E8904F] transition-all shadow-lg shadow-sunset/25 tracking-wide">
-                <span id="form-submit-text">Send enquiry</span>
-                <span class="material-symbols-outlined text-lg">arrow_outward</span>
-              </button>
-              <p class="text-center font-sans text-xs text-fog/70 mt-2">No spam. Ever. Your number stays with us only.</p>
-            </form>
-          </div>
-        </div>
-
+          <button id="contact-submit-btn" type="submit" class="btn-premium w-full inline-flex items-center justify-center gap-2 bg-sunset text-navy-deep py-4 rounded-2xl font-bold text-base hover:bg-[#E8904F] transition-all shadow-xl shadow-sunset/30 tracking-wide">
+            <span id="form-submit-text">Send Enquiry to Local Branch</span>
+            <span class="material-symbols-outlined text-lg">arrow_outward</span>
+          </button>
+          <p class="text-center font-sans text-xs text-fog/70 mt-2">No spam. Your number is shared only with our official tour architects.</p>
+        </form>
       </div>
+
     </div>
+
   </div>
 </section>
+
+<!-- ============ ENQUIRY SUCCESS MODAL ============ -->
+<div id="enquiry-success-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-deep/80 backdrop-blur-md hidden transition-opacity duration-300">
+  <div class="bg-white rounded-3xl p-8 max-w-lg w-full text-center shadow-2xl border border-sunset/30 relative animate-scaleIn">
+    <button onclick="closeSuccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-navy text-2xl font-bold">&times;</button>
+    <div class="w-20 h-20 rounded-full bg-forest/15 text-forest mx-auto flex items-center justify-center mb-5 border-2 border-forest/30">
+      <span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL'1">check_circle</span>
+    </div>
+    <span class="inline-block bg-sunset/15 text-sunset px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Enquiry Received</span>
+    <h3 id="modal-user-name" class="font-display text-3xl font-bold text-navy mb-2">Thank you!</h3>
+    <p id="modal-desc" class="text-fog text-sm leading-relaxed mb-6">
+      Your enquiry has been routed directly to our destination team. A dedicated travel architect will contact you within 2 hours.
+    </p>
+
+    <div class="space-y-3">
+      <a id="modal-wa-btn" href="#" target="_blank" class="w-full py-4 rounded-2xl bg-[#27AE60] text-white font-bold text-sm hover:bg-[#219653] transition shadow-lg flex items-center justify-center gap-2">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>Open WhatsApp Chat Now</span>
+      </a>
+      <button onclick="closeSuccessModal()" class="w-full py-3.5 rounded-2xl bg-stone/70 text-navy font-bold text-xs uppercase tracking-wider hover:bg-stone transition">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- ============ 3 VALUE PILLARS BAND MIST BG ============ -->
 <section class="py-24 md:py-32 bg-mist/40 relative overflow-hidden">
@@ -595,40 +672,72 @@ tailwind.config = {
 
 <script>
 async function handleFormSubmit(form) {
-  const inputs = form.querySelectorAll('input, select, textarea');
-  const name  = inputs[0]?.value || '';
-  const phone = inputs[1]?.value || '';
-  const dest  = inputs[2]?.value || '';
-  const msg   = inputs[3]?.value || '';
+  const name  = document.getElementById('contact-name')?.value.trim() || 'Guest';
+  const phone = document.getElementById('contact-phone')?.value.trim() || '';
+  const dest  = document.getElementById('contact-dest')?.value || 'Custom Package';
+  const msg   = document.getElementById('contact-msg')?.value.trim() || '';
 
   const btnText = document.getElementById('form-submit-text');
-  btnText.textContent = 'Sending…';
+  btnText.textContent = 'Submitting…';
 
+  // Construct clean WhatsApp payload
+  const waText = `Hello Let's Explore DMC,\n\nI would like to enquire about a trip:\n\n* Name: ${name}\n* Phone: ${phone}\n* Destination: ${dest}\n* Travel Notes: ${msg || 'Looking for custom itinerary & best rates'}\n\nPlease connect me with the destination manager.`;
+
+  const waUrl = `https://wa.me/918007586871?text=${encodeURIComponent(waText)}`;
+
+  // Update Success Modal details
+  document.getElementById('modal-user-name').textContent = `Thank you, ${name}!`;
+  document.getElementById('modal-desc').innerHTML = `Your enquiry for <strong>${dest}</strong> has been logged. Our official destination desk (+91 80075 86871) has received your request.`;
+  document.getElementById('modal-wa-btn').href = waUrl;
+
+  // Show Success Modal
+  document.getElementById('enquiry-success-modal').classList.remove('hidden');
+
+  // Attempt opening WhatsApp in new tab
   try {
-    await fetch('/api/contact', {
+    window.open(waUrl, '_blank');
+  } catch(err) {
+    console.log('Popup blocked or redirected');
+  }
+
+  // Save to backend API / local store in background
+  try {
+    fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, phone, destination: dest, message: msg })
-    });
-  } catch(e) {
-    console.error(e);
+    }).catch(() => {});
+  } catch(e) {}
+
+  btnText.textContent = '✅ Enquiry Sent!';
+  form.reset();
+  setTimeout(() => { btnText.textContent = 'Send Enquiry to Local Branch'; }, 5000);
+}
+
+function closeSuccessModal() {
+  document.getElementById('enquiry-success-modal').classList.add('hidden');
+}
+
+// Branch filter functionality
+function filterOffices(region, btn) {
+  document.querySelectorAll('.branch-tab').forEach(b => {
+    b.classList.remove('bg-navy', 'text-white', 'shadow-md', 'active');
+    b.classList.add('bg-white', 'text-navy/70', 'border', 'border-navy/10');
+  });
+  if (btn) {
+    btn.classList.add('bg-navy', 'text-white', 'shadow-md', 'active');
+    btn.classList.remove('bg-white', 'text-navy/70', 'border', 'border-navy/10');
   }
 
-  // Open WhatsApp Lead Alert
-  const waText = `📌 NEW WEBSITE ENQUIRY - LET'S EXPLORE DMC
-----------------------------------
-👤 Name: ${name}
-📞 Phone: ${phone}
-🏝️ Destination: ${dest}
-💬 Message: ${msg || 'General Enquiry'}
-----------------------------------
-Sent via LetsExplore DMC Contact Form`;
-
-  window.open(`https://wa.me/918007586871?text=${encodeURIComponent(waText)}`, '_blank');
-
-  btnText.textContent = '✅ Sent! WhatsApp Opened';
-  form.reset();
-  setTimeout(() => btnText.textContent = 'Send enquiry', 4000);
+  const cards = document.querySelectorAll('.branch-card');
+  cards.forEach(card => {
+    if (region === 'all' || card.getAttribute('data-region') === region) {
+      card.style.display = 'flex';
+      card.classList.add('in-view');
+    } else {
+      card.style.display = 'none';
+    }
+  });
 }
 
 // Reveal observer
