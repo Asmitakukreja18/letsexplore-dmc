@@ -58,12 +58,11 @@ tailwind.config = {
 
 <style>
 .material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align: middle; }
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.22s ease-out, transform 0.22s ease-out; will-change: opacity, transform; }
-.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal { opacity: 1 !important; transform: none !important; }
 .btn-premium { position: relative; overflow: hidden; isolation: isolate; }
 .btn-premium::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.32) 50%, transparent 70%); background-size: 200% 100%; opacity: 0; transition: opacity 0.3s; z-index: -1; }
 .btn-premium:hover::before { opacity: 1; animation: shimmer 2.4s linear infinite; }
-.glass-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(14px); border: 1px solid rgba(11,31,58,0.08); }
+.glass-card { background: rgba(255,255,255,0.98); backdrop-filter: blur(14px); border: 1px solid rgba(11,31,58,0.1); }
 .sticky-book { position: sticky; top: 90px; }
 .tile-hover { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
 .tile-hover:hover { box-shadow: 0 20px 45px -15px rgba(11,31,58,0.18); transform: translateY(-4px); }
