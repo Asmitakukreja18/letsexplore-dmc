@@ -795,10 +795,18 @@ async function submitChat(e) {
 
   setTimeout(() => {
     document.getElementById(typingId)?.remove();
-    const formatted = reply
+    
+    // Auto-generate rich custom WhatsApp prefilled message based on what user asked
+    const customWaMsg = `Hello Let's Explore DMC,\n\nI was chatting with your AI Concierge about: "${val}".\n\nPlease share the customized wholesale proposal, locked day-by-day itinerary & available dates!`;
+    const customWaUrl = "https://wa.me/918007586871?text=" + encodeURIComponent(customWaMsg);
+
+    let formatted = reply
+      // Replace generic WhatsApp links with custom message
+      .replace(/https:\/\/wa\.me\/918007586871(\?text=[^"'\s\)]*)?/g, customWaUrl)
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow">$1</a>')
       .replace(/\n/g, '<br/>');
+
     box.innerHTML += `
       <div class="flex items-start gap-3 mb-4">
         <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">🤖</div>
