@@ -55,43 +55,88 @@ HOW YOU COMMUNICATE:
     }
   }
 
-  // Intelligent Context-Aware Conversational Fallback with Custom WhatsApp Links
+  // Intelligent Context-Aware Multi-Turn Conversational AI Engine
   let reply = "";
 
-  if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
-    reply = "✨ **Great!** Our destination manager is ready with your customized wholesale itinerary and private chauffeur quote.\n\n📲 [**Click here to chat on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary%20and%20best%20available%20rates!) or reply with your travel dates!";
-  } else if (msgLower.match(/\b(i cant click|cant click|link not working|not clickable|how to open|phone|whatsapp number|call you)\b/i)) {
-    reply = "📲 **Direct WhatsApp & Phone Support**:\n\n* **Direct Number**: +91 80075 86871\n* **Direct WhatsApp**: https://wa.me/918007586871\n* **Email**: letsexploredmc@gmail.com\n\n[**Open WhatsApp Chat Now**](https://wa.me/918007586871)";
-  } else if (msgLower.match(/\b(idk|i dont know|dont know|not sure|confused|no idea|kuch bhi|suggest|recommend|any place|best place|best destination|where should i go|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
-    reply = "✨ **No worries! Here are our top handpicked recommendations**:\n\n1. 🇬🇪 **Georgia Special ($300 USD)** — Snowy Kazbegi & Old Tbilisi [**Get Georgia Details**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20send%20the%20Georgia%20$300%20deal!)\n2. 🇹🇷 **Turkey (Istanbul & Cappadocia)** — ₹42,999 (Cave suites & sunrise balloons) [**Get Turkey Details**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20send%20the%20Turkey%20Escape%20deal!)\n3. 🏝️ **Bali & Nusa Penida** — ₹48,999 (Private pool villas & beaches) [**Get Bali Details**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20send%20the%20Bali%20deal!)\n4. 🇹🇭 **Thailand (Phuket & Krabi)** — ₹28,999 (Island cruises)\n5. 🏙️ **Dubai Luxury** — ₹34,999 (Desert safaris & Burj Khalifa)\n\nWhich vibe do you prefer: **Mountains, Beaches, or City Luxury**?";
-  } else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
-    reply = "👋 **Hello! Welcome to Let's Explore DMC.**\n\nI am your AI Travel Concierge. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!\n\nWhere would you like to travel next?";
-  } else if (msgLower.match(/\b(georgia|tbilisi|kazbegi|gudauri|gergeti)\b/i)) {
-    reply = "🇬🇪 **Georgia Flash Deal ($300 USD Special)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: $300 USD (~₹25,999/person)\n• **Inclusions**: 4★ Boutique Hotel in Tbilisi, Private 4x4 Chauffeur, Snowy Kazbegi Excursion, Gudauri Ski Pass, Gergeti Trinity Church & Daily Buffet Breakfast.\n\n📲 [**Send Georgia $300 Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Georgia%20Flash%20Deal%20($300%20USD%20Special)*%20(5D/4N).%0A%0A•%20Includes:%204★%20Hotel,%20Kazbegi%204x4,%20Gudauri%20Resort%20%26%20Private%20Transfers%0A•%20Rate:%20$300%20USD%20per%20person%0A%0APlease%20share%20available%20dates%20and%20day-by-day%20itinerary!)";
-  } else if (msgLower.match(/\b(turkey|cappadocia|istanbul|antalya|pamukkale)\b/i)) {
-    reply = "🇹🇷 **Turkey Escape & Wonders (Flagship DMC)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹42,999/person\n• **Inclusions**: 5★ Cave Resort in Cappadocia, Private Sunset Bosphorus Yacht Cruise, Istanbul guided tours, Private AC Chauffeur, Daily Breakfast & Dinners.\n\n📲 [**Send Turkey Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Turkey%20Escape%20%26%20Wonders*%20(5D/4N%20₹42,999).%0A%0A•%20Includes:%205★%20Cave%20Resort,%20Cappadocia%20Balloons,%20Bosphorus%20Yacht%20%26%20Pvt%20Chauffeur%0A%0APlease%20share%20the%20detailed%20day-by-day%20proposal!)";
-  } else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida|kintamani)\b/i)) {
-    reply = "🏝️ **Bali Island Tropical Luxury & Pool Villa**:\n\n• **Duration**: 6 Days / 5 Nights\n• **Price**: ₹48,999/person\n• **Inclusions**: 5★ Private Pool Villa in Ubud, Floating Breakfast, Nusa Penida West Island Speedboat Cruise, Mt. Batur Sunrise Safari, 24/7 Dedicated Chauffeur.\n\n📲 [**Send Bali Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Bali%20Tropical%20Luxury%20%26%20Pool%20Villa*%20(6D/5N%20₹48,999).%0A%0A•%20Includes:%205★%20Pool%20Villa%20in%20Ubud,%20Floating%20Breakfast,%20Nusa%20Penida%20Cruise%0A%0APlease%20share%20the%20detailed%20plan!)";
-  } else if (msgLower.match(/\b(dubai|uae|burj khalifa|abu dhabi)\b/i)) {
-    reply = "🏙️ **Dubai Grand Luxury Experience**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹34,999/person\n• **Inclusions**: 4★/5★ Central Luxury Hotel, Burj Khalifa 124th Floor Observatory, VIP 4x4 Desert Safari + BBQ Dinner & Live Show, Marina Dhow Cruise.\n\n📲 [**Send Dubai Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Dubai%20Grand%20Luxury%20Experience*%20(5D/4N%20₹34,999).%0A%0A•%20Includes:%20Burj%20Khalifa,%20VIP%20Desert%20Safari,%20Marina%20Cruise%0A%0APlease%20share%20the%20day-by-day%20plan!)";
-  } else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
-    reply = "🇹🇭 **Thailand Island Hopper (Phuket & Krabi)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹28,999/person\n• **Inclusions**: 4★ Beachfront Resort, 4-Island Speedboat Tour with snorkeling, Private AC Airport & Island Transfers, Daily Buffet Breakfast.\n\n📲 [**Send Thailand Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Thailand%20Island%20Hopper*%20(5D/4N%20₹28,999).%0A%0A•%20Includes:%204★%20Beach%20Resort,%204-Island%20Speedboat,%20Pvt%20Transfers%0A%0APlease%20share%20the%20detailed%20plan!)";
-  } else if (msgLower.match(/\b(vietnam|hanoi|da nang|ha long bay|halong)\b/i)) {
-    reply = "🇻🇳 **Vietnam Scenic Wonder & Halong Bay**:\n\n• **Duration**: 7 Days / 6 Nights\n• **Price**: ₹49,999/person\n• **Inclusions**: 5★ Halong Bay Overnight Luxury Cruise with all meals, Domestic Flights, Da Nang Golden Bridge, Private Guided Tours.\n\n📲 [**Send Vietnam Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Vietnam%20Scenic%20Wonder%20%26%20Halong%20Bay*%20(7D/6N%20₹49,999).%0A%0A•%20Includes:%205★%20Halong%20Cruise,%20Domestic%20Flights,%20Da%20Nang%20Bridge%0A%0APlease%20share%20the%20detailed%20plan!)";
-  } else if (msgLower.match(/\b(kashmir|srinagar|gulmarg|pahalgam)\b/i)) {
-    reply = "🏔️ **Kashmir Paradise Escape**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹21,999/person\n• **Inclusions**: Luxury Dal Lake Houseboat stay, Shikara ride, Gulmarg snow gondola transfers, Pahalgam valleys, Private Heated Chauffeur Cab.\n\n📲 [**Send Kashmir Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Kashmir%20Paradise%20Escape*%20(5D/4N%20₹21,999).%0A%0A•%20Includes:%20Luxury%20Houseboat,%20Gulmarg%20Gondola%20Snow,%20Pahalgam%20Valleys%0A%0APlease%20share%20the%20detailed%20plan!)";
-  } else if (msgLower.match(/\b(kerala|munnar|alleppey|kochi)\b/i)) {
-    reply = "🌴 **Kerala Backwaters & Tea Hills**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹18,999/person\n• **Inclusions**: Private Deluxe Alleppey Houseboat with private chef (all meals), Munnar tea estates, AC Private Cab.\n\n📲 [**Send Kerala Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Kerala%20Backwaters%20%26%20Tea%20Hills*%20(5D/4N%20₹18,999).%0A%0A•%20Includes:%20Private%20Deluxe%20Houseboat%20with%20Chef,%20Munnar%20Hills%0A%0APlease%20share%20the%20detailed%20plan!)";
-  } else if (msgLower.match(/\b(honeymoon|romantic|couple|anniversary)\b/i)) {
-    reply = "💍 **Romantic Luxury Honeymoon Escapes**:\n\n• **Bali Private Pool Villa**: Floating breakfast & sunset Kecak dance (~₹48,999)\n• **Cappadocia Cave Suite**: Sunrise hot air balloon flight & candlelight dinner (~₹42,999)\n\n📲 [**Send Honeymoon Options to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20looking%20for%20a%20*Romantic%20Honeymoon%20Package*%20(Bali%20Pool%20Villas%20or%20Cappadocia%20Cave%20Suites).%0A%0APlease%20share%20quotes%20with%20candlelight%20dinner%20and%20private%20transfers!)";
-  } else if (msgLower.match(/\b(china|beijing|shanghai|guangzhou)\b/i)) {
-    reply = "🏯 **China Luxury DMC Packages**: Private guided tours covering the Great Wall of China, Forbidden City, Shanghai skyline cruises, and Zhangjiajie Avatar mountains.\n\n📲 [**Send China Itinerary to my WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20send%20the%20China%20Luxury%20package%20details!)";
-  } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|quote|how much)\b/i)) {
-    reply = "💎 **100% Direct DMC Wholesale Pricing**: Because we manage ground operations directly with our own hotel allotments and vehicle fleets, you save 20–30% with zero middleman markup.\n\nTell me which destination you'd like: **Georgia ($300), Turkey, Bali, Dubai, Thailand, or Kashmir**?";
-  } else if (msgLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no|amravati office|mumbai office)\b/i)) {
-    reply = "📍 **Our Global DMC Network**:\n\n* **India HQ**: Amravati (Shiv Krupa Residence, Opp New Cotton Market), Mumbai, Jaipur, Nagpur\n* **International**: Bali (Denpasar) & Turkey (Taksim, Istanbul)\n* **Official Hotline**: +91 80075 86871\n\n[**Open WhatsApp Chat with Desk**](https://wa.me/918007586871)";
-  } else {
-    reply = "✨ **Let's Explore DMC Concierge**: I'd love to help plan your getaway! We specialize in direct ground packages across **Georgia ($300), Turkey (₹42K), Bali (₹48K), Dubai (₹34K), Thailand (₹28K), Vietnam, Kashmir, and Kerala**.\n\nTell me your preferred destination or dates!";
+  // 1. Negative / Rejection Handlers
+  if (msgLower.match(/^(no|nope|nah|nahi|na|never|not interested|dont want|cancel|stop)\b/i)) {
+    reply = "No problem at all! Take your time. 😊\n\nWhenever you're ready, I can help you with:\n• 🏔️ **Snow & Mountains** (Georgia $300 or Kashmir ₹21K)\n• 🏝️ **Tropical Beaches** (Bali Pool Villas ₹48K or Thailand ₹28K)\n• 🏙️ **City Luxury** (Dubai ₹34K)\n\nWhat kind of holiday do you usually enjoy?";
+  } 
+  // 2. Confusion / Frustration Handlers
+  else if (msgLower.match(/\b(wtf|wth|what|kya|huh|bakwas|pagal|robot|nonsense|confused|glitch|bug|error)\b/i)) {
+    reply = "Haha, sorry about that! 😅 Let's restart cleanly.\n\nI am **Atlas**, the AI Travel Architect at Let's Explore DMC. You can ask me anything naturally:\n\n1. *\"What is included in the Georgia $300 package?\"*\n2. *\"Best time to visit Turkey for hot air balloons?\"*\n3. *\"Suggest a 5-day honeymoon package under ₹1 Lakh\"*\n4. *\"Do Indians get visa on arrival in Bali?\"*\n\nTell me in your own words, what are you looking for?";
+  }
+  // 3. Affirmation / Agreement Handlers
+  else if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|theek hai|sahi hai|deal|agree|done|send|bhejo)\b/i)) {
+    reply = "✨ **Awesome!** Which month or dates are you planning for? And how many people will be traveling?\n\nOnce you tell me, our destination manager will share the finalized day-by-day itinerary and locked wholesale quotation.\n\n📲 [**Or message our destination desk directly on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20I%20am%20ready%20to%20plan%20my%20trip.%20Please%20connect%20me%20with%20a%20travel%20expert!)";
+  }
+  // 4. Visa Questions
+  else if (msgLower.match(/\b(visa|passport|e-visa|evisa|entry requirement|documents|rules)\b/i)) {
+    reply = "🛂 **Visa Guide for Indian Travellers**:\n\n• 🇬🇪 **Georgia**: Easy eVisa online, or Visa-on-Arrival if you hold a valid US, UK, Schengen, or UAE/GCC residency visa.\n• 🇹🇷 **Turkey**: Instant eVisa online (if you hold valid US/UK/Schengen visa) or hassle-free sticker visa with our documentation assistance.\n• 🏝️ **Bali (Indonesia)**: 30-Day e-VOA (Visa on Arrival) online for ~$35 USD.\n• 🇹🇭 **Thailand & Malaysia**: 100% Visa-Free entry for Indian passport holders!\n• 🇦🇪 **Dubai (UAE)**: 48-hour express tourist visa processed in 2–3 working days.\n\nOur team provides full visa processing assistance for all bookings!";
+  }
+  // 5. Weather & Best Time to Visit
+  else if (msgLower.match(/\b(weather|best time|season|temperature|when to visit|snow time|rainy|monsoon|summer|winter)\b/i)) {
+    reply = "🌤️ **Best Seasons to Travel**:\n\n• 🇬🇪 **Georgia**: **Dec to March** for guaranteed snow & skiing in Gudauri; **May to Oct** for lush green Caucasus mountains & wine harvests.\n• 🇹🇷 **Turkey**: **April to June & Sept to Nov** for perfect balloon flights & pleasant sightseeing; **Dec to Feb** for snowy fairy chimneys.\n• 🏝️ **Bali**: Wonderful year-round tropical climate (April–Oct is peak dry season with breezy sunny days).\n• 🏔️ **Kashmir**: **Dec to Feb** for Gulmarg snow & skiing; **April to July** for blooming tulip gardens & green valleys.\n\nWhich month are you planning to take your vacation?";
+  }
+  // 6. Food, Vegetarian & Jain Meals
+  else if (msgLower.match(/\b(food|veg|vegetarian|jain|indian food|halal|breakfast|meals|dinner)\b/i)) {
+    reply = "🥗 **Food & Dining Inclusions**:\n\nYes! We ensure 100% comfort for Indian food preferences:\n• In **Turkey, Bali, Georgia, Dubai, and Thailand**, our packages include daily multi-cuisine buffet breakfasts at 4★/5★ hotels.\n• We arrange dedicated **Indian Vegetarian and Jain friendly restaurants** on your sightseeing routes.\n• In Bali villas, private chefs prepare floating breakfasts and custom meals upon request!";
+  }
+  // 7. Flights & Airline Questions
+  else if (msgLower.match(/\b(flight|flights|air ticket|airline|airport|airfare|indigo|emirates)\b/i)) {
+    reply = "✈️ **Flight Connections & Transfers**:\n\n• We assist with direct & connecting flight bookings from **Mumbai, Delhi, Bangalore, Chennai, Ahmedabad, Nagpur**, and other Indian hubs.\n• All our land packages include **100% Private Chauffeured Airport Pick-up & Drop-off** in luxury AC vehicles with name placard reception.\n\nWould you like a land package only, or a flight-inclusive quotation?";
+  }
+  // 8. Georgia Destination
+  else if (msgLower.match(/\b(georgia|tbilisi|kazbegi|gudauri|gergeti|ananuri)\b/i)) {
+    reply = "🇬🇪 **Georgia Flash Deal ($300 USD Special)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: $300 USD (~₹25,999/person)\n• **Inclusions**: 4★ Boutique Hotel in Tbilisi, Private 4x4 Chauffeur, Snowy Kazbegi Excursion, Gudauri Ski Resort, Gergeti Trinity Church & Daily Breakfast.\n\n📲 [**Send Georgia $300 Plan to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Georgia%20Flash%20Deal%20($300%20USD%20Special)*%20(5D/4N).%0A%0A•%20Includes:%204★%20Hotel,%20Kazbegi%204x4,%20Gudauri%20Resort%20%26%20Private%20Transfers%0A•%20Rate:%20$300%20USD%20per%20person%0A%0APlease%20share%20available%20dates%20and%20day-by-day%20itinerary!)";
+  }
+  // 9. Turkey Destination
+  else if (msgLower.match(/\b(turkey|cappadocia|istanbul|antalya|pamukkale|bosphorus|balloon)\b/i)) {
+    reply = "🇹🇷 **Turkey Escape & Wonders (Flagship DMC)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹42,999/person\n• **Inclusions**: 5★ Cave Resort in Cappadocia, Private Sunset Bosphorus Yacht Cruise, Istanbul guided tours, Private AC Chauffeur, Daily Breakfast & Dinners.\n\n📲 [**Send Turkey Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Turkey%20Escape%20%26%20Wonders*%20(5D/4N%20₹42,999).%0A%0A•%20Includes:%205★%20Cave%20Resort,%20Cappadocia%20Balloons,%20Bosphorus%20Yacht%20%26%20Pvt%20Chauffeur%0A%0APlease%20share%20the%20detailed%20day-by-day%20proposal!)";
+  }
+  // 10. Bali Destination
+  else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida|kintamani|seminyak)\b/i)) {
+    reply = "🏝️ **Bali Island Tropical Luxury & Pool Villa**:\n\n• **Duration**: 6 Days / 5 Nights\n• **Price**: ₹48,999/person\n• **Inclusions**: 5★ Private Pool Villa in Ubud, Floating Breakfast, Nusa Penida West Island Speedboat Cruise, Mt. Batur Sunrise Safari, 24/7 Dedicated Chauffeur.\n\n📲 [**Send Bali Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Bali%20Tropical%20Luxury%20%26%20Pool%20Villa*%20(6D/5N%20₹48,999).%0A%0A•%20Includes:%205★%20Pool%20Villa%20in%20Ubud,%20Floating%20Breakfast,%20Nusa%20Penida%20Cruise%0A%0APlease%20share%20the%20detailed%20plan!)";
+  }
+  // 11. Dubai Destination
+  else if (msgLower.match(/\b(dubai|uae|burj khalifa|abu dhabi|desert safari)\b/i)) {
+    reply = "🏙️ **Dubai Grand Luxury Experience**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹34,999/person\n• **Inclusions**: 4★/5★ Central Luxury Hotel, Burj Khalifa 124th Floor Observatory, VIP 4x4 Desert Safari + BBQ Dinner & Live Show, Marina Dhow Cruise.\n\n📲 [**Send Dubai Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Dubai%20Grand%20Luxury%20Experience*%20(5D/4N%20₹34,999).%0A%0A•%20Includes:%20Burj%20Khalifa,%20VIP%20Desert%20Safari,%20Marina%20Cruise%0A%0APlease%20share%20the%20day-by-day%20plan!)";
+  }
+  // 12. Thailand Destination
+  else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
+    reply = "🇹🇭 **Thailand Island Hopper (Phuket & Krabi)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹28,999/person\n• **Inclusions**: 4★ Beachfront Resort, 4-Island Speedboat Tour with snorkeling, Private AC Airport & Island Transfers, Daily Buffet Breakfast.\n\n📲 [**Send Thailand Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Thailand%20Island%20Hopper*%20(5D/4N%20₹28,999).%0A%0A•%20Includes:%204★%20Beach%20Resort,%204-Island%20Speedboat,%20Pvt%20Transfers%0A%0APlease%20share%20the%20detailed%20plan!)";
+  }
+  // 13. Vietnam Destination
+  else if (msgLower.match(/\b(vietnam|hanoi|da nang|ha long bay|halong)\b/i)) {
+    reply = "🇻🇳 **Vietnam Scenic Wonder & Halong Bay**:\n\n• **Duration**: 7 Days / 6 Nights\n• **Price**: ₹49,999/person\n• **Inclusions**: 5★ Halong Bay Overnight Luxury Cruise with all meals, Domestic Flights, Da Nang Golden Bridge, Private Guided Tours.\n\n📲 [**Send Vietnam Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Vietnam%20Scenic%20Wonder%20%26%20Halong%20Bay*%20(7D/6N%20₹49,999).%0A%0A•%20Includes:%205★%20Halong%20Cruise,%20Domestic%20Flights,%20Da%20Nang%20Bridge%0A%0APlease%20share%20the%20detailed%20plan!)";
+  }
+  // 14. Kashmir Destination
+  else if (msgLower.match(/\b(kashmir|srinagar|gulmarg|pahalgam|sonamarg)\b/i)) {
+    reply = "🏔️ **Kashmir Paradise Escape**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹21,999/person\n• **Inclusions**: Luxury Dal Lake Houseboat stay, Shikara ride, Gulmarg snow gondola transfers, Pahalgam valleys, Private Heated Chauffeur Cab.\n\n📲 [**Send Kashmir Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Kashmir%20Paradise%20Escape*%20(5D/4N%20₹21,999).%0A%0A•%20Includes:%20Luxury%20Houseboat,%20Gulmarg%20Gondola%20Snow,%20Pahalgam%20Valleys%0A%0APlease%20share%20the%20detailed%20plan!)";
+  }
+  // 15. Kerala Destination
+  else if (msgLower.match(/\b(kerala|munnar|alleppey|kochi|thekkady)\b/i)) {
+    reply = "🌴 **Kerala Backwaters & Tea Hills**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: ₹18,999/person\n• **Inclusions**: Private Deluxe Alleppey Houseboat with private chef (all meals), Munnar tea estates, AC Private Cab.\n\n📲 [**Send Kerala Itinerary to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Kerala%20Backwaters%20%26%20Tea%20Hills*%20(5D/4N%20₹18,999).%0A%0A•%20Includes:%20Private%20Deluxe%20Houseboat%20with%20Chef,%20Munnar%20Hills%0A%0APlease%20share%20the%20detailed%20plan!)";
+  }
+  // 16. Honeymoon Packages
+  else if (msgLower.match(/\b(honeymoon|romantic|couple|anniversary|candlelight)\b/i)) {
+    reply = "💍 **Romantic Luxury Honeymoon Escapes**:\n\n• **Bali Private Pool Villa**: Floating breakfast & sunset Kecak dance (~₹48,999)\n• **Cappadocia Cave Suite**: Sunrise hot air balloon flight & candlelight dinner (~₹42,999)\n\n📲 [**Send Honeymoon Options to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20looking%20for%20a%20*Romantic%20Honeymoon%20Package*%20(Bali%20Pool%20Villas%20or%20Cappadocia%20Cave%20Suites).%0A%0APlease%20share%20quotes%20with%20candlelight%20dinner%20and%20private%20transfers!)";
+  }
+  // 17. Greetings
+  else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy|kem cho|kaisa hai|hie)\b/i)) {
+    reply = "👋 **Hello! Welcome to Let's Explore DMC.**\n\nI am your AI Travel Architect. Tell me your dream destination, approximate dates, or budget, and I'll craft a bespoke proposal for you!\n\nWhere would you like to travel next?";
+  }
+  // 18. Pricing & How DMC works
+  else if (msgLower.match(/\b(price|cost|rate|cheap|budget|quote|how much|discount|offer|deal)\b/i)) {
+    reply = "💎 **100% Direct DMC Wholesale Pricing**:\n\nBecause we manage ground operations directly with our own hotel allotments and vehicle fleets in **Georgia, Turkey, and Bali**, you save 20–30% compared to typical retail portals.\n\nWhich destination shall I calculate a quote for: **Georgia ($300), Turkey, Bali, Dubai, Thailand, or Kashmir**?";
+  }
+  // 19. Contact & Offices
+  else if (msgLower.match(/\b(office|address|where are you|location|branch|phone|number|contact|amravati|mumbai)\b/i)) {
+    reply = "📍 **Our Global DMC Network**:\n\n• **Global HQ**: Sahakar Nagar, Opp. New Cotton Market, Shiv Krupa Residence, Amravati, Maharashtra\n• **International Desks**: Taksim Square (Istanbul, Turkey) & Denpasar (Bali, Indonesia)\n• **Partner Hubs**: Mumbai, Jaipur, Nagpur\n• **Official Hotline**: +91 80075 86871\n\n[**Open WhatsApp Chat with Desk**](https://wa.me/918007586871)";
+  }
+  // 20. Natural Open Question Fallback (Varied and Engaging)
+  else {
+    reply = "✨ **Let's Explore DMC Travel Concierge**:\n\nI'd love to help plan your getaway! Tell me:\n1. Where would you like to go?\n2. Are you traveling with family, friends, or as a couple?\n3. What's your rough budget?\n\nPopular picks: **Georgia ($300 Special)**, **Turkey Cappadocia (₹42K)**, **Bali Villas (₹48K)**, or **Kashmir (₹21K)**.";
   }
 
   return res.status(200).json({ reply });
