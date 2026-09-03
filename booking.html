@@ -669,16 +669,20 @@ function calcTotal() {
   const totalFormatted = formatINR(grandTotal);
   document.getElementById('total-price-display').textContent = totalFormatted;
 
-  // Sync sidebar WhatsApp link natively
+  // Pre-sync sidebar WhatsApp link natively so hover & native click always have full message
   const waBtn = document.getElementById('sidebar-wa-btn');
   if (waBtn) {
-    const quickMsg = `Hello Let's Explore DMC,\n\nI am interested in customizing the *${d.name}* package (${d.duration}).\n\n* Travellers: ${n} Adult${n > 1 ? 's' : ''}\n* Estimated Total: ${totalFormatted}\n\nPlease share the day-by-day itinerary!`;
+    const quickMsg = `Hello Let's Explore DMC,\n\nI am interested in customizing the *${d.name}* package (${d.duration}).\n\n* Travellers: ${n} Adult${n > 1 ? 's' : ''}\n* Estimated Total: ${totalFormatted}\n\nPlease share the detailed proposal!`;
     waBtn.href = `https://wa.me/918007586871?text=${encodeURIComponent(quickMsg)}`;
   }
 }
 
 // Submit Booking to WhatsApp & Modal
 function submitBooking(e) {
+  if (e && e.preventDefault) {
+    e.preventDefault();
+  }
+
   const nameInput  = document.getElementById('bk-name');
   const phoneInput = document.getElementById('bk-phone');
   const emailInput = document.getElementById('bk-email');
@@ -733,18 +737,21 @@ function submitBooking(e) {
 
   const waURL = `https://wa.me/918007586871?text=${encodeURIComponent(waText)}`;
 
-  // Update button href so direct click works natively
+  // Immediately redirect / open WhatsApp in new tab
+  window.open(waURL, '_blank');
+
+  // Update button href for native fallback
   const waBtn = document.getElementById('sidebar-wa-btn');
   if (waBtn) waBtn.href = waURL;
 
-  // Show Modal
+  // Show Modal as visual confirmation
   const modalTitle = document.getElementById('modal-title');
   const modalDesc = document.getElementById('modal-desc');
   const modalLink = document.getElementById('modal-wa-link');
   const modalEl = document.getElementById('booking-success-modal');
 
-  if (modalTitle) modalTitle.textContent = name ? `Thank you, ${name}!` : `Itinerary Ready!`;
-  if (modalDesc) modalDesc.innerHTML = `Your customized inquiry for <strong>${d.name}</strong> (${travellers} Travellers — Estimated ${total}) has been prepared. Click below to open WhatsApp!`;
+  if (modalTitle) modalTitle.textContent = name ? `Thank you, ${name}!` : `Itinerary Request Sent!`;
+  if (modalDesc) modalDesc.innerHTML = `Your customized inquiry for <strong>${d.name}</strong> (${travellers} Travellers — Estimated ${total}) has been prepared. WhatsApp will open automatically!`;
   if (modalLink) modalLink.href = waURL;
   if (modalEl) modalEl.classList.remove('hidden');
 }

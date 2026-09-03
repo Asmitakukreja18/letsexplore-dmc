@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Destinations · Let's Explore DMC | 42 Countries · From Amravati To The World</title>
-<meta name="description" content="Explore 42 handpicked destinations: Turkey, Dubai, Thailand, Bali, Vietnam, Europe, Goa, Andaman, Kerala, Sikkim, Jaipur, Egypt and more."/>
+<title>Destinations · Let's Explore DMC | 150+ Destinations · Direct Ground Network</title>
+<meta name="description" content="Explore 150+ handpicked domestic & international destinations: Turkey, Dubai, Thailand, Bali, Georgia, Kashmir, Kerala, Ladakh, Rajasthan, Europe, and more."/>
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
@@ -200,22 +200,32 @@
 
 <script>
 const DEST = [
-  {id:0, n:"Georgia", tag:"$300 Special", from:"$300", tags:"Tbilisi · Kazbegi · Gudauri · Mtskheta", type:"international,cultural,mountain,luxury", img:"https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80", href:"georgia-package.html"},
+  {id:0, n:"Georgia", tag:"$300 Special", from:"$300 USD", tags:"Tbilisi · Kazbegi · Gudauri · Mtskheta", type:"international,cultural,mountain,luxury", img:"https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80", href:"georgia-package.html"},
   {id:1, n:"Turkey", tag:"Bestseller", from:"₹42,999", tags:"Istanbul · Cappadocia · Pamukkale", type:"international,cultural,luxury", img:"https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=800&q=80", href:"turkey-package.html"},
-  {id:2, n:"Dubai", tag:"Luxury", from:"₹65,000", tags:"Burj Khalifa · Desert Safari · Marina", type:"international,luxury", img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80", href:"dubai-package.html"},
-  {id:3, n:"Thailand", tag:"4★ Premium", from:"₹63,000", tags:"Phuket · Krabi · Koh Samui", type:"international,beach", img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80", href:"thailand-package.html"},
-  {id:4, n:"Bali", tag:"Honeymoon", from:"₹75,000", tags:"Kuta · Nusa Penida · Ubud Swings", type:"international,beach,luxury", img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80", href:"bali-package.html"},
-  {id:5, n:"Malaysia", tag:"Family Pick", from:"₹55,000", tags:"Kuala Lumpur · Genting Highlands", type:"international,family", img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80", href:"malaysia-package.html"},
-  {id:6, n:"Singapore", tag:"City Explorer", from:"₹50,000", tags:"Marina Bay · Sentosa · Universal Studios", type:"international,family", img:"https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80", href:"singapore-package.html"},
-  {id:7, n:"Vietnam", tag:"12D Grand Tour", from:"₹60,000", tags:"Hanoi · Sapa · Da Nang · Phu Quoc", type:"international,cultural", img:"https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80", href:"vietnam-package.html"},
-  {id:8, n:"Sri Lanka", tag:"Island Wonder", from:"₹30,000", tags:"Kandy · Nuwara Eliya · Bentota · Colombo", type:"international,beach", img:"https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80", href:"srilanka-package.html"},
-  {id:9, n:"Andaman", tag:"Island Special", from:"₹40,000", tags:"Port Blair · Havelock · Neil Island", type:"india,beach", img:"https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=800&q=80", href:"andaman-package.html"},
-  {id:10, n:"Kerala", tag:"God's Own Country", from:"₹35,000", tags:"Kochi · Munnar · Alleppey Houseboat", type:"india,family", img:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", href:"kerala-package.html"},
-  {id:11, n:"Goa", tag:"Beach Party", from:"₹30,000", tags:"North & South Goa · Beach Shacks · Cruise", type:"india,beach", img:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
-  {id:12, n:"Kashmir", tag:"Paradise on Earth", from:"₹30,000", tags:"Srinagar · Sonmarg · Gulmarg Gondola", type:"india,mountain", img:"https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", href:"kashmir-package.html"},
-  {id:13, n:"Manali", tag:"Snow Special", from:"₹40,000", tags:"Hadimba · Solang Adventure · Naggar Castle", type:"india,mountain", img:"https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80", href:"manali-package.html"},
-  {id:14, n:"Ujjain", tag:"Spiritual Yatra", from:"₹28,000", tags:"Mahakaleshwar Corridor · Omkareshwar · Indore", type:"india,cultural", img:"https://images.unsplash.com/photo-1609949279531-cf48d64bed89?auto=format&fit=crop&w=800&q=80", href:"ujjain-package.html"},
-  {id:15, n:"Nepal", tag:"Himalayan Charm", from:"₹25,000", tags:"Kathmandu · Pokhara · Muktinath 4x4 · Chitwan", type:"international,mountain", img:"https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80", href:"nepal-package.html"},
+  {id:2, n:"Dubai", tag:"Luxury", from:"₹34,999", tags:"Burj Khalifa · Desert Safari · Marina", type:"international,luxury", img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80", href:"dubai-package.html"},
+  {id:3, n:"Thailand", tag:"4★ Premium", from:"₹29,999", tags:"Phuket · Krabi · Phi Phi Islands", type:"international,beach,luxury", img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80", href:"thailand-package.html"},
+  {id:4, n:"Bali", tag:"👑 Global HQ", from:"₹48,999", tags:"Kuta · Nusa Penida · Ubud Villas", type:"international,beach,luxury", img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80", href:"bali-package.html"},
+  {id:5, n:"Baku", tag:"Caucasus Hub", from:"₹36,999", tags:"Flame Towers · Gabala · Shahdag Snow", type:"international,mountain,luxury", img:"https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:6, n:"Vietnam", tag:"Direct DMC", from:"₹46,999", tags:"Hanoi · Halong Cruise · Ba Na Hills", type:"international,cultural,luxury", img:"https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80", href:"vietnam-package.html"},
+  {id:7, n:"Sri Lanka", tag:"Island Wonder", from:"₹29,999", tags:"Kandy · Nuwara Eliya · Bentota", type:"international,beach", img:"https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80", href:"srilanka-package.html"},
+  {id:8, n:"Singapore", tag:"City Explorer", from:"₹49,999", tags:"Marina Bay · Sentosa · Universal", type:"international,family", img:"https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80", href:"singapore-package.html"},
+  {id:9, n:"Switzerland & Paris", tag:"European Splendor", from:"₹1,49,999", tags:"Paris · Lucerne · Zurich · Interlaken", type:"international,luxury", img:"https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  
+  // ── India Destinations (15+ Destinations) ──────────────────────
+  {id:10, n:"Kerala", tag:"Direct DMC Kerala", from:"₹34,999", tags:"Kochi · Munnar · Alleppey Houseboat", type:"india,family,luxury", img:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", href:"kerala-package.html"},
+  {id:11, n:"Kashmir", tag:"Direct DMC Kashmir", from:"₹32,999", tags:"Srinagar · Gulmarg Gondola · Pahalgam", type:"india,mountain,luxury", img:"https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=800&q=80", href:"kashmir-package.html"},
+  {id:12, n:"Andaman", tag:"Couple's Pick", from:"₹42,999", tags:"Port Blair · Havelock · Neil Scuba", type:"india,beach,luxury", img:"https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=800&q=80", href:"andaman-package.html"},
+  {id:13, n:"Rajasthan", tag:"Royal Heritage", from:"₹38,999", tags:"Jaipur · Jodhpur · Udaipur · Jaisalmer", type:"india,cultural,luxury", img:"https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:14, n:"Ladakh", tag:"High Passes 4x4", from:"₹44,999", tags:"Leh · Nubra Valley · Pangong Lake", type:"india,mountain,luxury", img:"https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:15, n:"Goa", tag:"Beach & Yacht", from:"₹28,999", tags:"5★ Beach Resort · Mandovi Yacht Cruise", type:"india,beach,luxury", img:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:16, n:"Manali & Shimla", tag:"Snow Special", from:"₹29,999", tags:"Solang Adventure · Rohtang · Mall Road", type:"india,mountain", img:"https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80", href:"manali-package.html"},
+  {id:17, n:"Ujjain & Omkareshwar", tag:"Spiritual Bliss", from:"₹18,999", tags:"Mahakaleshwar · Omkareshwar · Indore", type:"india,cultural", img:"https://images.unsplash.com/photo-1609949279531-cf48d64bed89?auto=format&fit=crop&w=800&q=80", href:"ujjain-package.html"},
+  {id:18, n:"Varanasi & Ayodhya", tag:"Holy Yatra", from:"₹22,999", tags:"Ganga Aarti · Ram Janmabhoomi Darshan", type:"india,cultural", img:"https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:19, n:"Sikkim & Darjeeling", tag:"Himalayan Tea", from:"₹36,999", tags:"Gangtok · Tsomgo · Darjeeling Toy Train", type:"india,mountain", img:"https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:20, n:"Meghalaya", tag:"Living Root Bridges", from:"₹33,999", tags:"Shillong · Cherrapunji · Dawki River", type:"india,mountain,family", img:"https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:21, n:"Char Dham Yatra", tag:"Sacred Pilgrimage", from:"₹48,999", tags:"Haridwar · Kedarnath · Badrinath", type:"india,cultural,mountain", img:"https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:22, n:"Golden Triangle", tag:"Classic Heritage", from:"₹24,999", tags:"Delhi · Agra Taj Mahal · Jaipur Forts", type:"india,cultural", img:"https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80", href:"deals.html"},
+  {id:23, n:"Coorg & Ooty", tag:"South Serenity", from:"₹31,999", tags:"Mysore Palace · Coorg Coffee · Ooty Hills", type:"india,family,mountain", img:"https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80", href:"deals.html"}
 ];
 let stateF = "all";
 function render(){
