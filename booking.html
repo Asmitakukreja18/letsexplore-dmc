@@ -526,6 +526,7 @@ const DESTINATIONS = {
 };
 
 let currentDestKey = 'turkey';
+let travellersCount = 2;
 
 // Initialize Destination from URL param if available (e.g. booking.html?pkg=georgia)
 const urlParams = new URLSearchParams(window.location.search);
@@ -535,12 +536,69 @@ if (paramPkg && DESTINATIONS[paramPkg.toLowerCase()]) {
 }
 
 function formatINR(n) {
-  return '₹' + n.toLocaleString('en-IN');
+  return '₹' + Number(n).toLocaleString('en-IN');
 }
 
 function getTravellers() {
-  const v = document.getElementById('bk-travellers').value;
-  return parseInt(v) || 2;
+  const v = document.getElementById('bk-travellers')?.value;
+  travellersCount = parseInt(v) || 2;
+  return travellersCount;
+}
+
+// Helper to generate current customized WhatsApp URL
+function generateWhatsAppURL() {
+  const nameInput  = document.getElementById('bk-name');
+  const phoneInput = document.getElementById('bk-phone');
+  const emailInput = document.getElementById('bk-email');
+  const dateInput  = document.getElementById('bk-date');
+  const vibeInput  = document.getElementById('bk-vibe');
+  const notesInput = document.getElementById('bk-notes');
+
+  const name  = nameInput ? nameInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const date  = dateInput ? dateInput.value : '';
+  const vibe  = vibeInput ? vibeInput.value : 'Luxury 4★/5★ Boutique Stays';
+  const notes = notesInput ? notesInput.value.trim() : '';
+
+  const d = DESTINATIONS[currentDestKey] || DESTINATIONS.turkey;
+  const n = getTravellers();
+  const total = document.getElementById('total-price-display') ? document.getElementById('total-price-display').textContent : formatINR(d.basePrice * n);
+
+  const selectedAddons = [];
+  if (d.addons) {
+    d.addons.forEach(a => {
+      const el = document.getElementById(`addon-${a.id}`);
+      if (el && el.checked) selectedAddons.push(a.label);
+    });
+  }
+
+  let waText = '';
+  if (name || phone || notes || date) {
+    waText = `*CUSTOM TRIP INQUIRY — LET'S EXPLORE DMC*\n` +
+      `----------------------------------\n` +
+      `* Name: ${name || 'Guest Traveler'}\n` +
+      `* Phone / WhatsApp: ${phone || 'Direct Chat'}\n` +
+      `* Email: ${email || 'N/A'}\n` +
+      `* Destination: ${d.name} (${d.duration})\n` +
+      `* Approx Date: ${date || 'Flexible'}\n` +
+      `* Travellers: ${n} Adult(s)\n` +
+      `* Travel Style: ${vibe}\n` +
+      `* Add-ons: ${selectedAddons.length > 0 ? selectedAddons.join(', ') : 'Standard Inclusions'}\n` +
+      `* Estimated Rate: ${total}\n` +
+      `* Special Notes: ${notes || 'None'}\n` +
+      `----------------------------------\n` +
+      `Please share the detailed day-by-day customized itinerary!`;
+  } else {
+    waText = `Hello Let's Explore DMC,\n\nI am interested in customizing a trip package:\n\n` +
+      `* Destination: ${d.name} (${d.duration})\n` +
+      `* Travellers: ${n} Adult(s)\n` +
+      `* Estimated Total: ${total}\n` +
+      `* Add-ons Selected: ${selectedAddons.length > 0 ? selectedAddons.join(', ') : 'Standard Inclusions'}\n\n` +
+      `Please share the day-by-day itinerary and available departure dates!`;
+  }
+
+  return `https://wa.me/918007586871?text=${encodeURIComponent(waText)}`;
 }
 
 // Render Destination Switcher Mini Cards
@@ -577,7 +635,8 @@ function selectDestination(key) {
   const d = DESTINATIONS[key];
 
   // Update Hero
-  document.getElementById('hero-bg').style.backgroundImage = `url('${d.heroBg}')`;
+  const heroBg = document.getElementById('hero-bg');
+  if (heroBg) heroBg.style.backgroundImage = `url('${d.heroBg}')`;
   document.getElementById('hero-subtitle').textContent = d.name;
   document.getElementById('hero-tagline').textContent = d.tagline;
   document.getElementById('crumb-dest').textContent = d.name;
@@ -669,13 +728,26 @@ function calcTotal() {
   const totalFormatted = formatINR(grandTotal);
   document.getElementById('total-price-display').textContent = totalFormatted;
 
-  // Pre-sync sidebar WhatsApp link natively so hover & native click always have full message
+  // Realtime update the direct WhatsApp link on the button
   const waBtn = document.getElementById('sidebar-wa-btn');
   if (waBtn) {
-    const quickMsg = `Hello Let's Explore DMC,\n\nI am interested in customizing the *${d.name}* package (${d.duration}).\n\n* Travellers: ${n} Adult${n > 1 ? 's' : ''}\n* Estimated Total: ${totalFormatted}\n\nPlease share the detailed proposal!`;
-    waBtn.href = `https://wa.me/918007586871?text=${encodeURIComponent(quickMsg)}`;
+    waBtn.href = generateWhatsAppURL();
   }
 }
+
+// Attach input listeners to update WhatsApp message instantly on typing
+['bk-name', 'bk-phone', 'bk-email', 'bk-date', 'bk-vibe', 'bk-notes', 'bk-travellers'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('input', calcTotal);
+    el.addEventListener('change', calcTotal);
+  }
+});
+
+// Direct button click handler (ensures link is fresh and opens cleanly)
+document.getElementById('sidebar-wa-btn')?.addEventListener('click', function(e) {
+  this.href = generateWhatsAppURL();
+});
 
 // Submit Booking to WhatsApp & Modal
 function submitBooking(e) {
@@ -683,75 +755,22 @@ function submitBooking(e) {
     e.preventDefault();
   }
 
-  const nameInput  = document.getElementById('bk-name');
-  const phoneInput = document.getElementById('bk-phone');
-  const emailInput = document.getElementById('bk-email');
-  const dateInput  = document.getElementById('bk-date');
-  const vibeInput  = document.getElementById('bk-vibe');
-  const notesInput = document.getElementById('bk-notes');
-
-  const name  = nameInput ? nameInput.value.trim() : '';
-  const phone = phoneInput ? phoneInput.value.trim() : '';
-  const email = emailInput ? emailInput.value.trim() : '';
-  const date  = dateInput ? dateInput.value : '';
-  const vibe  = vibeInput ? vibeInput.value : 'Luxury 4★/5★ Boutique Stays';
-  const notes = notesInput ? notesInput.value.trim() : '';
-
-  const d = DESTINATIONS[currentDestKey] || DESTINATIONS.turkey;
-  const travellers = getTravellers();
-  const total = document.getElementById('total-price-display') ? document.getElementById('total-price-display').textContent : formatINR(d.basePrice * travellers);
-
-  // Collect checked add-ons
-  const selectedAddons = [];
-  if (d.addons) {
-    d.addons.forEach(a => {
-      const el = document.getElementById(`addon-${a.id}`);
-      if (el && el.checked) selectedAddons.push(a.label);
-    });
-  }
-
-  let waText = '';
-  if (name || phone || notes) {
-    waText = `*CUSTOM TRIP INQUIRY — LET'S EXPLORE DMC*\n` +
-      `----------------------------------\n` +
-      `* Name: ${name || 'Guest Traveler'}\n` +
-      `* Phone / WhatsApp: ${phone || 'Direct Chat'}\n` +
-      `* Email: ${email || 'N/A'}\n` +
-      `* Destination: ${d.name} (${d.duration})\n` +
-      `* Approx Date: ${date || 'Flexible'}\n` +
-      `* Travellers: ${travellers} Person(s)\n` +
-      `* Vibe / Style: ${vibe}\n` +
-      `* Add-ons: ${selectedAddons.length > 0 ? selectedAddons.join(', ') : 'Standard Inclusions'}\n` +
-      `* Estimated Total: ${total}\n` +
-      `* Special Notes: ${notes || 'None'}\n` +
-      `----------------------------------\n` +
-      `Please share the detailed day-by-day customized itinerary!`;
-  } else {
-    waText = `Hello Let's Explore DMC,\n\nI am interested in customizing a trip package:\n\n` +
-      `* Destination: ${d.name} (${d.duration})\n` +
-      `* Travellers: ${travellers} Person(s)\n` +
-      `* Estimated Rate: ${total}\n` +
-      `* Add-ons Selected: ${selectedAddons.length > 0 ? selectedAddons.join(', ') : 'Standard Inclusions'}\n\n` +
-      `Please share the day-by-day itinerary and available departure dates!`;
-  }
-
-  const waURL = `https://wa.me/918007586871?text=${encodeURIComponent(waText)}`;
-
-  // Immediately redirect / open WhatsApp in new tab
+  const waURL = generateWhatsAppURL();
   window.open(waURL, '_blank');
 
-  // Update button href for native fallback
-  const waBtn = document.getElementById('sidebar-wa-btn');
-  if (waBtn) waBtn.href = waURL;
+  const d = DESTINATIONS[currentDestKey];
+  const n = getTravellers();
+  const total = document.getElementById('total-price-display').textContent;
+  const name = document.getElementById('bk-name')?.value.trim();
 
-  // Show Modal as visual confirmation
+  // Show Modal
   const modalTitle = document.getElementById('modal-title');
   const modalDesc = document.getElementById('modal-desc');
   const modalLink = document.getElementById('modal-wa-link');
   const modalEl = document.getElementById('booking-success-modal');
 
   if (modalTitle) modalTitle.textContent = name ? `Thank you, ${name}!` : `Itinerary Request Sent!`;
-  if (modalDesc) modalDesc.innerHTML = `Your customized inquiry for <strong>${d.name}</strong> (${travellers} Travellers — Estimated ${total}) has been prepared. WhatsApp will open automatically!`;
+  if (modalDesc) modalDesc.innerHTML = `Your customized inquiry for <strong>${d.name}</strong> (${n} Travellers — Estimated ${total}) has been prepared. WhatsApp will open automatically!`;
   if (modalLink) modalLink.href = waURL;
   if (modalEl) modalEl.classList.remove('hidden');
 }
