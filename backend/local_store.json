@@ -453,6 +453,12 @@
       "prompt": "bali",
       "destination": "Fantastic choice! Get ready for an incredible adventure!\n\nOur **Bali Tropical Island Paradise** package offers 6 Days / 5 Nights to Ubud, Seminyak & Nusa Penida for just **$75000**! 🌴☀️\n\nLet me know if you'd like to dive deeper into this paradise!",
       "created_at": "2026-09-01T12:43:14.134Z"
+    },
+    {
+      "type": "chat",
+      "prompt": "hello",
+      "destination": "Hello there! I'm Atlas, your expert AI Travel Agent from 'Let's Explore DMC'! I'm absolutely thrilled to help you discover your perfect travel adventure!\n\nWhat kind of destination are you dreaming of today? Perhaps a specific country, a budget, or a type of experience? Let's explore! 🗺️✨",
+      "created_at": "2026-09-30T08:56:44.492Z"
     }
   ]
 }

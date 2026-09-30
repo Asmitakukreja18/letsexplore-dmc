@@ -211,7 +211,9 @@ function renderPackagesGrid(packages) {
     const pkgId = pkg.id || String(pkg.db_id);
     const isSaved = wishlist.includes(pkgId);
     const isCompared = compareList.includes(pkgId);
-    const priceDisplay = typeof pkg.price === 'number' ? `$${pkg.price}` : pkg.price;
+    const priceDisplay = typeof pkg.price === 'number' 
+      ? (pkg.price <= 1000 ? `$${pkg.price} USD (~₹${Math.round(pkg.price * 96.6).toLocaleString('en-IN')})` : `₹${pkg.price.toLocaleString('en-IN')}`)
+      : (String(pkg.price).startsWith('$') && !String(pkg.price).includes('₹') ? `${pkg.price} (~₹${Math.round((parseFloat(String(pkg.price).replace(/[^0-9.]/g,'')) || 0) * 96.6).toLocaleString('en-IN')})` : pkg.price);
 
     return `
       <div class="package-card" data-id="${pkgId}">
@@ -515,7 +517,9 @@ function openBookingModal(id) {
   const modal = document.getElementById("booking-modal");
   const body = document.getElementById("booking-modal-body");
   const pkgId = pkg.id || String(pkg.db_id);
-  const basePrice = typeof pkg.price === 'number' ? pkg.price : parseInt(String(pkg.price).replace(/[^0-9]/g, '')) || 500;
+  const basePrice = typeof pkg.price === 'number' ? pkg.price : parseInt(String(pkg.price).replace(/[^0-9]/g, '')) || 28999;
+  const isUSD = (typeof pkg.price === 'number' && pkg.price <= 1000) || String(pkg.price).includes('$') || String(pkg.price).includes('USD');
+  const formattedPrice = isUSD ? `$${basePrice} USD (~₹${Math.round(basePrice * 96.6).toLocaleString('en-IN')})` : `₹${basePrice.toLocaleString('en-IN')}`;
 
   body.innerHTML = `
     <button onclick="closeModal('booking-modal')" style="position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:50%; background:#f1f5f9; color:#031636; border:none; cursor:pointer; font-size:1.1rem; z-index:10;"><i class="fa-solid fa-xmark"></i></button>
@@ -526,7 +530,7 @@ function openBookingModal(id) {
         <div>
           <span style="font-size:0.72rem; color:#0284c7; font-weight:700; text-transform:uppercase;">${pkg.badge || 'Selected Package'}</span>
           <h3 style="font-size:1.1rem; font-weight:800; color:#031636; margin:0;">${pkg.title || pkg.name}</h3>
-          <p style="font-size:0.8rem; color:#64748b; margin:0;">${pkg.duration} • $${basePrice.toLocaleString()} / person</p>
+          <p style="font-size:0.8rem; color:#64748b; margin:0;">${pkg.duration} • ${formattedPrice} / person</p>
         </div>
       </div>
 
@@ -549,7 +553,7 @@ function openBookingModal(id) {
           </div>
           <div>
             <label style="font-size:0.8rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Travelers Count *</label>
-            <input type="number" id="book-travelers" min="1" max="20" value="2" oninput="calcTotalCost(${basePrice})" style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem;">
+            <input type="number" id="book-travelers" min="1" max="20" value="2" oninput="calcTotalCost(${basePrice}, ${isUSD})" style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem;">
           </div>
         </div>
 
@@ -561,7 +565,7 @@ function openBookingModal(id) {
         <div style="background:#031636; color:#fff; padding:14px; border-radius:12px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center;">
           <div>
             <span style="font-size:0.75rem; color:#8293ba; text-transform:uppercase;">Total Estimated Price</span>
-            <div id="booking-total-price" style="font-size:1.5rem; font-weight:800; color:#ffa454;">$${(basePrice * 2).toLocaleString()}</div>
+            <div id="booking-total-price" style="font-size:1.5rem; font-weight:800; color:#ffa454;">${isUSD ? `$${(basePrice * 2).toLocaleString()} USD (~₹${Math.round(basePrice * 2 * 96.6).toLocaleString('en-IN')})` : `₹${(basePrice * 2).toLocaleString('en-IN')}`}</div>
           </div>
           <span style="font-size:0.75rem; background:rgba(255,255,255,0.15); color:#fff; padding:4px 10px; border-radius:20px;">All Taxes Included</span>
         </div>
@@ -576,10 +580,14 @@ function openBookingModal(id) {
   modal.classList.add("active");
 }
 
-function calcTotalCost(basePrice) {
+function calcTotalCost(basePrice, isUSD = false) {
   const count = parseInt(document.getElementById("book-travelers")?.value || 1);
   const totalElem = document.getElementById("booking-total-price");
-  if (totalElem) totalElem.innerText = `$${(basePrice * count).toLocaleString()}`;
+  if (totalElem) {
+    totalElem.innerText = isUSD 
+      ? `$${(basePrice * count).toLocaleString()} USD (~₹${Math.round(basePrice * count * 96.6).toLocaleString('en-IN')})`
+      : `₹${(basePrice * count).toLocaleString('en-IN')}`;
+  }
 }
 
 function submitBooking(e, pkgId, price) {

@@ -19,20 +19,34 @@ export default async function handler(req, res) {
   if (geminiKey) {
     try {
       const systemPrompt = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra).
-You are a warm, witty, extremely knowledgeable human travel specialist. Talk fluently in the user's language (English, Hindi, or casual Hinglish).
+CRITICAL LANGUAGE RULE (STRICT):
+- If the user asks in English (e.g. "i wanna know abt dubai pakage and all", "what is the price?"), you MUST reply 100% in English only! Never use Hindi or Devanagari script.
+- If the user asks in Hindi (in Devanagari script, e.g. "दुबई का पैकेज बताओ"), reply in Hindi.
+- If the user asks in Hinglish (Roman script Hindi, e.g. "mujhe dubai jana hai"), reply in friendly Hinglish.
+- Strictly match the exact language and script of the user's message.
 
 ABOUT LET'S EXPLORE DMC:
 - Direct Ground DMC with official ground teams & offices in:
   • India: Amravati Global HQ (Shiv Krupa Residence, Opp New Cotton Market), Mumbai, Jaipur, Nagpur
   • International: Bali (Denpasar) & Turkey (Taksim, Istanbul)
-- Key destinations: Turkey (Cappadocia & Istanbul from ₹42K), Georgia ($300 USD / ~₹25K Special with Kazbegi & Gudauri), Bali (Pool Villas from ₹48K), Dubai (from ₹34K), Thailand (Phuket & Krabi from ₹28K), Vietnam (Halong Cruise from ₹49K), Kashmir (Houseboats from ₹21K), Kerala (Backwaters from ₹18K), Swiss Alps (from ₹1.45L).
+- Key destinations: Turkey (Cappadocia & Istanbul from ₹42K), Georgia ($300 USD / ~₹29K Special with Kazbegi & Gudauri), Bali (Pool Villas from ₹48K), Dubai (from ₹34K), Thailand (Phuket & Krabi from ₹28K), Vietnam (Halong Cruise from ₹49K), Kashmir (Houseboats from ₹21K), Kerala (Backwaters from ₹18K), Swiss Alps (from ₹1.45L).
 - Official WhatsApp / Hotline: +91 80075 86871.
 
-RULES FOR YOUR RESPONSES:
-1. ALWAYS directly answer whatever the user asks (budgets, hotels, visa, weather, food, dates, random questions, greetings).
-2. If user mentions a budget like "10k" or "50k", give specific package recommendations matching their budget.
-3. Keep responses clean, engaging, beautifully formatted with bold and emojis (2 to 4 crisp paragraphs).
-4. At the end, naturally add a 1-click WhatsApp link to get their customized day-by-day proposal: [📲 Chat directly on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!)`;
+INTENT ROUTING & QUERY RESPONSE RULES:
+1. Flight query → Provide flight price comparison across top portals/airlines, state lowest direct fare, and separate Land Package from Flight costs.
+2. Hotel query → Present curated hotel/resort options with star category, amenities (e.g. pool villa, floating breakfast), and price clarity.
+3. Package query → Give comprehensive package details, inclusions, exclusions, and emphasize direct DMC wholesale pricing (zero retail markup).
+4. Itinerary query → Outline a structured day-wise itinerary (Day 1 to Day N) with transfer details and key experiences.
+5. Budget query → Provide detailed cost breakdown + strict feasibility check. Clarify per-person vs total cost. If budget is insufficient (e.g. ₹48k total budget for 3 pax when hotel alone is ₹70k), politely explain feasibility and suggest realistic alternatives.
+6. Destination query → Provide destination insights, best season to visit, weather, visa requirements for Indian passport holders, and key sights.
+7. General travel → Share relevant practical advice (currency, local food, culture, packing tips).
+8. Incomplete query → Politely ask for missing details (e.g. destination, travel dates, number of travelers, budget).
+9. Non-travel query → Politely redirect the user back to travel planning and concierge assistance.
+10. Unclear query → Ask what the user needs with 3-4 quick selectable options.
+
+GENERAL RESPONSE FORMATTING:
+- Keep responses clean, engaging, beautifully formatted with bold headers and emojis (2 to 4 crisp sections).
+- At the end, naturally add a 1-click WhatsApp link: [📲 Chat directly on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!)`;
 
       // Build conversation contents
       const contents = [];
@@ -76,7 +90,7 @@ RULES FOR YOUR RESPONSES:
     let unit = (numMatch[2] || '').toLowerCase();
     if (unit === 'k' || unit === 'thousand') rawNum *= 1000;
     else if (unit === 'l' || unit === 'lakh' || unit === 'lac') rawNum *= 100000;
-    else if (unit === 'usd' || unit === '$') rawNum *= 86;
+    else if (unit === 'usd' || unit === '$') rawNum *= 96.6;
     if (rawNum >= 1000) {
       parsedBudget = rawNum;
     }
@@ -84,10 +98,10 @@ RULES FOR YOUR RESPONSES:
 
   // 1. Smart Budget Recommendations (e.g. 10k, 10,482, 50k, etc.)
   if (parsedBudget > 0 && parsedBudget < 20000) {
-    reply = `💡 **Best Options for your ~₹${Math.round(parsedBudget).toLocaleString('en-IN')} Budget**:\n\n• 🛕 **Ujjain Mahakal & Omkareshwar**: 3D/2N from ₹8,999/person\n• 🏖️ **Goa Beach Break**: 4D/3N 4★ resort from ₹12,999/person\n• 🏔️ **Manali Snow Valley**: 4D/3N private cab from ₹14,999/person\n\n*Pro Tip:* If you can stretch your budget slightly to ~₹21,000–₹25,000, you can do international **Georgia 5D ($300 USD / ₹25K)** or **Kashmir Dal Lake (₹21,999)**!\n\nWould you prefer domestic hill stations or an international deal?`;
+    reply = `💡 **Best Options for your ~₹${Math.round(parsedBudget).toLocaleString('en-IN')} Budget**:\n\n• 🛕 **Ujjain Mahakal & Omkareshwar**: 3D/2N from ₹8,999/person\n• 🏖️ **Goa Beach Break**: 4D/3N 4★ resort from ₹12,999/person\n• 🏔️ **Manali Snow Valley**: 4D/3N private cab from ₹14,999/person\n\n*Pro Tip:* If you can stretch your budget slightly to ~₹21,000–₹29,000, you can do international **Georgia 5D ($300 USD / ~₹29K)** or **Kashmir Dal Lake (₹21,999)**!\n\nWould you prefer domestic hill stations or an international deal?`;
   }
   else if (parsedBudget >= 20000 && parsedBudget <= 45000) {
-    reply = `💎 **Best International Direct DMC Packages for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')}**:\n\n1. 🇬🇪 **Georgia Special** — $300 USD (~₹25,999) (5D/4N snowy Kazbegi & Tbilisi)\n2. 🇹🇭 **Thailand Island Hopper** — ₹28,999 (5D/4N Phuket & Krabi 4★ resort)\n3. 🏙️ **Dubai Grand Luxury** — ₹34,999 (5D/4N Desert safari & Burj Khalifa)\n4. 🇹🇷 **Turkey Escape** — ₹42,999 (5D/4N Cappadocia balloons & Bosphorus yacht)\n5. 🏔️ **Kashmir Heaven** — ₹21,999 (5D/4N Dal Lake luxury houseboat & snow)\n\nWhich destination fits your mood: **Mountains, Beaches, or City Luxury**?`;
+    reply = `💎 **Best International Direct DMC Packages for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')}**:\n\n1. 🇬🇪 **Georgia Special** — $300 USD (~₹28,999) (5D/4N snowy Kazbegi & Tbilisi)\n2. 🇹🇭 **Thailand Island Hopper** — ₹28,999 (5D/4N Phuket & Krabi 4★ resort)\n3. 🏙️ **Dubai Grand Luxury** — ₹34,999 (5D/4N Desert safari & Burj Khalifa)\n4. 🇹🇷 **Turkey Escape** — ₹42,999 (5D/4N Cappadocia balloons & Bosphorus yacht)\n5. 🏔️ **Kashmir Heaven** — ₹21,999 (5D/4N Dal Lake luxury houseboat & snow)\n\nWhich destination fits your mood: **Mountains, Beaches, or City Luxury**?`;
   }
   else if (parsedBudget > 45000 && parsedBudget <= 120000) {
     reply = `✨ **Premium 5-Star Luxury Packages for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')}**:\n\n1. 🏝️ **Bali Tropical Luxury & Private Pool Villa** (6D/5N ~₹48,999 with floating breakfast & Nusa Penida)\n2. 🇻🇳 **Vietnam Scenic Wonder & Halong Cruise** (7D/6N ~₹49,999)\n3. 🇹🇷 **Turkey 7-Day Grand Circuit & Cave Suite** (~₹65,000)\n\nWould you like me to share a customized day-by-day plan on WhatsApp?`;
@@ -125,7 +139,7 @@ RULES FOR YOUR RESPONSES:
   }
   // 9. Georgia Destination
   else if (msgLower.match(/\b(georgia|tbilisi|kazbegi|gudauri|gergeti|ananuri)\b/i)) {
-    reply = "🇬🇪 **Georgia Flash Deal ($300 USD Special)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: $300 USD (~₹25,999/person)\n• **Inclusions**: 4★ Boutique Hotel in Tbilisi, Private 4x4 Chauffeur, Snowy Kazbegi Excursion, Gudauri Ski Resort, Gergeti Trinity Church & Daily Breakfast.\n\n📲 [**Send Georgia $300 Plan to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Georgia%20Flash%20Deal%20($300%20USD%20Special)*%20(5D/4N).%0A%0A•%20Includes:%204★%20Hotel,%20Kazbegi%204x4,%20Gudauri%20Resort%20%26%20Private%20Transfers%0A•%20Rate:%20$300%20USD%20per%20person%0A%0APlease%20share%20available%20dates%20and%20day-by-day%20itinerary!)";
+    reply = "🇬🇪 **Georgia Flash Deal ($300 USD Special)**:\n\n• **Duration**: 5 Days / 4 Nights\n• **Price**: $300 USD (~₹28,999/person)\n• **Inclusions**: 4★ Boutique Hotel in Tbilisi, Private 4x4 Chauffeur, Snowy Kazbegi Excursion, Gudauri Ski Resort, Gergeti Trinity Church & Daily Breakfast.\n\n📲 [**Send Georgia $300 Plan to WhatsApp**](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%0A%0AI%20am%20interested%20in%20the%20*Georgia%20Flash%20Deal%20($300%20USD%20Special)*%20(5D/4N).%0A%0A•%20Includes:%204★%20Hotel,%20Kazbegi%204x4,%20Gudauri%20Resort%20%26%20Private%20Transfers%0A•%20Rate:%20$300%20USD%20per%20person%0A%0APlease%20share%20available%20dates%20and%20day-by-day%20itinerary!)";
   }
   // 10. Turkey Destination
   else if (msgLower.match(/\b(turkey|cappadocia|istanbul|antalya|pamukkale|bosphorus|balloon)\b/i)) {

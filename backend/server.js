@@ -1377,7 +1377,7 @@ app.get('/api/health', (_, res) => {
     const fallbackResponse = {
       title: destination.toLowerCase().includes('georgia') ? "Discover The Magic of Georgia" : `${destination} Custom Escape`,
       subtitle: "Verified Itinerary · Let's Explore DMC",
-      price: destination.toLowerCase().includes('georgia') ? "USD 300" : (budget || "$300 / ₹24,999"),
+      price: destination.toLowerCase().includes('georgia') ? "USD 300" : (budget || "$300 / ~₹28,999"),
       desc: `Explore ${destination} with an exclusive ${duration} itinerary tailored for ${vibe}. Includes transfers, 4★ boutique stays, and curated sightseeing!`,
       img: destination.toLowerCase().includes('georgia')
         ? "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80"
@@ -1484,7 +1484,15 @@ app.get('/api/health', (_, res) => {
          });
       }
 
-      const systemPrompt = `You are Atlas, an expert AI Travel Agent for 'Let's Explore DMC'. Help users find perfect travel packages (like Georgia $300, Turkey, Bali, Dubai). Be enthusiastic, concise, and helpful.\n\n${packagesContext}`;
+      const systemPrompt = `You are Atlas, an expert AI Travel Agent for 'Let's Explore DMC'. Help users find perfect travel packages (like Georgia $300, Turkey, Bali, Dubai). Be enthusiastic, concise, and helpful.
+
+CRITICAL LANGUAGE RULE:
+- If user query is in English, reply 100% in English only. Never use Hindi/Devanagari.
+- If user query is in Hindi (Devanagari), reply in Hindi.
+- If user query is in Hinglish, reply in Hinglish.
+- Strictly match user's language and script.
+
+${packagesContext}`;
 
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
