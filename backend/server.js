@@ -1508,6 +1508,12 @@ OFFICIAL MALAYSIA WITH BALI COMBO (7N/8D):
 - Hotels: Ibis Styles KL (3★ 1N) + Kuta Beach Club (4★ 4N) + Maharaja Villa (4★ 1-Bedroom Pool Villa 2N)
 - Highlights: KL City Tour + Petronas Twin Towers, Nusa Penida West Tour, ATV Quad Biking (90 min), Bali Jungle Swing, Handara Gate + Ulun Danu + Tanah Lot, Lempuyang Gate of Heaven + Tirta Gangga, Uluwatu Sunset + Kecak Fire Dance.
 
+OFFICIAL SINGAPORE PACKAGE (3N/4D):
+- Route: Singapore (4 Days / 3 Nights)
+- Rate: ₹52,062 per adult (Net DMC Rate). Total for 2 adults = ₹1,04,124.
+- Hotel: Novotel Singapore (4★ Premium, Deluxe City Room, Daily Breakfast)
+- Highlights: Universal Studios Singapore full-day tour with ticket, Singapore Flyer (3 hrs, Little India), Marina Bay Sands (MBS) Skypark Observation Deck, Gardens by the Bay (Flower Dome & Cloud Forest Jurassic World), 100% Private Changi Airport Transfers.
+
 CRITICAL LANGUAGE RULE:
 - If user query is in English, reply 100% in English only. Never use Hindi/Devanagari.
 - If user query is in Hindi (Devanagari), reply in Hindi.
