@@ -644,7 +644,9 @@ function renderAIResult(destination, duration, budget, notes) {
   document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Chat Functionality
+// Chat Functionality with Multi-Turn Memory
+let chatConversationHistory = [];
+
 async function submitChat(e) {
   e.preventDefault();
   const input = document.getElementById('chat-input-text');
@@ -676,80 +678,52 @@ async function submitChat(e) {
 
   let reply = '';
   const directKey = atob("QVEuQWI4Uk42SXQ5aGtQWlFuZTU4Q2V6RlFyRnlTZlZDbE5TODYzLThQUHRpYTlBRmlhR1E=");
-  const systemPrompt = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Georgia ($300 USD Special with Kazbegi & Gudauri), Turkey (₹42K), Bali (₹48K), Dubai (₹34K), Thailand (Flagship 7N/8D Phuket+Krabi+Bangkok at ₹62,362/adult, or 5D/4N from ₹28K), Vietnam, Kashmir, Kerala.
+  const systemPrompt = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Thailand, Bali, Malaysia, Georgia, Turkey, Dubai, Vietnam, Kashmir, Kerala.
 
-OFFICIAL THAILAND SIGNATURE PACKAGE (7 Nights / 8 Days):
-- Destinations: Phuket (3N) + Krabi (2N) + Bangkok (2N)
-- Price: ₹62,362 per adult (Net DMC rate). Total for 6 Pax: ₹3,74,172.
-- Verified Accommodations:
-  • Phuket: Panwaburi Beachfront Resort (4★ Deluxe, Breakfast)
-  • Krabi: Aonang Paradise Resort (Deluxe Pool View, Breakfast)
-  • Bangkok: Platinum Suite Bangkok (Premium Superior Room, Breakfast)
-- Inclusions: 7 Nights stay with daily breakfast, all tours with 100% private transfers, island tours with lunch, entry tickets (Tiger Park, FantaSea with dinner, Phi Phi big boat, Krabi 4-Island longtail, Chao Phraya Dinner Cruise, Mahanakhon Skywalk, Safari World & Marine Park with lunch).
-- Exclusions: Dinners (except cruise & FantaSea), personal expenses.
-- Day-wise Summary:
-  • Day 1: Arrive Phuket → Private transfer to Panwaburi Beachfront Resort → Beach leisure.
-  • Day 2: Phuket City Tour (Big Buddha, Wat Chalong) + Tiger Park + Evening Phuket FantaSea Show with Dinner.
-  • Day 3: Full-Day Phi Phi Island Tour (Maya Bay, Pileh Lagoon) by Big Boat with lunch.
-  • Day 4: Private transfer Phuket to Krabi → Check-in at Aonang Paradise Resort → Ao Nang Beach.
-  • Day 5: Krabi 4-Island Tour by Longtail boat with lunch (Chicken, Tup, Poda & Phra Nang Cave).
-  • Day 6: Fly to Bangkok → Check-in at Platinum Suite Bangkok → Evening Chao Phraya River Dinner Cruise.
-  • Day 7: Bangkok City Tour (Golden Buddha Temple, Gems Gallery) + King Power Mahanakhon Skywalk.
-  • Day 8: Safari World & Marine Park with lunch → Private transfer to Bangkok Airport for departure.
+CRITICAL MULTI-TURN CONVERSATION MEMORY:
+- You MUST remember previous messages in this conversation.
+- If the user previously asked about a destination (e.g. Thailand, Bali, Dubai) and their next message is a follow-up like "including thata total amount btao", "what is the price", "kitna kharcha hoga", or "tell me exclusions", YOU ALREADY KNOW THE DESTINATION!
+- NEVER ask "which destination do you want?" if the destination was already mentioned in the conversation history! Directly provide the calculation and answer for that destination.
 
-OFFICIAL BALI INDONESIA SIGNATURE PACKAGE (6 Nights / 7 Days):
-- Destinations: Kuta (4 Nights) + Ubud Private Pool Villa (2 Nights)
-- Price: ₹96,068 per adult (All-inclusive with IndiGo Flights, Visa & Private Pool Villa). Land Package starting from ₹48,999/person.
-- Verified Accommodations:
-  • Kuta (4N): Kuta Beach Club Hotel (Premium Deluxe, Daily Breakfast)
-  • Ubud (2N): Alam Ubud Culture Villas & Residences (1-Bedroom Private Pool Villa, Daily Breakfast)
-- Inclusions: Flights & Visa assistance, welcome flower garland, 100% private AC vehicle transfers, daily breakfast + local lunches on tours, entry fees & permits.
-- Day-wise Summary:
-  • Day 1: Arrive Bali (Denpasar) Airport → Flower garland reception → Private transfer to Kuta Beach Club Hotel → Leisure.
-  • Day 2: Afternoon Uluwatu Temple Sunset Tour + Iconic Kecak & Fire Dance Show (Ramayana epic) at sunset cliff.
-  • Day 3: Full-Day Scenic Tour: Iconic Handara Gate (split mountain gate) + Ulun Danu Bratan Floating Temple + Tanah Lot Temple Sunset by the sea.
-  • Day 4: Full-Day Nusa Penida West Tour (Private car in Penida, sharing speedboat) covering Kelingking Beach cliff view, Angel's Billabong, Broken Beach, Bubu Beach + complimentary snorkeling/canoeing.
-  • Day 5: Ubud Ultimate Adventure Day: ATV / Quad Bike Jungle Ride (90 min) + Ayung River White Water Rafting (3 hrs) + Bali Jungle Swing (unlimited swings & photo nests) + Local Lunch included. Check-in to Alam Ubud Private Pool Villa.
-  • Day 6: Full-Day Eastern Bali Tour: Lempuyang Temple (Instagram Gate of Heaven with Mt. Agung backdrop) + Tirta Gangga Royal Water Palace + Goa Lawah (Bat Cave Temple) + Black Sand Beach.
-  • Day 7: Leisure morning in private pool villa → Check-out → Private transfer to Denpasar Airport for flight back.
+OFFICIAL VERIFIED PACKAGES & PRICING:
+1. THAILAND GRAND 7N/8D (Phuket 3N + Krabi 2N + Bangkok 2N):
+   - Price: ₹62,362 per adult (Wholesale Direct DMC rate). Total for 6 adults = ₹3,74,172.
+   - Accommodations: Panwaburi Beachfront Resort (Phuket 4★), Aonang Paradise Resort (Krabi 3★), Platinum Suite Bangkok (4★).
+   - Inclusions: 7N stay, daily breakfast, 100% private AC transfers, island lunches, Phi Phi Island Big Boat, Krabi 4-Island longtail, Chao Phraya River Dinner Cruise, Mahanakhon Skywalk, Safari World & Marine Park with lunch, Tiger Park, Phuket FantaSea Show & Dinner.
+   - Exclusions: Daily dinners (except cruise & FantaSea), personal expenses, optional water activities.
+   - Day-wise Highlights: D1 Arrive Phuket beachfront; D2 Phuket City Tour + Tiger Park + FantaSea; D3 Phi Phi Island; D4 Transfer to Krabi; D5 Krabi 4-Island; D6 Flight to Bangkok + Chao Phraya Dinner Cruise; D7 Bangkok City Tour + Skywalk; D8 Safari World & departure.
 
-OFFICIAL MALAYSIA WITH BALI COMBO PACKAGE (7 Nights / 8 Days):
-- Destinations: Kuala Lumpur (1N) + Bali Kuta (4N) + Bali Private Pool Villa (2N)
-- Price: ₹1,22,138 per adult (All-inclusive with Batik Air/Vietjet Flights & Visas) | Land Package from ₹58,999/person
-- Verified Accommodations:
-  • Kuala Lumpur (1N): Ibis Styles (3★ Standard, Daily Breakfast)
-  • Bali (4N): Kuta Beach Club (4★ Deluxe, Daily Breakfast)
-  • Bali (2N): Maharaja Villa (4★ 1-Bedroom Private Pool Villa, Daily Breakfast)
-- Day-wise Summary:
-  • Day 1: Arrive Kuala Lumpur → City Tour + Petronas Twin Towers / KL Tower view → Stay at Ibis Styles.
-  • Day 2: Flight from KL to Bali (Denpasar) → Private Airport transfer to Kuta Beach Club.
-  • Day 3: Afternoon Uluwatu Cliff Temple Sunset Tour + Kecak & Fire Dance Show.
-  • Day 4: Scenic Tour: Handara Gate + Ulun Danu Lake Beratan Floating Temple + Tanah Lot Temple Sunset.
-  • Day 5: Full-Day Nusa Penida West Tour (Kelingking Beach, Angel's Billabong, Broken Beach, Bubu Beach + Snorkeling/Canoeing).
-  • Day 6: ATV Quad Biking Jungle Ride (90 min) + Bali Jungle Swing (Unlimited Swings & Nests) → Check-in to Maharaja Private Pool Villa.
-  • Day 7: Eastern Bali Tour: Lempuyang Gate of Heaven + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach.
-  • Day 8: Villa Leisure & Check-out → Airport drop for departure flight.
+2. BALI INDONESIA 6N/7D (Kuta 4N + Ubud Private Pool Villa 2N):
+   - Price: ₹96,068 per adult (All-inclusive with IndiGo flights & visa) | Land package from ₹48,999/person.
+   - Accommodations: Kuta Beach Club (4N) + Alam Ubud 1-Bedroom Private Pool Villa (2N).
+   - Inclusions: Daily breakfast + local lunches, 100% private transfers, Nusa Penida West tour, ATV Jungle Ride (90 min), Ayung River Rafting (3 hrs), Bali Jungle Swing, Handara Gate, Ulun Danu, Tanah Lot, Lempuyang Gate of Heaven, Uluwatu Sunset + Kecak Fire Dance.
 
-CRITICAL LANGUAGE RULE (STRICT):
-- If user asks in English (e.g. "i wanna know abt bali package", "give overview of bali tour"), reply 100% in English only. Never use Hindi/Devanagari script when asked in English.
-- If user asks in Hindi (in Devanagari), reply in Hindi.
-- If user asks in Hinglish, reply in friendly Hinglish.
-- STRICTLY match user's language and script.
+3. MALAYSIA WITH BALI 7N/8D (KL 1N + Bali 6N):
+   - Price: ₹1,22,138 per adult (All-inclusive with flights & visa) | Land package from ₹58,999/person.
+   - Accommodations: Ibis Styles KL (1N) + Kuta Beach Club (4N) + Maharaja Private Pool Villa (2N).
+   - Inclusions: KL City Tour & Petronas Twin Towers, Nusa Penida, ATV, Jungle Swing, Uluwatu Kecak, Lempuyang Gate of Heaven.
 
-INTENT HANDLING:
-- If user asks specifically for an itinerary, provide a structured day-by-day plan.
-- If user asks about packages or overview, give the comprehensive package overview (Duration, Destinations, Day Highlights, Hotels, Inclusions, and Starting Price).
-- If user asks an off-topic question, politely redirect back to travel planning.
-- Always include WhatsApp link at the end: [📲 Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!).`;
+4. GEORGIA 5D/4N: $300 USD (~₹28,999/person) | DUBAI 5D/4N: ₹34,999/person | TURKEY 5D/4N: ₹42,999/person.
 
-  // 1. Direct Real Google Gemini 2.5 Flash Call
+CRITICAL LANGUAGE RULE:
+- If the user writes in English or Roman alphabet (e.g. "whats in thailand", "including thata total amount btao", "thailand ka including jo bhi exclusion inclusion"), respond in English or natural Hinglish. NEVER write in Devanagari Hindi script unless the user explicitly used Devanagari script!
+- Keep response concise, direct, helpful, and beautifully structured.
+- End with WhatsApp link: [📲 Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!).`;
+
+  // Append new user message to conversation history
+  chatConversationHistory.push({ role: 'user', parts: [{ text: val }] });
+  if (chatConversationHistory.length > 12) {
+    chatConversationHistory = chatConversationHistory.slice(-12);
+  }
+
+  // 1. Direct Real Google Gemini 2.5 Flash Call with full multi-turn history
   try {
     const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${directKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        contents: [{ role: 'user', parts: [{ text: val }] }]
+        contents: chatConversationHistory
       })
     });
     if (gRes.ok) {
@@ -757,6 +731,7 @@ INTENT HANDLING:
       const genText = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
       if (genText) {
         reply = genText;
+        chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
       }
     }
   } catch(gErr) {
@@ -769,11 +744,14 @@ INTENT HANDLING:
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: val })
+        body: JSON.stringify({ message: val, history: chatConversationHistory })
       });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.reply) reply = data.reply;
+        if (data && data.reply) {
+          reply = data.reply;
+          chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+        }
       }
     } catch(err) {
       console.log('Serverless fallback unreachable');

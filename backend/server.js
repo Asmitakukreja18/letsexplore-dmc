@@ -1470,7 +1470,7 @@ app.get('/api/health', (_, res) => {
   }
 
   app.post('/api/chat', async (req, res) => {
-    const { message } = req.body;
+    const { message, history } = req.body;
     if (!message) return res.status(400).json({ error: 'Message required' });
 
     const fallbackReply = getSmartAIReply(message);
@@ -1484,11 +1484,15 @@ app.get('/api/health', (_, res) => {
          });
       }
 
-      const systemPrompt = `You are Atlas, an expert AI Travel Agent for 'Let's Explore DMC'. Help users find perfect travel packages (like Georgia $300, Turkey, Bali, Dubai, Thailand 7N/8D). Be enthusiastic, concise, and helpful.
+      const systemPrompt = `You are Atlas, an expert AI Travel Agent for 'Let's Explore DMC' (Amravati, Maharashtra).
+
+CRITICAL MULTI-TURN CONVERSATION MEMORY:
+- You MUST remember previous messages in this conversation.
+- If the user previously asked about a destination (like Thailand or Bali) and in their next turn asks "including thata total amount btao", "what is the price", or "kitna kharcha hoga", you ALREADY KNOW the destination! NEVER ask "which destination do you want?" when it was already discussed! Give the total amount for that destination immediately.
 
 OFFICIAL THAILAND PACKAGE (7N/8D):
 - Route: Phuket (3N) + Krabi (2N) + Bangkok (2N)
-- Rate: ₹62,362 per adult (Net DMC rate)
+- Rate: ₹62,362 per adult (Net DMC rate). Total for 6 adults = ₹3,74,172.
 - Hotels: Panwaburi Beachfront Resort (Phuket 4★), Aonang Paradise Resort (Krabi 3★), Platinum Suite Bangkok (4★)
 - Highlights: Phi Phi Island Big Boat with lunch, Krabi 4-Island longtail with lunch, Chao Phraya Dinner Cruise, Mahanakhon Skywalk, Safari World & Marine Park with lunch, Phuket FantaSea Show & Dinner, 100% Private Transfers.
 
@@ -1512,9 +1516,11 @@ CRITICAL LANGUAGE RULE:
 
 ${packagesContext}`;
 
+      const chatContents = (Array.isArray(history) && history.length > 0) ? history : message;
+
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: message,
+        contents: chatContents,
         config: {
           systemInstruction: systemPrompt,
           temperature: 0.7,
