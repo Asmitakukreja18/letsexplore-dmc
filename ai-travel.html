@@ -697,8 +697,24 @@ OFFICIAL THAILAND SIGNATURE PACKAGE (7 Nights / 8 Days):
   • Day 7: Bangkok City Tour (Golden Buddha Temple, Gems Gallery) + King Power Mahanakhon Skywalk.
   • Day 8: Safari World & Marine Park with lunch → Private transfer to Bangkok Airport for departure.
 
+OFFICIAL BALI INDONESIA SIGNATURE PACKAGE (6 Nights / 7 Days):
+- Destinations: Kuta (4 Nights) + Ubud Private Pool Villa (2 Nights)
+- Price: ₹96,068 per adult (All-inclusive with IndiGo Flights, Visa & Private Pool Villa). Land Package starting from ₹48,999/person.
+- Verified Accommodations:
+  • Kuta (4N): Kuta Beach Club Hotel (Premium Deluxe, Daily Breakfast)
+  • Ubud (2N): Alam Ubud Culture Villas & Residences (1-Bedroom Private Pool Villa, Daily Breakfast)
+- Inclusions: Flights & Visa assistance, welcome flower garland, 100% private AC vehicle transfers, daily breakfast + local lunches on tours, entry fees & permits.
+- Day-wise Summary:
+  • Day 1: Arrive Bali (Denpasar) Airport → Flower garland reception → Private transfer to Kuta Beach Club Hotel → Leisure.
+  • Day 2: Afternoon Uluwatu Temple Sunset Tour + Iconic Kecak & Fire Dance Show (Ramayana epic) at sunset cliff.
+  • Day 3: Full-Day Scenic Tour: Iconic Handara Gate (split mountain gate) + Ulun Danu Bratan Floating Temple + Tanah Lot Temple Sunset by the sea.
+  • Day 4: Full-Day Nusa Penida West Tour (Private car in Penida, sharing speedboat) covering Kelingking Beach cliff view, Angel's Billabong, Broken Beach, Bubu Beach + complimentary snorkeling/canoeing.
+  • Day 5: Ubud Ultimate Adventure Day: ATV / Quad Bike Jungle Ride (90 min) + Ayung River White Water Rafting (3 hrs) + Bali Jungle Swing (unlimited swings & photo nests) + Local Lunch included. Check-in to Alam Ubud Private Pool Villa.
+  • Day 6: Full-Day Eastern Bali Tour: Lempuyang Temple (Instagram Gate of Heaven with Mt. Agung backdrop) + Tirta Gangga Royal Water Palace + Goa Lawah (Bat Cave Temple) + Black Sand Beach.
+  • Day 7: Leisure morning in private pool villa → Check-out → Private transfer to Denpasar Airport for flight back.
+
 CRITICAL LANGUAGE RULE (STRICT):
-- If user asks in English (e.g. "i wanna know abt thailand tour", "give overview of thailand package"), reply 100% in English only. Never use Hindi/Devanagari script when asked in English.
+- If user asks in English (e.g. "i wanna know abt bali package", "give overview of bali tour"), reply 100% in English only. Never use Hindi/Devanagari script when asked in English.
 - If user asks in Hindi (in Devanagari), reply in Hindi.
 - If user asks in Hinglish, reply in friendly Hinglish.
 - STRICTLY match user's language and script.
@@ -707,7 +723,7 @@ INTENT HANDLING:
 - If user asks specifically for an itinerary, provide a structured day-by-day plan.
 - If user asks about packages or overview, give the comprehensive package overview (Duration, Destinations, Day Highlights, Hotels, Inclusions, and Starting Price).
 - If user asks an off-topic question, politely redirect back to travel planning.
-- Always include WhatsApp link at the end: [📲 Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20Thailand%207N8D%20customized%20itinerary!).`;
+- Always include WhatsApp link at the end: [📲 Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20please%20share%20the%20customized%20itinerary!).`;
 
   // 1. Direct Real Google Gemini 2.5 Flash Call
   try {
@@ -793,8 +809,8 @@ INTENT HANDLING:
       const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Turkey Escape & Wonders* (5D/4N ₹42,999).\n\n• Includes: 5★ Cave Resort, Cappadocia Balloons, Bosphorus Yacht & Pvt Chauffeur\n\nPlease share the detailed day-by-day proposal!");
       reply = `🇹🇷 <strong>Turkey Escape & Wonders (Flagship DMC)</strong>:<br/><br/>• <strong>Starts from</strong>: ₹42,999/person (4N/5D)<br/>• <strong>Highlights</strong>: Hot Air Balloon in Cappadocia, Bosphorus Yacht Cruise, Cave Suites, Private Chauffeurs.<br/><br/><a href='${waLink}' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Turkey Itinerary to WhatsApp</a>`;
     } else if (valLower.match(/\b(bali|indonesia|ubud|nusa penida|kintamani)\b/i)) {
-      const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Bali Tropical Luxury & Pool Villa* (6D/5N ₹48,999).\n\n• Includes: 5★ Pool Villa in Ubud, Floating Breakfast, Nusa Penida Cruise\n\nPlease share the detailed plan!");
-      reply = `🏝️ <strong>Bali Island DMC Package</strong>:<br/><br/>• <strong>Highlights</strong>: 5★ Private Pool Villas in Ubud, Nusa Penida speedboat tour, Mt. Batur sunrise jeep safari.<br/>• <strong>Starting at</strong>: ₹48,999/person.<br/><br/><a href='${waLink}' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Bali Itinerary to WhatsApp</a>`;
+      const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Bali Indonesia Signature Package (6N/7D)* covering Kuta & Ubud Private Pool Villa.\n\n• Rate: ₹96,068 per person (with Flights & Visa) / Land Package from ₹48,999\n• Hotels: Kuta Beach Club Hotel (4N) + Alam Ubud 1-Bedroom Private Pool Villa (2N)\n• Inclusions: Nusa Penida West Tour, ATV Jungle Ride, Ayung River Rafting, Bali Jungle Swing, Handara Gate, Lempuyang Gate of Heaven, Uluwatu Kecak Show\n\nPlease share availability and travel dates!");
+      reply = `🏝️ <strong>Bali Indonesia Signature Experience (6 Nights / 7 Days)</strong>:<br/><br/>• <strong>Route</strong>: Kuta Beach (4N) + Ubud Private Pool Villa (2N)<br/>• <strong>Price</strong>: ₹96,068/adult (All-inclusive with IndiGo Return Flights & Visa) | Land Package from ₹48,999/person<br/><br/>🏨 <strong>Verified Premium Accommodations</strong>:<br/>• <strong>Kuta (4N)</strong>: Kuta Beach Club Hotel (Premium Deluxe, Daily Breakfast)<br/>• <strong>Ubud (2N)</strong>: Alam Ubud Culture Villas & Residences (1-Bedroom Private Pool Villa, Daily Breakfast)<br/><br/>🗺️ <strong>Day-wise Itinerary Highlights</strong>:<br/>• <strong>Day 1</strong>: Denpasar Airport Arrival → Welcome Flower Garland → Private Transfer to Kuta Beach Club Hotel<br/>• <strong>Day 2</strong>: Afternoon Uluwatu Cliff Temple Sunset Tour + Iconic Kecak & Fire Dance Show (Ramayana epic)<br/>• <strong>Day 3</strong>: Full-Day Scenic Tour: Iconic Handara Gate + Ulun Danu (Lake Beratan Floating Temple) + Tanah Lot Sunset by the sea<br/>• <strong>Day 4</strong>: Full-Day Nusa Penida West Tour (Private car in Penida, sharing speedboat) covering Kelingking Beach, Angel's Billabong, Broken Beach, Bubu Beach + complimentary snorkeling/canoeing<br/>• <strong>Day 5</strong>: Ubud Ultimate Adventure: ATV / Quad Bike Jungle Ride (90 min) + Ayung River Rafting (3 hrs) + Bali Jungle Swing (unlimited swings & photo nests) + Local Lunch included → Check-in to Alam Ubud Private Pool Villa<br/>• <strong>Day 6</strong>: Full-Day Eastern Bali Tour: Lempuyang Temple (Instagram Gate of Heaven) + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach<br/>• <strong>Day 7</strong>: Leisure morning in Private Pool Villa → Check-out → Private transfer to Denpasar Airport for flight home<br/><br/>✨ <strong>Inclusions</strong>: Daily Breakfast, 100% Private AC Transfers, Island Speedboat, Adventure Activities (ATV, Rafting, Swing) with Lunch, Entry Tickets.<br/><br/><a href='${waLink}' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Bali 6N/7D Itinerary to WhatsApp</a>`;
     } else if (valLower.match(/\b(dubai|uae|burj khalifa|safari)\b/i)) {
       const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Dubai Grand Luxury Experience* (5D/4N ₹34,999).\n\n• Includes: Burj Khalifa, VIP Desert Safari, Marina Cruise\n\nPlease share the day-by-day plan!");
       reply = `🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹34,999/person.<br/><br/><a href='${waLink}' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Dubai Itinerary to WhatsApp</a>`;

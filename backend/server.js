@@ -1492,6 +1492,12 @@ OFFICIAL THAILAND PACKAGE (7N/8D):
 - Hotels: Panwaburi Beachfront Resort (Phuket 4★), Aonang Paradise Resort (Krabi 3★), Platinum Suite Bangkok (4★)
 - Highlights: Phi Phi Island Big Boat with lunch, Krabi 4-Island longtail with lunch, Chao Phraya Dinner Cruise, Mahanakhon Skywalk, Safari World & Marine Park with lunch, Phuket FantaSea Show & Dinner, 100% Private Transfers.
 
+OFFICIAL BALI PACKAGE (6N/7D):
+- Route: Kuta (4N) + Ubud Private Pool Villa (2N)
+- Rate: ₹96,068 per adult (All-inclusive with IndiGo Flights & Visa) | Land Package from ₹48,999
+- Hotels: Kuta Beach Club Hotel (Deluxe 4N) + Alam Ubud Culture Villas & Residences (1-Bedroom Pool Villa 2N)
+- Highlights: Nusa Penida West Tour (Kelingking & Angel's Billabong), ATV Jungle Ride (90 min), Ayung River White Water Rafting (3 hrs), Bali Jungle Swing (unlimited), Handara Gate + Ulun Danu + Tanah Lot Sunset, Lempuyang Gate of Heaven + Tirta Gangga, Uluwatu Sunset + Kecak Fire Dance Show.
+
 CRITICAL LANGUAGE RULE:
 - If user query is in English, reply 100% in English only. Never use Hindi/Devanagari.
 - If user query is in Hindi (Devanagari), reply in Hindi.
