@@ -1507,20 +1507,181 @@ app.get('/api/health', (_, res) => {
       const user = nameMatch ? nameMatch[1] : '';
       return `Hello ${user ? user : 'there'}! 👋 Welcome to Let's Explore DMC! How can I help you plan your dream vacation today? Tell me your preferred destination (like Georgia, Bali, Turkey, Dubai, Thailand) or budget, and I'll build a custom itinerary for you!`;
     }
-    if (p.includes('thailand')) {
-      return `🇹🇭 **Thailand Grand Signature (7N/8D)**:\n\n• **Price**: ₹62,362/person (Direct DMC Rate)\n• **Route**: Phuket (3N) + Krabi (2N) + Bangkok (2N)\n• **Hotels**: Panwaburi Beachfront (Phuket) + Aonang Paradise (Krabi) + Platinum Suite (Bangkok)\n• **Highlights**: Phi Phi Island, Krabi 4-Island, Chao Phraya Dinner Cruise, Mahanakhon Skywalk & Safari World.`;
-    }
     if (p.includes('malaysia')) {
-      return `🇲🇾🇮🇩 **Malaysia with Bali Combo (7N/8D)**:\n\n• **Price**: ₹1,22,138/person (with Flights & Visa) | Land Package from ₹58,999\n• **Route**: Kuala Lumpur (1N) + Bali Kuta (4N) + Ubud Private Pool Villa (2N)\n• **Highlights**: KL City Tour, Nusa Penida, 90-min ATV, Bali Swing, Handara Gate & Uluwatu Kecak.`;
+      return `🇲🇾🇮🇩 **Malaysia with Bali Grand Combo Tour (7 Nights / 8 Days)**:
+• **Trip ID**: LEDMC1048820 | **Lead Guest**: Mohit Kodwani | **Pax**: 4 Adults
+• **Route**: Kuala Lumpur (1N) + Bali Kuta (4N) + Ubud Luxury Private Pool Villa (2N)
+
+💰 **Pricing Summary**:
+• **Per Adult (All-inclusive with Flights & Visa)**: INR 1,22,138.00
+• **Total Net Amount for 4 Adults**: INR 4,88,552.00
+• **Land Package Option**: From ₹58,999 per adult
+
+🏨 **Verified Accommodations**:
+• **Kuala Lumpur (1N)**: Ibis Styles (3★ Standard, Double, Breakfast)
+• **Bali Kuta (4N)**: Kuta Beach Club Hotel (4★ Deluxe, Double, Breakfast)
+• **Bali Ubud (2N)**: Maharaja Villa (4★ 1-Bedroom Private Pool Villa, Double, Breakfast)
+
+🗺️ **Day-Wise Itinerary Breakdown**:
+• **Day 1**: Arrive Kuala Lumpur Airport → City Tour + Petronas Twin Towers / KL Tower view → Stay at Ibis Styles
+• **Day 2**: Flight from KL to Bali (Denpasar) → Private AC transfer to Kuta Beach Club Hotel → Leisure
+• **Day 3**: Afternoon Uluwatu Cliff Sunset Tour + Iconic Kecak & Fire Dance Show
+• **Day 4**: Full-Day Scenic Tour: Handara Gate + Ulun Danu Beratan Floating Temple + Tanah Lot Temple Sunset
+• **Day 5**: Full-Day Nusa Penida West Tour (Kelingking Beach, Angel's Billabong, Broken Beach, Bubu Beach + Snorkeling & Canoeing)
+• **Day 6**: ATV Quad Biking Jungle Ride (90 min tandem) + Bali Jungle Swing (Unlimited Swings & Nests) → Check-in to Maharaja Private Pool Villa
+• **Day 7**: Eastern Bali Tour: Lempuyang Gate of Heaven + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach
+• **Day 8**: Villa leisure & floating breakfast → Check-out & Airport drop for departure flight
+
+✅ **Key Inclusions**:
+• International & Domestic Flights: Batik Air OD-216 (Mumbai to KL), Batik Air OD-171 (KL to Bali), Vietjet VJ-894 (Bali to Ho Chi Minh), Vietjet VJ-1803 (Ho Chi Minh to Hyderabad)
+• Visa assistance & clearances
+• 7 Nights Hotel & Villa Accommodations with Daily Breakfast
+• 100% Private AC Vehicle transfers with English speaking driver
+• Nusa Penida Speedboat & Private Car on island
+• 90-min ATV Ride + Bali Jungle Swing + All Sightseeing Entry Tickets
+
+❌ **Exclusions**:
+• Daily Dinners, Bali Tourism Levy (IDR 150,000/pax), Personal expenses & Tips.
+
+📲 [**Book Malaysia with Bali on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Malaysia%20with%20Bali%20voucher)`;
+    }
+    if (p.includes('thailand')) {
+      return `🇹🇭 **Thailand Grand Signature Tour (7 Nights / 8 Days)**:
+• **Trip ID**: TVY448657 | **Customer**: Mohit Kodwani | **Pax**: 2 Adults
+• **Route**: Phuket (3N) + Krabi (2N) + Bangkok (2N)
+
+💰 **Pricing Summary**:
+• **Direct Wholesale DMC Rate**: ₹62,362 per adult
+• **Total Net Amount for 2 Adults**: ₹1,24,724.00
+
+🏨 **Verified Accommodations (4★ Deluxe)**:
+• **Phuket (3N)**: Panwaburi Beachfront Resort (1 Deluxe Room, Breakfast)
+• **Krabi (2N)**: Aonang Paradise Resort (1 Deluxe Pool View Room, Breakfast)
+• **Bangkok (2N)**: Platinum Suite Bangkok (1 Superior Premium Room, Breakfast)
+
+🗺️ **Day-Wise Itinerary Breakdown**:
+• **Day 1**: Arrive Phuket International Airport → Private transfer to Panwaburi Beachfront Resort → Check-in & Leisure
+• **Day 2**: Phuket City Tour (Big Buddha, Wat Chalong, scenic viewpoints) + Tiger Park (Medium Ticket) + Phuket FantaSea Cultural Show & Grand Buffet Dinner
+• **Day 3**: Full-Day Phi Phi Island Tour by Big Boat (Maya Bay, Pileh Lagoon, Viking Cave + National Park + Lunch)
+• **Day 4**: Private AC Vehicle transfer from Phuket to Krabi → Check-in to Aonang Paradise Resort → Ao Nang Beach walk
+• **Day 5**: Krabi 4-Island Tour by Longtail boat with Lunch (Chicken Island, Tup Island, Poda Island, Phra Nang Cave Beach)
+• **Day 6**: Transfer to Krabi Airport → Domestic Flight to Bangkok → Check-in Platinum Suite → Evening Chao Phraya River Luxury Dinner Cruise with live entertainment
+• **Day 7**: Bangkok City Tour (Golden Buddha Temple Wat Traimit, Marble Temple) + King Power Mahanakhon 78th Floor Glass Skywalk
+• **Day 8**: Safari World & Marine Park with Grand Buffet Lunch + Animal & Spy War Shows → Evening departure transfer to Bangkok Suvarnabhumi Airport
+
+✅ **Key Inclusions**:
+• 7 Nights 4★ Deluxe Resort & Hotel Stays with Daily Buffet Breakfast
+• 100% Private AC Vehicle transfers for all airport pickups, drops & intercity travel
+• Phi Phi Island Tour with National Park fees & Buffet Lunch
+• Krabi 4-Island Tour with Picnic Lunch
+• Phuket FantaSea Show with Grand Buffet Dinner
+• Chao Phraya River Luxury Dinner Cruise
+• King Power Mahanakhon Skywalk 78th floor pass
+• Safari World & Marine Park admission with lunch & shows
+
+❌ **Exclusions**:
+• Daily Dinners (except Phuket FantaSea & Chao Phraya Cruise), Personal expenses & Travel Insurance.
+
+📲 [**Book Thailand 7N/8D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Thailand%207N8D%20voucher)`;
     }
     if (p.includes('bali')) {
-      return `🏝️ **Bali Tropical Luxury & Pool Villa (6N/7D)**:\n\n• **Price**: ₹48,999/person (Land Package) | ₹96,068 with IndiGo Flights & Visa\n• **Hotels**: Kuta Beach Club (4N) + Alam Ubud Private Pool Villa (2N)\n• **Highlights**: Nusa Penida West Speedboat Tour, 90-min ATV Quad Ride, Ayung River Rafting with lunch, Bali Swing, Handara Gate, Lempuyang & Uluwatu Kecak.`;
+      return `🏝️ **Bali Indonesia Signature Tour (6 Nights / 7 Days)**:
+• **Trip ID**: LEDMC1024111 | **Customer**: Mohit Kodwani | **Pax**: 2 Adults
+• **Route**: Kuta Beach (4N) + Ubud Luxury Private Pool Villa (2N)
+
+💰 **Pricing Summary**:
+• **Per Adult (All-inclusive with IndiGo Flights & Visa)**: INR 96,068.00
+• **Total Net Amount for 2 Adults**: INR 1,92,136.00
+• **Land Package Option**: From ₹48,999 per adult
+
+🏨 **Verified Accommodations**:
+• **Kuta (4N)**: Kuta Beach Club Hotel (4★ Premium, 1 Deluxe Room, Breakfast)
+• **Ubud (2N)**: Alam Ubud Culture Villas & Residences (4★ Premium, 1-Bedroom Private Pool Villa, Breakfast)
+
+🗺️ **Day-Wise Itinerary Breakdown**:
+• **Day 1**: Arrive Denpasar Bali Airport → Traditional Flower Garland Welcome → Private SUV transfer to Kuta Beach Club Hotel
+• **Day 2**: Half-Day Uluwatu Sunset Tour + Cliffside Temple + Kecak & Fire Dance Show
+• **Day 3**: Full-Day Scenic Tour: Handara Iconic Gate + Ulun Danu Lake Beratan Floating Temple + Tanah Lot Temple Sunset
+• **Day 4**: Full-Day Nusa Penida West Tour (Private car on island + Return Speedboat): Kelingking Beach (T-Rex Cliff), Angel's Billabong, Broken Beach + Complimentary Snorkeling & Canoeing
+• **Day 5**: 90-min ATV Quad Biking Ride + Ayung River Rafting with Local Buffet Lunch + Bali Jungle Swing (Unlimited Swings & Nests) → Check-in to Alam Ubud Private Pool Villa
+• **Day 6**: Full-Day Eastern Bali Tour: Lempuyang Gate of Heaven + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach
+• **Day 7**: Floating Breakfast in private plunge pool → Check-out → Souvenir shopping & Private transfer to Denpasar Airport for departure flight
+
+✅ **Key Inclusions**:
+• Return IndiGo Flights (Mumbai ↔ Bali) + Bali 30-Day e-VOA Visa
+• 6 Nights Luxury Accommodations (4N Kuta + 2N Ubud Private Pool Villa) with Daily Breakfast
+• 100% Private AC SUV vehicle (Avanza/Xenia) with dedicated English speaking driver
+• Nusa Penida West Tour with private car on island & sharing fast boat + Snorkeling/Canoeing
+• 90-min ATV Quad Ride + 3-hr Ayung River Rafting with lunch + Bali Jungle Swing
+• All Sightseeing Entry Tickets, Tolls, Parking & Donations included
+
+❌ **Exclusions**:
+• Daily Dinners, International Tourism Levy (IDR 150,000/person), Nusa Penida Retribution (IDR 25,000/person), Personal expenses.
+
+📲 [**Book Bali 6N/7D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Bali%206N7D%20voucher)`;
     }
     if (p.includes('singapore')) {
-      return `🇸🇬 **Singapore Signature Experience (3N/4D)**:\n\n• **Price**: ₹52,062/person (Net DMC Rate)\n• **Hotel**: Novotel Singapore (4★ Premium, Deluxe Room)\n• **Highlights**: Universal Studios Full-Day Pass, Singapore Flyer, Marina Bay Sands Skypark & Gardens by the Bay.`;
+      return `🇸🇬 **Singapore Signature Experience (3 Nights / 4 Days)**:
+• **Duration**: 3 Nights / 4 Days | **Pax**: 2 Adults
+• **Pricing**: INR 52,062.00 per adult | **Total for 2 Adults**: INR 1,04,124.00
+
+🏨 **Accommodation**: Novotel Singapore (4★ Premium, 1 Deluxe City Room, Daily Breakfast)
+
+🗺️ **Day-Wise Itinerary**:
+• **Day 1**: Arrive Changi Airport → 100% Private AC transfer to Novotel Singapore → Check-in & Evening Leisure
+• **Day 2**: Half-Day City Tour + Singapore Flyer (Little India, Merlion Park) → Marina Bay Sands (MBS) Skypark Observation Deck + Gardens by the Bay (Flower Dome & Cloud Forest)
+• **Day 3**: Full-Day Universal Studios Singapore Pass with transfers (Transformers 3D, Battlestar Galactica, Jurassic Park)
+• **Day 4**: Breakfast at hotel → Check-out → Private transfer to Changi Airport for departure
+
+✅ **Key Inclusions**:
+• 3 Nights Novotel Singapore with Daily Buffet Breakfast
+• 100% Private Changi Airport Pick-up & Drop-off
+• Universal Studios Singapore Full-Day Admission Ticket with transfers
+• Singapore Flyer 3-hr City Tour pass
+• MBS Skypark Observation Deck & Gardens by the Bay tickets
+
+❌ **Exclusions**: Flights, Singapore Visa, Dinners & Security Deposit.
+
+📲 [**Book Singapore 3N/4D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Singapore%203N4D%20voucher)`;
     }
     if (p.includes('vietnam')) {
-      return `🇻🇳 **Vietnam Grand Expedition (9N/10D)**:\n\n• **Price**: ₹1,48,000/person (with Flights & Cable Cars) | Land Package from ₹69,999\n• **Route**: Sapa (2N) + Hanoi (1N) + Da Nang (3N) + Phu Quoc (3N)\n• **Highlights**: Fansipan Peak Cable Car, Ninh Binh caves, Ba Na Hills Golden Bridge, Phu Quoc Kiss Bridge & Vinpearl Safari.`;
+      return `🇻🇳 **Vietnam Grand Expedition (9 Nights / 10 Days)**:
+• **Trip ID**: LEDMC1134219 | **Lead Guest**: Ashutosh Sahu | **Pax**: 4 Adults
+• **Route**: Sapa (2N) + Hanoi (1N) + Da Nang (3N) + Phu Quoc (3N)
+
+💰 **Pricing Summary**:
+• **Per Adult (All-Inclusive with Flights & Cable Cars)**: INR 1,48,000.00
+• **Total Net Amount for 4 Adults**: INR 5,92,000.00
+• **Land Package Option**: From ₹69,999 per adult
+
+🏨 **Verified Accommodations (3★/4★ Premium)**:
+• **Sapa (2N)**: Sapagreen Hotel (Superior Room, Breakfast)
+• **Hanoi (1N)**: TK123 Hotel (Superior Room, Breakfast)
+• **Da Nang (3N)**: Cosmos Hotel (Deluxe City View, Breakfast)
+• **Phu Quoc (3N)**: Gaia Hotel (Standard Room, Breakfast)
+
+🗺️ **Day-Wise Itinerary Breakdown**:
+• **Day 1**: Arrive Hanoi → Private transfer to Sapa → Cat Cat Village trek with Black H'mong tribe
+• **Day 2**: Fansipan Peak ("Roof of Indochina" 3,143m cable car & funicular) + Rong May Glass Bridge at O Quy Ho Pass
+• **Day 3**: Sapa to Hanoi → Temple of Literature, Tran Quoc Pagoda & Old Quarter
+• **Day 4**: Ninh Binh Tour: Ancient Royal Capital Hoa Lu + Tam Coc bamboo boat river cave tour
+• **Day 5**: Flight to Da Nang → Marble Mountains + Cam Thanh Coconut basket boat + Hoi An City Tour & Lantern Boat on Thu Bon River
+• **Day 6**: Ba Na Hills Cable Car + Iconic Golden Bridge (Giant Stone Hands) + Fantasy Park
+• **Day 7**: Flight to Phu Quoc → Sunset Town, Kiss Bridge, Symphony of the Sea show & Kiss of the Sea multimedia show
+• **Day 8**: Vinpearl Safari (largest open zoo) + VinWonders Theme Park & Hai Vuong Aquarium + Grand World Venice River
+• **Day 9**: 4-Island Speedboat Tour + Hon Thom 8km World's Longest Overwater Cable Car & Aquatopia Water Park with buffet lunch
+• **Day 10**: Leisure morning → Private transfer to Phu Quoc Airport for departure
+
+✅ **Key Inclusions**:
+• 9 Nights Hotel stays with daily breakfast
+• Private 7-seater AC transfers throughout
+• All Cable Car Tickets: Fansipan Legend, Ba Na Hills & Hon Thom 8km Overwater Cable Car
+• 4-Island Speedboat Tour with Buffet Lunch
+• Vinpearl Safari & VinWonders all-access passes
+
+❌ **Exclusions**: Dinners, Vietnam Visa, GST 5% & TCS, personal expenses.
+
+📲 [**Book Vietnam 9N/10D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Vietnam%20voucher)`;
     }
     if (p.includes('georgia') || p.includes('300')) {
       return `🇬🇪 **Georgia Special**: 5D/4N Package for **USD 300** (~₹28,999)! Includes Tbilisi Historic Old Town, Kazbegi 4x4 Jeep Safari, Gudauri Ski Resort, Gergeti Trinity Church, 4★ Boutique Hotel & Private Transfers.`;
