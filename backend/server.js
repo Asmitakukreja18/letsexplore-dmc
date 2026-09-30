@@ -1433,8 +1433,70 @@ app.get('/api/health', (_, res) => {
     }
   });
 
-  function getSmartAIReply(prompt) {
+  function getSmartAIReply(prompt, history) {
     const p = (prompt || '').trim().toLowerCase();
+    
+    // Find active destination from prompt or previous history
+    let activeDest = '';
+    const fullText = (prompt + ' ' + (Array.isArray(history) ? history.map(h => (h.text || h.message || '')).join(' ') : '')).toLowerCase();
+    
+    if (fullText.includes('malaysia')) activeDest = 'malaysia';
+    else if (fullText.includes('bali')) activeDest = 'bali';
+    else if (fullText.includes('thailand') || fullText.includes('phuket') || fullText.includes('krabi')) activeDest = 'thailand';
+    else if (fullText.includes('singapore')) activeDest = 'singapore';
+    else if (fullText.includes('vietnam')) activeDest = 'vietnam';
+    else if (fullText.includes('georgia') || fullText.includes('300')) activeDest = 'georgia';
+    else if (fullText.includes('turkey') || fullText.includes('cappadocia')) activeDest = 'turkey';
+    else if (fullText.includes('dubai')) activeDest = 'dubai';
+    else if (fullText.includes('kashmir')) activeDest = 'kashmir';
+    else if (fullText.includes('kerala')) activeDest = 'kerala';
+
+    // 1. Follow-up: Pricing / Amount
+    if (p.includes('price') || p.includes('cost') || p.includes('rate') || p.includes('kitna') || p.includes('kharcha') || p.includes('amount') || p.includes('budget')) {
+      if (activeDest === 'bali') {
+        return `💰 **Bali Indonesia Pricing**:\n\n• **Land Package**: From ₹48,999 per adult\n• **All-Inclusive (IndiGo Flights & Visa)**: INR 96,068 per adult (Total for 2 Adults: INR 1,92,136.00)`;
+      }
+      if (activeDest === 'malaysia') {
+        return `💰 **Malaysia with Bali Combo Pricing**:\n\n• **Land Package**: From ₹58,999 per adult\n• **All-Inclusive (Flights & Visa)**: INR 1,22,138 per adult (Total for 4 Adults: INR 4,88,552.00)`;
+      }
+      if (activeDest === 'thailand') {
+        return `💰 **Thailand Grand Signature Pricing**:\n\n• **Direct Wholesale DMC Rate**: ₹62,362 per adult (Phuket, Krabi & Bangkok 7N/8D)`;
+      }
+      if (activeDest === 'singapore') {
+        return `💰 **Singapore Signature Pricing**:\n\n• **Per Adult**: INR 52,062.00 | Total for 2 Adults: INR 1,04,124.00`;
+      }
+      if (activeDest === 'vietnam') {
+        return `💰 **Vietnam Grand Expedition Pricing**:\n\n• **Per Adult (All-Inclusive with Flights & Cable Cars)**: INR 1,48,000.00 | Land Package from ₹69,999/adult (Total for 4 Adults: INR 5,92,000.00)`;
+      }
+      if (activeDest === 'georgia') {
+        return `💰 **Georgia Flash Deal Pricing**:\n\n• **Per Person**: $300 USD (~₹28,999) for 5 Days / 4 Nights`;
+      }
+    }
+
+    // 2. Follow-up: Inclusions & Exclusions
+    if (p.includes('inclusion') || p.includes('exclusion') || p.includes('kya include') || p.includes('kya milega')) {
+      if (activeDest === 'bali') {
+        return `✅ **Bali Inclusions**:\n• 4N Kuta Beach Club + 2N Alam Ubud Private Pool Villa with Breakfast\n• 100% Private SUV with English speaking driver\n• Nusa Penida West island tour + Speedboat + Snorkeling/Canoeing\n• 90-min ATV ride + Ayung Rafting with lunch + Bali Swing\n• Handara Gate + Ulun Danu + Tanah Lot + Lempuyang & Uluwatu Kecak\n\n❌ **Exclusions**: Dinners, Bali tourism levy (IDR 150K), personal expenses.`;
+      }
+      if (activeDest === 'malaysia') {
+        return `✅ **Malaysia with Bali Inclusions**:\n• Flights & Visa clearances\n• 1N KL + 4N Kuta + 2N Private Pool Villa with Breakfast\n• KL City Tour & Twin Towers, Nusa Penida West, 90-min ATV, Bali Swing, Handara Gate & Uluwatu Kecak\n\n❌ **Exclusions**: Dinners, tourism taxes, personal expenses.`;
+      }
+    }
+
+    // 3. Follow-up: Hotels & Stays
+    if (p.includes('hotel') || p.includes('stay') || p.includes('room') || p.includes('resort') || p.includes('villa')) {
+      if (activeDest === 'bali') {
+        return `🏨 **Bali Accommodations**:\n\n• **Kuta (4N)**: Kuta Beach Club Hotel (4★ Deluxe Room, Breakfast)\n• **Ubud (2N)**: Alam Ubud Culture Villas (4★ 1-Bedroom Private Pool Villa, Breakfast)`;
+      }
+      if (activeDest === 'malaysia') {
+        return `🏨 **Malaysia with Bali Accommodations**:\n\n• **Kuala Lumpur (1N)**: Ibis Styles (3★ Standard, Breakfast)\n• **Bali Kuta (4N)**: Kuta Beach Club Hotel (4★ Deluxe, Breakfast)\n• **Bali Ubud (2N)**: Maharaja Villa (4★ 1-Bedroom Private Pool Villa, Breakfast)`;
+      }
+      if (activeDest === 'thailand') {
+        return `🏨 **Thailand Accommodations**:\n\n• **Phuket (3N)**: Panwaburi Beachfront Resort (Deluxe, Breakfast)\n• **Krabi (2N)**: Aonang Paradise Resort (Deluxe Pool View, Breakfast)\n• **Bangkok (2N)**: Platinum Suite Bangkok (Superior Premium, Breakfast)`;
+      }
+    }
+
+    // Direct greetings / name
     if (p.includes('hindi') || p.includes('baat karo') || p.includes('namaste') || p.includes('suhani') || p.includes('mera naam') || p.includes('mera name')) {
       const nameMatch = prompt.match(/(?:im|i am|mera name|mera naam)\s+([a-zA-Z]+)/i);
       const user = nameMatch ? nameMatch[1] : '';
@@ -1446,25 +1508,34 @@ app.get('/api/health', (_, res) => {
       return `Hello ${user ? user : 'there'}! 👋 Welcome to Let's Explore DMC! How can I help you plan your dream vacation today? Tell me your preferred destination (like Georgia, Bali, Turkey, Dubai, Thailand) or budget, and I'll build a custom itinerary for you!`;
     }
     if (p.includes('thailand')) {
-      return `🇹🇭 **Thailand Islands & Beach Paradise**: 5D/4N Package starting at **₹29,999 / $360**! Includes Phuket Island Hopping, Phi Phi Island Speedboat Tour, James Bond Island, 4★ Beachfront Hotel & Private Airport Transfers. Would you like me to share a customized day-by-day plan?`;
+      return `🇹🇭 **Thailand Grand Signature (7N/8D)**:\n\n• **Price**: ₹62,362/person (Direct DMC Rate)\n• **Route**: Phuket (3N) + Krabi (2N) + Bangkok (2N)\n• **Hotels**: Panwaburi Beachfront (Phuket) + Aonang Paradise (Krabi) + Platinum Suite (Bangkok)\n• **Highlights**: Phi Phi Island, Krabi 4-Island, Chao Phraya Dinner Cruise, Mahanakhon Skywalk & Safari World.`;
+    }
+    if (p.includes('malaysia')) {
+      return `🇲🇾🇮🇩 **Malaysia with Bali Combo (7N/8D)**:\n\n• **Price**: ₹1,22,138/person (with Flights & Visa) | Land Package from ₹58,999\n• **Route**: Kuala Lumpur (1N) + Bali Kuta (4N) + Ubud Private Pool Villa (2N)\n• **Highlights**: KL City Tour, Nusa Penida, 90-min ATV, Bali Swing, Handara Gate & Uluwatu Kecak.`;
     }
     if (p.includes('bali')) {
-      return `🇮🇩 **Bali Tropical Luxury Escape**: 6D/5N Package starting at **$450 / ₹37,500**! Includes Ubud Private Pool Villa, Kuta Beach Sunset, Nusa Penida Island Tour, Bali Swing & Rice Terraces. Perfect for couples, honeymoons & luxury breaks!`;
+      return `🏝️ **Bali Tropical Luxury & Pool Villa (6N/7D)**:\n\n• **Price**: ₹48,999/person (Land Package) | ₹96,068 with IndiGo Flights & Visa\n• **Hotels**: Kuta Beach Club (4N) + Alam Ubud Private Pool Villa (2N)\n• **Highlights**: Nusa Penida West Speedboat Tour, 90-min ATV Quad Ride, Ayung River Rafting with lunch, Bali Swing, Handara Gate, Lempuyang & Uluwatu Kecak.`;
+    }
+    if (p.includes('singapore')) {
+      return `🇸🇬 **Singapore Signature Experience (3N/4D)**:\n\n• **Price**: ₹52,062/person (Net DMC Rate)\n• **Hotel**: Novotel Singapore (4★ Premium, Deluxe Room)\n• **Highlights**: Universal Studios Full-Day Pass, Singapore Flyer, Marina Bay Sands Skypark & Gardens by the Bay.`;
+    }
+    if (p.includes('vietnam')) {
+      return `🇻🇳 **Vietnam Grand Expedition (9N/10D)**:\n\n• **Price**: ₹1,48,000/person (with Flights & Cable Cars) | Land Package from ₹69,999\n• **Route**: Sapa (2N) + Hanoi (1N) + Da Nang (3N) + Phu Quoc (3N)\n• **Highlights**: Fansipan Peak Cable Car, Ninh Binh caves, Ba Na Hills Golden Bridge, Phu Quoc Kiss Bridge & Vinpearl Safari.`;
     }
     if (p.includes('georgia') || p.includes('300')) {
-      return `🇬🇪 **Georgia Special**: 5D/4N Package for **USD 300**! Includes Tbilisi Historic Old Town, Kazbegi 4x4 Jeep Safari, Gudauri Ski Resort, Gergeti Trinity Church, 4★ Boutique Hotel & Private Transfers.`;
+      return `🇬🇪 **Georgia Special**: 5D/4N Package for **USD 300** (~₹28,999)! Includes Tbilisi Historic Old Town, Kazbegi 4x4 Jeep Safari, Gudauri Ski Resort, Gergeti Trinity Church, 4★ Boutique Hotel & Private Transfers.`;
     }
     if (p.includes('turkey')) {
-      return `🇹🇷 **Turkey Escape & Wonders**: 5D/4N Package starting at **₹42,999 / $520**! Includes Istanbul Bosphorus Cruise, Hagia Sophia, Cappadocia Hot Air Balloon flight & Cave Hotel stay.`;
+      return `🇹🇷 **Turkey Escape & Wonders**: 5D/4N Package starting at **₹42,999**! Includes Istanbul Bosphorus Cruise, Hagia Sophia, Cappadocia Hot Air Balloon flight & 5★ Cave Hotel stay.`;
     }
     if (p.includes('dubai')) {
-      return `🇦🇪 **Dubai Luxury & Desert Safari**: 5D/4N Package starting at **$499 / ₹41,500**! Includes Burj Khalifa 124th Floor Observation Deck, Desert Safari with BBQ Dinner, Dhow Cruise & Dubai Frame.`;
+      return `🇦🇪 **Dubai Luxury & Desert Safari**: 5D/4N Package starting at **₹34,999**! Includes Burj Khalifa 124th Floor Observation Deck, Desert Safari with BBQ Dinner, Dhow Cruise & Dubai Frame.`;
     }
     if (p.includes('kashmir')) {
-      return `🏔️ **Kashmir Heaven on Earth**: 5D/4N Package starting at **₹18,500**! Includes Srinagar Houseboat Stay, Shikara Ride on Dal Lake, Gulmarg Gondola Cable Car & Pahalgam Valley.`;
+      return `🏔️ **Kashmir Heaven on Earth**: 5D/4N Package starting at **₹21,999**! Includes Srinagar Dal Lake Houseboat, Shikara Ride, Gulmarg Gondola Cable Car & Pahalgam Valley.`;
     }
     if (p.includes('kerala')) {
-      return `🌴 **Kerala Backwaters & Tea Gardens**: 5D/4N Package starting at **₹16,999**! Includes Munnar Hills, Alleppey Houseboat Cruise with all meals & Kovalam Beach.`;
+      return `🌴 **Kerala Backwaters & Tea Gardens**: 5D/4N Package starting at **₹18,999**! Includes Munnar Hills, Alleppey Houseboat Cruise with private chef & Kovalam Beach.`;
     }
     return `🤖 **Atlas AI Concierge**: I'm here to assist you with your trip! We offer direct DMC packages to **Georgia ($300)**, **Thailand (₹29,999)**, **Bali ($450)**, **Turkey (₹42,999)**, **Dubai ($499)**, **Kashmir**, **Kerala** and more. Tell me your preferred destination or travel date!`;
   }
@@ -1473,7 +1544,7 @@ app.get('/api/health', (_, res) => {
     const { message, history } = req.body;
     if (!message) return res.status(400).json({ error: 'Message required' });
 
-    const fallbackReply = getSmartAIReply(message);
+    const fallbackReply = getSmartAIReply(message, history);
 
     try {
       const packagesRes = await query("SELECT id, name, destination, duration, price, category FROM packages");

@@ -489,6 +489,24 @@
       "prompt": "thailand package ka price kitna hai 6 logo ke liye?",
       "destination": "Thailand Grand Expedition (7N/8D) package for 6 adults:\n*   **Per Adult Net DMC Rate:** INR 62,362.00\n*   **Total Net Amount for 6 Adults:** INR 3,74,172.00",
       "created_at": "2026-09-30T12:04:33.748Z"
+    },
+    {
+      "type": "chat",
+      "prompt": "tell me bali",
+      "destination": "🏝️ **Bali Tropical Luxury & Pool Villa (6N/7D)**:\n\n• **Price**: ₹48,999/person (Land Package) | ₹96,068 with IndiGo Flights & Visa\n• **Hotels**: Kuta Beach Club (4N) + Alam Ubud Private Pool Villa (2N)\n• **Highlights**: Nusa Penida West Speedboat Tour, 90-min ATV Quad Ride, Ayung River Rafting with lunch, Bali Swing, Handara Gate, Lempuyang & Uluwatu Kecak.",
+      "created_at": "2026-09-30T12:22:21.284Z"
+    },
+    {
+      "type": "chat",
+      "prompt": "price kitna hai",
+      "destination": "🤖 **Atlas AI Concierge**: I'm here to assist you with your trip! We offer direct DMC packages to **Georgia ($300)**, **Thailand (₹29,999)**, **Bali ($450)**, **Turkey (₹42,999)**, **Dubai ($499)**, **Kashmir**, **Kerala** and more. Tell me your preferred destination or travel date!",
+      "created_at": "2026-09-30T12:22:44.447Z"
+    },
+    {
+      "type": "chat",
+      "prompt": "price kitna hai",
+      "destination": "💰 **Bali Indonesia Pricing**:\n\n• **Land Package**: From ₹48,999 per adult\n• **All-Inclusive (IndiGo Flights & Visa)**: INR 96,068 per adult (Total for 2 Adults: INR 1,92,136.00)",
+      "created_at": "2026-09-30T12:24:00.004Z"
     }
   ]
 }

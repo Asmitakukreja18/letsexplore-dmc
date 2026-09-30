@@ -989,7 +989,8 @@ CRITICAL LANGUAGE RULE:
       const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Turkey Escape & Wonders* (5D/4N ₹42,999).\n\n• Includes: 5★ Cave Resort, Cappadocia Balloons, Bosphorus Yacht & Pvt Chauffeur\n\nPlease share the detailed day-by-day proposal!");
       reply = `🇹🇷 <strong>Turkey Escape & Wonders (Flagship DMC)</strong>:<br/><br/>• <strong>Starts from</strong>: ₹42,999/person (4N/5D)<br/>• <strong>Highlights</strong>: Hot Air Balloon in Cappadocia, Bosphorus Yacht Cruise, Cave Suites, Private Chauffeurs.<br/><br/><a href='${waLink}' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Turkey Itinerary to WhatsApp</a>`;
     } else if (valLower.match(/\b(bali|indonesia|ubud|nusa penida|kintamani)\b/i)) {
-      const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Bali Indonesia Signature Package (6N/7D)* covering Kuta & Ubud Private Pool Villa.\n\n• Rate: ₹96,068 per person (with Flights & Visa) / Land Package from ₹48,999\n• Hotels: Kuta Beach Club Hotel (4N) + Alam Ubud 1-Bedroom Private Pool Villa (2N)\n• Inclusions: Nusa Penida West Tour, ATV Jungle Ride, Ayung River Rafting, Bali Jungle Swing, Handara Gate, Lempuyang Gate of Heaven, Uluwatu Kecak Show\n\nPlease share availability and travel dates!");
+      const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Lets Explore DMC, please share Bali itinerary");
+      reply = `🏝️ **Bali Island Tropical Luxury & Pool Villa**:\n\n• **Duration**: 6 Days / 5 Nights\n• **Price**: ₹48,999/person\n• **Inclusions**: 5★ Private Pool Villa in Ubud, Floating Breakfast, Nusa Penida West Island Speedboat Cruise, Mt. Batur Sunrise Safari, 24/7 Dedicated Chauffeur.\n\n📲 [Send Bali Itinerary to WhatsApp](${waLink})`;
     } else if (valLower.match(/\b(malaysia|kuala lumpur|kl|petronas|malaysia with bali)\b/i)) {
       const waLink = "https://wa.me/918007586871?text=" + encodeURIComponent("Hello Let's Explore DMC,\n\nI am interested in the *Malaysia with Bali Grand Combo Tour (7N/8D)*.\n\n• Rate: ₹1,22,138 per person (with Flights & Visa) / Land Package from ₹58,999\n• Hotels: Ibis Styles KL (1N) + Kuta Beach Club (4N) + Maharaja Private Pool Villa (2N)\n• Inclusions: KL City Tour & Twin Towers, Nusa Penida West, ATV 90 min, Jungle Swing, Uluwatu Kecak, Lempuyang Gate of Heaven\n\nPlease share dates and availability!");
       reply = `🇲🇾🇮🇩 <strong>Malaysia with Bali Grand Combo Tour (7 Nights / 8 Days)</strong>:<br/><br/>• <strong>Route</strong>: Kuala Lumpur (1N) + Bali Kuta (4N) + Bali Luxury Private Pool Villa (2N)<br/>• <strong>Price</strong>: ₹1,22,138/adult (All-inclusive with Batik Air/Vietjet Flights & Visa) | Land Package from ₹58,999/person<br/><br/>🏨 <strong>Verified Accommodations</strong>:<br/>• <strong>Kuala Lumpur (1N)</strong>: Ibis Styles (3★ Standard, Daily Breakfast)<br/>• <strong>Bali Kuta (4N)</strong>: Kuta Beach Club Hotel (4★ Deluxe, Daily Breakfast)<br/>• <strong>Bali Ubud (2N)</strong>: Maharaja Villa (4★ 1-Bedroom Private Pool Villa, Daily Breakfast)<br/><br/>🗺️ <strong>Day-wise Itinerary Highlights</strong>:<br/>• <strong>Day 1</strong>: Arrive Kuala Lumpur Airport → City Tour + Petronas Twin Towers / KL Tower view → Stay at Ibis Styles<br/>• <strong>Day 2</strong>: Flight from KL to Bali (Denpasar) → Private Airport transfer to Kuta Beach Club<br/>• <strong>Day 3</strong>: Afternoon Uluwatu Cliff Temple Sunset Tour + Iconic Kecak & Fire Dance Show<br/>• <strong>Day 4</strong>: Full-Day Scenic Tour: Handara Gate + Ulun Danu Lake Beratan Floating Temple + Tanah Lot Temple Sunset<br/>• <strong>Day 5</strong>: Full-Day Nusa Penida West Tour (Kelingking Beach, Angel's Billabong, Broken Beach, Bubu Beach + Snorkeling/Canoeing)<br/>• <strong>Day 6</strong>: ATV Quad Biking Jungle Ride (90 min) + Bali Jungle Swing (Unlimited Swings & Nests) → Check-in to Maharaja Private Pool Villa<br/>• <strong>Day 7</strong>: Eastern Bali Tour: Lempuyang Gate of Heaven + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach<br/>• <strong>Day 8</strong>: Villa Leisure & Check-out → Airport drop for departure flight<br/><br/>✨ <strong>Inclusions</strong>: Daily Breakfast, 100% Private AC Transfers, Flights, Visa, Speedboat, ATV + Swings, Entry Tickets.<br/><br/><a href='${waLink}' target='_blank' class='inline-flex items-center gap-1.5 mt-2 px-4 py-2.5 bg-[#27AE60] text-white rounded-xl font-bold text-xs hover:bg-[#219653] transition shadow'>📲 Send Malaysia with Bali Itinerary to WhatsApp</a>`;
@@ -1027,89 +1028,18 @@ CRITICAL LANGUAGE RULE:
 
   setTimeout(() => {
     document.getElementById(typingId)?.remove();
-    
-    // Auto-generate rich custom WhatsApp prefilled message based on what user asked
-    const customWaMsg = `Hello Let's Explore DMC,\n\nI am planning a holiday for: "${val}".\n\nPlease share the customized day-by-day itinerary, best package quotation & available dates!`;
-    const customWaUrl = "https://wa.me/918007586871?text=" + encodeURIComponent(customWaMsg);
 
-    function formatLuxuryTravelResponse(rawText, waUrl) {
-      if (!rawText) return '';
-      let html = rawText;
-
-      // 1. Standardize WhatsApp links
-      if (waUrl) {
-        html = html.replace(/https:\/\/wa\.me\/918007586871(\?text=[^"'\s\)]*)?/g, waUrl);
-      }
-
-      // 2. Parse Markdown Tables into elegant HTML tables
-      html = html.replace(/((?:\|[^\n]+\|\r?\n)+)/g, (match) => {
-        const lines = match.trim().split(/\r?\n/).filter(l => l.includes('|'));
-        if (lines.length < 2) return match;
-        const headerRow = lines[0];
-        const dataRows = lines.slice(1).filter(l => !l.match(/^\|?\s*[-:]+[-| :]*$/));
-        
-        const parseCells = row => row.split('|').map(c => c.trim()).filter((c, i, a) => (i > 0 && i < a.length - 1) || c !== '');
-        
-        const headers = parseCells(headerRow);
-        const ths = headers.map(h => `<th style="padding:10px 14px; background:#0f172a; color:#f8fafc; font-weight:700; text-align:left; font-size:12px; letter-spacing:0.5px; border-bottom:2px solid #38bdf8;">${h}</th>`).join('');
-        
-        const trs = dataRows.map((row, idx) => {
-          const cells = parseCells(row);
-          const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
-          const tds = cells.map(c => `<td style="padding:9px 12px; border-bottom:1px solid #e2e8f0; font-size:12.5px; color:#1e293b;">${c}</td>`).join('');
-          return `<tr style="background:${bg};">${tds}</tr>`;
-        }).join('');
-        
-        return `<div style="overflow-x:auto; margin:6px 0; border-radius:8px; border:1px solid #cbd5e1;"><table style="width:100%; border-collapse:collapse; text-align:left;"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
-      });
-
-      // 3. Compact Header Section Badges (no huge gaps)
-      html = html.replace(/(📌\s*\*{0,2}OVERVIEW\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>📌</span> OVERVIEW</div>`);
-      
-      html = html.replace(/(✅\s*\*{0,2}INCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>✅</span> INCLUSIONS</div>`);
-      
-      html = html.replace(/(❌\s*\*{0,2}EXCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>❌</span> EXCLUSIONS</div>`);
-      
-      html = html.replace(/(🏨\s*\*{0,2}HOTELS?(?:\s*&\s*ACCOMMODATIONS?)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>🏨</span> HOTELS & STAYS</div>`);
-      
-      html = html.replace(/(🗺️?\s*\*{0,2}DAY[- ]WISE\s*ITINERARY(?:\s*BREAKDOWN)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>🗺️</span> DAY-WISE ITINERARY</div>`);
-      
-      html = html.replace(/(✈️?\s*\*{0,2}FLIGHT\s*ROUTES?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>✈️</span> FLIGHT ROUTES</div>`);
-      
-      html = html.replace(/(💰\s*\*{0,2}PRICING\s*(?:SUMMARY)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #059669 0%, #047857 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>💰</span> PRICING SUMMARY</div>`);
-
-      html = html.replace(/(📜\s*\*{0,2}(?:CANCELLATION\s*)?POLICY(?:\s*&\s*NOTES)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #64748b 0%, #475569 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>📜</span> POLICIES & NOTES</div>`);
-      
-      html = html.replace(/(📞\s*\*{0,2}(?:LET'S\s*EXPLORE\s*DMC\s*)?CONTACT\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>📞</span> DMC BOOKING & CONTACT</div>`);
-
-      // 4. Highlight Day labels compactly
-      html = html.replace(/\b(Day\s*\d+[^:\n<]*):/gi, `<span style="display:inline-block; background:#e0f2fe; color:#0369a1; font-weight:700; font-size:11.5px; padding:1px 6px; border-radius:4px; margin-right:4px;">$1</span>:`);
-
-      // 5. Bold & Italic
-      html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0f172a; font-weight:700;">$1</strong>');
-      html = html.replace(/\*(.*?)\*/g, '<em style="color:#334155;">$1</em>');
-
-      // 6. Actionable Buttons / Links
-      html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:6px 14px; background:linear-gradient(135deg, #25D366 0%, #128C7E 100%); color:#fff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none; box-shadow:0 2px 6px rgba(37,211,102,0.3);">$1</a>');
-
-      // 7. Bullet points styling (compact, no extra margins)
-      html = html.replace(/^[ \t]*[*\-][ \t]+(.+)$/gm, `<div style="display:flex; align-items:flex-start; gap:6px; margin:2px 0 2px 2px;"><span style="color:#0284c7; font-weight:bold; font-size:12px; line-height:1.35;">•</span><div style="flex:1; line-height:1.4; font-size:13px;">$1</div></div>`);
-
-      // 8. Line breaks: Compact spacing (collapse multiple blank lines)
-      html = html.replace(/(\r?\n){3,}/g, '\n\n')
-                 .replace(/\n\n/g, '<div style="height:4px;"></div>')
-                 .replace(/\n/g, '<br/>')
-                 .replace(/(<br\/>\s*){2,}/g, '<br/>');
-
-      return html;
-    }
-
-    const formatted = formatLuxuryTravelResponse(reply, customWaUrl);
+    // Clean, robust markdown formatter (bold, clean WhatsApp pill button, clean linebreaks)
+    let formatted = (reply || '')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 14px; background:#25D366; color:#ffffff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none;">$1</a>')
+      .replace(/\n\n+/g, '<div style="height:6px;"></div>')
+      .replace(/\n/g, '<br/>');
 
     box.innerHTML += `
-      <div class="flex items-start gap-3 mb-3.5 w-full">
-        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ocean to-cyan-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm mt-0.5">🤖</div>
-        <div class="bg-white text-navy-deep rounded-2xl rounded-tl-none p-3.5 sm:p-4.5 w-full max-w-2xl sm:max-w-3xl leading-snug text-sm border border-slate-200 shadow-sm">
+      <div class="flex items-start gap-3 mb-3.5">
+        <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">🤖</div>
+        <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-3.5 max-w-2xl leading-relaxed text-sm border border-navy/5 shadow-sm">
           ${formatted}
         </div>
       </div>
