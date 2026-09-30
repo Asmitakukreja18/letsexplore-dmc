@@ -692,12 +692,49 @@ function sendChatMessage() {
   .then(data => {
     document.getElementById(typingIndicatorId)?.remove();
     let reply = data.reply || "Sorry, I couldn't process that request right now.";
-    // Simple markdown to HTML conversion for bold and links
-    reply = reply
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;">$1</a>')
-      .replace(/\n/g, '<br/>');
-    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; line-height:1.5;">${reply}</div>`;
+    const customWaMsg = `Hello Let's Explore DMC,\n\nI am planning a holiday for: "${msg}".\n\nPlease share the customized day-by-day itinerary and quotation!`;
+    const customWaUrl = "https://wa.me/918007586871?text=" + encodeURIComponent(customWaMsg);
+    
+    function formatLuxuryTravelResponse(rawText, waUrl) {
+      if (!rawText) return '';
+      let html = rawText;
+      if (waUrl) {
+        html = html.replace(/https:\/\/wa\.me\/918007586871(\?text=[^"'\s\)]*)?/g, waUrl);
+      }
+      html = html.replace(/((?:\|[^\n]+\|\r?\n)+)/g, (match) => {
+        const lines = match.trim().split(/\r?\n/).filter(l => l.includes('|'));
+        if (lines.length < 2) return match;
+        const headerRow = lines[0];
+        const dataRows = lines.slice(1).filter(l => !l.match(/^\|?\s*[-:]+[-| :]*$/));
+        const parseCells = row => row.split('|').map(c => c.trim()).filter((c, i, a) => (i > 0 && i < a.length - 1) || c !== '');
+        const headers = parseCells(headerRow);
+        const ths = headers.map(h => `<th style="padding:8px 10px; background:#0f172a; color:#f8fafc; font-weight:700; text-align:left; font-size:11px; border-bottom:2px solid #38bdf8;">${h}</th>`).join('');
+        const trs = dataRows.map((row, idx) => {
+          const cells = parseCells(row);
+          const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
+          const tds = cells.map(c => `<td style="padding:8px 10px; border-bottom:1px solid #e2e8f0; font-size:11.5px; color:#1e293b;">${c}</td>`).join('');
+          return `<tr style="background:${bg};">${tds}</tr>`;
+        }).join('');
+        return `<div style="overflow-x:auto; margin:12px 0; border-radius:10px; border:1px solid #cbd5e1;"><table style="width:100%; border-collapse:collapse; text-align:left;"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+      });
+      html = html.replace(/(📌\s*\*{0,2}OVERVIEW\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>📌</span> OVERVIEW</div>`);
+      html = html.replace(/(✅\s*\*{0,2}INCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>✅</span> INCLUSIONS</div>`);
+      html = html.replace(/(❌\s*\*{0,2}EXCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>❌</span> EXCLUSIONS</div>`);
+      html = html.replace(/(🏨\s*\*{0,2}HOTELS?(?:\s*&\s*ACCOMMODATIONS?)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>🏨</span> HOTELS & STAYS</div>`);
+      html = html.replace(/(🗺️?\s*\*{0,2}DAY[- ]WISE\s*ITINERARY(?:\s*BREAKDOWN)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>🗺️</span> DAY-WISE ITINERARY</div>`);
+      html = html.replace(/(✈️?\s*\*{0,2}FLIGHT\s*ROUTES?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>✈️</span> FLIGHT ROUTES</div>`);
+      html = html.replace(/(💰\s*\*{0,2}PRICING\s*(?:SUMMARY)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #059669 0%, #047857 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>💰</span> PRICING SUMMARY</div>`);
+      html = html.replace(/(📜\s*\*{0,2}(?:CANCELLATION\s*)?POLICY(?:\s*&\s*NOTES)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #64748b 0%, #475569 100%); color:#fff; font-weight:800; font-size:12px; padding:5px 12px; border-radius:20px; margin:14px 0 8px 0;"><span>📜</span> POLICIES & NOTES</div>`);
+      html = html.replace(/\b(Day\s*\d+[^:\n<]*):/gi, `<span style="display:inline-block; background:#e0f2fe; color:#0369a1; font-weight:700; font-size:11.5px; padding:2px 7px; border-radius:6px; margin-right:4px;">$1</span>:`);
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0f172a; font-weight:700;">$1</strong>');
+      html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:7px 14px; background:linear-gradient(135deg, #25D366 0%, #128C7E 100%); color:#fff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none; box-shadow:0 2px 8px rgba(37,211,102,0.3);">$1</a>');
+      html = html.replace(/^[ \t]*[*\-][ \t]+(.+)$/gm, `<div style="display:flex; align-items:flex-start; gap:6px; margin:3px 0 3px 2px;"><span style="color:#0284c7; font-weight:bold; font-size:12px; line-height:1.4;">•</span><div style="flex:1; line-height:1.5;">$1</div></div>`);
+      html = html.replace(/\n\n+/g, '<div style="height:8px;"></div>').replace(/\n/g, '<br/>');
+      return html;
+    }
+
+    const formatted = formatLuxuryTravelResponse(reply, customWaUrl);
+    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#ffffff; color:#0f172a; padding:16px 18px; border-radius:16px; margin-bottom:12px; align-self:flex-start; max-width:92%; font-size:0.88rem; line-height:1.6; border:1px solid #e2e8f0; box-shadow:0 4px 16px rgba(0,0,0,0.06);">${formatted}</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
   })
   .catch(err => {
