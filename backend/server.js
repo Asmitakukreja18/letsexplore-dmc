@@ -1498,6 +1498,12 @@ OFFICIAL BALI PACKAGE (6N/7D):
 - Hotels: Kuta Beach Club Hotel (Deluxe 4N) + Alam Ubud Culture Villas & Residences (1-Bedroom Pool Villa 2N)
 - Highlights: Nusa Penida West Tour (Kelingking & Angel's Billabong), ATV Jungle Ride (90 min), Ayung River White Water Rafting (3 hrs), Bali Jungle Swing (unlimited), Handara Gate + Ulun Danu + Tanah Lot Sunset, Lempuyang Gate of Heaven + Tirta Gangga, Uluwatu Sunset + Kecak Fire Dance Show.
 
+OFFICIAL MALAYSIA WITH BALI COMBO (7N/8D):
+- Route: Kuala Lumpur (1N) + Bali Kuta (4N) + Bali Private Pool Villa (2N)
+- Rate: ₹1,22,138 per adult (All-inclusive with Batik Air/Vietjet Flights & Visa) | Land Package from ₹58,999
+- Hotels: Ibis Styles KL (3★ 1N) + Kuta Beach Club (4★ 4N) + Maharaja Villa (4★ 1-Bedroom Pool Villa 2N)
+- Highlights: KL City Tour + Petronas Twin Towers, Nusa Penida West Tour, ATV Quad Biking (90 min), Bali Jungle Swing, Handara Gate + Ulun Danu + Tanah Lot, Lempuyang Gate of Heaven + Tirta Gangga, Uluwatu Sunset + Kecak Fire Dance.
+
 CRITICAL LANGUAGE RULE:
 - If user query is in English, reply 100% in English only. Never use Hindi/Devanagari.
 - If user query is in Hindi (Devanagari), reply in Hindi.
