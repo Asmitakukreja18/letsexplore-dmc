@@ -57,17 +57,27 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA):
 - Exclusions: Dinners, optional water sports, Nusa Penida retribution fee (IDR 25,000/adult), personal expenses, travel insurance.
 
 2. THAILAND GRAND EXPEDITION (7N/8D):
-- Trip ID: TVY448657 | Lead Guest: Rajesh Chawla | Pax: 6 Adults
+- Trip ID: TVY448657 | Customer Name: Rajesh Chawla | Pax: 6 Adults (06-Apr-2026 Created)
+- Travel Dates: 31-May-2026 to 07-Jun-2026 (7 Nights / 8 Days)
 - Route: Phuket (3N) + Krabi (2N) + Bangkok (2N)
 - Pricing: INR 62,362.00 per adult net DMC rate | Total for 6 adults = INR 3,74,172.00
-- Inclusions: 7N Stays (Panwaburi Beachfront Phuket, Aonang Paradise Krabi, Platinum Suite Bangkok), Daily Breakfast, 100% Private AC Transfers, Phi Phi Island Big Boat with lunch, Krabi 4-Island with lunch, Chao Phraya Dinner Cruise, Mahanakhon Skywalk, Safari World with lunch, Phuket FantaSea Show & Dinner, Phuket Tiger Park.
-- Exclusions: Dinners (except cruise & FantaSea), personal expenses, national park fee (~400 THB), visa.
+- Hotels: Panwaburi Beachfront Resort (Phuket 4★, 2 Rooms, Deluxe Tree or Facade + extra bed, Triple, Breakfast), Aonang Paradise Resort (Krabi 3★, 2 Rooms, Deluxe Pool View, Triple, Breakfast), Platinum Suite Bangkok (4★, 2 Rooms, Superior + extra bed, Triple, Breakfast).
+- Inclusions: 7N Stays, Daily Breakfast, 100% Private AC Transfers, Phi Phi Island Big Boat with lunch, Krabi 4-Island with lunch, Chao Phraya Dinner Cruise, Mahanakhon Skywalk, Safari World with lunch, Phuket FantaSea Show & Dinner, Phuket Tiger Park.
+- Exclusions: Dinners (except cruise & FantaSea), personal expenses, national park fees, visa.
+- Child Policy: Under 2 yrs free, under 10 yrs no bed 45%, under 10 yrs with bed 85%, 10+ yrs adult.
+- Bank: YES BANK LIMITED | Account No: 108163400004886 | IFSC: YESB0001081 | LETS EXPLORE DMC
+- Contact: Hemant Thadani (8007586871)
 
 3. BALI INDONESIA SIGNATURE (6N/7D):
-- Route: Kuta (4N) + Ubud Private Pool Villa (2N)
-- Pricing: INR 96,068.00 per adult (with IndiGo flights & visa) | Land package from ₹48,999/adult
-- Inclusions: Flights & Visa, 4N Kuta Beach Club + 2N Alam Ubud Pool Villa, Daily Breakfast & tour lunches, Nusa Penida West tour, ATV Quad Biking (90 min), Ayung River Rafting (3 hrs), Bali Jungle Swing, Handara Gate + Ulun Danu + Tanah Lot, Lempuyang + Tirta Gangga, Uluwatu Kecak Show, private transfers.
-- Exclusions: Dinners, Nusa Penida retribution, personal expenses, travel insurance.
+- Trip ID: LEDMC1024111 | Customer Name: MOHIT KODWANI | Pax: 2 Adults (10-Jul to 16-Jul-2026)
+- Route: Kuta (4N) + Ubud Luxury Private Pool Villa (2N)
+- Pricing: INR 96,068.00 per adult (with IndiGo flights & visa) | Total for 2 adults = INR 1,92,136.00 | Land package from ₹48,999/adult
+- Flights: IndiGo 6E-1607 (Mumbai 05:15 -> Bali 16:40, 10-Jul) & IndiGo 6E-1608 (Bali 18:00 -> Mumbai 00:10, 16-Jul).
+- Hotels: Kuta Beach Club Hotel (4★ Premium, 1 Deluxe Room, Double, Breakfast, 4N) + Alam Ubud Culture Villas (4★ Premium, 1-Bedroom Pool Villa, Double, Breakfast, 2N).
+- Inclusions: Flights & Visa, Flower garland welcome at airport, 600ml daily water bottle, 100% Private SUV vehicle (Avanza/Xenia) with English speaking driver, Nusa Penida West tour with private car on island & sharing boat + complimentary snorkelling & canoeing, ATV Bike Ride (90 min tandem) + Ayung River Rafting (3 hrs with lunch) + Bali Jungle Swing (unlimited swings & nests), Handara Gate + Ulun Danu + Tanah Lot Sunset, Lempuyang Temple (Gate of Heaven) + Tirta Gangga + Bats Cave + Black Sand Beach, all entrance fees & taxes.
+- Exclusions: Dinners, International Tourism Levy (IDR 150,000/person on arrival), Nusa Penida retribution (IDR 25,000/adult), extra water sports, personal expenses, travel insurance.
+- Bank: YES BANK LIMITED | Account No: 108163400004886 | IFSC: YESB0001081 | LETS EXPLORE DMC
+- Contact: Hemant Thadani (8007586871)
 
 4. SINGAPORE SIGNATURE EXPERIENCE (3N/4D):
 - Duration: 3 Nights / 4 Days | Pax: 2 Adults
