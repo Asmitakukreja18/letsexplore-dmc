@@ -1514,6 +1514,12 @@ OFFICIAL SINGAPORE PACKAGE (3N/4D):
 - Hotel: Novotel Singapore (4★ Premium, Deluxe City Room, Daily Breakfast)
 - Highlights: Universal Studios Singapore full-day tour with ticket, Singapore Flyer (3 hrs, Little India), Marina Bay Sands (MBS) Skypark Observation Deck, Gardens by the Bay (Flower Dome & Cloud Forest Jurassic World), 100% Private Changi Airport Transfers.
 
+OFFICIAL VIETNAM PACKAGE (9N/10D):
+- Route: Sapa (2N) + Hanoi (1N) + Da Nang (3N) + Phu Quoc (3N)
+- Rate: ₹1,48,000 per adult (All-inclusive with Flights, Cable Cars & Island Tours) | Land Package from ₹69,999. Total for 4 adults = ₹5,92,000.
+- Hotels: Sapagreen Hotel (Sapa), TK123 Hotel (Hanoi), Cosmos Hotel (Da Nang), Gaia Hotel (Phu Quoc)
+- Highlights: Fansipan Peak Cable Car ("Roof of Indochina") & Glass Bridge, Ninh Binh Tam Coc boat caves, Ba Na Hills & Golden Bridge (Giant Hands), Phu Quoc Sunset Town, Kiss Bridge, Symphony & Kiss of the Sea shows, Vinpearl Safari & VinWonders, 4-Island Tour with Hon Thom 8km Cable Car & Aquatopia Water Park.
+
 CRITICAL LANGUAGE RULE:
 - If user query is in English, reply 100% in English only. Never use Hindi/Devanagari.
 - If user query is in Hindi (Devanagari), reply in Hindi.
