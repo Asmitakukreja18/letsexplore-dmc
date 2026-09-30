@@ -20,18 +20,18 @@ export default async function handler(req, res) {
     try {
       const systemPrompt = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra).
 
-CRITICAL FORMATTING & DETAILING RULE:
-- When a user asks about any package, quote, or asks for "overview", "inclusion exclusion", "detailing", or "details", YOU MUST PROVIDE A COMPREHENSIVE, DETAILED VOUCHER BREAKDOWN with clear markdown sections:
-  1. 📌 **OVERVIEW** (Trip ID, Destination, Duration, Pax, Dates)
-  2. ✅ **INCLUSIONS** (Complete itemized list of flights, hotels, meals, private transfers, sightseeing, entry tickets, special activities)
-  3. ❌ **EXCLUSIONS** (Explicit list: dinners, personal expenses, water sports not in inclusions, retribution fees, travel insurance)
-  4. 🏨 **HOTELS & ACCOMMODATIONS** (Hotel Name, Stars, City, Room Category, Meal Plan, Check-in/Check-out)
-  5. 🗺️ **DAY-WISE ITINERARY** (Detailed day-by-day activities, timings, and highlights)
-  6. ✈️ **FLIGHT ROUTES** (Flight numbers, airline, departure/arrival times if package includes flights)
-  7. 📜 **CANCELLATION POLICY & NOTES** (30d/15d/7d/3d slabs, operational notes)
-  8. 💰 **PRICING SUMMARY** (Per Adult Price, Total Group Amount, Land Package Option)
-  9. 📞 **LET'S EXPLORE DMC CONTACT** (Phone: 8007586871 | Email: Info@letsexploredmc.com)
-- NEVER give superficial 3-line summaries when the user asks for details or inclusions/exclusions. Present the full professional quotation.
+CRITICAL TARGETED ANSWER & COMPACT SPACING RULE:
+1. JITNA PUCHA UTNA HI EXACT ANSWER DO (ANSWER ONLY WHAT IS SPECIFICALLY ASKED):
+   - If the user asks for "price", "amount", "kitna kharcha", "cost": Answer ONLY the exact price breakdown (Per Adult Price, Total Group Amount, Land Package Option). DO NOT dump the full 8-day itinerary, flights, or policies unless requested!
+   - If the user asks for "inclusions and exclusions": Provide ONLY the clear itemized Inclusions and Exclusions.
+   - If the user asks for "hotels": Provide ONLY the hotels, room categories, meal plans, and nights.
+   - If the user asks for "itinerary": Provide ONLY the day-wise schedule.
+   - If the user asks for "flights": Provide ONLY the flight schedule.
+   - ONLY when the user asks for "full package", "poora details", "complete voucher", or "overview" should you present the multi-section breakdown.
+2. COMPACT FORMATTING & ZERO EXTRA SPACING:
+   - Keep answers compact, clean, and elegant.
+   - DO NOT leave excessive blank lines, large vertical gaps, or repetitive filler text.
+   - Use clean, tight bullet points.
 
 CRITICAL LANGUAGE RULE (STRICT):
 - If the user asks in English, you MUST reply 100% in English only! Never use Hindi or Devanagari script.
@@ -118,7 +118,7 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA):
       if (aiReply) {
         return res.status(200).json({ reply: aiReply });
       }
-    } catch(err) {
+    } catch (err) {
       console.error('Gemini API fetch error:', err);
     }
   }
@@ -156,7 +156,7 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA):
   // 2. Negative / Rejection Handlers
   else if (msgLower.match(/^(no|nope|nah|nahi|na|never|not interested|dont want|cancel|stop)\b/i)) {
     reply = "No problem at all! Take your time. 😊\n\nWhenever you're ready, I can help you with:\n• 🏔️ **Snow & Mountains** (Georgia $300 or Kashmir ₹21K)\n• 🏝️ **Tropical Beaches** (Bali Pool Villas ₹48K or Thailand ₹28K)\n• 🏙️ **City Luxury** (Dubai ₹34K)\n\nWhat kind of holiday do you usually enjoy?";
-  } 
+  }
   // 3. Confusion / Frustration Handlers
   else if (msgLower.match(/\b(wtf|wth|what|kya|huh|bakwas|pagal|robot|nonsense|confused|glitch|bug|error)\b/i)) {
     reply = "Haha, sorry about that! 😅 Let's restart cleanly.\n\nI am **Atlas**, the AI Travel Architect at Let's Explore DMC. You can ask me anything naturally:\n\n1. *\"What is included in the Georgia $300 package?\"*\n2. *\"Best time to visit Turkey for hot air balloons?\"*\n3. *\"Suggest a 5-day honeymoon package under ₹1 Lakh\"*\n4. *\"Do Indians get visa on arrival in Bali?\"*\n\nTell me in your own words, what are you looking for?";
@@ -235,5 +235,4 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA):
   }
 
   return res.status(200).json({ reply });
-}
 }

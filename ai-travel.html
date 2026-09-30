@@ -680,22 +680,22 @@ async function submitChat(e) {
   const directKey = atob("QVEuQWI4Uk42SXQ5aGtQWlFuZTU4Q2V6RlFyRnlTZlZDbE5TODYzLThQUHRpYTlBRmlhR1E=");
   const systemPrompt = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Thailand, Bali, Malaysia, Singapore, Vietnam, Georgia, Turkey, Dubai, Kashmir, Kerala.
 
-CRITICAL FORMATTING & DETAILING RULE:
-- When a user asks about any package, quote, or asks for "overview", "inclusion exclusion", "detailing", or "details", YOU MUST PROVIDE A COMPREHENSIVE, DETAILED VOUCHER BREAKDOWN with clear markdown sections:
-  1. 📌 **OVERVIEW** (Trip ID, Destination, Duration, Pax, Dates)
-  2. ✅ **INCLUSIONS** (Complete itemized list of flights, hotels, meals, private transfers, sightseeing, entry tickets, special activities)
-  3. ❌ **EXCLUSIONS** (Explicit list: dinners, personal expenses, water sports not in inclusions, retribution fees, travel insurance)
-  4. 🏨 **HOTELS & ACCOMMODATIONS** (Hotel Name, Stars, City, Room Category, Meal Plan, Check-in/Check-out)
-  5. 🗺️ **DAY-WISE ITINERARY** (Detailed day-by-day activities, timings, and highlights)
-  6. ✈️ **FLIGHT ROUTES** (Flight numbers, airline, departure/arrival times if package includes flights)
-  7. 📜 **CANCELLATION POLICY & NOTES** (30d/15d/7d/3d slabs, operational notes)
-  8. 💰 **PRICING SUMMARY** (Per Adult Price, Total Group Amount, Land Package Option)
-  9. 📞 **LET'S EXPLORE DMC CONTACT** (Phone: 8007586871 | Email: Info@letsexploredmc.com)
-- NEVER give superficial 3-line summaries when the user asks for details or inclusions/exclusions. Present the full professional quotation.
+CRITICAL TARGETED ANSWER & COMPACT SPACING RULE:
+1. JITNA PUCHA UTNA HI EXACT ANSWER DO (ANSWER ONLY WHAT IS SPECIFICALLY ASKED):
+   - If the user asks for "price", "amount", "kitna kharcha", "cost": Answer ONLY the exact price breakdown (Per Adult Price, Total Group Amount, Land Package Option). DO NOT dump the full 8-day itinerary, flights, or policies unless requested!
+   - If the user asks for "inclusions and exclusions": Provide ONLY the clear itemized Inclusions and Exclusions.
+   - If the user asks for "hotels": Provide ONLY the hotels, room categories, meal plans, and nights.
+   - If the user asks for "itinerary": Provide ONLY the day-wise schedule.
+   - If the user asks for "flights": Provide ONLY the flight schedule.
+   - ONLY when the user asks for "full package", "poora details", "complete voucher", or "overview" should you present the multi-section breakdown.
+2. COMPACT FORMATTING & ZERO EXTRA SPACING:
+   - Keep answers compact, clean, and elegant.
+   - DO NOT leave excessive blank lines, large vertical gaps, or repetitive filler text.
+   - Use clean, tight bullet points.
 
 CRITICAL MULTI-TURN CONVERSATION MEMORY:
 - You MUST remember previous messages in this conversation.
-- If the user previously asked about a destination (e.g. Malaysia with Bali, Thailand, Bali, Singapore, Vietnam) and follows up with "where is the overview inclusion exclusion", "total amount btao", or "hotel kon sa hai", YOU ALREADY KNOW THE DESTINATION! Immediately provide the full detailed breakdown for that destination.
+- If the user previously asked about a destination (e.g. Malaysia with Bali, Thailand, Bali, Singapore, Vietnam) and follows up with "price btao", "inclusions exclusions", or "hotel kon sa hai", YOU ALREADY KNOW THE DESTINATION! Immediately answer for that destination.
 
 ============================================================
 OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA):
@@ -1054,43 +1054,46 @@ CRITICAL LANGUAGE RULE:
           return `<tr style="background:${bg};">${tds}</tr>`;
         }).join('');
         
-        return `<div style="overflow-x:auto; margin:14px 0; border-radius:12px; border:1px solid #cbd5e1; box-shadow:0 3px 10px rgba(0,0,0,0.04);"><table style="width:100%; border-collapse:collapse; text-align:left;"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+        return `<div style="overflow-x:auto; margin:6px 0; border-radius:8px; border:1px solid #cbd5e1;"><table style="width:100%; border-collapse:collapse; text-align:left;"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
       });
 
-      // 3. Highlighted Header Section Cards
-      html = html.replace(/(📌\s*\*{0,2}OVERVIEW\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:16px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(2,132,199,0.25);"><span>📌</span> OVERVIEW</div>`);
+      // 3. Compact Header Section Badges (no huge gaps)
+      html = html.replace(/(📌\s*\*{0,2}OVERVIEW\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>📌</span> OVERVIEW</div>`);
       
-      html = html.replace(/(✅\s*\*{0,2}INCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(16,185,129,0.25);"><span>✅</span> INCLUSIONS</div>`);
+      html = html.replace(/(✅\s*\*{0,2}INCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>✅</span> INCLUSIONS</div>`);
       
-      html = html.replace(/(❌\s*\*{0,2}EXCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(244,63,94,0.25);"><span>❌</span> EXCLUSIONS</div>`);
+      html = html.replace(/(❌\s*\*{0,2}EXCLUSIONS\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>❌</span> EXCLUSIONS</div>`);
       
-      html = html.replace(/(🏨\s*\*{0,2}HOTELS?(?:\s*&\s*ACCOMMODATIONS?)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(139,92,246,0.25);"><span>🏨</span> HOTELS & ACCOMMODATIONS</div>`);
+      html = html.replace(/(🏨\s*\*{0,2}HOTELS?(?:\s*&\s*ACCOMMODATIONS?)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>🏨</span> HOTELS & STAYS</div>`);
       
-      html = html.replace(/(🗺️?\s*\*{0,2}DAY[- ]WISE\s*ITINERARY(?:\s*BREAKDOWN)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(245,158,11,0.25);"><span>🗺️</span> DAY-WISE ITINERARY</div>`);
+      html = html.replace(/(🗺️?\s*\*{0,2}DAY[- ]WISE\s*ITINERARY(?:\s*BREAKDOWN)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>🗺️</span> DAY-WISE ITINERARY</div>`);
       
-      html = html.replace(/(✈️?\s*\*{0,2}FLIGHT\s*ROUTES?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(6,182,212,0.25);"><span>✈️</span> FLIGHT ROUTES</div>`);
+      html = html.replace(/(✈️?\s*\*{0,2}FLIGHT\s*ROUTES?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>✈️</span> FLIGHT ROUTES</div>`);
       
-      html = html.replace(/(💰\s*\*{0,2}PRICING\s*(?:SUMMARY)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #059669 0%, #047857 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(5,150,105,0.25);"><span>💰</span> PRICING SUMMARY</div>`);
+      html = html.replace(/(💰\s*\*{0,2}PRICING\s*(?:SUMMARY)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #059669 0%, #047857 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>💰</span> PRICING SUMMARY</div>`);
 
-      html = html.replace(/(📜\s*\*{0,2}(?:CANCELLATION\s*)?POLICY(?:\s*&\s*NOTES)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #64748b 0%, #475569 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px; box-shadow:0 2px 8px rgba(100,116,139,0.25);"><span>📜</span> POLICIES & NOTES</div>`);
+      html = html.replace(/(📜\s*\*{0,2}(?:CANCELLATION\s*)?POLICY(?:\s*&\s*NOTES)?\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #64748b 0%, #475569 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>📜</span> POLICIES & NOTES</div>`);
       
-      html = html.replace(/(📞\s*\*{0,2}(?:LET'S\s*EXPLORE\s*DMC\s*)?CONTACT\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:20px; margin:18px 0 10px 0; letter-spacing:0.5px;"><span>📞</span> DMC BOOKING & CONTACT</div>`);
+      html = html.replace(/(📞\s*\*{0,2}(?:LET'S\s*EXPLORE\s*DMC\s*)?CONTACT\*{0,2})/gi, `<div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#fff; font-weight:700; font-size:11.5px; padding:3px 10px; border-radius:14px; margin:8px 0 3px 0; letter-spacing:0.3px;"><span>📞</span> DMC BOOKING & CONTACT</div>`);
 
-      // 4. Highlight Day 1, Day 2 labels
-      html = html.replace(/\b(Day\s*\d+[^:\n<]*):/gi, `<span style="display:inline-block; background:#e0f2fe; color:#0369a1; font-weight:700; font-size:12px; padding:2px 8px; border-radius:6px; margin-right:4px; border:1px solid #bae6fd;">$1</span>:`);
+      // 4. Highlight Day labels compactly
+      html = html.replace(/\b(Day\s*\d+[^:\n<]*):/gi, `<span style="display:inline-block; background:#e0f2fe; color:#0369a1; font-weight:700; font-size:11.5px; padding:1px 6px; border-radius:4px; margin-right:4px;">$1</span>:`);
 
       // 5. Bold & Italic
       html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0f172a; font-weight:700;">$1</strong>');
       html = html.replace(/\*(.*?)\*/g, '<em style="color:#334155;">$1</em>');
 
       // 6. Actionable Buttons / Links
-      html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="display:inline-flex; align-items:center; gap:6px; margin-top:8px; padding:8px 16px; background:linear-gradient(135deg, #25D366 0%, #128C7E 100%); color:#fff; border-radius:12px; font-weight:700; font-size:12.5px; text-decoration:none; box-shadow:0 3px 10px rgba(37,211,102,0.35); transition:transform 0.2s;">$1</a>');
+      html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:6px 14px; background:linear-gradient(135deg, #25D366 0%, #128C7E 100%); color:#fff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none; box-shadow:0 2px 6px rgba(37,211,102,0.3);">$1</a>');
 
-      // 7. Bullet points styling (lines starting with * or -)
-      html = html.replace(/^[ \t]*[*\-][ \t]+(.+)$/gm, `<div style="display:flex; align-items:flex-start; gap:8px; margin:4px 0 4px 4px;"><span style="color:#0284c7; font-weight:bold; font-size:13px; line-height:1.4;">•</span><div style="flex:1; line-height:1.55;">$1</div></div>`);
+      // 7. Bullet points styling (compact, no extra margins)
+      html = html.replace(/^[ \t]*[*\-][ \t]+(.+)$/gm, `<div style="display:flex; align-items:flex-start; gap:6px; margin:2px 0 2px 2px;"><span style="color:#0284c7; font-weight:bold; font-size:12px; line-height:1.35;">•</span><div style="flex:1; line-height:1.4; font-size:13px;">$1</div></div>`);
 
-      // 8. Line breaks
-      html = html.replace(/\n\n+/g, '<div style="height:10px;"></div>').replace(/\n/g, '<br/>');
+      // 8. Line breaks: Compact spacing (collapse multiple blank lines)
+      html = html.replace(/(\r?\n){3,}/g, '\n\n')
+                 .replace(/\n\n/g, '<div style="height:4px;"></div>')
+                 .replace(/\n/g, '<br/>')
+                 .replace(/(<br\/>\s*){2,}/g, '<br/>');
 
       return html;
     }
@@ -1098,9 +1101,9 @@ CRITICAL LANGUAGE RULE:
     const formatted = formatLuxuryTravelResponse(reply, customWaUrl);
 
     box.innerHTML += `
-      <div class="flex items-start gap-3 mb-5 w-full">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-ocean to-cyan-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm mt-1">🤖</div>
-        <div class="bg-white text-navy-deep rounded-2xl rounded-tl-none p-5 sm:p-6 w-full max-w-2xl sm:max-w-3xl leading-relaxed text-sm border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+      <div class="flex items-start gap-3 mb-3.5 w-full">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ocean to-cyan-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm mt-0.5">🤖</div>
+        <div class="bg-white text-navy-deep rounded-2xl rounded-tl-none p-3.5 sm:p-4.5 w-full max-w-2xl sm:max-w-3xl leading-snug text-sm border border-slate-200 shadow-sm">
           ${formatted}
         </div>
       </div>
