@@ -1927,8 +1927,114 @@ ${currentPkg.highlights}
     };
   }
 
+  // 22. INDECISION / HELP ME CHOOSE / "I CANT DECIDE" / "CONFUSED"
+  const isUndecided = /\b(can'?t decide|cannot decide|icant decide|i cant decide|cant decide|confused|not sure|help me choose|help me decide|what do you suggest|what should i (choose|pick|do)|which one is better|which is better|recommend me|suggest something|suggest me|guide me|tell me what to do)\b/i.test(msgLower) ||
+    msgLower.includes('decide') || msgLower.includes('confus') || msgLower.includes('samajh nahi') || msgLower.includes('samajh ni') || msgLower.includes('konsa lu') || msgLower.includes('kya karu') || msgLower.includes('kahan jau') || msgLower.includes('फैसला नहीं') || msgLower.includes('समझ नहीं') || msgLower.includes('क्या चुनूं');
+
+  if (isUndecided) {
+    if (currentPkg) {
+      if (lang === 'hindi') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `बिल्कुल चिंता न करें! सही जगह चुनना कभी-कभी थोड़ा मुश्किल हो सकता है। मैं आपको सही फैसला लेने में मदद करता हूँ:
+
+🤔 **आप इस तरह फैसला ले सकते हैं**:
+1. **${currentPkg.name} चुनें**: अगर आप एक ही यात्रा में दो अलग-अलग खूबसूरत जगहों और अनुभवों का पूरा आनंद लेना चाहते हैं (${currentPkg.duration}, ₹${currentPkg.price_inr.toLocaleString('en-IN')} प्रति व्यक्ति)।
+2. **एक ही देश (जैसे सिर्फ बाली या थाईलैंड) चुनें**: अगर आप बिना किसी भागदौड़ के सुकून से बीच और विला में आराम करना चाहते हैं और बजट भी कम रखना चाहते हैं (शुरुआती ₹39,000–₹62,000)।
+3. **दुबई या जॉर्जिया चुनें**: अगर आपके पास 4–5 दिन का समय है और आप कम समय में भव्य सिटी टूर या बर्फ का अनुभव चाहते हैं ($300 / ₹42,598)।
+
+🎯 **सटीक सलाह के लिए मुझे बस 3 बातें बताएं**:
+1. **बजट**: प्रति व्यक्ति आपका अनुमानित बजट कितना है?
+2. **साथी**: आप किसके साथ जा रहे हैं (पार्टनर/हनीमून, परिवार, या दोस्तों के साथ)?
+3. **पसंद**: आपको बीच और प्राइवेट पूल विला पसंद हैं, शॉपिंग और नाइटलाइफ़, या बर्फीले पहाड़?
+
+[📲 व्हाट्सएप (+91 80075 86871) पर सीधे हमारे सीनियर ट्रैवल आर्किटेक्ट से 1-on-1 सलाह लें](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20मुझे%20सही%20टूर%20चुनने%20में%20मदद%20चाहिए)`
+        };
+      }
+      if (lang === 'hinglish') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `Fikar mat kijiye! Perfect trip choose karna kabhi-kabhi mushkil hota hai. Main aapko decide karne me help karta hoon:
+
+🤔 **Aap aise decide kar sakte hain**:
+1. **${currentPkg.name} chunein**: Agar aap ek hi vacation me do contrasting experiences enjoy karna chahte hain (${currentPkg.duration} at ₹${currentPkg.price_inr.toLocaleString('en-IN')})।
+2. **Single Destination (jaise Bali ya Thailand) chunein**: Agar aap aaram se relax karna chahte hain, travel time kam rakhna chahte hain aur budget bachaana chahte hain (from ₹39,000–₹62,000)।
+3. **Dubai ya Georgia chunein**: Agar aap 4–5 din ka quick luxury escape ya snowy winter chahte hain ($300 / ₹42,598)।
+
+🎯 **Bas mujhe 3 choti baatein bataiye**:
+1. **Budget**: Per person aapka lagbhag kitna budget hai?
+2. **Companions**: Aap kiske sath travel kar rahe hain (Partner/Honeymoon, Friends, ya Family)?
+3. **Vibe**: Beaches & pool villas, luxury skyline & nightlife, ya snowy mountains?
+
+[📲 WhatsApp (+91 80075 86871) par direct senior travel architect se free guidance lein](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20mujhe%20trip%20choose%20karne%20me%20help%20chahiye)`
+        };
+      }
+      return {
+        activeDestination: resolvedDest,
+        reply: `No worries at all! Choosing the right holiday can be tricky when there are so many tempting options. Let me help you break it down:
+
+🤔 **How to Decide for Your Trip**:
+1. **Choose ${currentPkg.name}**: If you want the ultimate all-in-one vacation experiencing two world-class destinations in a single seamless itinerary (${currentPkg.duration} at INR ${currentPkg.price_inr.toLocaleString('en-IN')} per adult).
+2. **Choose a Single Destination (e.g. Bali Only or Thailand)**: If you prefer a relaxed pace, zero inter-country flights, and want to keep costs lower (starting ₹39,014–₹62,362).
+3. **Choose Dubai or Georgia**: If you have 4–5 days and want iconic luxury cityscapes or fresh mountain snow on a pocket-friendly budget ($300 USD / ₹42,598).
+
+🎯 **Answer these 3 quick questions so I can recommend the exact right fit for you**:
+1. **Budget**: What is your approximate target budget per person?
+2. **Travel Companions**: Are you traveling with your Partner/Honeymoon, Family, or Friends?
+3. **Preferred Vibe**: Tropical beaches & pool villas, glamorous city luxury & shopping, or cool mountain scenery?
+
+[📲 Or chat 1-on-1 with our Senior Destination Architect on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20I%20am%20undecided%20and%20need%20help%20choosing%20the%20best%20trip)`
+      };
+    }
+  }
+
   // Fallback to active package if present
   if (currentPkg) {
+    const alreadySentSummary = Array.isArray(history) && history.slice(-4).some(h => {
+      const txt = typeof h === 'string' ? h : (h.text || (h.parts && h.parts[0]?.text) || h.message || '');
+      return txt.includes(currentPkg.name) && (txt.includes('Package Overview') || txt.includes('पैकेज का विवरण'));
+    });
+
+    if (alreadySentSummary) {
+      if (lang === 'hindi') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `मैं **${currentPkg.name}** के बारे में आपकी सहायता कर रहा हूँ!
+
+आप इसके बारे में क्या जानना चाहते हैं:
+• 🏨 **होटल और रूम विकल्प** (4★ डीलक्स या प्राइवेट पूल विला)
+• 🗺️ **दिन-प्रतिदिन का दर्शनीय स्थल (Itinerary)**
+• 🥗 **शुद्ध शाकाहारी/जैन भोजन की सुविधा**
+• 💳 **एडवांस और आसान पेमेंट शेड्यूल**
+• 🔄 **या किसी अन्य देश या बजट के पैकेज देखना चाहते हैं?**`
+        };
+      }
+      if (lang === 'hinglish') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `Main **${currentPkg.name}** ke baare me aapki madad kar raha hoon!
+
+Aap isme se kya dekhna chahte hain:
+• 🏨 **Hotels & Room Categories** (4★ Deluxe ya Private Pool Villa)
+• 🗺️ **Day-by-Day Sightseeing Itinerary**
+• 🥗 **Pure Veg / Jain Food Options**
+• 💳 **Advance Token & Balance Payment Schedule**
+• 🔄 **Ya kisi dusre destination/budget ke options dekhna chahenge?**`
+        };
+      }
+      return {
+        activeDestination: resolvedDest,
+        reply: `I have **${currentPkg.name}** active for you!
+
+What would you like to explore next:
+• 🏨 **Hotels & Room Categories** (4★ Deluxe or Private Pool Villa upgrades)
+• 🗺️ **Day-by-Day Itinerary & Sightseeing details**
+• 🥗 **Pure Veg / Jain Meal plans**
+• 💳 **Payment Schedule & Advance token details**
+• 🔄 **Or would you like to compare alternate destinations in your budget?**`
+      };
+    }
+
     return {
       activeDestination: resolvedDest,
       reply: getPackageSummary(currentPkg, lang)
