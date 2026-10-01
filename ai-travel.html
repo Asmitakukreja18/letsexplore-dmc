@@ -1050,31 +1050,45 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
 
 ============================================================`;
 
-  // 1. Direct Google Gemini 2.5 Flash Call with full multi-turn history
+  // 1. Lightning-fast fetch with 2.5s timeout (never hangs or leaves user waiting)
+  const fetchWithTimeout = async (url, options, timeoutMs = 2500) => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(timer);
+      return res;
+    } catch(err) {
+      clearTimeout(timer);
+      throw err;
+    }
+  };
+
   try {
-    const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${directKey}`, {
+    const gRes = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${directKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents: chatConversationHistory
       })
-    });
+    }, 2500);
     if (gRes.ok) {
       const gData = await gRes.json();
       const genText = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
       if (genText) {
         reply = genText;
-        chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });      }
+        chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+      }
     }
   } catch(gErr) {
-    console.warn('Direct Gemini API call error:', gErr);
+    // Gemini API timed out or exceeded quota, proceeding immediately to smart fallback
   }
 
-  // 2. Serverless / Localhost /api/chat fallback with persistent memory
+  // 2. Serverless / Localhost /api/chat fallback with 1.5s timeout
   if (!reply) {
     try {
-      let res = await fetch('/api/chat', {
+      let res = await fetchWithTimeout('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1082,9 +1096,9 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
           history: chatConversationHistory,
           activeDestination: activeAiDestination
         })
-      });
+      }, 1500);
       if (!res.ok && window.location.origin !== 'http://localhost:3000') {
-        res = await fetch('http://localhost:3000/api/chat', {
+        res = await fetchWithTimeout('http://localhost:3000/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1092,18 +1106,20 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
             history: chatConversationHistory,
             activeDestination: activeAiDestination
           })
-        });
+        }, 1500);
       }
       if (res.ok) {
         const data = await res.json();
         if (data && data.reply) {
           reply = data.reply;
           if (data.activeDestination) {
-            activeAiDestination = data.activeDestination;          }
-          chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });        }
+            activeAiDestination = data.activeDestination;
+          }
+          chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+        }
       }
     } catch(err) {
-      console.log('Serverless / localhost unreachable, falling back to local chat engine');
+      // Proceed directly to client-side smart reply
     }
   }
 

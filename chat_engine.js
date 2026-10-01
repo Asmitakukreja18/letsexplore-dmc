@@ -874,6 +874,7 @@ function generateSmartReply(message, history = [], activeDestination = null) {
 
 Tell me where you want to travel or what kind of trip you have in mind:
 • 🍽️ *Dinner Cruise & Nightlife* or *4–5 Days Low Budget*
+• 👑 *4–5 Days Luxury Escapes & Pool Villas*
 • 🏝️ *Bali / Thailand / Vietnam / Singapore / Malaysia*
 • ❄️ *Georgia $300 / Kashmir Snow / Turkey Caves*
 • 🥗 *Pure Veg/Jain friendly trips*, 💑 *Honeymoon Villas*, or 👨‍👩‍👧‍👦 *Family Holidays*!
@@ -882,7 +883,98 @@ How can I help plan your trip today?`
     };
   }
 
-  // 2. ALTERNATIVES / "KUCH AUR BATAO" / "OTHER OPTIONS" / "OPTIONS" / "DUSRA" / "ISKE ALAWA"
+  // 2. PAYMENT ADVANCE & USKE BAAD / PAYMENT STAGES
+  if (msgLower.match(/\b(advance.*(baad|after|balance)|(baad|after|balance).*advance|in advance or|advance kitna.*baad|advance payment.*remaining|how can i pay.*advance|advance or uske baad)\b/i) || (msgLower.includes('advance') && (msgLower.includes('baad') || msgLower.includes('after') || msgLower.includes('balance') || msgLower.includes('pay')))) {
+    const destName = currentPkg ? `for **${currentPkg.name}**` : '';
+    return {
+      activeDestination: resolvedDest,
+      reply: `💳 **Payment Schedule & Stages ${destName}**:
+
+1. **Step 1: Advance (Token Payment — 25% to 30%)**:
+   • Payable at the time of booking confirmation.
+   • Used to instantly block airline group seats, secure guaranteed 4★/5★ hotel room allocations, and initiate visa filing.
+
+2. **Step 2: Official Confirmation Voucher Issued**:
+   • Within 24–48 hours of token payment, you receive your official **Let's Explore DMC Voucher** with verified Trip ID, hotel confirmation numbers, and flight PNRs.
+
+3. **Step 3: Uske Baad (Balance Payment — 70% to 75%)**:
+   • Payable **15 to 20 days prior to your travel departure date**.
+   • You only pay the balance after your hotels, flights, and visas are 100% confirmed!
+
+💳 **Accepted Payment Modes**: YES Bank RTGS/NEFT, UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, and Easy No-Cost EMI options.
+
+📲 [**Confirm Your Booking Schedule on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20payment%20details)`
+    };
+  }
+
+  // 3. SHORT DURATION LUXURY & NICE PLACES (4-5 Days / Luxury / Nice Place)
+  const isLuxuryQuery = /\b(luxury|nice place|nice places|deluxe|5\s*star|5★|premium|royal|vip|best place|best places)\b/i.test(msgLower);
+  const isShortDuration = /\b(4[\s-]*5\s*days?|4\s*days?|5\s*days?|45\s*days?|short trip|few days|weekend)\b/i.test(msgLower);
+
+  if (isLuxuryQuery && isShortDuration) {
+    return {
+      activeDestination: 'dubai-luxury-grand-5n6d',
+      reply: `👑 **Top 4–5 Day Luxury & Premium Vacation Packages**:
+
+1. 🇦🇪 **Dubai Luxury Grand & Desert Safari (4N/5D - 5N/6D)** — *#1 Luxury City Escape*:
+• **Price**: INR 42,598 (~$507 USD) to INR 66,848 (~$796 USD) per person | Land from INR 29,999 (~$357 USD)
+• **Luxury Highlights**: 5★ Hotel Stays, Marina Dhow Luxury Dinner Cruise cruising under illuminated skyscrapers, Private 4x4 Desert Safari with VIP lounge & Grand BBQ, Burj Khalifa 124th Floor VIP observation deck.
+
+2. 🏝️ **Bali Tropical Luxury & Private Pool Villa (4N/5D - 6N/7D)**:
+• **Price**: Land package from INR 48,999 (~$583 USD) | INR 96,068 (~$1,145 USD) with Flights & Visa
+• **Luxury Highlights**: **Private 1-Bedroom Pool Villa in Ubud**, Floating Breakfast in the pool, Nusa Penida West Speedboat tour (Kelingking T-Rex cliff), Uluwatu Cliff sunset & Kecak Fire Dance.
+
+3. 🇹🇭 **Thailand Express Luxury Escape (5N/6D)**:
+• **Price**: Land package from INR 42,999 (~$512 USD) | INR 100,614 (~$1,198 USD) all-inclusive
+• **Luxury Highlights**: 5★ Beachfront Resort in Phuket & Krabi, Private Speedboat 4-Island Tour with snorkeling, Chao Phraya River luxury dinner cruise.
+
+4. 🇹🇷 **Turkey & Cappadocia Cave Luxury (4N/5D)**:
+• **Price**: INR 42,999 (~$515 USD) per person
+• **Luxury Highlights**: 5★ Authentic Cave Resort stay in Cappadocia, Sunrise Hot Air Balloon Flight over fairy chimneys, Private sunset Bosphorus Yacht Cruise in Istanbul.
+
+Which vibe matches your luxury taste: **Dubai 5★ Skyline Luxury, Bali Private Pool Villa, or Cappadocia Cave Suite**?`
+    };
+  }
+
+  // 4. NIGHT PLACES / NIGHTLIFE / EVENING SPOTS / PARTY
+  if (msgLower.match(/\b(night place|night places|nightlife|night party|clubbing|party place|night clubs?|clubs?|pub|pubs|evening spots?|night vibe|night vibes)\b/i)) {
+    return {
+      activeDestination: 'thailand-grand-signature',
+      reply: `🌃 **Top Destinations for Vibrant Nightlife & Evening Experiences**:
+
+1. 🇹🇭 **Thailand (Phuket & Bangkok)** — *World-Famous Nightlife*:
+• **Night Highlights**: Bangla Road street clubs (Illuzion, Sugar Club), Patong Beach clubs, night markets, and the luxury **Chao Phraya River Dinner Cruise** with live bands under glowing temples.
+• **Package**: Thailand Grand Signature (7N/8D) at INR 62,362 (~$745 USD) | Land package from ₹28,999 (~$345 USD).
+
+2. 🏝️ **Bali (Kuta, Seminyak & Canggu)** — *Beach Clubs & Sunset Sessions*:
+• **Night Highlights**: Iconic beach clubs (Finns Beach Club, Atlas Beach Fest, Potato Head, La Favela), Uluwatu cliff sunset with fire dance, and Jimbaran beach seafood dinners under the stars.
+• **Package**: Bali Signature with Pool Villa at INR 96,068 (~$1,145 USD) | Land from ₹39,014 (~$464 USD).
+
+3. 🇦🇪 **Dubai** — *Glamorous Skyline Evenings & Desert Nights*:
+• **Night Highlights**: Marina Dhow Luxury Dinner Cruise cruising through towering illuminated skyscrapers, and the Arabian Desert Safari with campfire, Tanoura & Belly Dance performances + Grand BBQ Dinner.
+• **Package**: Dubai Highlights (4N/5D) at INR 42,598 (~$507 USD).
+
+Tell me what you love more: **Island Beach Clubs (Bali), Bustling Street Party (Thailand), or Luxury Marina Cruise (Dubai)**?`
+    };
+  }
+
+  // 5. PER PERSON PRICING / PACKAGE RATES (Handles "? what packages and per person" and "ok what abt its packages per person?")
+  if (msgLower.match(/\b(per person|per adult|rate per person|cost per person|pricing per person|packages? per person|what packages?|kitna per person|price per person)\b/i)) {
+    if (currentPkg) {
+      return {
+        activeDestination: resolvedDest,
+        reply: `💰 **Per-Person Pricing Breakdown for ${currentPkg.name} (${currentPkg.duration})**:
+• **Per Adult Rate (All-Inclusive with Flights & Stays)**: INR ${currentPkg.price_inr.toLocaleString('en-IN')} (~$${currentPkg.price_usd} USD) per adult
+• **Land Package Option (Excluding International Flights)**: From INR ${currentPkg.land_inr.toLocaleString('en-IN')} (~$${Math.round(currentPkg.land_inr / 84)} USD) per adult
+• **Total Net Group Amount (${currentPkg.pax})**: INR ${currentPkg.total_inr.toLocaleString('en-IN')}
+• **Trip ID**: ${currentPkg.trip_id} | **Lead Guest**: ${currentPkg.lead_guest}
+
+📲 [**Lock This Price on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(currentPkg.name)})`
+      };
+    }
+  }
+
+  // 6. ALTERNATIVES / "KUCH AUR BATAO" / "OTHER OPTIONS" / "OPTIONS" / "DUSRA" / "ISKE ALAWA"
   if (msgLower.match(/\b(alternate|alternative|alternatives|kuch aur|aur option|aur options|other option|other options|dusra|dusre|dusri|aur packages|aur dikhao|different|kuch naya|iske alawa|change destination|koi aur|options)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -911,7 +1003,7 @@ Tell me which vibe you prefer: **Beaches, Snow Mountains, Luxury City, or Hill B
     };
   }
 
-  // 3. FOOD / PURE VEG / JAIN FOOD / INDIAN MEALS
+  // 7. FOOD / PURE VEG / JAIN FOOD / INDIAN MEALS
   if (msgLower.match(/\b(veg|vegetarian|pure veg|jain|jain food|halal|indian food|indian restaurant|khana|meals|bhojan|breakfast and dinner|food options|meal plan)\b/i)) {
     const destName = currentPkg ? `for **${currentPkg.name}**` : 'across all our destinations';
     return {
@@ -927,7 +1019,7 @@ Tell me which vibe you prefer: **Beaches, Snow Mountains, Luxury City, or Hill B
     };
   }
 
-  // 4. HONEYMOON / COUPLES / ROMANTIC TRIPS / POOL VILLAS
+  // 8. HONEYMOON / COUPLES / ROMANTIC TRIPS / POOL VILLAS
   if (msgLower.match(/\b(honeymoon|couple|couples|anniversary|romantic|candlelight|pool villa|private pool|flower bed|honeymooner)\b/i)) {
     return {
       activeDestination: 'bali-indonesia-signature',
@@ -955,7 +1047,7 @@ Tell me which vibe you prefer: **Beaches, Snow Mountains, Luxury City, or Hill B
     };
   }
 
-  // 5. FAMILY / KIDS / SENIOR CITIZENS / PARENTS
+  // 9. FAMILY / KIDS / SENIOR CITIZENS / PARENTS
   if (msgLower.match(/\b(family|family trip|kids|children|child|child policy|parents|senior citizen|elderly|grandparents|theme park)\b/i)) {
     return {
       activeDestination: 'singapore-family-4n5d',
@@ -982,7 +1074,7 @@ Tell me which vibe you prefer: **Beaches, Snow Mountains, Luxury City, or Hill B
     };
   }
 
-  // 6. BEST TIME TO VISIT / WEATHER / SEASONS / MONTHS
+  // 10. BEST TIME TO VISIT / WEATHER / SEASONS / MONTHS
   if (msgLower.match(/\b(best time|when to visit|weather|season|climate|temperature|rain|barish|monsoon|snow|snowfall|december|january|summer|winter|kab jau|kab jana|which month)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -999,7 +1091,7 @@ Which month are you planning to travel in? Tell me, and I'll match the best weat
     };
   }
 
-  // 7. CUSTOMIZATION / ITINERARY CHANGES / EXTRA DAYS
+  // 11. CUSTOMIZATION / ITINERARY CHANGES / EXTRA DAYS
   if (msgLower.match(/\b(customize|customise|customization|customised|change hotel|change days|extra day|extra days|modify|itinerary change|add a day|badhana|custom)\b/i)) {
     const destName = currentPkg ? `for **${currentPkg.name}**` : 'for any package';
     return {
@@ -1016,7 +1108,7 @@ Because Let's Explore DMC manages operations directly on the ground, **every sin
     };
   }
 
-  // 8. WITHOUT FLIGHTS / LAND ONLY PACKAGE
+  // 12. WITHOUT FLIGHTS / LAND ONLY PACKAGE
   if (msgLower.match(/\b(without flight|without flights|only land|land package|flight nahi chahiye|flights already booked|airfare excluded|own flight|own tickets)\b/i)) {
     if (currentPkg) {
       return {
@@ -1047,7 +1139,7 @@ Which destination do you want the detailed land itinerary for?`
     };
   }
 
-  // 9. ADVENTURE & WATER SPORTS / SCUBA / SKYDIVING
+  // 13. ADVENTURE & WATER SPORTS / SCUBA / SKYDIVING
   if (msgLower.match(/\b(scuba|scuba diving|snorkeling|water sports|parasailing|skydiving|bungee|atv|quad bike|rafting|adventure|hiking|trekking)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -1073,27 +1165,7 @@ Which activity excites you the most?`
     };
   }
 
-  // 10. BOOKING PROCESS / ADVANCE / EMI / CANCELLATION
-  if (msgLower.match(/\b(how to book|booking process|advance|token|emi|installment|cancellation|refund|kaise book kare|steps to book|payment terms)\b/i)) {
-    return {
-      activeDestination: resolvedDest,
-      reply: `📝 **Simple & Transparent 4-Step Booking Process**:
-
-1. **Step 1: Finalize Itinerary & Dates**
-   Confirm your travel dates, passenger count, and hotel preferences with our destination manager.
-2. **Step 2: Token Advance Payment (25% – 30%)**
-   Pay token advance to instantly block airline group seats and lock wholesale hotel rates.
-3. **Step 3: Official Confirmation Voucher Issued**
-   Within 24–48 hours, receive your official **Let's Explore DMC Confirmation Voucher** with verified Trip ID, flight PNRs, and hotel reservation numbers.
-4. **Step 4: Balance Payment & Travel Pack**
-   Clear remaining balance 15–20 days prior to departure; receive your visas, day-wise cab vouchers, and 24/7 on-ground manager contacts.
-
-💳 **Payment Options**: YES Bank NEFT/RTGS, UPI, Credit Cards, and Easy No-Cost EMI options available.
-🛡️ **Cancellation & Rescheduling**: Flexible date changes supported up to 21 days before travel with nominal airline charges.`
-    };
-  }
-
-  // 11. SOLO TRAVEL & FRIENDS / BACHELORS GROUP
+  // 14. SOLO TRAVEL & FRIENDS / BACHELORS GROUP
   if (msgLower.match(/\b(solo|solo trip|friends|dost|dosto|bachelor|bachelorette|boys trip|girls trip)\b/i)) {
     return {
       activeDestination: 'thailand-grand-signature',
@@ -1115,7 +1187,7 @@ Which activity excites you the most?`
     };
   }
 
-  // 12. CONVERSATIONAL INTENT: DINNER / NIGHTLIFE / 4-5 DAYS / LOW BUDGET
+  // 15. CONVERSATIONAL INTENT: DINNER / NIGHTLIFE / 4-5 DAYS / LOW BUDGET
   const hasDinnerOrNight = /\b(dinner|night|nightt|nightlife|party|club|clubs|evening|food)\b/i.test(msgLower);
   const hasLowBudget = /\b(low budget|budget is low|budget kam|kam budget|sasta|cheap|affordable|budget tight|low price|lowest)\b/i.test(msgLower);
   const hasShortDuration = /\b(4[\s-]*5\s*days?|4\s*days?|5\s*days?|45\s*days?|short trip|weekend)\b/i.test(msgLower);
@@ -1153,7 +1225,7 @@ Which one fits your mood best: **Dubai Marina Dinner Cruise, snowy Georgia ($300
     };
   }
 
-  // 13. Numeric budget inputs (e.g. 10k, 25000, 50k, 1 lakh, $300)
+  // 16. Numeric budget inputs (e.g. 10k, 25000, 50k, 1 lakh, $300)
   const numMatch = msgLower.match(/\b(\d{1,3}(?:,\d{3})*|\d+)\s*(k|lakh|lac|l|thousand|rs|inr|usd|\$)?\b/i);
   let parsedBudget = 0;
   if (numMatch && !msgLower.match(/\b(day|days|night|nights|pax|people|person|adult|adults|child|kids)\b/i)) {
@@ -1218,7 +1290,7 @@ Shall I share the full itinerary for any of these?`
     }
   }
 
-  // 14. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
+  // 17. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
   if (currentPkg) {
     // Price / Cost query
     if (msgLower.match(/\b(price|pricing|cost|amount|rate|rates|kitna|kharcha|paisa|budget|rupaye|inr|usd|dollar)\b/i)) {
@@ -1261,7 +1333,7 @@ ${currentPkg.hotels}
       };
     }
 
-    // Itinerary / Sightseeing / Places query
+    // Itinerary / Sightseeing / Places query (Ensure not confused with night place)
     if (msgLower.match(/\b(itinerary|iternrary|schedule|day|days|sightseeing|places|place|visit|kya dekhenge|activities|plan)\b/i)) {
       return {
         activeDestination: resolvedDest,
@@ -1294,7 +1366,7 @@ ${currentPkg.highlights}
     }
   }
 
-  // 15. Destination explicitly mentioned (if not already handled)
+  // 18. Destination explicitly mentioned (if not already handled)
   const newDest = detectDestination(message);
   if (newDest && PACKAGES_KNOWLEDGE[newDest]) {
     return {
@@ -1303,8 +1375,9 @@ ${currentPkg.highlights}
     };
   }
 
-  // 16. Affirmation / Ready to book
-  if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|theek hai|sahi hai|deal|agree|done|send|bhejo)\b/i)) {
+  // 19. Affirmation / Ready to book (STRICT: Must NOT be a question or asking for price/packages!)
+  const isQuestion = /[?]|^(what|how|why|where|when|which|tell|show|kitna|kya|kaise|kahan|kab)\b/i.test(msgLower) || /\b(packages?|price|pricing|cost|per person|hotel|itinerary|place|places|dinner|night)\b/i.test(msgLower);
+  if (!isQuestion && msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|theek hai|sahi hai|deal|agree|done|send|bhejo)\b/i) && msgLower.split(/\s+/).length <= 4) {
     const destText = currentPkg ? `for **${currentPkg.name}**` : '';
     return {
       activeDestination: resolvedDest,
@@ -1314,7 +1387,7 @@ ${currentPkg.highlights}
     };
   }
 
-  // 17. Contact / Bank Details
+  // 20. Contact / Bank Details
   if (msgLower.match(/\b(bank|account|payment|pay|ifsc|yes bank|phone|call|contact|office|address|amravati|hotline)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -1331,7 +1404,7 @@ ${currentPkg.highlights}
     };
   }
 
-  // 18. Visa queries
+  // 21. Visa queries
   if (msgLower.match(/\b(visa|passport|e-visa|evisa|entry requirement|documents)\b/i)) {
     return {
       activeDestination: resolvedDest,

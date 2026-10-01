@@ -1410,75 +1410,18 @@ app.get('/api/health', (_, res) => {
       Respond ONLY in valid JSON with key fields:
       "title", "subtitle", "price", "desc", "match", "days" (array of {day: number, title: string, desc: string}).`;
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: prompt,
-        config: {
-          systemInstruction: "You are Atlas, the AI Travel Architect for Let's Explore DMC. Output strictly clean valid JSON without markdown formatting.",
-          temperature: 0.7,
-        }
-      });
-
-      let jsonText = response.text.trim();
-      if (jsonText.startsWith('```json')) jsonText = jsonText.replace(/^```json/, '').replace(/```$/, '').trim();
-      if (jsonText.startsWith('```')) jsonText = jsonText.replace(/^```/, '').replace(/```$/, '').trim();
-
-      const parsed = JSON.parse(jsonText);
-      try {
-        await query('INSERT INTO ai_logs (type, prompt, destination, reply) VALUES ($1, $2, $3, $4)', [
-          'generator', `Destination: ${destination}, Duration: ${duration}, Budget: ${budget}, Vibe: ${vibe}`, destination, parsed.title || destination
-        ]);
-      } catch(e){}
-      res.json({ success: true, source: 'gemini-free-tier', data: parsed });
-    } catch (err) {
-      console.warn('Gemini API quota/error, falling back to cached smart itinerary:', err.message);
-      try {
-        await query('INSERT INTO ai_logs (type, prompt, destination, reply) VALUES ($1, $2, $3, $4)', [
-          'generator', `Destination: ${destination}, Duration: ${duration}, Budget: ${budget}, Vibe: ${vibe}`, destination, fallbackResponse.title
-        ]);
-      } catch(e){}
-      res.json({ success: true, source: 'fallback', data: fallbackResponse });
-    }
-  });
-
-  // Multi-Turn AI Concierge with Persistent Memory across 30 turns & 22 Official Vouchers
-  app.post('/api/chat', async (req, res) => {
-    const { message, history, activeDestination } = req.body;
-    if (!message) return res.status(400).json({ error: 'Message required' });
-
-    // Use intelligent multi-turn memory engine
-    const smartResult = generateSmartReply(message, history, activeDestination);
-    const resolvedActive = smartResult.activeDestination || activeDestination;
-    const fallbackReply = smartResult.reply;
-
-    try {
-      if (!ai) {
-        return res.json({ success: true, reply: fallbackReply, activeDestination: resolvedActive });
-      }
-
-      // Convert conversation history up to 30 turns for Gemini
-      const contents = [];
-      if (Array.isArray(history) && history.length > 0) {
-        history.slice(-30).forEach(h => {
-          if (h.role && (h.text || (h.parts && h.parts[0]?.text))) {
-            const textVal = h.text || h.parts[0].text;
-            contents.push({
-              role: h.role === 'user' ? 'user' : 'model',
-              parts: [{ text: textVal }]
-            });
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Gemini API timeout')), 2500));
+      const response = await Promise.race([
+        ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: contents,
+          config: {
+            systemInstruction: MASTER_SYSTEM_PROMPT,
+            temperature: 0.7,
           }
-        });
-      }
-      contents.push({ role: 'user', parts: [{ text: message }] });
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: contents,
-        config: {
-          systemInstruction: MASTER_SYSTEM_PROMPT,
-          temperature: 0.7,
-        }
-      });
+        }),
+        timeoutPromise
+      ]);
 
       const replyText = response.text || fallbackReply;
       try {
