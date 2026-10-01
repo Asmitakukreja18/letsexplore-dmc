@@ -1,7 +1,10 @@
 /**
  * Let's Explore DMC — AI Chat Engine & Persistent Memory System
- * Supports 22 Verified Official Vouchers, Dual INR/USD Rates,
- * Multi-Turn Memory Tracking, and Precision Targeted Responses.
+ * Features:
+ *  - 22 Verified Official Vouchers (Dual INR & USD rates)
+ *  - Conversational NLP (Dinner, Nightlife, Low Budget, 4-5 Days, Greetings)
+ *  - Zero robotic prefix (No 'Atlas AI Concierge:')
+ *  - Multi-Turn Memory Tracking across 30 turns
  */
 
 const PACKAGES_KNOWLEDGE = {
@@ -425,17 +428,21 @@ const PACKAGES_KNOWLEDGE = {
   }
 };
 
-const MASTER_SYSTEM_PROMPT = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Thailand, Bali, Malaysia, Singapore, Vietnam, Georgia, Turkey, Dubai, Kashmir, Kerala, Sri Lanka, Hong Kong, China (Canton Fair), and Ujjain.
+const MASTER_SYSTEM_PROMPT = `You are an elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Thailand, Bali, Malaysia, Singapore, Vietnam, Georgia, Turkey, Dubai, Kashmir, Kerala, Sri Lanka, Hong Kong, China (Canton Fair), and Ujjain.
 
-CRITICAL TARGETED ANSWER & COMPACT SPACING RULE:
-1. JITNA PUCHA UTNA HI EXACT ANSWER DO (ANSWER ONLY WHAT IS SPECIFICALLY ASKED):
+CRITICAL RULES:
+1. ZERO ROBOTIC PREFIX:
+   - DO NOT prefix your answers with "🤖 Atlas AI Concierge:" or "Atlas AI Concierge:".
+   - Start directly with your warm, polite, and helpful answer.
+2. JITNA PUCHA UTNA HI EXACT ANSWER DO (ANSWER ONLY WHAT IS SPECIFICALLY ASKED):
    - If user asks for "price", "amount", "cost", "rates": Answer ONLY the exact price breakdown (INR primary, USD equivalent, total group amount, land package option). DO NOT dump the full itinerary, flights, or policies unless asked!
    - If user asks for "inclusions and exclusions": Provide ONLY the clear itemized Inclusions and Exclusions.
    - If user asks for "hotels": Provide ONLY the hotels, room categories, meal plans, and nights.
    - If user asks for "itinerary" or "sightseeing" or "places": Provide ONLY the day-wise itinerary breakdown.
    - If user asks for "flights": Provide ONLY the flight schedule.
+   - If user asks for recommendations (e.g. low budget, 4-5 days, dinner night, nightlife): Suggest top matching curated options with prices and highlights.
    - ONLY when user asks for "full package", "poora details", "complete voucher", or "overview" should you present the comprehensive multi-section breakdown.
-2. COMPACT FORMATTING & ZERO EXTRA SPACING:
+3. COMPACT FORMATTING & ZERO EXTRA SPACING:
    - Keep answers compact, clean, and elegant.
    - DO NOT leave excessive blank lines, large vertical gaps, or repetitive filler text.
    - Use clean, tight bullet points.
@@ -459,7 +466,7 @@ CRITICAL CURRENCY & RATES DISPLAY:
 CRITICAL LANGUAGE RULE (STRICT):
 - If the user asks in English, reply 100% in English only! Never use Devanagari Hindi.
 - If the user asks in Hindi (in Devanagari script), reply in Hindi.
-- If the user asks in Hinglish (Roman script Hindi, e.g. "uski memory jldi loss na ho" or "price kitna hai"), reply in clear, friendly Hinglish / Latin script. NEVER use Devanagari Hindi.
+- If the user asks in Hinglish (Roman script Hindi, e.g. "dinner nightt ho my budget is low and for 4-5 days" or "price kitna hai"), reply in clear, friendly Hinglish / Latin script. NEVER use Devanagari Hindi.
 
 ABOUT LET'S EXPLORE DMC:
 - Direct Ground DMC with official ground teams & offices in:
@@ -807,14 +814,14 @@ function detectDestination(text, currentActive = null) {
 }
 
 function resolveActiveDestination(message, history, explicitActive) {
-  // 1. Check current user message
+  // 1. Check current message
   const inMsg = detectDestination(message);
   if (inMsg) return inMsg;
 
   // 2. Check explicitActive passed from client
   if (explicitActive && PACKAGES_KNOWLEDGE[explicitActive]) return explicitActive;
 
-  // 3. Scan history backwards (newest turns first)
+  // 3. Scan history backwards
   if (Array.isArray(history) && history.length > 0) {
     for (let i = history.length - 1; i >= 0; i--) {
       const h = history[i];
@@ -859,7 +866,55 @@ function generateSmartReply(message, history = [], activeDestination = null) {
   const resolvedDest = resolveActiveDestination(message, history, activeDestination);
   const currentPkg = resolvedDest ? PACKAGES_KNOWLEDGE[resolvedDest] : null;
 
-  // Check for budget inputs (e.g. 10k, 25000, 50k, 1 lakh, $300)
+  // 1. GREETING HANDLER (helo, hello, hi, hey, hy, hola, namaste)
+  if (msgLower.match(/^(hi|hello|helo|hey|hy|hola|namaste|good morning|good evening|yo)\b/i) && msgLower.split(/\s+/).length <= 4) {
+    return {
+      activeDestination: resolvedDest,
+      reply: `Hey there! 👋 Welcome to Let's Explore DMC!
+
+Tell me where you want to travel or what kind of trip you have in mind (e.g. *dinner cruise & nightlife*, *4-5 days low budget*, *honeymoon pool villa*, or any country like *Thailand, Bali, Dubai, Georgia $300, Kashmir, Sri Lanka*), and I'll share the verified wholesale proposal for you!`
+    };
+  }
+
+  // 2. CONVERSATIONAL INTENT: DINNER / NIGHTLIFE / 4-5 DAYS / LOW BUDGET
+  const hasDinnerOrNight = /\b(dinner|night|nightt|nightlife|party|club|clubs|evening|food)\b/i.test(msgLower);
+  const hasLowBudget = /\b(low budget|budget is low|budget kam|kam budget|sasta|cheap|affordable|budget tight|low price|lowest)\b/i.test(msgLower);
+  const hasShortDuration = /\b(4[\s-]*5\s*days?|4\s*days?|5\s*days?|45\s*days?|short trip|weekend)\b/i.test(msgLower);
+
+  if ((hasDinnerOrNight && (hasLowBudget || hasShortDuration)) || (hasLowBudget && hasShortDuration) || (hasDinnerOrNight && hasLowBudget)) {
+    return {
+      activeDestination: 'dubai-super-saver-4n5d',
+      reply: `✨ **Top 4–5 Day Low-Budget Packages with Special Dinners & Night Experiences**:
+
+1. 🇦🇪 **Dubai Highlights & Desert Dunes (4 Nights / 5 Days)**:
+• **Price**: INR 42,598 (~$507 USD) per adult | Land Package from INR 29,999 (~$357 USD)
+• **Dinner & Night Highlights**:
+  - **Marina Dhow Luxury Cruise** with International Buffet Dinner & Live Music under glowing skyscrapers
+  - **4x4 Desert Safari** with Dune Bashing, Belly Dance & Tanoura show + Grand BBQ Dinner
+
+2. 🇬🇪 **Georgia Flash Deal (4 Nights / 5 Days)** — *Lowest International Deal!*:
+• **Price**: $300 USD (~₹28,999 INR) per adult
+• **Dinner & Night Highlights**:
+  - Historic Old Tbilisi night walk along the illuminated Bridge of Peace
+  - Traditional Georgian wine cellar tasting & authentic local dining
+
+3. 🌴 **Sri Lanka Ramayana & Hill Country (4 Nights / 5 Days)**:
+• **Price**: INR 23,064 (~$275 USD) per adult
+• **Dinner Highlights**: Includes **MAP Meal Plan (Daily Buffet Breakfast + Daily 4★ Hotel Dinners included!)**
+
+4. 🏔️ **Kashmir Heaven on Earth (4 Nights / 5 Days)**:
+• **Price**: INR 21,999 (~$265 USD) per adult
+• **Dinner Highlights**: Includes **MAP Meal Plan (Daily Breakfast + Daily Chef-prepared Dinners on Dal Lake Houseboat)** + 1-Hour Sunset Shikara ride
+
+5. 🇹🇭 **Thailand Island Hopper (4 Nights / 5 Days)**:
+• **Price**: Land package from ₹28,999 (~$345 USD) per adult
+• **Dinner & Nightlife**: Bangla Road nightlife, Patong Beach clubs & seaside sunset dining
+
+Which one fits your mood best: **Dubai Marina Dinner Cruise, snowy Georgia ($300), or Kashmir houseboat dinners**?`
+    };
+  }
+
+  // 3. Check for numeric budget inputs (e.g. 10k, 25000, 50k, 1 lakh, $300)
   const numMatch = msgLower.match(/\b(\d{1,3}(?:,\d{3})*|\d+)\s*(k|lakh|lac|l|thousand|rs|inr|usd|\$)?\b/i);
   let parsedBudget = 0;
   if (numMatch && !msgLower.match(/\b(day|days|night|nights|pax|people|person|adult|adults|child|kids)\b/i)) {
@@ -873,22 +928,21 @@ function generateSmartReply(message, history = [], activeDestination = null) {
     }
   }
 
-  // 1. If user asks for Budget
   if (parsedBudget > 0) {
     if (parsedBudget < 25000) {
       return {
         activeDestination: 'kashmir-paradise-21k',
         reply: `💡 **Best Options for your ~₹${Math.round(parsedBudget).toLocaleString('en-IN')} Budget**:
-• 🏔️ **Kashmir Heaven on Earth (4N/5D)**: INR 21,999 (~$265 USD) per adult (Dal Lake Houseboat & Gulmarg Snow)
-• 🌴 **Sri Lanka Ramayana & Hill Country (4N/5D)**: INR 23,064 (~$275 USD) per adult
+• 🏔️ **Kashmir Heaven on Earth (4N/5D)**: INR 21,999 (~$265 USD) per adult (Dal Lake Houseboat with Breakfast & Dinners)
+• 🌴 **Sri Lanka Ramayana & Hill Country (4N/5D)**: INR 23,064 (~$275 USD) per adult (with Breakfast & Dinners)
 • 🛕 **Ujjain Mahakal & Omkareshwar (4N/5D)**: INR 27,708 (~$330 USD) per adult
 • 🇬🇪 **Georgia Flash Deal (4N/5D)**: $300 USD (~₹28,999 INR) (Tbilisi & Snowy Kazbegi)
 
-Which one would you like to explore in detail?`
+Which one would you like full details for?`
       };
     } else if (parsedBudget <= 45000) {
       return {
-        activeDestination: 'turkey-escape-42k',
+        activeDestination: 'dubai-super-saver-4n5d',
         reply: `💎 **Best Packages for ~₹${Math.round(parsedBudget).toLocaleString('en-IN')} Budget**:
 • 🌴 **Kerala God's Own Country (6N/7D)**: INR 24,750 (~$295 USD) per adult
 • 🇬🇪 **Georgia Flash Deal (4N/5D)**: $300 USD (~₹28,999 INR)
@@ -925,7 +979,7 @@ Shall I share the full itinerary for any of these?`
     }
   }
 
-  // 2. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
+  // 4. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
   if (currentPkg) {
     // Price / Cost query
     if (msgLower.match(/\b(price|pricing|cost|amount|rate|rates|kitna|kharcha|paisa|budget|rupaye|inr|usd|dollar)\b/i)) {
@@ -992,7 +1046,7 @@ ${currentPkg.highlights}
       };
     }
 
-    // If destination was newly mentioned, or user asked for full overview/package
+    // If destination was newly mentioned
     if (detectDestination(message)) {
       return {
         activeDestination: resolvedDest,
@@ -1001,21 +1055,16 @@ ${currentPkg.highlights}
     }
   }
 
-  // 3. Greetings & Identity Handlers
-  if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i) || msgLower.includes('suhani') || msgLower.includes('mera naam') || msgLower.includes('my name is')) {
-    const nameMatch = message.match(/(?:im|i am|my name is|mera naam|mera name)\s+([a-zA-Z]+)/i);
-    const user = nameMatch ? nameMatch[1] : '';
+  // 5. Destination explicitly mentioned (if not already handled)
+  const newDest = detectDestination(message);
+  if (newDest && PACKAGES_KNOWLEDGE[newDest]) {
     return {
-      activeDestination: resolvedDest,
-      reply: `Hello ${user ? user : 'there'}! 👋 Welcome to Let's Explore DMC!
-
-I am **Atlas**, your AI Travel Concierge. We operate direct ground DMC services with 22 verified packages across **Thailand, Bali, Malaysia, Singapore, Vietnam, Dubai, Georgia, Turkey, Kashmir, Kerala, Sri Lanka, Hong Kong, China (Canton Fair), and Ujjain**.
-
-Where would you like to travel next? Or tell me your budget and dates!`
+      activeDestination: newDest,
+      reply: getPackageSummary(PACKAGES_KNOWLEDGE[newDest])
     };
   }
 
-  // 4. Affirmation / Ready to book
+  // 6. Affirmation / Ready to book
   if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|theek hai|sahi hai|deal|agree|done|send|bhejo)\b/i)) {
     const destText = currentPkg ? `for **${currentPkg.name}**` : '';
     return {
@@ -1026,7 +1075,7 @@ Where would you like to travel next? Or tell me your budget and dates!`
     };
   }
 
-  // 5. Contact / Bank Details
+  // 7. Contact / Bank Details
   if (msgLower.match(/\b(bank|account|payment|pay|ifsc|yes bank|phone|call|contact|office|address|amravati|hotline)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -1043,7 +1092,7 @@ Where would you like to travel next? Or tell me your budget and dates!`
     };
   }
 
-  // 6. Visa queries
+  // 8. Visa queries
   if (msgLower.match(/\b(visa|passport|e-visa|evisa|entry requirement|documents)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -1057,7 +1106,7 @@ Where would you like to travel next? Or tell me your budget and dates!`
     };
   }
 
-  // Default fallback if no specific rule matched
+  // Fallback to active package if present
   if (currentPkg) {
     return {
       activeDestination: resolvedDest,
@@ -1065,11 +1114,21 @@ Where would you like to travel next? Or tell me your budget and dates!`
     };
   }
 
+  // General helpful response without robotic prefix
   return {
     activeDestination: null,
-    reply: `🤖 **Atlas AI Concierge**: I'm here to assist you with your vacation! We offer direct DMC packages to **Thailand (₹62,362 / ~$745 USD)**, **Bali (₹39,014 / ~$464 USD)**, **Georgia ($300 USD / ~₹28,999)**, **Dubai (₹42,598 / ~$507 USD)**, **Singapore (₹52,062 / ~$620 USD)**, **Vietnam (₹1,48,000 / ~$1,762 USD)**, **Sri Lanka (₹23,064 / ~$275 USD)**, **Kerala**, **Kashmir**, **Hong Kong**, and **Canton Fair**.
+    reply: `I can help you plan your dream vacation! We have 22 verified direct DMC packages with locked wholesale rates:
 
-Tell me where you want to travel or your budget!`
+• 🇹🇭 **Thailand Grand Signature (7N/8D)**: INR 62,362 (~$745 USD)
+• 🏝️ **Bali Indonesia Signature (6N/7D)**: INR 96,068 (~$1,145 USD) | Land from ₹39,014 (~$464 USD)
+• 🇦🇪 **Dubai Highlights & Desert (4N/5D)**: INR 42,598 (~$507 USD) (with Dhow Dinner Cruise)
+• 🇬🇪 **Georgia Flash Deal (4N/5D)**: $300 USD (~₹28,999 INR) (Snowy Kazbegi & Tbilisi)
+• 🇸🇬 **Singapore Signature (3N/4D)**: INR 52,062 (~$620 USD)
+• 🇻🇳 **Vietnam Grand Expedition (9N/10D)**: INR 1,48,000 (~$1,762 USD)
+• 🌴 **Sri Lanka Ramayana (4N/5D)**: INR 23,064 (~$275 USD) (with all dinners)
+• 🏔️ **Kashmir Heaven (4N/5D)**: INR 21,999 (~$265 USD) (Dal Lake Houseboat & Dinners)
+
+Tell me your destination, preferred dates, or budget!`
   };
 }
 
@@ -1082,4 +1141,12 @@ if (typeof module !== 'undefined' && module.exports) {
     resolveActiveDestination,
     generateSmartReply
   };
+}
+
+if (typeof window !== 'undefined') {
+  window.PACKAGES_KNOWLEDGE = PACKAGES_KNOWLEDGE;
+  window.MASTER_SYSTEM_PROMPT = MASTER_SYSTEM_PROMPT;
+  window.detectDestination = detectDestination;
+  window.resolveActiveDestination = resolveActiveDestination;
+  window.generateSmartReply = generateSmartReply;
 }

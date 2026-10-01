@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script src="js/nav.js" defer></script>
+<script src="chat_engine.js"></script>
 
 <script id="tailwind-config">
 tailwind.config = {
@@ -1121,10 +1122,10 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
     console.warn('Direct Gemini API call error:', gErr);
   }
 
-  // 2. Serverless /api/chat fallback with persistent memory
+  // 2. Serverless / Localhost /api/chat fallback with persistent memory
   if (!reply) {
     try {
-      const res = await fetch('/api/chat', {
+      let res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1133,6 +1134,17 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
           activeDestination: activeAiDestination
         })
       });
+      if (!res.ok && window.location.origin !== 'http://localhost:3000') {
+        res = await fetch('http://localhost:3000/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: val,
+            history: chatConversationHistory,
+            activeDestination: activeAiDestination
+          })
+        });
+      }
       if (res.ok) {
         const data = await res.json();
         if (data && data.reply) {
@@ -1146,15 +1158,29 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
         }
       }
     } catch(err) {
-      console.log('Serverless fallback unreachable');
+      console.log('Serverless / localhost unreachable, falling back to local chat engine');
     }
   }
 
-  // 3. Client-Side Offline Fallback
+  // 3. Client-Side High-Intelligence Engine Fallback
   if (!reply) {
-    reply = "🤖 **Atlas AI Concierge**: I'm here to assist you with your vacation! We offer direct DMC packages to Thailand (₹62,362 / ~$745 USD), Bali (₹39,014 / ~$464 USD), Georgia ($300 USD), Dubai (₹42,598), Singapore, Vietnam, Sri Lanka, Kerala, and Kashmir.\n\nTell me your preferred destination or budget!";
+    if (typeof window.generateSmartReply === 'function') {
+      const smart = window.generateSmartReply(val, chatConversationHistory, activeAiDestination);
+      reply = smart.reply;
+      if (smart.activeDestination) {
+        activeAiDestination = smart.activeDestination;
+        localStorage.setItem('letsexplore_active_dest', activeAiDestination);
+      }
+    } else {
+      reply = "Hey there! 👋 I can help you plan your dream vacation. We have 22 verified direct DMC packages with locked wholesale rates across Thailand, Bali, Dubai, Georgia $300, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala.\n\nTell me where you want to travel, your dates, or your budget!";
+    }
     chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
     localStorage.setItem('letsexplore_ai_history', JSON.stringify(chatConversationHistory));
+  }
+
+  // Strip any accidental robotic prefix
+  if (reply) {
+    reply = reply.replace(/^(🤖\s*)?(\*{1,2})?Atlas AI Concierge(\*{1,2})?:?\s*/i, '');
   }
 
   setTimeout(() => {

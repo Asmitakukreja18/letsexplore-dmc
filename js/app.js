@@ -779,47 +779,59 @@ function sendChatMessage() {
   })
   .catch(err => {
     document.getElementById(typingIndicatorId)?.remove();
-    const msgLower = (msg || '').toLowerCase().trim();
     let reply = '';
 
-    if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
-      reply = "✨ <strong>Great!</strong> Our destination manager is ready with your customized wholesale itinerary.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>📲 Chat on WhatsApp (+91 80075 86871)</a>";
-    } else if (msgLower.match(/\b(i cant click|cant click|link not working|not clickable|how to open|phone|whatsapp number|call you)\b/i)) {
-      reply = "📲 <strong>Direct WhatsApp & Call Hotline</strong>:<br/><br/>• <strong>Direct Hotline</strong>: +91 80075 86871<br/>• <strong>Direct WhatsApp</strong>: <a href='https://wa.me/918007586871' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>Open WhatsApp Now</a>";
-    } else if (msgLower.match(/\b(idk|i dont know|dont know|not sure|confused|no idea|kuch bhi|suggest|recommend|any place|best place|best destination|where should i go|where to go|where can i go|ideas|trip idea|help me choose)\b/i)) {
-      reply = "✨ <strong>No worries! Let me help you pick the perfect trip</strong>:<br/><br/>1. 🇹🇷 <strong>Turkey (Istanbul & Cappadocia)</strong> — ₹42,999<br/>2. 🇬🇪 <strong>Georgia Special</strong> — $300 USD (Snowy Kazbegi)<br/>3. 🏝️ <strong>Bali & Nusa Penida</strong> — ₹48,999<br/>4. 🇹🇭 <strong>Thailand (Phuket & Krabi)</strong> — ₹28,999<br/>5. 🏙️ <strong>Dubai Luxury</strong> — ₹34,999<br/><br/>Which vibe do you prefer: <strong>Mountains, Beaches, or City Luxury</strong>?";
-    } else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
-      reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!<br/><br/>Where would you like to travel next?";
-    } else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
-      widgetActiveDest = 'thailand-grand-signature';
-      reply = "🇹🇭 <strong>Thailand Tropical DMC Packages</strong>: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping. Starts from ₹28,999 (~$345 USD) to ₹62,362 (~$745 USD) for 7N/8D.";
-    } else if (msgLower.match(/\b(canton|guangzhou|china)\b/i)) {
-      widgetActiveDest = 'canton-fair-china-6n7d';
-      reply = "🇨🇳 <strong>Canton Fair Business & Guangzhou (6N/7D)</strong>: Direct delegation package at INR 79,200 (~$943 USD) with daily exhibition transfers and Indian dinners!";
-    } else if (msgLower.match(/\b(turkey|cappadocia|istanbul)\b/i)) {
-      widgetActiveDest = 'turkey-escape-42k';
-      reply = "🇹🇷 <strong>Turkey Ground Packages</strong>: Direct ground ops from ₹42,999/person (~$515 USD) with Cappadocia Cave stays.<br/><br/>Shall I share the itinerary on WhatsApp?";
-    } else if (msgLower.match(/\b(georgia|tbilisi)\b/i)) {
-      widgetActiveDest = 'georgia-magic-300';
-      reply = "🇬🇪 <strong>Georgia Flash Deal ($300 USD Special)</strong>: 5D/4N covering Tbilisi, Kazbegi Mountains, Gudauri snow resort, and Ananuri Fortress. Includes 4★ hotel & private 4x4 transfers!";
-    } else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida)\b/i)) {
-      widgetActiveDest = 'bali-indonesia-signature';
-      reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office with private pool villas & speedboat transfers. Starts from ₹39,014 (~$464 USD) to ₹96,068 (~$1,145 USD) with flights.";
-    } else if (msgLower.match(/\b(dubai|uae|burj khalifa)\b/i)) {
-      widgetActiveDest = 'dubai-super-saver-4n5d';
-      reply = "🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹42,598 (~$507 USD).";
-    } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|how much)\b/i)) {
-      reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. All 22 packages available with both INR and USD rates. Which destination are you planning?";
-    } else if (msgLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no)\b/i)) {
-      reply = "📍 <strong>Our Global DMC Network</strong>:<br/><br/>• <strong>India HQ</strong>: Amravati, Mumbai, Jaipur, Nagpur<br/>• <strong>International</strong>: Bali (Denpasar) & Turkey (Taksim, Istanbul)<br/>• <strong>Official Hotline</strong>: +91 80075 86871";
+    if (typeof window.generateSmartReply === 'function') {
+      const smart = window.generateSmartReply(msg, widgetConversationHistory, widgetActiveDest);
+      reply = smart.reply;
+      if (smart.activeDestination) {
+        widgetActiveDest = smart.activeDestination;
+        localStorage.setItem('letsexplore_widget_dest', widgetActiveDest);
+      }
     } else {
-      reply = "✨ <strong>Let's Explore DMC Concierge</strong>: I'd love to help plan your getaway! We specialize in direct ground packages across <strong>Thailand, Bali, Dubai, Georgia ($300), Turkey, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala</strong>.<br/><br/>Tell me which destination or budget you have in mind!";
+      const msgLower = (msg || '').toLowerCase().trim();
+      const hasDinnerOrNight = /\b(dinner|night|nightt|nightlife|party|club|clubs|evening|food)\b/i.test(msgLower);
+      const hasLowBudget = /\b(low budget|budget is low|budget kam|kam budget|sasta|cheap|affordable|budget tight)\b/i.test(msgLower);
+      const hasShortDuration = /\b(4[\s-]*5\s*days?|4\s*days?|5\s*days?|45\s*days?|short trip|weekend)\b/i.test(msgLower);
+
+      if ((hasDinnerOrNight && (hasLowBudget || hasShortDuration)) || (hasLowBudget && hasShortDuration)) {
+        widgetActiveDest = 'dubai-super-saver-4n5d';
+        reply = "✨ <strong>Top 4–5 Day Low-Budget Packages with Dinners & Night Experiences</strong>:<br/><br/>1. 🇦🇪 <strong>Dubai Highlights & Desert (4N/5D)</strong>: INR 42,598 (~$507 USD) — Marina Dhow Dinner Cruise & Desert Safari BBQ Dinner!<br/>2. 🇬🇪 <strong>Georgia Flash Deal (4N/5D)</strong>: $300 USD (~₹28,999 INR) — Tbilisi illuminated night walk & wine cellar tasting!<br/>3. 🌴 <strong>Sri Lanka Ramayana (4N/5D)</strong>: INR 23,064 (~$275 USD) — All daily dinners included!<br/>4. 🏔️ <strong>Kashmir Dal Lake (4N/5D)</strong>: INR 21,999 (~$265 USD) — Houseboat dinners & Shikara ride!<br/><br/>Which one fits your mood best?";
+      } else if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|send|please|plz|y|deal|agree|done)/i)) {
+        reply = "✨ <strong>Great!</strong> Our destination manager is ready with your customized wholesale itinerary.<br/><br/><a href='https://wa.me/918007586871?text=Hi%20Let%27s%20Explore%20DMC,%20please%20share%20the%20itinerary%20and%20quote!' target='_blank' style='display:inline-block; margin-top:6px; padding:6px 12px; background:#27AE60; color:#fff; border-radius:10px; font-weight:bold; font-size:12px; text-decoration:none;'>📲 Chat on WhatsApp (+91 80075 86871)</a>";
+      } else if (msgLower.match(/^(hi|hello|helo|hey|hola|namaste|good morning|good evening|hy)\b/i)) {
+        reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am your AI Travel Architect. Tell me your dream destination, travel dates, or budget (e.g. <em>dinner cruise & nightlife</em>, <em>4-5 days low budget</em>, or <em>Malaysia with Bali</em>), and I'll craft a bespoke itinerary for you!";
+      } else if (msgLower.match(/\b(malaysia.*bali|bali.*malaysia)\b/i)) {
+        widgetActiveDest = 'malaysia-bali-combo';
+        reply = "🇲🇾🇮🇩 <strong>Malaysia with Bali Grand Combo Tour (7N/8D)</strong>:<br/>• <strong>Price</strong>: INR 1,22,138 (~$1,454 USD) all-inclusive with Batik Air flights & visa | Land from ₹58,999<br/>• <strong>Hotels</strong>: Ibis Styles KL (1N) + Kuta Beach Club (4N) + Maharaja Luxury Pool Villa Ubud (2N)<br/>• <strong>Includes</strong>: Twin Towers, Nusa Penida West tour, 90-min ATV, Bali Jungle Swing, Uluwatu Kecak show!";
+      } else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
+        widgetActiveDest = 'thailand-grand-signature';
+        reply = "🇹🇭 <strong>Thailand Tropical DMC Packages</strong>: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping. Starts from ₹28,999 (~$345 USD) to ₹62,362 (~$745 USD) for 7N/8D.";
+      } else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida)\b/i)) {
+        widgetActiveDest = 'bali-indonesia-signature';
+        reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office with private pool villas & speedboat transfers. Starts from ₹39,014 (~$464 USD) to ₹96,068 (~$1,145 USD) with flights.";
+      } else if (msgLower.match(/\b(dubai|uae|burj khalifa)\b/i)) {
+        widgetActiveDest = 'dubai-super-saver-4n5d';
+        reply = "🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹42,598 (~$507 USD).";
+      } else if (msgLower.match(/\b(georgia|tbilisi)\b/i)) {
+        widgetActiveDest = 'georgia-magic-300';
+        reply = "🇬🇪 <strong>Georgia Flash Deal ($300 USD Special)</strong>: 5D/4N covering Tbilisi, Kazbegi Mountains, Gudauri snow resort, and Ananuri Fortress. Includes 4★ hotel & private 4x4 transfers!";
+      } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|how much)\b/i)) {
+        reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. All 22 packages available with both INR and USD rates. Which destination are you planning?";
+      } else {
+        reply = "I'd love to help plan your getaway! We specialize in direct ground packages across <strong>Thailand, Bali, Dubai, Georgia ($300), Turkey, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala</strong>.<br/><br/>Tell me which destination or budget you have in mind!";
+      }
+    }
+
+    if (reply) {
+      reply = reply.replace(/^(🤖\s*)?(\*{1,2})?Atlas AI Concierge(\*{1,2})?:?\s*/i, '');
     }
 
     widgetConversationHistory.push({ role: 'model', text: reply });
     localStorage.setItem('letsexplore_widget_history', JSON.stringify(widgetConversationHistory));
 
-    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; line-height:1.5;">${reply}</div>`;
+    let formatted = formatChatText(reply);
+    chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:85%; font-size:0.88rem; line-height:1.5;">${formatted}</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
   });
 }
