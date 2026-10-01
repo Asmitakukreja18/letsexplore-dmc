@@ -872,11 +872,250 @@ function generateSmartReply(message, history = [], activeDestination = null) {
       activeDestination: resolvedDest,
       reply: `Hey there! 👋 Welcome to Let's Explore DMC!
 
-Tell me where you want to travel or what kind of trip you have in mind (e.g. *dinner cruise & nightlife*, *4-5 days low budget*, *honeymoon pool villa*, or any country like *Thailand, Bali, Dubai, Georgia $300, Kashmir, Sri Lanka*), and I'll share the verified wholesale proposal for you!`
+Tell me where you want to travel or what kind of trip you have in mind:
+• 🍽️ *Dinner Cruise & Nightlife* or *4–5 Days Low Budget*
+• 🏝️ *Bali / Thailand / Vietnam / Singapore / Malaysia*
+• ❄️ *Georgia $300 / Kashmir Snow / Turkey Caves*
+• 🥗 *Pure Veg/Jain friendly trips*, 💑 *Honeymoon Villas*, or 👨‍👩‍👧‍👦 *Family Holidays*!
+
+How can I help plan your trip today?`
     };
   }
 
-  // 2. CONVERSATIONAL INTENT: DINNER / NIGHTLIFE / 4-5 DAYS / LOW BUDGET
+  // 2. ALTERNATIVES / "KUCH AUR BATAO" / "OTHER OPTIONS" / "OPTIONS" / "DUSRA" / "ISKE ALAWA"
+  if (msgLower.match(/\b(alternate|alternative|alternatives|kuch aur|aur option|aur options|other option|other options|dusra|dusre|dusri|aur packages|aur dikhao|different|kuch naya|iske alawa|change destination|koi aur|options)\b/i)) {
+    return {
+      activeDestination: resolvedDest,
+      reply: `🌟 **Here are Handpicked Alternate Packages Across 4 Distinct Travel Vibes**:
+
+🏝️ **1. Tropical Island & Beach Villas**:
+• 🏝️ **Bali Indonesia Signature (6N/7D)**: INR 96,068 (~$1,145 USD) with Flights & Ubud Pool Villa | Land from ₹39,014 (~$464 USD)
+• 🇹🇭 **Thailand Island Hopper (7N/8D)**: INR 62,362 (~$745 USD) (Phuket, Krabi & Bangkok) | Land from ₹28,999 (~$345 USD)
+• 🌴 **Sri Lanka Ramayana & Coast (4N/5D)**: INR 23,064 (~$275 USD) with Breakfast & Dinners included!
+
+🏙️ **2. Futuristic City Luxury & Shopping**:
+• 🇦🇪 **Dubai Highlights & Desert (4N/5D)**: INR 42,598 (~$507 USD) (Marina Dinner Cruise & Desert Safari)
+• 🇸🇬 **Singapore Signature (3N/4D - 6N/7D)**: From INR 52,062 (~$620 USD) (Universal Studios & Sentosa)
+• 🇲🇾 **Malaysia City & Highlands (4N/5D)**: INR 39,364 (~$469 USD) (KL Petronas + Genting Cable Car)
+
+❄️ **3. Snow Mountains & Cave Wonders**:
+• 🇬🇪 **Georgia Flash Deal (4N/5D)**: **$300 USD** (~₹28,999 INR) (Gudauri Snow & Kazbegi 4x4)
+• 🏔️ **Kashmir Heaven on Earth (4N/5D)**: INR 21,999 (~$265 USD) (Dal Lake Houseboat with Breakfast & Dinners)
+• 🇹🇷 **Turkey & Cappadocia Caves (4N/5D)**: INR 42,999 (~$515 USD) (Cave Suite & Hot Air Balloon Valley)
+
+🛕 **4. Heritage, Backwaters & Spiritual**:
+• 🌴 **Kerala God's Own Country (6N/7D)**: INR 24,750 (~$295 USD) (Munnar Tea Hills & Alleppey Houseboat)
+• 🛕 **Ujjain Mahakal & Omkareshwar (4N/5D)**: INR 27,708 (~$330 USD) (VIP Jyotirlinga Darshan Assistance)
+
+Tell me which vibe you prefer: **Beaches, Snow Mountains, Luxury City, or Hill Backwaters**?`
+    };
+  }
+
+  // 3. FOOD / PURE VEG / JAIN FOOD / INDIAN MEALS
+  if (msgLower.match(/\b(veg|vegetarian|pure veg|jain|jain food|halal|indian food|indian restaurant|khana|meals|bhojan|breakfast and dinner|food options|meal plan)\b/i)) {
+    const destName = currentPkg ? `for **${currentPkg.name}**` : 'across all our destinations';
+    return {
+      activeDestination: resolvedDest,
+      reply: `🥗 **Food & Dining Details ${destName}**:
+
+• **100% Pure Veg & Jain Meals Available**: In all our international destinations (Bali, Thailand, Dubai, Singapore, Vietnam, Georgia), our on-ground team connects you with verified Indian restaurants and serves pure vegetarian/Jain options.
+• 🏝️ **Bali**: Authentic Indian restaurants in Kuta, Seminyak & Ubud (Queen's Tandoor, Gateway of India, Sitara Indian).
+• 🇹🇭 **Thailand**: Dedicated Indian buffet lunches during Phi Phi & 4-Island tours; pure veg eateries in Patong & Bangkok.
+• 🇦🇪 **Dubai**: 100% vegetarian & Jain buffet counters on the Marina Dhow Dinner Cruise & Desert Safari BBQ camp.
+• 🏔️ **Kashmir & Sri Lanka**: Packages include **MAP Plan (Daily Breakfast + Daily Chef-prepared Dinners)** with pure vegetarian & Jain food prepared fresh on request!
+• 🏨 **Hotel Breakfasts**: Daily buffet breakfasts at all our 4★/5★ partner hotels feature extensive vegetarian, fruit, cereal, and hot bakery options.`
+    };
+  }
+
+  // 4. HONEYMOON / COUPLES / ROMANTIC TRIPS / POOL VILLAS
+  if (msgLower.match(/\b(honeymoon|couple|couples|anniversary|romantic|candlelight|pool villa|private pool|flower bed|honeymooner)\b/i)) {
+    return {
+      activeDestination: 'bali-indonesia-signature',
+      reply: `❤️ **Top Romantic & Honeymoon Packages for Couples**:
+
+1. 🏝️ **Bali Indonesia Signature (6N/7D)** — *#1 Couples Bestseller!*:
+• **Rate**: INR 96,068 (~$1,145 USD) per person (All-inclusive with Flights & Visa) | Land Package from ₹48,999 (~$583 USD)
+• **Highlights**: 4N Beach Club Hotel in Kuta + **2N in Private 1-Bedroom Pool Villa in Ubud**, Floating Breakfast in pool, Uluwatu sunset & Kecak Fire Dance, Nusa Penida T-Rex beach tour.
+
+2. 🌴 **Kerala Premium Honeymoon & Houseboat (6N/7D)**:
+• **Rate**: INR 35,456 (~$422 USD) per person
+• **Highlights**: 1 Night in a **Private Luxury Air-Conditioned Houseboat in Alleppey** with personal chef, misty Munnar tea hills & Marari beach resort.
+
+3. 🇹🇷 **Turkey & Cappadocia Cave Escape (4N/5D)**:
+• **Rate**: INR 42,999 (~$515 USD) per person
+• **Highlights**: 5★ Authentic Cave Resort stay in Cappadocia, sunrise Hot Air Balloon flight over fairy chimneys, private sunset Bosphorus Yacht Cruise in Istanbul.
+
+4. 🇦🇪 **Dubai Luxury Grand (5N/6D)**:
+• **Rate**: INR 66,848 (~$796 USD) per person
+• **Highlights**: Desert Sunset Dune dinner, Burj Khalifa 124th floor VIP views & Marina Yacht Cruise.
+
+🎁 **Complimentary Honeymoon Inclusions**: Room flower bed decor, celebration honeymoon cake & romantic candlelight dinner setup on request!
+
+📲 [**Plan Romantic Itinerary on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20plan%20a%20honeymoon%20trip)`
+    };
+  }
+
+  // 5. FAMILY / KIDS / SENIOR CITIZENS / PARENTS
+  if (msgLower.match(/\b(family|family trip|kids|children|child|child policy|parents|senior citizen|elderly|grandparents|theme park)\b/i)) {
+    return {
+      activeDestination: 'singapore-family-4n5d',
+      reply: `👨‍👩‍👧‍👦 **Best Family-Friendly & Safe Vacation Packages**:
+
+1. 🇸🇬 **Singapore Family Extravaganza (4N/5D - 6N/7D)** — *Top Family Pick!*:
+• **Rate**: INR 58,563 (~$697 USD) per person
+• **Highlights**: Universal Studios Singapore (all rides included), Sentosa Cable Car, S.E.A. Aquarium, Gardens by the Bay, Night Safari.
+• **Child & Senior Friendly**: 100% stroller & wheelchair accessible, English-speaking, safest destination.
+
+2. 🇦🇪 **Dubai Complete Royal Experience (6N/7D)**:
+• **Rate**: INR 64,410 (~$767 USD) per person
+• **Highlights**: Dubai Aquarium & Underwater Zoo, Miracle Garden, Global Village, Desert Safari & Marina Dhow Cruise.
+
+3. 🌴 **Kerala God's Own Country (6N/7D)**:
+• **Rate**: INR 24,750 (~$295 USD) per person
+• **Highlights**: Gentle scenic drives, Munnar tea hills, spice plantations & peaceful Alleppey backwaters.
+
+4. 🇭🇰 **Hong Kong & Macau Magic Tour (6N/7D)**:
+• **Rate**: INR 130,985 (~$1,559 USD) per person
+• **Highlights**: Full-Day Hong Kong Disneyland pass, Ocean Park & Venetian Macao.
+
+👶 **Child Policy**: Infants under 2 years travel almost free (airline infant taxes only); kids aged 2–11 receive subsidized Child-Without-Bed (CNB) discounts!`
+    };
+  }
+
+  // 6. BEST TIME TO VISIT / WEATHER / SEASONS / MONTHS
+  if (msgLower.match(/\b(best time|when to visit|weather|season|climate|temperature|rain|barish|monsoon|snow|snowfall|december|january|summer|winter|kab jau|kab jana|which month)\b/i)) {
+    return {
+      activeDestination: resolvedDest,
+      reply: `🌤️ **Best Time to Visit — Destination Weather Guide**:
+
+• 🏝️ **Bali**: **April to October** is the dry season with bright blue skies & low humidity. (Nov–March has occasional tropical showers, but stays warm & offers huge luxury villa discounts).
+• 🇹🇭 **Thailand**: **November to April** has dry, sunny & cool weather — perfect for island hopping. (May–October is lush green with wholesale resort deals).
+• 🇦🇪 **Dubai**: **October to April** has ideal pleasant weather (24°C–30°C) for desert safaris, outdoor theme parks & beaches.
+• 🇬🇪 **Georgia**: **December to March** for fresh snow skiing in Gudauri; **May to October** for warm valley walks & blooming vineyards.
+• 🏔️ **Kashmir**: **December to February** for snowfall & Gulmarg snow sports; **March to October** for green valleys, Shikara rides & apple orchards.
+• 🇻🇳 **Vietnam**: **November to April** is the ideal season across Sapa, Hanoi, Da Nang & Phu Quoc.
+
+Which month are you planning to travel in? Tell me, and I'll match the best weather destination for you!`
+    };
+  }
+
+  // 7. CUSTOMIZATION / ITINERARY CHANGES / EXTRA DAYS
+  if (msgLower.match(/\b(customize|customise|customization|customised|change hotel|change days|extra day|extra days|modify|itinerary change|add a day|badhana|custom)\b/i)) {
+    const destName = currentPkg ? `for **${currentPkg.name}**` : 'for any package';
+    return {
+      activeDestination: resolvedDest,
+      reply: `🛠️ **100% Customization Available (Direct DMC Ground Advantage)**:
+
+Because Let's Explore DMC manages operations directly on the ground, **every single itinerary can be tailored to your exact preferences ${destName}**:
+• **Extend or Shorten Nights**: Add extra days in Kuala Lumpur, Ubud, Bangkok, or Dubai.
+• **Hotel & Villa Upgrades**: Switch from 4★ hotels to 5★ luxury beachfront resorts or Private Pool Villas.
+• **Custom Sightseeing**: Add private yacht charters, scuba diving, skydiving, or specialized day tours.
+• **100% Private Vehicle**: All airport transfers & tours are in dedicated private AC vehicles with verified drivers — no sharing with strangers!
+
+📲 [**Send your custom plan to our WhatsApp Desk (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20I%20want%20to%20customize%20my%20itinerary)`
+    };
+  }
+
+  // 8. WITHOUT FLIGHTS / LAND ONLY PACKAGE
+  if (msgLower.match(/\b(without flight|without flights|only land|land package|flight nahi chahiye|flights already booked|airfare excluded|own flight|own tickets)\b/i)) {
+    if (currentPkg) {
+      return {
+        activeDestination: resolvedDest,
+        reply: `🏷️ **Land-Only Package Rate for ${currentPkg.name} (${currentPkg.duration})**:
+• **Land Package Rate**: From **INR ${currentPkg.land_inr.toLocaleString('en-IN')}** (~$${Math.round(currentPkg.land_inr / 84)} USD) per adult
+• **Inclusions**: ${currentPkg.hotels}, 100% Private AC ground transfers, all sightseeing entrance passes, daily breakfast, and English-speaking guide assistance.
+• **Exclusions**: International airfare (you book your own flights at your convenient timing).
+
+📲 [**Book Land Package on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20I%20need%20land%20package%20for%20${encodeURIComponent(currentPkg.name)})`
+      };
+    }
+    return {
+      activeDestination: resolvedDest,
+      reply: `🏷️ **Wholesale Land-Only Package Rates (Book your own flights, we manage everything on ground)**:
+• 🇬🇪 **Georgia Flash Deal (4N/5D)**: **$300 USD** (~₹28,999 INR)
+• 🌴 **Sri Lanka Ramayana (4N/5D)**: **INR 23,064** (~$275 USD) *(with Breakfast & Dinners)*
+• 🏔️ **Kashmir Heaven on Earth (4N/5D)**: **INR 21,999** (~$265 USD) *(with Breakfast & Dinners)*
+• 🌴 **Kerala Classic Tour (6N/7D)**: **INR 24,750** (~$295 USD)
+• 🇹🇭 **Thailand Island Hopper (4N/5D - 5N/6D)**: From **INR 28,999** (~$345 USD)
+• 🇦🇪 **Dubai Highlights & Desert (4N/5D)**: From **INR 29,999** (~$357 USD)
+• 🏝️ **Bali Private Villa & Tours (6N/7D)**: From **INR 39,014** (~$464 USD)
+• 🇲🇾 **Malaysia City & Highlands (4N/5D)**: From **INR 39,364** (~$469 USD)
+• 🇹🇷 **Turkey & Cappadocia (4N/5D)**: From **INR 42,999** (~$515 USD)
+• 🇸🇬 **Singapore Signature (3N/4D)**: From **INR 36,999** (~$440 USD)
+
+Which destination do you want the detailed land itinerary for?`
+    };
+  }
+
+  // 9. ADVENTURE & WATER SPORTS / SCUBA / SKYDIVING
+  if (msgLower.match(/\b(scuba|scuba diving|snorkeling|water sports|parasailing|skydiving|bungee|atv|quad bike|rafting|adventure|hiking|trekking)\b/i)) {
+    return {
+      activeDestination: resolvedDest,
+      reply: `🏄 **Thrilling Adventure & Water Sports Activities Across Packages**:
+
+• 🏝️ **Bali (Included in our package!)**:
+  - **90-min ATV Quad Biking** through Ubud jungle trails & waterfalls
+  - **3-Hour Ayung River White Water Rafting** with buffet lunch
+  - **Bali Jungle Swing** (Unlimited swings & bird nests)
+  - **Nusa Penida Snorkeling**: Swim with Giant Manta Rays at Manta Point & Crystal Bay!
+  - **Tanjung Benoa**: Parasailing, Jet Skiing & Banana Boat.
+
+• 🇹🇭 **Thailand**:
+  - Phi Phi Island deep sea snorkeling, Coral Island Sea Walking, Krabi sea kayaking & rock climbing.
+
+• 🇦🇪 **Dubai**:
+  - 4x4 Red Dune Bashing & Sandboarding (included in our Desert Safari), Skydive Dubai over Palm Jumeirah, Jet Skiing at Burj Al Arab.
+
+• 🇬🇪 **Georgia**:
+  - Gudauri Tandem Paragliding over Caucasus mountains, 4x4 Kazbegi off-road alpine safari.
+
+Which activity excites you the most?`
+    };
+  }
+
+  // 10. BOOKING PROCESS / ADVANCE / EMI / CANCELLATION
+  if (msgLower.match(/\b(how to book|booking process|advance|token|emi|installment|cancellation|refund|kaise book kare|steps to book|payment terms)\b/i)) {
+    return {
+      activeDestination: resolvedDest,
+      reply: `📝 **Simple & Transparent 4-Step Booking Process**:
+
+1. **Step 1: Finalize Itinerary & Dates**
+   Confirm your travel dates, passenger count, and hotel preferences with our destination manager.
+2. **Step 2: Token Advance Payment (25% – 30%)**
+   Pay token advance to instantly block airline group seats and lock wholesale hotel rates.
+3. **Step 3: Official Confirmation Voucher Issued**
+   Within 24–48 hours, receive your official **Let's Explore DMC Confirmation Voucher** with verified Trip ID, flight PNRs, and hotel reservation numbers.
+4. **Step 4: Balance Payment & Travel Pack**
+   Clear remaining balance 15–20 days prior to departure; receive your visas, day-wise cab vouchers, and 24/7 on-ground manager contacts.
+
+💳 **Payment Options**: YES Bank NEFT/RTGS, UPI, Credit Cards, and Easy No-Cost EMI options available.
+🛡️ **Cancellation & Rescheduling**: Flexible date changes supported up to 21 days before travel with nominal airline charges.`
+    };
+  }
+
+  // 11. SOLO TRAVEL & FRIENDS / BACHELORS GROUP
+  if (msgLower.match(/\b(solo|solo trip|friends|dost|dosto|bachelor|bachelorette|boys trip|girls trip)\b/i)) {
+    return {
+      activeDestination: 'thailand-grand-signature',
+      reply: `🎉 **Top Picks for Friends, Bachelors & Solo Travelers**:
+
+• 🇹🇭 **Thailand (Phuket + Krabi + Bangkok)** — *Party & Island Hopping*:
+  - Bangla Road nightlife, Illuzion club, Patong beach parties, Phi Phi speedboat cruises & night markets.
+  - Land package from ₹28,999 (~$345 USD) per person.
+
+• 🏝️ **Bali (Kuta + Seminyak + Canggu)** — *Beach Clubs & Surfing*:
+  - Finns Beach Club, Atlas Beach Fest, ATV quad biking, scooter exploration & cliffside sunset bars.
+  - Land package from ₹39,014 (~$464 USD) per person.
+
+• 🇦🇪 **Dubai** — *High Energy & Mega-Attractions*:
+  - Desert quad biking, Marina yacht parties & Dubai Mall shopping.
+
+• 🇬🇪 **Georgia** — *Epic Road Trips & Budget European Vibe*:
+  - Just **$300 USD** for 5 days of snowy mountains, wine tasting & European cafes!`
+    };
+  }
+
+  // 12. CONVERSATIONAL INTENT: DINNER / NIGHTLIFE / 4-5 DAYS / LOW BUDGET
   const hasDinnerOrNight = /\b(dinner|night|nightt|nightlife|party|club|clubs|evening|food)\b/i.test(msgLower);
   const hasLowBudget = /\b(low budget|budget is low|budget kam|kam budget|sasta|cheap|affordable|budget tight|low price|lowest)\b/i.test(msgLower);
   const hasShortDuration = /\b(4[\s-]*5\s*days?|4\s*days?|5\s*days?|45\s*days?|short trip|weekend)\b/i.test(msgLower);
@@ -914,7 +1153,7 @@ Which one fits your mood best: **Dubai Marina Dinner Cruise, snowy Georgia ($300
     };
   }
 
-  // 3. Check for numeric budget inputs (e.g. 10k, 25000, 50k, 1 lakh, $300)
+  // 13. Numeric budget inputs (e.g. 10k, 25000, 50k, 1 lakh, $300)
   const numMatch = msgLower.match(/\b(\d{1,3}(?:,\d{3})*|\d+)\s*(k|lakh|lac|l|thousand|rs|inr|usd|\$)?\b/i);
   let parsedBudget = 0;
   if (numMatch && !msgLower.match(/\b(day|days|night|nights|pax|people|person|adult|adults|child|kids)\b/i)) {
@@ -979,7 +1218,7 @@ Shall I share the full itinerary for any of these?`
     }
   }
 
-  // 4. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
+  // 14. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
   if (currentPkg) {
     // Price / Cost query
     if (msgLower.match(/\b(price|pricing|cost|amount|rate|rates|kitna|kharcha|paisa|budget|rupaye|inr|usd|dollar)\b/i)) {
@@ -1055,7 +1294,7 @@ ${currentPkg.highlights}
     }
   }
 
-  // 5. Destination explicitly mentioned (if not already handled)
+  // 15. Destination explicitly mentioned (if not already handled)
   const newDest = detectDestination(message);
   if (newDest && PACKAGES_KNOWLEDGE[newDest]) {
     return {
@@ -1064,7 +1303,7 @@ ${currentPkg.highlights}
     };
   }
 
-  // 6. Affirmation / Ready to book
+  // 16. Affirmation / Ready to book
   if (msgLower.match(/^(yes|yep|sure|ok|okay|ha|haan|theek hai|sahi hai|deal|agree|done|send|bhejo)\b/i)) {
     const destText = currentPkg ? `for **${currentPkg.name}**` : '';
     return {
@@ -1075,7 +1314,7 @@ ${currentPkg.highlights}
     };
   }
 
-  // 7. Contact / Bank Details
+  // 17. Contact / Bank Details
   if (msgLower.match(/\b(bank|account|payment|pay|ifsc|yes bank|phone|call|contact|office|address|amravati|hotline)\b/i)) {
     return {
       activeDestination: resolvedDest,
@@ -1092,17 +1331,17 @@ ${currentPkg.highlights}
     };
   }
 
-  // 8. Visa queries
+  // 18. Visa queries
   if (msgLower.match(/\b(visa|passport|e-visa|evisa|entry requirement|documents)\b/i)) {
     return {
       activeDestination: resolvedDest,
       reply: `🛂 **Visa Guide for Indian Citizens**:
-• 🇹🇭 **Thailand & Malaysia**: Visa-Free entry!
-• 🏝️ **Bali (Indonesia)**: 30-Day e-VOA online (~$35 USD)
-• 🇬🇪 **Georgia**: eVisa online (or Visa-on-Arrival with valid US/UK/Schengen/UAE visa)
-• 🇹🇷 **Turkey**: Instant eVisa (with valid US/UK/Schengen visa) or sticker visa
-• 🇦🇪 **Dubai (UAE)**: 48-72 hr tourist visa arranged by us
-• 🇸🇬 **Singapore & Vietnam**: Quick eVisa assistance provided with all packages!`
+• 🇹🇭 **Thailand & Malaysia**: 100% Visa-Free entry for Indian passport holders!
+• 🏝️ **Bali (Indonesia)**: 30-Day e-VOA online (~$35 USD) or on-arrival assistance.
+• 🇬🇪 **Georgia**: Quick eVisa online (or Visa-on-Arrival if holding valid US, UK, Schengen, or UAE residence visa).
+• 🇹🇷 **Turkey**: Instant eVisa (if holding valid US, UK, Schengen visa) or direct sticker visa assistance.
+• 🇦🇪 **Dubai (UAE)**: Express 48–72 hour tourist visa processed directly by our team.
+• 🇸🇬 **Singapore & Vietnam**: Smooth eVisa approvals arranged with all official package bookings!`
     };
   }
 
