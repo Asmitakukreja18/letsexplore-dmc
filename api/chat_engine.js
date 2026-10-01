@@ -430,6 +430,28 @@ const PACKAGES_KNOWLEDGE = {
 
 const MASTER_SYSTEM_PROMPT = `You are an elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Thailand, Bali, Malaysia, Singapore, Vietnam, Georgia, Turkey, Dubai, Kashmir, Kerala, Sri Lanka, Hong Kong, China (Canton Fair), and Ujjain.
 
+CRITICAL GOLDEN RESPONSE FORMAT:
+When user asks about any package, destination, overview, or what is included, you MUST strictly structure your answer in this exact 4-part format:
+
+Hello! I am Atlas, your AI Travel Architect at Let's Explore DMC.
+
+• Package Overview:
+Our [Package Name] starts from INR [Price] (~$[USD] USD) per person ([Duration]).
+
+• What's Included:
+1. 4★ Luxury Hotel with daily buffet breakfast
+2. [Attraction / Observation Deck Tickets]
+3. [Key iconic activity / Cruise / Safari / Speedboat with meals]
+4. [Secondary attraction or special experience]
+5. 100% Private AC Airport Transfers
+
+• Pricing & Real-world Factors:
+This is our verified starting base rate. Final pricing depends on your departure city, flight rates, travel dates, and whether you choose 4★ or 5★ hotels.
+
+• Next Step:
+Which month are you planning to travel, and how many people will be joining? 
+[📲 Chat on WhatsApp (+91 80075 86871) for a customized quote]
+
 CRITICAL RULES:
 1. ZERO ROBOTIC PREFIX:
    - DO NOT prefix your answers with "🤖 Atlas AI Concierge:" or "Atlas AI Concierge:".
@@ -835,28 +857,111 @@ function resolveActiveDestination(message, history, explicitActive) {
 }
 
 function getPackageSummary(pkg) {
-  return `✨ **${pkg.name} (${pkg.duration})**:
-• **Trip ID**: ${pkg.trip_id} | **Lead Guest**: ${pkg.lead_guest} | **Pax**: ${pkg.pax}
-• **Route**: ${pkg.destination}
+  // Build clean 5-item numbered inclusions
+  let items = [];
+  if (pkg.id_code.includes('dubai')) {
+    items = [
+      "4★ Luxury Hotel with daily buffet breakfast",
+      "Burj Khalifa 124th Floor observation deck tickets",
+      "4x4 Desert Safari with dune bashing & grand BBQ dinner",
+      "Dubai Marina Dhow Luxury Cruise with buffet dinner & live entertainment",
+      "100% Private AC Airport & Sightseeing Transfers"
+    ];
+  } else if (pkg.id_code.includes('bali')) {
+    items = [
+      "4★/5★ Deluxe Resort in Kuta + Private 1-Bedroom Pool Villa in Ubud with Daily Breakfast",
+      "Full-Day Nusa Penida West Island Speedboat Tour (Kelingking T-Rex cliff & Angel's Billabong)",
+      "90-min ATV Quad Biking + 3-Hour Ayung River Rafting + Bali Jungle Swing",
+      "Uluwatu Cliff Sunset Temple & iconic Kecak Fire Dance show",
+      "100% Private AC SUV with dedicated chauffeur throughout"
+    ];
+  } else if (pkg.id_code.includes('thailand')) {
+    items = [
+      "4★/5★ Beachfront Resort stays in Phuket & Krabi with Daily Buffet Breakfast",
+      "Full-Day Phi Phi Island Speedboat Cruise with snorkeling & Maya Bay pass",
+      "Krabi 4-Island Tour with Picnic Lunch & Coral Island exploration",
+      "Evening Chao Phraya River Luxury Dinner Cruise & Bangkok City Tour",
+      "100% Private AC Airport & Inter-city Transfers throughout"
+    ];
+  } else if (pkg.id_code.includes('singapore')) {
+    items = [
+      "4★ Central City Hotel with Daily Buffet Breakfast",
+      "Universal Studios Singapore 1-Day Pass (all rides & shows included)",
+      "Sentosa Island Cable Car, S.E.A. Aquarium & Wings of Time show",
+      "Marina Bay Sands Skypark Observation Deck & Gardens by the Bay passes",
+      "100% Private Changi Airport & Attraction Transfers"
+    ];
+  } else if (pkg.id_code.includes('georgia')) {
+    items = [
+      "4★ Boutique Hotel in Old Tbilisi with Daily Buffet Breakfast",
+      "Historic Old Tbilisi walking tour & Narikala Fortress Aerial Cable Car",
+      "Off-road 4x4 Jeep Safari to 14th-century Gergeti Trinity Church under Mount Kazbek",
+      "Gudauri Ski Resort & Caucasus Friendship Monument excursion",
+      "100% Private 4x4 Chauffeur vehicle throughout & English speaking guide"
+    ];
+  } else if (pkg.id_code.includes('turkey')) {
+    items = [
+      "5★ Luxury Cave Resort in Cappadocia + 4★ Taksim Hotel in Istanbul with Breakfast",
+      "Domestic Flights in Turkey (Istanbul ↔ Cappadocia)",
+      "Private Sunset Bosphorus Yacht Cruise in Istanbul",
+      "Goreme Open Air Museum & Derinkuyu Underground City guided tour",
+      "100% Private Airport Transfers & VIP monument access"
+    ];
+  } else if (pkg.id_code.includes('kashmir')) {
+    items = [
+      "Luxury Dal Lake Houseboat in Srinagar + 4★ Valley Resorts with Daily Breakfast & Chef Dinners (MAP Plan)",
+      "1-Hour Sunset Shikara Ride on Dal Lake",
+      "Gulmarg Gondola Snow Cable Car excursion",
+      "Pahalgam Betaab Valley & Aru Valley scenic tours",
+      "100% Private Heated Chauffeur Cab throughout"
+    ];
+  } else if (pkg.id_code.includes('kerala')) {
+    items = [
+      "Premium 4★ Resorts in Munnar & Thekkady + 1 Night in Private Luxury Houseboat with Chef",
+      "All meals included during Alleppey Houseboat cruise",
+      "Munnar Tea Plantations, Mattupetty Dam & Spice Plantation tour",
+      "Periyar Wildlife Sanctuary boat safari assistance",
+      "100% Private Dedicated AC Sedan/SUV with verified chauffeur"
+    ];
+  } else if (pkg.id_code.includes('sri-lanka')) {
+    items = [
+      "4★ City & Resort stays across Kandy, Nuwara Eliya, Bentota & Colombo",
+      "MAP Meal Plan (Daily Buffet Breakfast + Daily 4★ Hotel Dinners included)",
+      "Temple of the Sacred Tooth Relic & Royal Botanical Gardens admission",
+      "Bentota Madu River Boat Safari & Turtle Hatchery visit",
+      "100% Private AC Vehicle with English-speaking chauffeur-guide"
+    ];
+  } else if (pkg.id_code.includes('vietnam')) {
+    items = [
+      "4★/5★ Hotels across Sapa, Hanoi, Da Nang & Beachfront Resort in Phu Quoc",
+      "3 Domestic Flights within Vietnam included",
+      "Fansipan Legend Cable Car to Peak of Indochina (3,143m)",
+      "Ba Na Hills Golden Hands Bridge pass & Cable Car",
+      "100% Private AC Airport & Sightseeing Transfers"
+    ];
+  } else {
+    // Generic fallback for any other package
+    const raw = (pkg.inclusions || '').split(/,\s*/);
+    items = raw.slice(0, 4).map(it => it.trim());
+    items.push("100% Private AC Airport & Sightseeing Transfers");
+  }
 
-💰 **Pricing**:
-• **Per Adult Rate**: INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD)
-• **Total Net Group Amount**: INR ${pkg.total_inr.toLocaleString('en-IN')}
-• **Land Package Option**: From INR ${pkg.land_inr.toLocaleString('en-IN')} (~$${Math.round(pkg.land_inr / 84)} USD)
+  const numberedList = items.map((it, idx) => `${idx + 1}. ${it}`).join('\n');
 
-🏨 **Accommodations**:
-${pkg.hotels}
+  return `Hello! I am Atlas, your AI Travel Architect at Let's Explore DMC.
 
-🗺️ **Sightseeing Highlights**:
-${pkg.highlights}
+• Package Overview:
+Our ${pkg.name} starts from INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person (${pkg.duration}).
 
-✅ **Inclusions**:
-${pkg.inclusions}
+• What's Included:
+${numberedList}
 
-❌ **Exclusions**:
-${pkg.exclusions}
+• Pricing & Real-world Factors:
+This is our verified starting base rate. Final pricing depends on your departure city, flight rates, travel dates, and whether you choose 4★ or 5★ hotels.
 
-📲 [**Book ${pkg.name} on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20${encodeURIComponent(pkg.name)}%20voucher)`;
+• Next Step:
+Which month are you planning to travel, and how many people will be joining? 
+[📲 Chat on WhatsApp (+91 80075 86871) for a customized quote](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
 }
 
 function generateSmartReply(message, history = [], activeDestination = null) {
@@ -1291,6 +1396,14 @@ Shall I share the full itinerary for any of these?`
   }
 
   // 17. TARGETED QUESTIONS ON ACTIVE DESTINATION (STRICT MEMORY RETENTION)
+  // If user is asking for package overview / details / "know about [dest] package" -> return Golden Package Summary
+  if (currentPkg && (msgLower.includes('know about') || msgLower.includes('tell me about') || msgLower.includes('package details') || msgLower.includes('overview') || (msgLower.includes('package') && (msgLower.includes('what is included') || msgLower.includes('kya include'))))) {
+    return {
+      activeDestination: resolvedDest,
+      reply: getPackageSummary(currentPkg)
+    };
+  }
+
   if (currentPkg) {
     // Price / Cost query
     if (msgLower.match(/\b(price|pricing|cost|amount|rate|rates|kitna|kharcha|paisa|budget|rupaye|inr|usd|dollar)\b/i)) {
