@@ -19,6 +19,14 @@ const path       = require('path');
 const nodemailer = require('nodemailer');
 const { Pool } = require('pg');
 const { GoogleGenAI } = require('@google/genai');
+const {
+  PACKAGES_KNOWLEDGE,
+  MASTER_SYSTEM_PROMPT,
+  detectDestination,
+  resolveActiveDestination,
+  generateSmartReply
+} = require('./chat_engine');
+
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -1433,530 +1441,57 @@ app.get('/api/health', (_, res) => {
     }
   });
 
-  function getSmartAIReply(prompt, history) {
-    const p = (prompt || '').trim().toLowerCase();
-    
-    // Find active destination from prompt or previous history
-    let activeDest = '';
-    const fullText = (prompt + ' ' + (Array.isArray(history) ? history.map(h => (h.text || h.message || '')).join(' ') : '')).toLowerCase();
-    
-    if (fullText.includes('malaysia')) activeDest = 'malaysia';
-    else if (fullText.includes('bali')) activeDest = 'bali';
-    else if (fullText.includes('thailand') || fullText.includes('phuket') || fullText.includes('krabi')) activeDest = 'thailand';
-    else if (fullText.includes('singapore')) activeDest = 'singapore';
-    else if (fullText.includes('vietnam')) activeDest = 'vietnam';
-    else if (fullText.includes('georgia') || fullText.includes('300')) activeDest = 'georgia';
-    else if (fullText.includes('turkey') || fullText.includes('cappadocia')) activeDest = 'turkey';
-    else if (fullText.includes('dubai')) activeDest = 'dubai';
-    else if (fullText.includes('kashmir')) activeDest = 'kashmir';
-    else if (fullText.includes('kerala')) activeDest = 'kerala';
-
-    // 1. Follow-up: Pricing / Amount
-    if (p.includes('price') || p.includes('cost') || p.includes('rate') || p.includes('kitna') || p.includes('kharcha') || p.includes('amount') || p.includes('budget')) {
-      if (activeDest === 'bali') {
-        return `💰 **Bali Indonesia Pricing**:\n\n• **Land Package**: From ₹48,999 per adult\n• **All-Inclusive (IndiGo Flights & Visa)**: INR 96,068 per adult (Total for 2 Adults: INR 1,92,136.00)`;
-      }
-      if (activeDest === 'malaysia') {
-        return `💰 **Malaysia with Bali Combo Pricing**:\n\n• **Land Package**: From ₹58,999 per adult\n• **All-Inclusive (Flights & Visa)**: INR 1,22,138 per adult (Total for 4 Adults: INR 4,88,552.00)`;
-      }
-      if (activeDest === 'thailand') {
-        return `💰 **Thailand Grand Signature Pricing**:\n\n• **Direct Wholesale DMC Rate**: ₹62,362 per adult (Phuket, Krabi & Bangkok 7N/8D)`;
-      }
-      if (activeDest === 'singapore') {
-        return `💰 **Singapore Signature Pricing**:\n\n• **Per Adult**: INR 52,062.00 | Total for 2 Adults: INR 1,04,124.00`;
-      }
-      if (activeDest === 'vietnam') {
-        return `💰 **Vietnam Grand Expedition Pricing**:\n\n• **Per Adult (All-Inclusive with Flights & Cable Cars)**: INR 1,48,000.00 | Land Package from ₹69,999/adult (Total for 4 Adults: INR 5,92,000.00)`;
-      }
-      if (activeDest === 'georgia') {
-        return `💰 **Georgia Flash Deal Pricing**:\n\n• **Per Person**: $300 USD (~₹28,999) for 5 Days / 4 Nights`;
-      }
-    }
-
-    // 2. Follow-up: Inclusions & Exclusions
-    if (p.includes('inclusion') || p.includes('exclusion') || p.includes('kya include') || p.includes('kya milega')) {
-      if (activeDest === 'bali') {
-        return `✅ **Bali Inclusions**:\n• 4N Kuta Beach Club + 2N Alam Ubud Private Pool Villa with Breakfast\n• 100% Private SUV with English speaking driver\n• Nusa Penida West island tour + Speedboat + Snorkeling/Canoeing\n• 90-min ATV ride + Ayung Rafting with lunch + Bali Swing\n• Handara Gate + Ulun Danu + Tanah Lot + Lempuyang & Uluwatu Kecak\n\n❌ **Exclusions**: Dinners, Bali tourism levy (IDR 150K), personal expenses.`;
-      }
-      if (activeDest === 'malaysia') {
-        return `✅ **Malaysia with Bali Inclusions**:\n• Flights & Visa clearances\n• 1N KL + 4N Kuta + 2N Private Pool Villa with Breakfast\n• KL City Tour & Twin Towers, Nusa Penida West, 90-min ATV, Bali Swing, Handara Gate & Uluwatu Kecak\n\n❌ **Exclusions**: Dinners, tourism taxes, personal expenses.`;
-      }
-    }
-
-    // 3. Follow-up: Hotels & Stays
-    if (p.includes('hotel') || p.includes('stay') || p.includes('room') || p.includes('resort') || p.includes('villa')) {
-      if (activeDest === 'bali') {
-        return `🏨 **Bali Accommodations**:\n\n• **Kuta (4N)**: Kuta Beach Club Hotel (4★ Deluxe Room, Breakfast)\n• **Ubud (2N)**: Alam Ubud Culture Villas (4★ 1-Bedroom Private Pool Villa, Breakfast)`;
-      }
-      if (activeDest === 'malaysia') {
-        return `🏨 **Malaysia with Bali Accommodations**:\n\n• **Kuala Lumpur (1N)**: Ibis Styles (3★ Standard, Breakfast)\n• **Bali Kuta (4N)**: Kuta Beach Club Hotel (4★ Deluxe, Breakfast)\n• **Bali Ubud (2N)**: Maharaja Villa (4★ 1-Bedroom Private Pool Villa, Breakfast)`;
-      }
-      if (activeDest === 'thailand') {
-        return `🏨 **Thailand Accommodations**:\n\n• **Phuket (3N)**: Panwaburi Beachfront Resort (Deluxe, Breakfast)\n• **Krabi (2N)**: Aonang Paradise Resort (Deluxe Pool View, Breakfast)\n• **Bangkok (2N)**: Platinum Suite Bangkok (Superior Premium, Breakfast)`;
-      }
-    }
-
-    // Direct greetings / name
-    if (p.includes('hindi') || p.includes('baat karo') || p.includes('namaste') || p.includes('suhani') || p.includes('mera naam') || p.includes('mera name')) {
-      const nameMatch = prompt.match(/(?:im|i am|mera name|mera naam)\s+([a-zA-Z]+)/i);
-      const user = nameMatch ? nameMatch[1] : '';
-      return `Namaste ${user ? user + ' ji' : ''}! 🙏 Welcome to Let's Explore DMC. Main aapki travel planning me help kar sakta hu! Aap kahan ghoomne ka plan kar rahe hain? (Georgia $300, Bali, Turkey, Dubai, Thailand, Kashmir, Kerala ya koi customized trip?).`;
-    }
-    if (p.startsWith('hi') || p.startsWith('hello') || p.startsWith('hey') || p === 'im suhani' || p.includes('i am suhani') || p.includes('my name is')) {
-      const nameMatch = prompt.match(/(?:im|i am|my name is)\s+([a-zA-Z]+)/i);
-      const user = nameMatch ? nameMatch[1] : '';
-      return `Hello ${user ? user : 'there'}! 👋 Welcome to Let's Explore DMC! How can I help you plan your dream vacation today? Tell me your preferred destination (like Georgia, Bali, Turkey, Dubai, Thailand) or budget, and I'll build a custom itinerary for you!`;
-    }
-    if (p.includes('malaysia')) {
-      return `🇲🇾🇮🇩 **Malaysia with Bali Grand Combo Tour (7 Nights / 8 Days)**:
-• **Trip ID**: LEDMC1048820 | **Lead Guest**: Mohit Kodwani | **Pax**: 4 Adults
-• **Route**: Kuala Lumpur (1N) + Bali Kuta (4N) + Ubud Luxury Private Pool Villa (2N)
-
-💰 **Pricing Summary**:
-• **Per Adult (All-inclusive with Flights & Visa)**: INR 1,22,138.00
-• **Total Net Amount for 4 Adults**: INR 4,88,552.00
-• **Land Package Option**: From ₹58,999 per adult
-
-🏨 **Verified Accommodations**:
-• **Kuala Lumpur (1N)**: Ibis Styles (3★ Standard, Double, Breakfast)
-• **Bali Kuta (4N)**: Kuta Beach Club Hotel (4★ Deluxe, Double, Breakfast)
-• **Bali Ubud (2N)**: Maharaja Villa (4★ 1-Bedroom Private Pool Villa, Double, Breakfast)
-
-🗺️ **Day-Wise Itinerary Breakdown**:
-• **Day 1**: Arrive Kuala Lumpur Airport → City Tour + Petronas Twin Towers / KL Tower view → Stay at Ibis Styles
-• **Day 2**: Flight from KL to Bali (Denpasar) → Private AC transfer to Kuta Beach Club Hotel → Leisure
-• **Day 3**: Afternoon Uluwatu Cliff Sunset Tour + Iconic Kecak & Fire Dance Show
-• **Day 4**: Full-Day Scenic Tour: Handara Gate + Ulun Danu Beratan Floating Temple + Tanah Lot Temple Sunset
-• **Day 5**: Full-Day Nusa Penida West Tour (Kelingking Beach, Angel's Billabong, Broken Beach, Bubu Beach + Snorkeling & Canoeing)
-• **Day 6**: ATV Quad Biking Jungle Ride (90 min tandem) + Bali Jungle Swing (Unlimited Swings & Nests) → Check-in to Maharaja Private Pool Villa
-• **Day 7**: Eastern Bali Tour: Lempuyang Gate of Heaven + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach
-• **Day 8**: Villa leisure & floating breakfast → Check-out & Airport drop for departure flight
-
-✅ **Key Inclusions**:
-• International & Domestic Flights: Batik Air OD-216 (Mumbai to KL), Batik Air OD-171 (KL to Bali), Vietjet VJ-894 (Bali to Ho Chi Minh), Vietjet VJ-1803 (Ho Chi Minh to Hyderabad)
-• Visa assistance & clearances
-• 7 Nights Hotel & Villa Accommodations with Daily Breakfast
-• 100% Private AC Vehicle transfers with English speaking driver
-• Nusa Penida Speedboat & Private Car on island
-• 90-min ATV Ride + Bali Jungle Swing + All Sightseeing Entry Tickets
-
-❌ **Exclusions**:
-• Daily Dinners, Bali Tourism Levy (IDR 150,000/pax), Personal expenses & Tips.
-
-📲 [**Book Malaysia with Bali on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Malaysia%20with%20Bali%20voucher)`;
-    }
-    if (p.includes('thailand')) {
-      return `🇹🇭 **Thailand Grand Signature Tour (7 Nights / 8 Days)**:
-• **Trip ID**: TVY448657 | **Customer**: Mohit Kodwani | **Pax**: 2 Adults
-• **Route**: Phuket (3N) + Krabi (2N) + Bangkok (2N)
-
-💰 **Pricing Summary**:
-• **Direct Wholesale DMC Rate**: ₹62,362 per adult
-• **Total Net Amount for 2 Adults**: ₹1,24,724.00
-
-🏨 **Verified Accommodations (4★ Deluxe)**:
-• **Phuket (3N)**: Panwaburi Beachfront Resort (1 Deluxe Room, Breakfast)
-• **Krabi (2N)**: Aonang Paradise Resort (1 Deluxe Pool View Room, Breakfast)
-• **Bangkok (2N)**: Platinum Suite Bangkok (1 Superior Premium Room, Breakfast)
-
-🗺️ **Day-Wise Itinerary Breakdown**:
-• **Day 1**: Arrive Phuket International Airport → Private transfer to Panwaburi Beachfront Resort → Check-in & Leisure
-• **Day 2**: Phuket City Tour (Big Buddha, Wat Chalong, scenic viewpoints) + Tiger Park (Medium Ticket) + Phuket FantaSea Cultural Show & Grand Buffet Dinner
-• **Day 3**: Full-Day Phi Phi Island Tour by Big Boat (Maya Bay, Pileh Lagoon, Viking Cave + National Park + Lunch)
-• **Day 4**: Private AC Vehicle transfer from Phuket to Krabi → Check-in to Aonang Paradise Resort → Ao Nang Beach walk
-• **Day 5**: Krabi 4-Island Tour by Longtail boat with Lunch (Chicken Island, Tup Island, Poda Island, Phra Nang Cave Beach)
-• **Day 6**: Transfer to Krabi Airport → Domestic Flight to Bangkok → Check-in Platinum Suite → Evening Chao Phraya River Luxury Dinner Cruise with live entertainment
-• **Day 7**: Bangkok City Tour (Golden Buddha Temple Wat Traimit, Marble Temple) + King Power Mahanakhon 78th Floor Glass Skywalk
-• **Day 8**: Safari World & Marine Park with Grand Buffet Lunch + Animal & Spy War Shows → Evening departure transfer to Bangkok Suvarnabhumi Airport
-
-✅ **Key Inclusions**:
-• 7 Nights 4★ Deluxe Resort & Hotel Stays with Daily Buffet Breakfast
-• 100% Private AC Vehicle transfers for all airport pickups, drops & intercity travel
-• Phi Phi Island Tour with National Park fees & Buffet Lunch
-• Krabi 4-Island Tour with Picnic Lunch
-• Phuket FantaSea Show with Grand Buffet Dinner
-• Chao Phraya River Luxury Dinner Cruise
-• King Power Mahanakhon Skywalk 78th floor pass
-• Safari World & Marine Park admission with lunch & shows
-
-❌ **Exclusions**:
-• Daily Dinners (except Phuket FantaSea & Chao Phraya Cruise), Personal expenses & Travel Insurance.
-
-📲 [**Book Thailand 7N/8D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Thailand%207N8D%20voucher)`;
-    }
-    if (p.includes('bali')) {
-      return `🏝️ **Bali Indonesia Signature Tour (6 Nights / 7 Days)**:
-• **Trip ID**: LEDMC1024111 | **Customer**: Mohit Kodwani | **Pax**: 2 Adults
-• **Route**: Kuta Beach (4N) + Ubud Luxury Private Pool Villa (2N)
-
-💰 **Pricing Summary**:
-• **Per Adult (All-inclusive with IndiGo Flights & Visa)**: INR 96,068.00
-• **Total Net Amount for 2 Adults**: INR 1,92,136.00
-• **Land Package Option**: From ₹48,999 per adult
-
-🏨 **Verified Accommodations**:
-• **Kuta (4N)**: Kuta Beach Club Hotel (4★ Premium, 1 Deluxe Room, Breakfast)
-• **Ubud (2N)**: Alam Ubud Culture Villas & Residences (4★ Premium, 1-Bedroom Private Pool Villa, Breakfast)
-
-🗺️ **Day-Wise Itinerary Breakdown**:
-• **Day 1**: Arrive Denpasar Bali Airport → Traditional Flower Garland Welcome → Private SUV transfer to Kuta Beach Club Hotel
-• **Day 2**: Half-Day Uluwatu Sunset Tour + Cliffside Temple + Kecak & Fire Dance Show
-• **Day 3**: Full-Day Scenic Tour: Handara Iconic Gate + Ulun Danu Lake Beratan Floating Temple + Tanah Lot Temple Sunset
-• **Day 4**: Full-Day Nusa Penida West Tour (Private car on island + Return Speedboat): Kelingking Beach (T-Rex Cliff), Angel's Billabong, Broken Beach + Complimentary Snorkeling & Canoeing
-• **Day 5**: 90-min ATV Quad Biking Ride + Ayung River Rafting with Local Buffet Lunch + Bali Jungle Swing (Unlimited Swings & Nests) → Check-in to Alam Ubud Private Pool Villa
-• **Day 6**: Full-Day Eastern Bali Tour: Lempuyang Gate of Heaven + Tirta Gangga Water Palace + Goa Lawah Bat Cave + Black Sand Beach
-• **Day 7**: Floating Breakfast in private plunge pool → Check-out → Souvenir shopping & Private transfer to Denpasar Airport for departure flight
-
-✅ **Key Inclusions**:
-• Return IndiGo Flights (Mumbai ↔ Bali) + Bali 30-Day e-VOA Visa
-• 6 Nights Luxury Accommodations (4N Kuta + 2N Ubud Private Pool Villa) with Daily Breakfast
-• 100% Private AC SUV vehicle (Avanza/Xenia) with dedicated English speaking driver
-• Nusa Penida West Tour with private car on island & sharing fast boat + Snorkeling/Canoeing
-• 90-min ATV Quad Ride + 3-hr Ayung River Rafting with lunch + Bali Jungle Swing
-• All Sightseeing Entry Tickets, Tolls, Parking & Donations included
-
-❌ **Exclusions**:
-• Daily Dinners, International Tourism Levy (IDR 150,000/person), Nusa Penida Retribution (IDR 25,000/person), Personal expenses.
-
-📲 [**Book Bali 6N/7D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Bali%206N7D%20voucher)`;
-    }
-    if (p.includes('singapore')) {
-      return `🇸🇬 **Singapore Signature Experience (3 Nights / 4 Days)**:
-• **Duration**: 3 Nights / 4 Days | **Pax**: 2 Adults
-• **Pricing**: INR 52,062.00 per adult | **Total for 2 Adults**: INR 1,04,124.00
-
-🏨 **Accommodation**: Novotel Singapore (4★ Premium, 1 Deluxe City Room, Daily Breakfast)
-
-🗺️ **Day-Wise Itinerary**:
-• **Day 1**: Arrive Changi Airport → 100% Private AC transfer to Novotel Singapore → Check-in & Evening Leisure
-• **Day 2**: Half-Day City Tour + Singapore Flyer (Little India, Merlion Park) → Marina Bay Sands (MBS) Skypark Observation Deck + Gardens by the Bay (Flower Dome & Cloud Forest)
-• **Day 3**: Full-Day Universal Studios Singapore Pass with transfers (Transformers 3D, Battlestar Galactica, Jurassic Park)
-• **Day 4**: Breakfast at hotel → Check-out → Private transfer to Changi Airport for departure
-
-✅ **Key Inclusions**:
-• 3 Nights Novotel Singapore with Daily Buffet Breakfast
-• 100% Private Changi Airport Pick-up & Drop-off
-• Universal Studios Singapore Full-Day Admission Ticket with transfers
-• Singapore Flyer 3-hr City Tour pass
-• MBS Skypark Observation Deck & Gardens by the Bay tickets
-
-❌ **Exclusions**: Flights, Singapore Visa, Dinners & Security Deposit.
-
-📲 [**Book Singapore 3N/4D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Singapore%203N4D%20voucher)`;
-    }
-    if (p.includes('vietnam')) {
-      return `🇻🇳 **Vietnam Grand Expedition (9 Nights / 10 Days)**:
-• **Trip ID**: LEDMC1134219 | **Lead Guest**: Ashutosh Sahu | **Pax**: 4 Adults
-• **Route**: Sapa (2N) + Hanoi (1N) + Da Nang (3N) + Phu Quoc (3N)
-
-💰 **Pricing Summary**:
-• **Per Adult (All-Inclusive with Flights & Cable Cars)**: INR 1,48,000.00
-• **Total Net Amount for 4 Adults**: INR 5,92,000.00
-• **Land Package Option**: From ₹69,999 per adult
-
-🏨 **Verified Accommodations (3★/4★ Premium)**:
-• **Sapa (2N)**: Sapagreen Hotel (Superior Room, Breakfast)
-• **Hanoi (1N)**: TK123 Hotel (Superior Room, Breakfast)
-• **Da Nang (3N)**: Cosmos Hotel (Deluxe City View, Breakfast)
-• **Phu Quoc (3N)**: Gaia Hotel (Standard Room, Breakfast)
-
-🗺️ **Day-Wise Itinerary Breakdown**:
-• **Day 1**: Arrive Hanoi → Private transfer to Sapa → Cat Cat Village trek with Black H'mong tribe
-• **Day 2**: Fansipan Peak ("Roof of Indochina" 3,143m cable car & funicular) + Rong May Glass Bridge at O Quy Ho Pass
-• **Day 3**: Sapa to Hanoi → Temple of Literature, Tran Quoc Pagoda & Old Quarter
-• **Day 4**: Ninh Binh Tour: Ancient Royal Capital Hoa Lu + Tam Coc bamboo boat river cave tour
-• **Day 5**: Flight to Da Nang → Marble Mountains + Cam Thanh Coconut basket boat + Hoi An City Tour & Lantern Boat on Thu Bon River
-• **Day 6**: Ba Na Hills Cable Car + Iconic Golden Bridge (Giant Stone Hands) + Fantasy Park
-• **Day 7**: Flight to Phu Quoc → Sunset Town, Kiss Bridge, Symphony of the Sea show & Kiss of the Sea multimedia show
-• **Day 8**: Vinpearl Safari (largest open zoo) + VinWonders Theme Park & Hai Vuong Aquarium + Grand World Venice River
-• **Day 9**: 4-Island Speedboat Tour + Hon Thom 8km World's Longest Overwater Cable Car & Aquatopia Water Park with buffet lunch
-• **Day 10**: Leisure morning → Private transfer to Phu Quoc Airport for departure
-
-✅ **Key Inclusions**:
-• 9 Nights Hotel stays with daily breakfast
-• Private 7-seater AC transfers throughout
-• All Cable Car Tickets: Fansipan Legend, Ba Na Hills & Hon Thom 8km Overwater Cable Car
-• 4-Island Speedboat Tour with Buffet Lunch
-• Vinpearl Safari & VinWonders all-access passes
-
-❌ **Exclusions**: Dinners, Vietnam Visa, GST 5% & TCS, personal expenses.
-
-📲 [**Book Vietnam 9N/10D on WhatsApp**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20Vietnam%20voucher)`;
-    }
-    if (p.includes('georgia') || p.includes('300')) {
-      return `🇬🇪 **Georgia Special**: 5D/4N Package for **USD 300** (~₹28,999)! Includes Tbilisi Historic Old Town, Kazbegi 4x4 Jeep Safari, Gudauri Ski Resort, Gergeti Trinity Church, 4★ Boutique Hotel & Private Transfers.`;
-    }
-    if (p.includes('turkey')) {
-      return `🇹🇷 **Turkey Escape & Wonders**: 5D/4N Package starting at **₹42,999**! Includes Istanbul Bosphorus Cruise, Hagia Sophia, Cappadocia Hot Air Balloon flight & 5★ Cave Hotel stay.`;
-    }
-    if (p.includes('dubai')) {
-      return `🇦🇪 **Dubai Luxury & Desert Safari**: 5D/4N Package starting at **₹34,999**! Includes Burj Khalifa 124th Floor Observation Deck, Desert Safari with BBQ Dinner, Dhow Cruise & Dubai Frame.`;
-    }
-    if (p.includes('kashmir')) {
-      return `🏔️ **Kashmir Heaven on Earth**: 5D/4N Package starting at **₹21,999**! Includes Srinagar Dal Lake Houseboat, Shikara Ride, Gulmarg Gondola Cable Car & Pahalgam Valley.`;
-    }
-    if (p.includes('kerala')) {
-      return `🌴 **Kerala Backwaters & Tea Gardens**: 5D/4N Package starting at **₹18,999**! Includes Munnar Hills, Alleppey Houseboat Cruise with private chef & Kovalam Beach.`;
-    }
-    return `🤖 **Atlas AI Concierge**: I'm here to assist you with your trip! We offer direct DMC packages to **Georgia ($300)**, **Thailand (₹29,999)**, **Bali ($450)**, **Turkey (₹42,999)**, **Dubai ($499)**, **Kashmir**, **Kerala** and more. Tell me your preferred destination or travel date!`;
-  }
-
+  // Multi-Turn AI Concierge with Persistent Memory across 30 turns & 22 Official Vouchers
   app.post('/api/chat', async (req, res) => {
-    const { message, history } = req.body;
+    const { message, history, activeDestination } = req.body;
     if (!message) return res.status(400).json({ error: 'Message required' });
 
-    const fallbackReply = getSmartAIReply(message, history);
+    // Use intelligent multi-turn memory engine
+    const smartResult = generateSmartReply(message, history, activeDestination);
+    const resolvedActive = smartResult.activeDestination || activeDestination;
+    const fallbackReply = smartResult.reply;
 
     try {
-      const packagesRes = await query("SELECT id, name, destination, duration, price, category FROM packages");
-      let packagesContext = "Currently available travel packages:\n";
-      if (packagesRes.rows && packagesRes.rows.length > 0) {
-         packagesRes.rows.forEach(p => {
-           packagesContext += `- ${p.name} (${p.duration}) to ${p.destination}. Price: $${p.price}. Category: ${p.category}\n`;
-         });
+      if (!ai) {
+        return res.json({ success: true, reply: fallbackReply, activeDestination: resolvedActive });
       }
 
-      const systemPrompt = `You are Atlas, the elite Travel Concierge & Architect for 'Let's Explore DMC' (Amravati, Maharashtra).
-
-CRITICAL TARGETED ANSWER & COMPACT SPACING RULE:
-1. JITNA PUCHA UTNA HI EXACT ANSWER DO (ANSWER ONLY WHAT IS SPECIFICALLY ASKED):
-   - If the user asks for "price", "amount", "kitna kharcha", "cost": Answer ONLY the exact price breakdown (Per Adult Price, Total Group Amount, Land Package Option). DO NOT dump the full 8-day itinerary, flights, or policies unless requested!
-   - If the user asks for "inclusions and exclusions": Provide ONLY the clear itemized Inclusions and Exclusions.
-   - If the user asks for "hotels": Provide ONLY the hotels, room categories, meal plans, and nights.
-   - If the user asks for "itinerary": Provide ONLY the day-wise schedule.
-   - If the user asks for "flights": Provide ONLY the flight schedule.
-   - ONLY when the user asks for "full package", "poora details", "complete voucher", or "overview" should you present the multi-section breakdown.
-2. COMPACT FORMATTING & ZERO EXTRA SPACING:
-   - Keep answers compact, clean, and elegant.
-   - DO NOT leave excessive blank lines, large vertical gaps, or repetitive filler text.
-   - Use clean, tight bullet points.
-
-CRITICAL MULTI-TURN CONVERSATION MEMORY:
-- You MUST maintain strict continuity across the ENTIRE conversation history.
-- If a destination was discussed in any previous message (e.g. Malaysia with Bali, Thailand, Bali, Singapore, Vietnam, Georgia, Turkey, Dubai) and the user asks follow-up questions like:
-  * "place we will visit?" / "places to see" / "sightseeing" / "kya dekhenge"
-  * "pricing?" / "price btao" / "kitna hoga"
-  * "itenrary" / "itinerary" / "schedule"
-  * "hotels?" / "hotel kon sa hai"
-  * "inclusions exclusions"
-  YOU ALREADY KNOW THE DESTINATION! NEVER ask "Please specify which package you are interested in". ALWAYS answer immediately for the active destination from the conversation context!
-
-============================================================
-OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA):
-============================================================
-
-1. MALAYSIA WITH BALI COMBO (7N/8D):
-- Trip ID: LEDMC1048820 | Lead Guest: Mohit Kodwani | Pax: 4 Adults
-- Travel Dates: 25-Jul-2026 to 01-Aug-2026 (7 Nights / 8 Days)
-- Route: Kuala Lumpur (1N) + Bali Kuta (4N) + Bali Private Pool Villa (2N)
-- Pricing:
-  * Per Adult Price (All-inclusive with Flights & Visa): INR 1,22,138.00
-  * Total Net Amount for 4 Adults: INR 4,88,552.00
-  * Land Package Option: From ₹58,999 per adult
-- Inclusions:
-  * International & Domestic Flights: Batik Air OD-216 (Mumbai to KL), Batik Air OD-171 (KL to Bali), Vietjet VJ-894 (Bali to Ho Chi Minh), Vietjet VJ-1803 (Ho Chi Minh to Hyderabad)
-  * Visa assistance & clearances
-  * 7 Nights Hotel & Villa Accommodations (1N KL + 4N Kuta + 2N Villa)
-  * Daily Breakfast at all hotels
-  * Kuala Lumpur City Tour + Petronas Twin Towers / KL Tower view
-  * Airport Pickups and Drops in Kuala Lumpur & Bali
-  * HD Uluwatu Sunset Tour + Kecak & Fire Dance Show
-  * FD Handara Gate + Ulun Danu (Bedugul Floating Temple) + Tanah Lot Sunset Tour
-  * FD Nusa Penida West Tour (Return sharing boat from Serangan Harbour + Private car on island): Kelingking Beach, Angel's Billabong, Broken Bay, Bubu Beach
-  * Complimentary Snorkelling & Canoeing at Harbour in Nusa Penida
-  * ATV / Quad Biking @ ALL NEW ATV (Double Sharing Tandem 90 min) through rice fields, mud, water & cave
-  * Bali Jungle Swing (Unlimited Swings: 3 adult, 1 couple, 1 children, 1 bed, 1 circle + 5 photo nests + Heaven Gate)
-  * FD Lempuyang Temple (Gate of Heaven) + Tirta Gangga Water Palace + Goa Lawah (Bats Cave) + Black Sand Beach
-  * 24x7 On-ground representative and driver assistance
-- Exclusions:
-  * Daily Dinners
-  * Water activities not specifically mentioned in inclusions
-  * Nusa Penida Retribution Fee (Compulsory Donation: IDR 25,000 / adult, IDR 15,000 / child)
-  * Any other personal expenses, laundry, tips, minibar
-  * Travel Insurance & Documentation
-  * Additional night charges for airport transfers if flights depart before 10:00 AM or after 10:00 PM
-- Hotels:
-  * Kuala Lumpur (1N): Ibis Styles KL (3★, 2 Standard Rooms, Double Sharing, Breakfast) | In: 25-Jul, Out: 26-Jul
-  * Bali Kuta (4N): Kuta Beach Club (4★, 2 Deluxe Rooms, Double Sharing, Breakfast) | In: 26-Jul, Out: 30-Jul
-  * Bali Villa (2N): Maharaja Villa (4★, Two 1-Bedroom Pool Villas, Double Sharing, Breakfast) | In: 30-Jul, Out: 01-Aug
-- Flight Routes:
-  * 25-Jul: Mumbai (23:25) -> KL (07:00, 26-Jul) | Batik Air OD-216 (Economy)
-  * 26-Jul: KL (17:50) -> Denpasar Bali (21:00) | Batik Air OD-171 (Economy)
-  * 01-Aug: Denpasar Bali (14:35) -> Ho Chi Minh City (17:25) | Vietjet VJ-894 (Economy)
-  * 01-Aug: Ho Chi Minh City (19:45) -> Hyderabad (22:35) | Vietjet VJ-1803 (Economy)
-- Cancellation Policy:
-  * 30 days prior: 25% cancellation fee
-  * 15 days prior: 30% cancellation fee
-  * 7 days prior: 50% cancellation fee
-  * 3 days prior: 100% cancellation fee
-
-2. THAILAND GRAND EXPEDITION (7N/8D):
-- Trip ID: TVY448657 | Customer Name: Rajesh Chawla | Pax: 6 Adults (06-Apr-2026 Created)
-- Travel Dates: 31-May-2026 to 07-Jun-2026 (7 Nights / 8 Days)
-- Route: Phuket (3N) + Krabi (2N) + Bangkok (2N)
-- Pricing:
-  * Per Adult Net DMC Rate: INR 62,362.00
-  * Total Net Amount for 6 Adults: INR 3,74,172.00
-  * Total Amount: INR 3,74,172.00
-- Hotels & Accommodations:
-  * Phuket (3N): Panwaburi Beachfront Resort (Deluxe, 2 Rooms, Deluxe Tree or Facade + extra bed, Triple Occupancy, Breakfast) | In: 31-May, Out: 03-Jun
-  * Krabi (2N): Aonang Paradise Resort (Deluxe, 2 Rooms, Deluxe Pool View Room, Triple Occupancy, Breakfast) | In: 03-Jun, Out: 05-Jun
-  * Bangkok (2N): Platinum Suite Bangkok (PREMIUM, 2 Rooms, Superior Room with extra bed, Triple Occupancy, Breakfast) | In: 05-Jun, Out: 07-Jun
-- Inclusions:
-  * 7 Nights 4★ Accommodations
-  * Daily Breakfast at all resorts
-  * 100% Private AC Transfers for all city tours & airport transfers
-  * Phi Phi Island Full-Day Tour by Big Boat (SIC) with Lunch (Maya Bay, Loh Samah Bay, Pileh Lagoon, Monkey Beach, Viking Cave)
-  * Krabi 4-Island Tour by Longtail Boat with Lunch (Chicken Island, Tup Island, Poda Island, Phra Nang Cave Beach)
-  * Chao Phraya Princess River Dinner Cruise with Private Transfers, Live Music & International/Indian Buffet
-  * King Power Mahanakhon Skywalk Daytime Experience (Indoor + Outdoor 78th Floor Glass Tray)
-  * Safari World & Marine Park with Buffet Lunch + Animal & Spy War Shows + Airport Departure Drop
-  * Phuket City Tour (6 hrs: Big Buddha viewpoint, Wat Chalong Temple, Scenic viewpoints)
-  * Phuket Tiger Park (Medium Ticket included)
-  * Phuket FantaSea Cultural Theme Park & Show with Grand Buffet Dinner (Private transfer)
-- Exclusions:
-  * Daily Dinners (except Chao Phraya Cruise & Phuket FantaSea)
-  * Other activities not mentioned in itinerary (water sports, personal expenses)
-  * Thailand National Park fees (~400 THB/pax)
-  * Travel Insurance & Visa fees
-- Child Policy:
-  * Under 02-year-old: Free of charge
-  * Under 10-year-old with no bed: 45% of adult price
-  * Under 10-year-old with extra-bed: 85% of adult price
-  * From 10 years old: Charged as adult
-- Cancellation Policy:
-  * 30 days before travel: 25% cancellation fees
-  * 15 to 30 days before travel: 50% cancellation fees
-  * 0 to 15 days before travel: 100% cancellation fees
-- Bank Details:
-  * Bank Name: YES BANK LIMITED | Account No: 108163400004886 | IFSC Code: YESB0001081 | Account Type: LETS EXPLORE DMC
-- DMC Contact: Hemant Thadani (Phone: 8007586871, Email: Info@letsexploredmc.com)
-- Global Offices: Amravati HQ (Sahakar Nagar, Opp New Cotton Market), Mumbai (Maharashtra Bhavan, Fort), Bali (Denpasar), Nagpur, Jaipur
-
-3. BALI INDONESIA SIGNATURE (6N/7D):
-- Trip ID: LEDMC1024111 | Customer Name: MOHIT KODWANI | Pax: 2 Adults
-- Travel Dates: 10-Jul-2026 to 16-Jul-2026 (6 Nights / 7 Days)
-- Route: Kuta (4N) + Ubud Luxury Private Pool Villa (2N)
-- Pricing:
-  * Per Adult Price (All-inclusive with Flights & Visa): INR 96,068.00
-  * Total Net Amount for 2 Adults: INR 1,92,136.00
-  * Total Amount: INR 1,92,136.00
-  * Land Package Option: From ₹48,999 per adult
-- Flights Included:
-  * 10-Jul-2026: Mumbai (05:15) -> Denpasar Bali (16:40) | IndiGo 6E-1607 (Economy, 8 hr 55 min)
-  * 16-Jul-2026: Denpasar Bali (18:00) -> Mumbai (00:10, 17-Jul) | IndiGo 6E-1608 (Economy, 8 hr 40 min)
-- Hotels & Accommodations:
-  * Kuta Beach Club Hotel (PREMIUM, 1 Room, Deluxe Room, Double Occupancy, Breakfast) | Check-in: 10-Jul-2026, Check-out: 14-Jul-2026 (4N)
-  * Alam Ubud Culture Villas & Residences (PREMIUM, 1 Room, One Bedroom Pool Villa, Double Occupancy, Breakfast) | Check-in: 14-Jul-2026, Check-out: 16-Jul-2026 (2N)
-- Vehicle & Luggage Allowance:
-  * 1-4 Pax: SUV Vehicle (Avanza / Xenia / Similar) with max 4 medium luggage + 4 shoulder bags
-  * 5-6 Pax: SUV + Separate Luggage Van
-  * 7-12 Pax: Small Isuzu Elf / Similar + Separate Luggage Van
-- Inclusions:
-  * Flights (Return IndiGo Mumbai-Bali) + Bali 30-Day e-VOA Visa
-  * Welcome with Flower Garland upon arrival at Bali Airport
-  * 01 mineral water bottle (600 ml) per adult per day on mainland Bali tours
-  * Airport to Hotel / Hotel to Airport Private AC Transfers
-  * All transfers & sightseeing on PRIVATE A/C VEHICLE with English speaking driver
-  * All entrance fees + Local Taxes, Donations, parking and toll charges
-  * HD Uluwatu Sunset Tour + Kecak & Fire Dance Show
-  * FD Handara Gate + Ulun Danu (Bedugul Floating Temple) + Tanah Lot Sunset Tour
-  * FD Nusa Penida West Tour (PRIVATE CAR on island + Return sharing boat): Kelingking Beach, Angel's Billabong, Broken Bay, Bubu Beach
-  * Complimentary Snorkelling & Canoeing at Harbour in Nusa Penida
-  * ATV Bike Ride (90 min double sharing tandem) through rice fields, mud, water & cave
-  * Ayung River White Water Rafting @ Ubud (3 hours long with professional guide & local lunch)
-  * Bali Jungle Swing (Unlimited Swings: 7 kinds of swings + 5 photo nests + Heaven Gate, 90 min max)
-  * FD Lempuyang Temple (Gate of Heaven) + Tirta Gangga Temple + Goa Lawah Temple (Bats Cave) + Black Sand Beach (Pickup 06:30-07:00 hrs)
-  * Check Out & Airport Drop / Departure
-- Exclusions:
-  * Daily Dinners
-  * International Tourism Levy Charges: IDR 150,000 per tourist (to be paid by tourists upon arrival)
-  * Nusa Penida Retribution Fees (Compulsory Donation: IDR 25,000 / adult, IDR 15,000 / child)
-  * Optional water activities (parasailing, scuba, etc.)
-  * Personal expenses, laundry, tips, minibar
-  * Travel Insurance
-  * Night charges if airport arrival is before 08:00 hrs or after 19:30 hrs
-- Cancellation Policy:
-  * 30 days before travel: 25% cancellation fees
-  * 15 to 30 days before travel: 50% cancellation fees
-  * 0 to 15 days before travel: 100% cancellation fees
-- Bank Details:
-  * Bank Name: YES BANK LIMITED | Account No: 108163400004886 | IFSC Code: YESB0001081 | Account Type: LETS EXPLORE DMC
-- DMC Contact: Hemant Thadani (Phone: 8007586871, Email: Info@letsexploredmc.com)
-- Global Offices: Amravati HQ, Mumbai, Bali Denpasar, Nagpur, Jaipur
-
-4. SINGAPORE SIGNATURE EXPERIENCE (3N/4D):
-- Duration: 3 Nights / 4 Days | Pax: 2 Adults
-- Pricing:
-  * Per Adult Price: INR 52,062.00
-  * Total Net Amount for 2 Adults: INR 1,04,124.00
-- Inclusions:
-  * 3 Nights Stay at Novotel Singapore (4★ Premium, Deluxe City Room, Daily Breakfast)
-  * Return Changi Airport Transfers via Private AC Vehicle
-  * Half-Day City Orientation Tour + Singapore Flyer Flight (3 hours)
-  * Marina Bay Sands (MBS) Skypark Observation Deck Entry Ticket
-  * Gardens by the Bay (Flower Dome & Cloud Forest featuring Jurassic World)
-  * Full-Day Universal Studios Singapore Pass with 2-way private transfers
-- Exclusions:
-  * Flights & Singapore Visa
-  * Lunches & Dinners
-  * Hotel security deposit & tourism taxes
-  * Personal expenses & travel insurance
-
-5. VIETNAM GRAND EXPEDITION (9N/10D):
-- Trip ID: LEDMC1134219 | Lead Guest: Ashutosh Sahu | Pax: 4 Adults
-- Duration: 9 Nights / 10 Days (Sapa 2N + Hanoi 1N + Da Nang 3N + Phu Quoc 3N)
-- Pricing:
-  * Per Adult All-inclusive: INR 1,48,000.00 (Total for 4 Adults = INR 5,92,000.00)
-  * Land Package Option: From ₹69,999 per adult
-- Inclusions:
-  * 9 Nights 3★/4★ Hotels (Sapagreen Sapa, TK123 Hanoi, Cosmos Da Nang, Gaia Phu Quoc)
-  * Daily Breakfast + Buffet lunches on excursion days
-  * Private 7-seater AC Vehicle transfers
-  * Fansipan Legend Cable Car ("Roof of Indochina") + Funicular + Sapa Glass Bridge + Cat Cat Village trek
-  * Hanoi City Tour + Tran Quoc Pagoda
-  * Ninh Binh ancient capital Hoa Lu + Tam Coc boat caves
-  * Da Nang Marble Mountain + Cam Thanh Coconut basket boat + Hoi An Lantern Boat on Thu Bon river
-  * Ba Na Hills Cable Car + Golden Bridge (Giant Hands) + Fantasy Park
-  * Phu Quoc Sunset Town, Kiss Bridge, Symphony of the Sea & Kiss of the Sea shows
-  * Vinpearl Safari & VinWonders theme park
-  * 4-Island Speedboat tour + Hon Thom 8km Cable Car & Aquatopia Waterpark with Buffet Lunch
-- Exclusions:
-  * Daily Dinners
-  * Vietnam Visa fees
-  * GST 5% & TCS
-  * Personal expenses, minibar, tips, travel insurance
-
-CRITICAL LANGUAGE RULE:
-- If user writes in English, reply 100% in English only. Never use Devanagari Hindi.
-- If user writes in Hinglish (Roman script, e.g. "whwere is the all over view inclusion exclusion ? bhyi detaing hona chahiye n sab"), reply in professional, warm English or clear Hinglish in Latin script. NEVER use Devanagari Hindi.
-- Strictly match user's script.
-
-${packagesContext}`;
-
-      const chatContents = (Array.isArray(history) && history.length > 0) ? history : message;
+      // Convert conversation history up to 30 turns for Gemini
+      const contents = [];
+      if (Array.isArray(history) && history.length > 0) {
+        history.slice(-30).forEach(h => {
+          if (h.role && (h.text || (h.parts && h.parts[0]?.text))) {
+            const textVal = h.text || h.parts[0].text;
+            contents.push({
+              role: h.role === 'user' ? 'user' : 'model',
+              parts: [{ text: textVal }]
+            });
+          }
+        });
+      }
+      contents.push({ role: 'user', parts: [{ text: message }] });
 
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: chatContents,
+        contents: contents,
         config: {
-          systemInstruction: systemPrompt,
+          systemInstruction: MASTER_SYSTEM_PROMPT,
           temperature: 0.7,
         }
       });
 
       const replyText = response.text || fallbackReply;
       try {
-        await query('INSERT INTO ai_logs (type, prompt, reply) VALUES ($1, $2, $3)', ['chat', message, replyText]);
+        await query('INSERT INTO ai_logs (type, prompt, reply) VALUES (, , )', ['chat', message, replyText]);
       } catch(e){}
 
-      res.json({ success: true, reply: replyText });
+      res.json({ success: true, reply: replyText, activeDestination: resolvedActive });
     } catch (err) {
-      console.warn('Gemini Chat error/quota limit, returning smart fallback:', err.message);
+      console.warn('Gemini Chat quota/error limit, returning smart memory-retained fallback:', err.message);
       try {
-        await query('INSERT INTO ai_logs (type, prompt, reply) VALUES ($1, $2, $3)', ['chat', message, fallbackReply]);
+        await query('INSERT INTO ai_logs (type, prompt, reply) VALUES (, , )', ['chat', message, fallbackReply]);
       } catch(e){}
-      res.json({ success: true, reply: fallbackReply });
+      res.json({ success: true, reply: fallbackReply, activeDestination: resolvedActive });
     }
   });
 

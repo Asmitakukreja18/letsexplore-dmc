@@ -660,9 +660,68 @@ function closeModal(modalId) {
   document.getElementById(modalId)?.classList.remove("active");
 }
 
-// AI Chatbot Helper
+// AI Chatbot Helper with Persistent Memory
+let widgetConversationHistory = [];
+let widgetActiveDest = null;
+
+try {
+  const savedWidgetHist = localStorage.getItem('letsexplore_widget_history');
+  if (savedWidgetHist) widgetConversationHistory = JSON.parse(savedWidgetHist);
+  widgetActiveDest = localStorage.getItem('letsexplore_widget_dest') || null;
+} catch(e) {}
+
+function renderSavedWidgetMessages() {
+  const chatMessages = document.getElementById("chat-messages");
+  if (!chatMessages || widgetConversationHistory.length === 0) return;
+  
+  // Clear and keep welcome message
+  let html = `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:85%; font-size:0.88rem; line-height:1.5;">
+    👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!
+  </div>`;
+
+  widgetConversationHistory.forEach(item => {
+    const text = item.text || (item.parts && item.parts[0]?.text) || '';
+    if (!text) return;
+    if (item.role === 'user') {
+      html += `<div class="chat-msg user" style="background:#0284c7; color:#fff; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-end; max-width:80%; font-size:0.88rem;">${text}</div>`;
+    } else {
+      let formatted = formatChatText(text);
+      html += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:85%; font-size:0.88rem; line-height:1.5;">${formatted}</div>`;
+    }
+  });
+
+  chatMessages.innerHTML = html;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function formatChatText(text) {
+  return (text || '')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 14px; background:#25D366; color:#ffffff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none;">$1</a>')
+    .replace(/\n\n+/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>');
+}
+
 function toggleAIChat() {
-  document.getElementById("ai-chat-box")?.classList.toggle("active");
+  const box = document.getElementById("ai-chat-box");
+  if (!box) return;
+  box.classList.toggle("active");
+  if (box.classList.contains("active")) {
+    renderSavedWidgetMessages();
+  }
+}
+
+function resetWidgetChat() {
+  widgetConversationHistory = [];
+  widgetActiveDest = null;
+  localStorage.removeItem('letsexplore_widget_history');
+  localStorage.removeItem('letsexplore_widget_dest');
+  const chatMessages = document.getElementById("chat-messages");
+  if (chatMessages) {
+    chatMessages.innerHTML = `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:85%; font-size:0.88rem; line-height:1.5;">
+      👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!
+    </div>`;
+  }
 }
 
 function sendChatMessage() {
@@ -672,34 +731,49 @@ function sendChatMessage() {
 
   const chatMessages = document.getElementById("chat-messages");
 
-  // Append user message
+  // Append user message to UI
   chatMessages.innerHTML += `<div class="chat-msg user" style="background:#0284c7; color:#fff; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-end; max-width:80%; font-size:0.88rem;">${msg}</div>`;
   input.value = "";
   chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  // Append to widget persistent history
+  widgetConversationHistory.push({ role: 'user', text: msg });
+  if (widgetConversationHistory.length > 30) {
+    widgetConversationHistory = widgetConversationHistory.slice(-30);
+  }
+  localStorage.setItem('letsexplore_widget_history', JSON.stringify(widgetConversationHistory));
 
   // Show typing indicator
   const typingIndicatorId = 'typing-' + Date.now();
   chatMessages.innerHTML += `<div id="${typingIndicatorId}" class="chat-msg bot typing" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; font-style:italic;">Agent is typing...</div>`;
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
-  // Send request to real backend
+  // Send request with full history and activeDestination to maintain memory
   fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: msg })
+    body: JSON.stringify({
+      message: msg,
+      history: widgetConversationHistory,
+      activeDestination: widgetActiveDest
+    })
   })
   .then(res => res.json())
   .then(data => {
     document.getElementById(typingIndicatorId)?.remove();
     let reply = data.reply || "Sorry, I couldn't process that request right now.";
+    if (data.activeDestination) {
+      widgetActiveDest = data.activeDestination;
+      localStorage.setItem('letsexplore_widget_dest', widgetActiveDest);
+    }
 
-    // Clean, robust markdown formatter (bold, clean WhatsApp pill button, clean linebreaks)
-    let formatted = (reply || '')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 14px; background:#25D366; color:#ffffff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none;">$1</a>')
-      .replace(/\n\n+/g, '<br/><br/>')
-      .replace(/\n/g, '<br/>');
+    widgetConversationHistory.push({ role: 'model', text: reply });
+    if (widgetConversationHistory.length > 30) {
+      widgetConversationHistory = widgetConversationHistory.slice(-30);
+    }
+    localStorage.setItem('letsexplore_widget_history', JSON.stringify(widgetConversationHistory));
 
+    let formatted = formatChatText(reply);
     chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:85%; font-size:0.88rem; line-height:1.5;">${formatted}</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
   })
@@ -717,24 +791,33 @@ function sendChatMessage() {
     } else if (msgLower.match(/^(hi|hello|hey|hola|namaste|good morning|good evening|heloo|hy)\b/i)) {
       reply = "👋 <strong>Hello! Welcome to Let's Explore DMC.</strong><br/><br/>I am Atlas, your AI Travel Architect. Tell me your dream destination, travel dates, or budget, and I'll craft a bespoke itinerary for you!<br/><br/>Where would you like to travel next?";
     } else if (msgLower.match(/\b(thailand|phuket|krabi|bangkok|pattaya|phi phi)\b/i)) {
-      reply = "🇹🇭 <strong>Thailand Tropical DMC Packages</strong>: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping. Starts from ₹28,999/person (5D/4N).";
-    } else if (msgLower.match(/\b(china|beijing|shanghai)\b/i)) {
-      reply = "🏯 <strong>China Luxury DMC Packages</strong>: We curate private guided tours covering the Great Wall, Forbidden City, and Shanghai.<br/><br/>Would you like me to send the complete day-by-day plan to your WhatsApp?";
+      widgetActiveDest = 'thailand-grand-signature';
+      reply = "🇹🇭 <strong>Thailand Tropical DMC Packages</strong>: Direct ground ops in Phuket & Krabi with private speedboat island tours, luxury beachfront resorts, and Bangkok shopping. Starts from ₹28,999 (~$345 USD) to ₹62,362 (~$745 USD) for 7N/8D.";
+    } else if (msgLower.match(/\b(canton|guangzhou|china)\b/i)) {
+      widgetActiveDest = 'canton-fair-china-6n7d';
+      reply = "🇨🇳 <strong>Canton Fair Business & Guangzhou (6N/7D)</strong>: Direct delegation package at INR 79,200 (~$943 USD) with daily exhibition transfers and Indian dinners!";
     } else if (msgLower.match(/\b(turkey|cappadocia|istanbul)\b/i)) {
-      reply = "🇹🇷 <strong>Turkey Ground Packages</strong>: Direct ground ops from ₹42,999/person (4N/5D) with Cappadocia Cave stays.<br/><br/>Shall I share the itinerary on WhatsApp?";
+      widgetActiveDest = 'turkey-escape-42k';
+      reply = "🇹🇷 <strong>Turkey Ground Packages</strong>: Direct ground ops from ₹42,999/person (~$515 USD) with Cappadocia Cave stays.<br/><br/>Shall I share the itinerary on WhatsApp?";
     } else if (msgLower.match(/\b(georgia|tbilisi)\b/i)) {
+      widgetActiveDest = 'georgia-magic-300';
       reply = "🇬🇪 <strong>Georgia Flash Deal ($300 USD Special)</strong>: 5D/4N covering Tbilisi, Kazbegi Mountains, Gudauri snow resort, and Ananuri Fortress. Includes 4★ hotel & private 4x4 transfers!";
     } else if (msgLower.match(/\b(bali|indonesia|ubud|nusa penida)\b/i)) {
-      reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office with private pool villas & speedboat transfers. Starts from ₹48,999/person.";
+      widgetActiveDest = 'bali-indonesia-signature';
+      reply = "🏝️ <strong>Bali Island DMC Package</strong>: Managed directly by our Denpasar Bali office with private pool villas & speedboat transfers. Starts from ₹39,014 (~$464 USD) to ₹96,068 (~$1,145 USD) with flights.";
     } else if (msgLower.match(/\b(dubai|uae|burj khalifa)\b/i)) {
-      reply = "🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹34,999/person.";
+      widgetActiveDest = 'dubai-super-saver-4n5d';
+      reply = "🏙️ <strong>Dubai Grand Package</strong>: 5D/4N covering Burj Khalifa 124th floor, Desert Safari with BBQ dinner, Marina Dhow Cruise, and Miracle Garden. Starts from ₹42,598 (~$507 USD).";
     } else if (msgLower.match(/\b(price|cost|rate|cheap|budget|how much)\b/i)) {
-      reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. Which destination are you planning?";
+      reply = "💎 <strong>Direct DMC Wholesale Pricing</strong>: Zero 3rd-party markup. All 22 packages available with both INR and USD rates. Which destination are you planning?";
     } else if (msgLower.match(/\b(office address|where is your office|where are you located|branch address|head office|contact details|phone number|contact no)\b/i)) {
       reply = "📍 <strong>Our Global DMC Network</strong>:<br/><br/>• <strong>India HQ</strong>: Amravati, Mumbai, Jaipur, Nagpur<br/>• <strong>International</strong>: Bali (Denpasar) & Turkey (Taksim, Istanbul)<br/>• <strong>Official Hotline</strong>: +91 80075 86871";
     } else {
-      reply = "✨ <strong>Let's Explore DMC Concierge</strong>: I'd love to help plan your getaway! We specialize in direct ground packages across <strong>Turkey, Georgia ($300), Bali, Dubai, Thailand, Vietnam, Kashmir, and Europe</strong>.<br/><br/>Tell me which destination or budget you have in mind!";
+      reply = "✨ <strong>Let's Explore DMC Concierge</strong>: I'd love to help plan your getaway! We specialize in direct ground packages across <strong>Thailand, Bali, Dubai, Georgia ($300), Turkey, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala</strong>.<br/><br/>Tell me which destination or budget you have in mind!";
     }
+
+    widgetConversationHistory.push({ role: 'model', text: reply });
+    localStorage.setItem('letsexplore_widget_history', JSON.stringify(widgetConversationHistory));
 
     chatMessages.innerHTML += `<div class="chat-msg bot" style="background:#f1f5f9; color:#031636; padding:10px 14px; border-radius:14px; margin-bottom:8px; align-self:flex-start; max-width:80%; font-size:0.88rem; line-height:1.5;">${reply}</div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
