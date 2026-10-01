@@ -651,16 +651,14 @@ function renderAIResult(destination, duration, budget, notes) {
   document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Chat Functionality with Persistent Multi-Turn Memory
+// Chat Functionality with In-Memory Session Memory (Resets cleanly on Page Refresh)
 let chatConversationHistory = [];
 let activeAiDestination = null;
 
+// Purge any stale chat history from localStorage on load so page refresh is always 100% clean
 try {
-  const savedHist = localStorage.getItem('letsexplore_ai_history');
-  if (savedHist) {
-    chatConversationHistory = JSON.parse(savedHist);
-  }
-  activeAiDestination = localStorage.getItem('letsexplore_active_dest') || null;
+  localStorage.removeItem('letsexplore_ai_history');
+  localStorage.removeItem('letsexplore_active_dest');
 } catch(e) {}
 
 function formatChatMarkdown(text) {
@@ -671,53 +669,13 @@ function formatChatMarkdown(text) {
     .replace(/\n/g, '<br/>');
 }
 
-function renderSavedChat() {
-  const box = document.getElementById('chat-box');
-  if (!box || chatConversationHistory.length === 0) return;
-
-  let html = `
-    <div class="flex items-start gap-3 mb-4">
-      <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">🤖</div>
-      <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-md leading-relaxed border border-navy/5 shadow-sm text-sm">
-        Hey there! 👋 I am your Gemini AI Travel Concierge. Tell me where you wish to explore or your budget, and I'll craft a bespoke travel proposal for you instantly!
-      </div>
-    </div>
-  `;
-
-  chatConversationHistory.forEach(item => {
-    const text = item.text || (item.parts && item.parts[0]?.text) || '';
-    if (!text) return;
-    if (item.role === 'user') {
-      html += `
-        <div class="flex items-start justify-end gap-3 mb-4">
-          <div class="bg-ocean text-white rounded-2xl rounded-tr-none p-3.5 max-w-md shadow font-medium text-sm">
-            ${text}
-          </div>
-          <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">👤</div>
-        </div>
-      `;
-    } else {
-      const formatted = formatChatMarkdown(text);
-      html += `
-        <div class="flex items-start gap-3 mb-3.5">
-          <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">🤖</div>
-          <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-3.5 max-w-2xl leading-relaxed text-sm border border-navy/5 shadow-sm">
-            ${formatted}
-          </div>
-        </div>
-      `;
-    }
-  });
-
-  box.innerHTML = html;
-  box.scrollTop = box.scrollHeight;
-}
-
 function clearChatHistory() {
   chatConversationHistory = [];
   activeAiDestination = null;
-  localStorage.removeItem('letsexplore_ai_history');
-  localStorage.removeItem('letsexplore_active_dest');
+  try {
+    localStorage.removeItem('letsexplore_ai_history');
+    localStorage.removeItem('letsexplore_active_dest');
+  } catch(e) {}
   const box = document.getElementById('chat-box');
   if (box) {
     box.innerHTML = `
@@ -730,11 +688,6 @@ function clearChatHistory() {
     `;
   }
 }
-
-// Call renderSavedChat once DOM is ready or when tab switched
-document.addEventListener('DOMContentLoaded', () => {
-  renderSavedChat();
-});
 
 async function submitChat(e) {
   e.preventDefault();
@@ -770,8 +723,6 @@ async function submitChat(e) {
   if (chatConversationHistory.length > 60) {
     chatConversationHistory = chatConversationHistory.slice(-60);
   }
-  localStorage.setItem('letsexplore_ai_history', JSON.stringify(chatConversationHistory));
-
   let reply = '';
   const directKey = atob("QVEuQWI4Uk42SXQ5aGtQWlFuZTU4Q2V6RlFyRnlTZlZDbE5TODYzLThQUHRpYTlBRmlhR1E=");
   const systemPrompt = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra).
@@ -1114,9 +1065,7 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
       const genText = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
       if (genText) {
         reply = genText;
-        chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
-        localStorage.setItem('letsexplore_ai_history', JSON.stringify(chatConversationHistory));
-      }
+        chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });      }
     }
   } catch(gErr) {
     console.warn('Direct Gemini API call error:', gErr);
@@ -1150,12 +1099,8 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
         if (data && data.reply) {
           reply = data.reply;
           if (data.activeDestination) {
-            activeAiDestination = data.activeDestination;
-            localStorage.setItem('letsexplore_active_dest', activeAiDestination);
-          }
-          chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
-          localStorage.setItem('letsexplore_ai_history', JSON.stringify(chatConversationHistory));
-        }
+            activeAiDestination = data.activeDestination;          }
+          chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });        }
       }
     } catch(err) {
       console.log('Serverless / localhost unreachable, falling back to local chat engine');
@@ -1168,15 +1113,11 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
       const smart = window.generateSmartReply(val, chatConversationHistory, activeAiDestination);
       reply = smart.reply;
       if (smart.activeDestination) {
-        activeAiDestination = smart.activeDestination;
-        localStorage.setItem('letsexplore_active_dest', activeAiDestination);
-      }
+        activeAiDestination = smart.activeDestination;      }
     } else {
       reply = "Hey there! 👋 I can help you plan your dream vacation. We have 22 verified direct DMC packages with locked wholesale rates across Thailand, Bali, Dubai, Georgia $300, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala.\n\nTell me where you want to travel, your dates, or your budget!";
     }
-    chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });
-    localStorage.setItem('letsexplore_ai_history', JSON.stringify(chatConversationHistory));
-  }
+    chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });  }
 
   // Strip any accidental robotic prefix
   if (reply) {
