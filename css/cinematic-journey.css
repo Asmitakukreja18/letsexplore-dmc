@@ -421,7 +421,7 @@
 }
 
 /* ============================================================ */
-/* STAGE 2: LUXURY AIRPLANE CABIN WINDOW (IMAGE 2 AURA STYLE)   */
+/* STAGE 2: LUXURY AIRPLANE CABIN WINDOW (WHITE FRAME SPEC)     */
 /* ============================================================ */
 #cabin-window-stage {
   position: absolute;
@@ -431,60 +431,143 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #0b1110;
+  background: radial-gradient(circle at 50% 50%, #2f343d 0%, #1e2229 55%, #13161c 100%);
   color: #ffffff;
   pointer-events: none;
   opacity: 0;
   transform: scale(0.96);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  overflow: hidden;
 }
 
 .auragate-cabin-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, #1a222e 0%, #0c1219 50%, #05080c 100%);
+  background: radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
   pointer-events: none;
 }
 
+/* Top Utility Bar (Matching Reference Image 1) */
+.auragate-top-bar {
+  position: absolute;
+  top: clamp(20px, 4vh, 40px);
+  left: clamp(24px, 5vw, 60px);
+  right: clamp(24px, 5vw, 60px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 15;
+  pointer-events: auto;
+}
+
+.auragate-brand-mark {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.auragate-pill-action {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #0b1f3a;
+  background: #ffffff;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.auragate-pill-action:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+}
+
+/* Pure White Sculpted Airplane Window Frame */
 .auragate-window-frame {
   position: relative;
   width: min(440px, 86vw);
   height: min(600px, 78vh);
   border-radius: 200px;
-  background: linear-gradient(145deg, #2a3441 0%, #141c26 50%, #080d14 100%);
+  background: linear-gradient(150deg, #ffffff 0%, #f1f4f8 35%, #e2e8f0 70%, #d8e0e9 100%);
   padding: 22px;
   box-shadow: 
-    0 40px 90px rgba(0, 0, 0, 0.9),
-    inset 0 3px 6px rgba(255, 255, 255, 0.28),
-    inset 0 -8px 18px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(255, 255, 255, 0.15);
+    0 40px 90px rgba(0, 0, 0, 0.65),
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    inset 0 3px 6px rgba(255, 255, 255, 1),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.9);
   user-select: none;
   pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Glowing Inner Bezel */
 .auragate-window-bezel {
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 180px;
-  background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 35%, #94a3b8 70%, #64748b 100%);
+  border-radius: 178px;
+  background: linear-gradient(145deg, #ffffff 0%, #edf2f7 45%, #cbd5e1 80%, #94a3b8 100%);
   padding: 16px;
   box-shadow: 
-    inset 0 10px 24px rgba(0, 0, 0, 0.55),
-    inset 0 -10px 24px rgba(255, 255, 255, 0.45),
-    0 4px 14px rgba(0, 0, 0, 0.4);
+    inset 0 10px 22px rgba(15, 23, 42, 0.22),
+    inset 0 -8px 18px rgba(255, 255, 255, 0.95),
+    0 2px 10px rgba(0, 0, 0, 0.18),
+    0 0 35px rgba(56, 189, 248, 0.25);
 }
 
+/* Window Shade Handle Recess (Matching Reference Image 1) */
+.auragate-shade-housing {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.auragate-shade-handle {
+  width: 72px;
+  height: 11px;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f8fafc 0%, #cbd5e1 100%);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  position: relative;
+}
+
+.auragate-shade-handle::after {
+  content: '';
+  position: absolute;
+  inset: 2px 8px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.2);
+}
+
+/* Bright Azure Sky Glass */
 .auragate-window-glass {
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 165px;
-  background: #38bdf8;
+  border-radius: 164px;
+  background: radial-gradient(circle at 50% 30%, #38bdf8 0%, #0284c7 50%, #0369a1 100%);
   overflow: hidden;
   box-shadow: 
-    inset 0 20px 35px rgba(0, 0, 0, 0.85),
-    inset 0 -12px 25px rgba(0, 0, 0, 0.7);
+    inset 0 16px 30px rgba(15, 23, 42, 0.35),
+    inset 0 -10px 22px rgba(2, 132, 199, 0.45);
 }
 
 .auragate-window-sky {
@@ -499,41 +582,102 @@
 .auragate-window-reflection {
   position: absolute;
   inset: 0;
-  border-radius: 165px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.08) 25%, transparent 50%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.3) 100%);
+  border-radius: 164px;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 24%, transparent 46%, rgba(255, 255, 255, 0.08) 72%, rgba(255, 255, 255, 0.3) 100%);
   pointer-events: none;
   z-index: 10;
   mix-blend-mode: screen;
 }
 
+/* Typography & Content (Travel-Focused DMC Copy) */
 .auragate-title-copy {
   position: absolute;
   left: clamp(24px, 6vw, 80px);
-  bottom: clamp(24px, 8vh, 100px);
-  max-width: 420px;
+  bottom: clamp(24px, 8vh, 90px);
+  max-width: 440px;
   pointer-events: auto;
   z-index: 15;
 }
 
 .auragate-title-copy h2 {
-  font-family: "Ogg Medium", "Playfair Display", serif;
-  font-size: clamp(2.4rem, 4vw, 3.8rem);
-  line-height: 1.05;
-  color: #fdf1e1;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
+  line-height: 1.08;
 }
 
-.auragate-title-copy h2 span {
+.auragate-title-copy .title-serif {
+  font-family: "Playfair Display", Georgia, serif;
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
+  font-size: clamp(2.3rem, 3.8vw, 3.4rem);
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.auragate-title-copy .title-hero {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 4.3vw, 3.9rem);
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  display: block;
+  margin: 2px 0 4px;
+}
+
+.auragate-title-copy .title-tag {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 3.4vw, 3.1rem);
+  color: #ffffff;
+  letter-spacing: -0.03em;
   display: block;
 }
 
 .auragate-title-copy p {
-  font-size: 0.95rem;
-  color: rgba(253, 241, 225, 0.75);
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.55;
   margin: 0;
+}
+
+/* Bottom Right Monogram (Matching Reference Image 1) */
+.auragate-bottom-credit {
+  position: absolute;
+  right: clamp(24px, 5vw, 60px);
+  bottom: clamp(24px, 6vh, 60px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 260px;
+  z-index: 15;
+  pointer-events: auto;
+}
+
+.auragate-bottom-credit .credit-mono {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.auragate-bottom-credit p {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.35;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .auragate-bottom-credit {
+    display: none;
+  }
+  .auragate-top-bar {
+    display: none;
+  }
 }
 
 /* ============================================================ */
