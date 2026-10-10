@@ -1,0 +1,514 @@
+/* ============================================================ */
+/* CINEMATIC AIRPLANE PRELOADER — LET'S EXPLORE DMC             */
+/* The ENTIRE plane zooms with the window in unison,            */
+/* destination images crossfade with silky slow dissolve,       */
+/* and the scene fades out gracefully revealing the live site.   */
+/* ============================================================ */
+
+#airplane-preloader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999999;
+  background: #040d1a;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  /* Dheere dheere fade out when finished */
+  transition: opacity 1.8s cubic-bezier(0.22, 1, 0.36, 1), visibility 1.8s ease, filter 1.8s ease;
+}
+
+#airplane-preloader.is-loaded {
+  opacity: 0;
+  visibility: hidden;
+  filter: blur(12px) brightness(1.08);
+  pointer-events: none;
+}
+
+/* Atmospheric Sky & Sun Backlight */
+.preloader-sky-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, #153e6b 0%, #071e36 45%, #020914 100%);
+  pointer-events: none;
+}
+
+.preloader-sun-glow {
+  position: absolute;
+  top: 35%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 162, 97, 0.35) 0%, rgba(244, 162, 97, 0.1) 45%, transparent 75%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+/* Drifting Cloud Layers */
+.preloader-clouds-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.preloader-cloud-layer {
+  position: absolute;
+  inset-x: 0;
+  bottom: 0;
+  height: 420px;
+  background-repeat: repeat-x;
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.55;
+  transition: opacity 1.5s ease;
+}
+
+.preloader-cloud-bg {
+  background-image: url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80');
+  animation: preloaderDriftSlow 40s linear infinite;
+}
+
+.preloader-cloud-fg {
+  height: 300px;
+  background-image: url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?auto=format&fit=crop&w=1200&q=80');
+  opacity: 0.75;
+  filter: blur(2px);
+  animation: preloaderDriftFast 20s linear infinite;
+}
+
+@keyframes preloaderDriftSlow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes preloaderDriftFast {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============================================================ */
+/* THE UNIFIED AIRPLANE & WINDOW ZOOM STAGE                     */
+/* The ENTIRE airplane zooms with the window in lockstep!        */
+/* ============================================================ */
+.preloader-flight-stage {
+  position: relative;
+  z-index: 10;
+  width: min(1050px, 95vw);
+  aspect-ratio: 1907 / 825;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Fly-in translation */
+  transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  will-change: transform, opacity;
+}
+
+/* The Plane Rig: Transform origin locked to the passenger window */
+.preloader-airplane-rig {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Passenger window coordinates in lets-explore-airliner.png */
+  transform-origin: 30.5% 71.8%;
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Airplane Floating physics */
+.preloader-airplane-inner-float {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: planeFloat 4.2s ease-in-out infinite alternate;
+}
+
+@keyframes planeFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-10px) rotate(-0.8deg); }
+}
+
+/* User's Official Branded Airliner Image */
+.preloader-real-airliner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 32px 50px rgba(0, 0, 0, 0.85)) drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+  user-select: none;
+  pointer-events: none;
+  display: block;
+}
+
+/* Dual Jet Engine Contrails */
+.preloader-contrail {
+  position: absolute;
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.35) 45%, transparent 100%);
+  filter: blur(4px);
+  pointer-events: none;
+  transform-origin: right center;
+  animation: contrailPuff 1.8s ease-in-out infinite alternate;
+}
+
+.contrail-outer {
+  left: -220px;
+  top: 75%;
+  width: 380px;
+  transform: rotate(-10deg);
+}
+
+.contrail-inner {
+  left: -150px;
+  top: 82%;
+  width: 320px;
+  transform: rotate(-10deg);
+  opacity: 0.7;
+}
+
+@keyframes contrailPuff {
+  0% { opacity: 0.65; transform: rotate(-10deg) scaleY(0.9); }
+  100% { opacity: 0.95; transform: rotate(-10deg) scaleY(1.15); }
+}
+
+/* ============================================================ */
+/* INTEGRATED FUSELAGE PASSENGER WINDOW                         */
+/* Lives DIRECTLY on the airplane, scales with the plane        */
+/* ============================================================ */
+.preloader-plane-window {
+  position: absolute;
+  left: 30.5%;
+  top: 71.8%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 68px;
+  border-radius: 28px;
+  padding: 3.5px;
+  background: linear-gradient(145deg, #334155 0%, #1e293b 50%, #0f172a 100%);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.75),
+    inset 0 1px 3px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.25);
+  z-index: 20;
+  overflow: hidden;
+  transition: all 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* When zoomed in, window bezel expands smoothly */
+.preloader-plane-window.is-zoomed {
+  width: 64px;
+  height: 88px;
+  border-radius: 36px;
+  padding: 4px;
+  box-shadow: 
+    0 20px 45px rgba(0, 0, 0, 0.9),
+    inset 0 2px 4px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.9),
+    0 0 0 1.5px rgba(244, 162, 97, 0.8);
+}
+
+.preloader-window-outer-rim {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 35%, #94a3b8 70%, #64748b 100%);
+  padding: 2.5px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.5);
+}
+
+.preloader-window-inner-glass {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #020617;
+  overflow: hidden;
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* Destination Slides Inside the Window */
+.preloader-dest-slides-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.preloader-dest-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.15);
+  /* DHEERE DHEERE image transition: silky 1.2s crossfade */
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.6s ease-out;
+}
+
+.preloader-dest-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Specular curved reflection */
+.preloader-window-glass-reflection {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.12) 30%, transparent 55%, rgba(255, 255, 255, 0.25) 100%);
+  pointer-events: none;
+  z-index: 10;
+  mix-blend-mode: screen;
+}
+
+/* Passenger Window Target Reticle */
+.preloader-window-reticle {
+  position: absolute;
+  left: 30.5%;
+  top: 71.8%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(244, 162, 97, 0.9);
+  pointer-events: none;
+  z-index: 30;
+  transition: opacity 0.6s ease;
+}
+
+.preloader-window-reticle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.7);
+  animation: reticleSpin 6s linear infinite;
+}
+
+.preloader-window-reticle .reticle-pulse {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: #F4A261;
+  box-shadow: 0 0 16px #F4A261;
+  animation: telemetryPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes reticleSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================================ */
+/* FULLSCREEN DESTINATION REVEAL LAYER                          */
+/* Takes over smoothly when plane zooms into full viewport      */
+/* ============================================================ */
+.preloader-fullscreen-dest {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 15;
+  opacity: 0;
+  pointer-events: none;
+  /* DHEERE DHEERE fade out when leaving */
+  transition: opacity 1.8s cubic-bezier(0.22, 1, 0.36, 1), transform 1.8s ease, filter 1.8s ease;
+  overflow: hidden;
+}
+
+.preloader-fullscreen-dest.is-visible {
+  opacity: 1;
+}
+
+.preloader-fullscreen-dest.is-dissolving {
+  opacity: 0;
+  transform: scale(1.06);
+  filter: blur(14px) brightness(1.05);
+}
+
+.preloader-fullscreen-slides-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.preloader-fullscreen-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.05);
+  /* Dheere dheere 1.2s crossfade between destination photos */
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 2s ease-out;
+}
+
+.preloader-fullscreen-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.preloader-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 35%, rgba(4, 13, 26, 0.6) 80%, rgba(4, 13, 26, 0.95) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ============================================================ */
+/* LIQUID GLASSMORPHISM TELEMETRY & PROGRESS BAR               */
+/* ============================================================ */
+.preloader-hud-wrap {
+  position: absolute;
+  bottom: clamp(24px, 6vh, 60px);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(480px, 90vw);
+  pointer-events: auto;
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.preloader-hud-wrap.is-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+/* Glass Pill Telemetry Tag */
+.preloader-telemetry-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.5s ease;
+}
+
+.preloader-telemetry-tag .pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F4A261;
+  box-shadow: 0 0 12px #F4A261;
+  animation: telemetryPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes telemetryPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* Glass Progress Bar */
+.preloader-progress-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.preloader-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1E88E5 0%, #F4A261 70%, #ffedd5 100%);
+  box-shadow: 0 0 16px rgba(244, 162, 97, 0.8);
+  transition: width 0.2s linear;
+}
+
+.preloader-footer-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'Inter', sans-serif;
+  padding: 0 4px;
+}
+
+.preloader-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.preloader-sound-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preloader-sound-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.04);
+}
+
+.preloader-sound-btn.is-muted {
+  opacity: 0.6;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.preloader-skip-btn {
+  background: none;
+  border: none;
+  color: #F4A261;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 6px;
+  transition: color 0.2s;
+}
+
+.preloader-skip-btn:hover {
+  color: #ffffff;
+}

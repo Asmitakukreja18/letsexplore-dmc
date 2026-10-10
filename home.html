@@ -10,8 +10,19 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/cinematic-journey.css" />
+<link rel="stylesheet" href="css/cinematic-airplane-preloader.css" />
+<script src="js/cinematic-airplane-preloader.js" defer></script>
 <script src="js/nav.js" defer></script>
 <script src="js/wishlist.js" defer></script>
+<script src="js/packages-showcase.js" defer></script>
+<script src="js/cinematic-scroll-journey.js" defer></script>
 
 <script id="tailwind-config">
       tailwind.config = {
@@ -78,7 +89,6 @@
     </script>
 
 <style>
-      #global-preloader { position: fixed; inset: 0; width: 100vw; height: 100vh; background: #ffffff !important; z-index: 99999999; display: flex; align-items: center; justify-content: center; }
       * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
       html { scroll-behavior: smooth; background: #ffffff; }
       body {
@@ -259,101 +269,551 @@
       /* Offset fixed nav to let hero be fullscreen */
       body { padding-top: 0 !important; }
       #site-nav ~ main > section:first-of-type { padding-top: 84px; }
+
+      /* ============================================================ */
+      /* AIRPLANE WINDOW CABIN STYLES                                 */
+      /* ============================================================ */
+      .airplane-window-wrapper {
+        perspective: 1200px;
+      }
+
+      #airplane-window-frame {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+        height: 550px;
+        margin: 0 auto;
+        border-radius: 170px;
+        background: linear-gradient(145deg, #1e293b 0%, #0f172a 50%, #060e1a 100%);
+        padding: 20px;
+        box-shadow: 
+          0 30px 70px -15px rgba(0, 0, 0, 0.85),
+          inset 0 2px 4px rgba(255, 255, 255, 0.25),
+          inset 0 -6px 12px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(255, 255, 255, 0.12);
+        transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transform-style: preserve-3d;
+        user-select: none;
+      }
+
+      .airplane-window-bezel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 150px;
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 35%, #94a3b8 70%, #64748b 100%);
+        padding: 13px;
+        box-shadow: 
+          inset 0 8px 18px rgba(0, 0, 0, 0.5),
+          inset 0 -8px 18px rgba(255, 255, 255, 0.4),
+          0 4px 12px rgba(0, 0, 0, 0.35);
+      }
+
+      .airplane-window-inner-rim {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 137px;
+        background: #061224;
+        overflow: hidden;
+        box-shadow: 
+          inset 0 16px 28px rgba(0, 0, 0, 0.85),
+          inset 0 -10px 20px rgba(0, 0, 0, 0.65);
+      }
+
+      .airplane-glass-reflection {
+        position: absolute;
+        inset: 0;
+        border-radius: 137px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.06) 26%, transparent 50%, rgba(255,255,255,0.08) 75%, rgba(255,255,255,0.28) 100%);
+        pointer-events: none;
+        z-index: 15;
+        mix-blend-mode: screen;
+      }
+
+      .airplane-glass-radial {
+        position: absolute;
+        inset: 0;
+        border-radius: 137px;
+        background: radial-gradient(circle at 78% 20%, rgba(255,255,255,0.42) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: 16;
+      }
+
+      @keyframes cloudDriftSlow {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      @keyframes cloudDriftFast {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      @keyframes cloudPuffFloat {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50%      { transform: translateY(-6px) scale(1.02); }
+      }
+
+      .cloud-drift-slow {
+        animation: cloudDriftSlow 55s linear infinite;
+      }
+
+      .cloud-drift-fast {
+        animation: cloudDriftFast 28s linear infinite;
+      }
+
+      .cloud-puff-float {
+        animation: cloudPuffFloat 7s ease-in-out infinite;
+      }
+
+      /* ============================================================ */
+      /* CINEMATIC STICKY STAGE & BRIDGES SHOWCASE STYLES             */
+      /* ============================================================ */
+      #cinematic-sticky-stage {
+        will-change: transform;
+      }
+      #hero-window-wrapper {
+        transform-origin: center center;
+        will-change: transform, opacity;
+      }
+      #destination-reveal-stage {
+        will-change: opacity, transform;
+      }
+      #bridges-showcase-stage {
+        will-change: opacity, transform;
+      }
+      /* ============================================================ */
+      /* SCENE 4 & 5: EXTERIOR FLIGHT & IN-FLIGHT CABIN STYLES        */
+      /* ============================================================ */
+      #flight-takeoff-stage {
+        will-change: transform, opacity;
+      }
+      #exterior-airplane-assembly {
+        transform-origin: 48% 45%;
+        will-change: transform;
+      }
+      .jet-contrail {
+        background: linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 60%, transparent 100%);
+        filter: blur(4px);
+        transform-origin: left center;
+      }
+      #in-flight-cabin-stage {
+        will-change: opacity, transform;
+      }
+      #inflight-window-frame {
+        position: relative;
+        width: 100%;
+        max-width: 360px;
+        height: 480px;
+        margin: 0 auto;
+        border-radius: 155px;
+        background: linear-gradient(145deg, #1e293b 0%, #0f172a 50%, #060e1a 100%);
+        padding: 16px;
+        box-shadow: 
+          0 25px 60px -15px rgba(0, 0, 0, 0.9),
+          inset 0 2px 4px rgba(255, 255, 255, 0.25),
+          inset 0 -6px 12px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(255, 255, 255, 0.12);
+        user-select: none;
+      }
+      @media (max-width: 1024px) {
+        #inflight-window-frame {
+          max-width: 280px;
+          height: 380px;
+          border-radius: 130px;
+          padding: 12px;
+        }
+      }
+      @media (max-width: 640px) {
+        #inflight-window-frame {
+          max-width: 200px;
+          height: 280px;
+          border-radius: 100px;
+          padding: 9px;
+        }
+      }
+      .inflight-window-bezel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 140px;
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 35%, #94a3b8 70%, #64748b 100%);
+        padding: 10px;
+        box-shadow: 
+          inset 0 6px 14px rgba(0, 0, 0, 0.5),
+          inset 0 -6px 14px rgba(255, 255, 255, 0.4),
+          0 4px 10px rgba(0, 0, 0, 0.35);
+      }
+      .inflight-window-inner-rim {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 128px;
+        background: #061224;
+        overflow: hidden;
+        box-shadow: 
+          inset 0 14px 24px rgba(0, 0, 0, 0.85),
+          inset 0 -8px 16px rgba(0, 0, 0, 0.65);
+      }
+      .card-glass-panel {
+        background: rgba(11, 31, 58, 0.78);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      /* Train Bob Animation */
+      @keyframes trainBob {
+        0%, 100% { transform: scale(1.03) translateY(0); }
+        50% { transform: scale(1.03) translateY(-6px); }
+      }
+      .animate-train-bob {
+        animation: trainBob 3s ease-in-out infinite;
+      }
+
+      /* Liquid Glass Effect */
+      .liquid-glass {
+        background: rgba(255, 255, 255, 0.01);
+        background-blend-mode: luminosity;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .liquid-glass::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.4px;
+        background: linear-gradient(180deg,
+          rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%,
+          rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+          rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .font-instrument {
+        font-family: 'Instrument Serif', serif;
+      }
     </style>
 </head>
 
 <body class="bg-sand text-ink">
 
+  <!-- ============================================================ -->
+  <!-- CINEMATIC AIRPLANE PRELOADER (EXACT 6-SCENE IMPLEMENTATION)  -->
+  <!-- ============================================================ -->
+  <div id="cinematic-airplane-preloader" aria-label="Loading Let's Explore DMC">
+    <!-- Scene 1: Sky Backdrop & Parallax Clouds -->
+    <div class="cap-sky-backdrop"></div>
+    <div class="cap-sun-bloom"></div>
+    
+    <div class="cap-clouds-container">
+      <div class="cap-cloud-layer cap-cloud-upper"></div>
+      <div class="cap-cloud-layer cap-cloud-mid"></div>
+      <div class="cap-cloud-layer cap-cloud-lower"></div>
+    </div>
+
+    <!-- Scene 2 & 5: Commercial Airliner Rig (Enters Left -> Center -> Exits Right) -->
+    <div class="cap-flight-stage">
+      <div class="cap-airplane-rig" id="cap-airplane-rig">
+        <div class="cap-contrail cap-contrail-outer"></div>
+        <div class="cap-contrail cap-contrail-inner"></div>
+
+        <img src="images/lets-explore-airliner.png" 
+             alt="Let's Explore DMC Airliner" 
+             class="cap-airliner-img" 
+             id="cap-airliner-img" />
+
+        <!-- Scene 3 & 4: Cinematic Airplane Window & Destination Slideshow embedded in Airliner -->
+        <div class="cap-window-portal" id="cap-window-portal">
+          <div class="cap-window-bezel">
+            <div class="cap-window-glass">
+              <div class="cap-slides-container" id="cap-slides-container">
+                <!-- Dynamically populated destination slides (Kerala, Dubai, Singapore, Vietnam, Turkey, Bali) -->
+              </div>
+              <div class="cap-slide-badge" id="cap-slide-badge">Kerala · God's Own Country</div>
+              <div class="cap-glass-reflection"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls (Skip & Sound) -->
+    <div class="cap-controls">
+      <button class="cap-sound-btn" id="cap-sound-btn" type="button" aria-label="Toggle Sound">🔊 Sound</button>
+      <button class="cap-skip-btn" id="cap-skip-btn" type="button">Skip Intro →</button>
+    </div>
+  </div>
+
   <main>
 
-    <!-- HERO CONTENT -->
-    <section class="relative min-h-[90vh] flex flex-col justify-end pb-16 md:pb-24 px-6 md:px-14 xl:px-24 overflow-hidden mt-[64px]" style="background-image: url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=2000&q=85'); background-size: cover; background-position: center;">
+    <!-- ============================================================ -->
+    <!-- CINEMATIC AIRPLANE SCROLL JOURNEY (STICKY-STAGE CHOREOGRAPHY) -->
+    <!-- Scene 1: The Airplane Cabin Window & Brand Hero             -->
+    <!-- Scene 2: High-Altitude Destination Reveal (Descent FL180)    -->
+    <!-- Scene 3: Famous Bridges Around Our Destinations (Landmarks)  -->
+    <!-- Scene 4: Bridge Journey Ends & Airplane Takes Flight         -->
+    <!-- Scene 5: Camera Enters the Airplane Cabin                    -->
+    <!-- Scene 6: In-Flight Window Travel Package Discovery (All 23)  -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- CINEMATIC THREE-STAGE SCROLL EXPERIENCE                       -->
+    <!-- Stage 1: Mostar Layered Bridge Parallax (Image 4 & Spec)      -->
+    <!-- Stage 2: Auragate Luxury Airplane Cabin Window (Image 2)     -->
+    <!-- Stage 3: 3D Curved Floating Travel Package Carousel (Image 3) -->
+    <!-- ============================================================ -->
+    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 3500px;">
 
-      <!-- Background Video Layer -->
-      <div class="absolute inset-0 z-0 overflow-hidden bg-navy-deep">
-        <video autoplay loop muted playsinline class="w-full h-full object-cover min-w-full min-h-full scale-105 opacity-90">
-          <source src="images/IMG_1588.MOV" type="video/mp4">
-          <source src="images/IMG_1588.MOV" type="video/quicktime">
-        </video>
+      <!-- Sticky Fullscreen Viewport Stage (100vh pinned) -->
+      <div id="cinematic-sticky-stage" class="sticky top-0 h-screen w-full overflow-hidden bg-[#0b1110] text-white select-none">
+
+        <!-- ============================================================ -->
+        <!-- STAGE 1: MOSTAR LAYERED BRIDGE PARALLAX (IMAGE 4)            -->
+        <!-- ============================================================ -->
+        <div id="mostar-stage">
+          <div class="mostar-world">
+            <img class="scene-img sky-img" src="https://raft-blast-61784561.figma.site/_assets/v11/16b5007d9c93971e26ffe4e0e3e37946f6bd538c.png" alt="" />
+            
+            <div class="back-stack">
+              <img class="scene-img back-img back-four" src="https://raft-blast-61784561.figma.site/_assets/v11/8a7f8af50e0ce92ec2e228e7b0b4112178c51cf1.png" alt="" />
+              <img class="scene-img back-img back-bazaar" src="https://raft-blast-61784561.figma.site/_assets/v11/864afe00e41e2fa20a5aa546e15cb807e0f81384.png" alt="" />
+            </div>
+
+            <h1 class="hero-title">MOSTAR</h1>
+
+            <img class="scene-img splitframe-img splitframe-left" src="https://raft-blast-61784561.figma.site/_assets/v11/7536d7b60a1fce482cf6edf3f0bffd3bad5d0f8a.png" alt="" />
+            <img class="scene-img splitframe-img splitframe-right" src="https://raft-blast-61784561.figma.site/_assets/v11/392db6a6a6b98e868bd7f8d3f55bb719d51e5028.png" alt="" />
+            <img class="scene-img bridge-img" src="https://raft-blast-61784561.figma.site/_assets/v11/c6a6d8ef49bca43f708aa852692942c45ec950d4.png" alt="" />
+            <img class="scene-img frame-two-img" src="https://raft-blast-61784561.figma.site/_assets/v11/ba75252bab2b1c510987b74837770f7bc8a6b2d4.png" alt="" />
+
+            <div class="shade"></div>
+          </div>
+
+          <section class="intro-copy" aria-label="Mostar overview">
+            <p>A stone arch, emerald water, and a compact old city made for slow mornings, late light, and one unforgettable crossing.</p>
+            <div class="hero-tags" aria-label="Mostar highlights">
+              <span>Old Bridge</span>
+              <span>Neretva River</span>
+              <span>UNESCO old city</span>
+            </div>
+          </section>
+
+          <section class="story-panel story-panel-bridge" id="bridge" aria-label="Old Bridge details">
+            <h2>The bridge is the city's compass.</h2>
+            <p>Stari Most links the banks of the Neretva and anchors a historic quarter shaped by Ottoman, Mediterranean, and European layers.</p>
+            <dl class="facts">
+              <div>
+                <dt>1566</dt>
+                <dd>Original bridge completed</dd>
+              </div>
+              <div>
+                <dt>2005</dt>
+                <dd>Old Bridge Area inscribed by UNESCO</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="story-panel story-panel-bazaar" id="bazaar" aria-label="Old town details">
+            <h2>The bazaar keeps Mostar close.</h2>
+            <p>Stone lanes, mosque courtyards, copper stalls, and riverside coffee stay within a short walk of Stari Most.</p>
+            <button class="note-button" type="button" onclick="window.scrollTo({top: 2600, behavior: 'smooth'})">
+              <span aria-hidden="true">↗</span>
+              <span>Explore All Global Packages</span>
+            </button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- INTERMEDIATE STAGE: AIRLINER FLIGHT TAKEOFF (LET'S EXPLORE DMC) -->
+        <!-- ============================================================ -->
+        <div id="airplane-flight-stage" class="absolute inset-0 w-full h-full pointer-events-none flex flex-col items-center justify-center opacity-0 z-20 transition-opacity">
+          <!-- Atmospheric Backdrop -->
+          <div class="absolute inset-0 bg-gradient-to-b from-[#031122]/90 via-[#072445]/60 to-[#020914]/95"></div>
+          
+          <div class="relative w-[min(980px,94vw)] aspect-[1907/825] flex items-center justify-center" id="airliner-flight-rig">
+            <!-- Dual Jet Contrails -->
+            <div class="preloader-contrail contrail-outer" style="top:75%; left:-200px; width:360px;"></div>
+            <div class="preloader-contrail contrail-inner" style="top:82%; left:-140px; width:300px;"></div>
+
+            <!-- Official Let's Explore DMC Airliner Image -->
+            <img src="images/lets-explore-airliner.png" 
+                 alt="Let's Explore DMC Luxury Airliner" 
+                 class="w-full h-full object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.95)]" 
+                 id="scroll-airliner-img" />
+
+            <!-- Flight Telemetry Overlay Pill -->
+            <div class="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 liquid-glass rounded-full px-6 py-2.5 flex items-center gap-3 text-white text-xs sm:text-sm font-sans whitespace-nowrap shadow-2xl">
+              <span class="w-2.5 h-2.5 rounded-full bg-sunset animate-pulse"></span>
+              <span>✈️ Let's Explore DMC · Cruising FL380 · Entering Luxury Cabin</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- STAGE 2: AURAGATE LUXURY AIRPLANE CABIN WINDOW (IMAGE 2)     -->
+        <!-- ============================================================ -->
+        <div id="cabin-window-stage">
+          <div class="auragate-cabin-bg"></div>
+
+          <!-- Centered Realistic Aircraft Window -->
+          <div class="auragate-window-frame">
+            <div class="auragate-window-bezel">
+              <div class="auragate-window-glass">
+                <img class="auragate-window-sky" src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80" alt="Sky View Outside Aircraft" />
+                <div class="auragate-window-reflection"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auragate Title Copy (Matching Image 2 Reference) -->
+          <div class="auragate-title-copy">
+            <h2>
+              Discover Living<br/>
+              <span>Digital Worlds</span><br/>
+              Vivid, Alive, Endless
+            </h2>
+            <p>Experience handcrafted luxury journeys across 28 global destinations curated with 5★ stays and direct wholesale pricing.</p>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- STAGE 3: 3D CURVED FLOATING CARDS CAROUSEL (IMAGE 3)         -->
+        <!-- ============================================================ -->
+        <div id="sky-carousel-stage">
+          <!-- Sky and Clouds Background (Image 3) -->
+          <img class="sky-cloud-backdrop" src="https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?auto=format&fit=crop&w=1800&q=85" alt="Serene Azure Sky" />
+          <div class="absolute inset-0 bg-gradient-to-b from-[#38bdf8]/40 via-transparent to-[#38bdf8]/60 pointer-events-none"></div>
+
+          <!-- Header (Matching Image 3) -->
+          <div class="sky-stage-header">
+            <h2>Real wonders. Real worlds.</h2>
+            <p>Handcrafted Journeys across 28 global destinations by Let's Explore DMC.</p>
+          </div>
+
+          <!-- Category Quick-Filter Tabs -->
+          <div class="carousel-category-tabs">
+            <button onclick="filterCategory('all')" data-cat="all" class="tab-cat-pill is-active">All 28 Packages</button>
+            <button onclick="filterCategory('international')" data-cat="international" class="tab-cat-pill">🌍 International</button>
+            <button onclick="filterCategory('domestic')" data-cat="domestic" class="tab-cat-pill">🇮🇳 Domestic</button>
+            <button onclick="filterCategory('beach')" data-cat="beach" class="tab-cat-pill">🏝️ Beach & Island</button>
+            <button onclick="filterCategory('luxury')" data-cat="luxury" class="tab-cat-pill">✨ Luxury</button>
+            <button onclick="filterCategory('budget')" data-cat="budget" class="tab-cat-pill">💰 Budget Friendly</button>
+          </div>
+
+          <!-- 3D Cylindrical Curved Arc Viewport (Image 3) -->
+          <div class="carousel-3d-viewport" id="carousel-3d-viewport">
+            <!-- Dynamically populated with 3D cards -->
+          </div>
+
+          <!-- Centered Navigation Controls (Matching Image 3) -->
+          <div class="carousel-controls-bar">
+            <button onclick="carouselPrev()" class="btn-carousel-nav" aria-label="Previous Package">←</button>
+            <button onclick="carouselNext()" class="btn-carousel-nav" aria-label="Next Package">→</button>
+          </div>
+
+          <!-- Bottom Telemetry Cue -->
+          <div class="relative z-10 text-center pt-2">
+            <a href="#packages" onclick="window.scrollTo({top: document.getElementById('packages').offsetTop, behavior: 'smooth'});" class="inline-flex items-center gap-1.5 text-white/90 hover:text-white font-mono text-xs font-semibold drop-shadow">
+              <span>Continue Down to Full Catalog Grid & Search</span>
+              <span class="material-symbols-outlined text-sm animate-bounce">arrow_downward</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+
+    <!-- ============================================================ -->
+    <!-- CINEMATIC LUMORA HERO & SCENIC SANCTUARY (VIDEO SWITCHER)    -->
+    <!-- ============================================================ -->
+    <section id="lumora-sanctuary" class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between font-instrument select-none">
+      
+      <!-- 4 Fullscreen Looping Videos -->
+      <div class="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black pointer-events-none">
+        <video id="lumora-vid-0" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4" autoplay muted loop playsinline></video>
+        <video id="lumora-vid-1" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_092026_dd05b805-ea0f-40b2-8c52-332b88502592.mp4" autoplay muted loop playsinline></video>
+        <video id="lumora-vid-2" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4" autoplay muted loop playsinline></video>
+        <video id="lumora-vid-3" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_080959_4cac5234-3573-464e-a5b7-76b94b8a7d61.mp4" autoplay muted loop playsinline></video>
       </div>
 
-      <!-- Hero Gradient Overlay Layer — Light & Radiant -->
-      <div class="absolute inset-0 z-1 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(30,136,229,0.20), transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(244,162,97,0.25), transparent 60%), linear-gradient(180deg, rgba(6,18,36,0.40) 0%, rgba(6,18,36,0.25) 45%, rgba(6,18,36,0.85) 100%);"></div>
-
-      <div class="relative z-10 max-w-[1400px] mx-auto w-full">
-
-        <div class="flex items-center gap-4 mb-6 text-white/90" data-load="hero-tag">
-          <span class="w-12 h-px bg-sunset"></span>
-          <span class="font-sans text-eyebrow text-sunset">Direct Ground DMC · Amravati · Mumbai · Bali · Istanbul</span>
-        </div>
-
-        <h1 class="font-display text-hero-display text-white leading-[0.92] max-w-[17ch] mb-6" data-load="hero-title">
-          Travel,<br/>
-          <span class="italic font-light text-white/90" style="font-family: 'Cormorant Garamond', serif;">not as a tourist,</span><br/>
-          but as a guest.
-        </h1>
-
-        <p class="font-serif italic text-hero-sub text-white/85 max-w-xl mb-10" data-load="hero-italic">
-          Direct DMC wholesale tours curated with 5★ luxury stays, private chauffeurs, and 24/7 dedicated on-ground concierge.
-        </p>
-
-        <!-- Quick Trending Destination Shortcuts -->
-        <div class="flex flex-wrap items-center gap-3 mb-8" data-load="hero-cta">
-          <span class="text-xs font-bold uppercase tracking-widest text-white/60 mr-1">Trending DMC Deals:</span>
-          <a href="turkey-package.html" class="px-4 py-2 rounded-full bg-white/15 hover:bg-sunset hover:text-navy-deep text-white text-xs font-bold transition border border-white/20 backdrop-blur flex items-center gap-1.5 shadow">
-            <span>🇹🇷 Turkey (Cappadocia) ₹42K</span>
-          </a>
-          <a href="georgia-package.html" class="px-4 py-2 rounded-full bg-sunset text-navy-deep text-xs font-bold transition hover:brightness-110 flex items-center gap-1.5 shadow-lg shadow-sunset/30">
-            <span>🇬🇪 Georgia $300 USD Special</span>
-          </a>
-          <a href="deals.html" class="px-4 py-2 rounded-full bg-white/15 hover:bg-sunset hover:text-navy-deep text-white text-xs font-bold transition border border-white/20 backdrop-blur flex items-center gap-1.5 shadow">
-            <span>🏝️ Bali Pool Villas ₹48K</span>
-          </a>
-          <a href="deals.html" class="px-4 py-2 rounded-full bg-white/15 hover:bg-sunset hover:text-navy-deep text-white text-xs font-bold transition border border-white/20 backdrop-blur flex items-center gap-1.5 shadow">
-            <span>🏙️ Dubai 5D4N ₹34K</span>
-          </a>
-          <a href="ai-travel.html" class="px-4 py-2 rounded-full bg-[#7B61FF]/30 hover:bg-[#7B61FF] text-white text-xs font-bold transition border border-[#7B61FF]/40 backdrop-blur flex items-center gap-1.5 shadow">
-            <span>✨ AI Itinerary Builder</span>
-          </a>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-5 mb-12" data-load="hero-cta">
-          <a href="deals.html" class="btn-premium group inline-flex items-center gap-3 bg-sunset text-navy-deep font-semibold px-9 py-[18px] rounded-full tracking-wide text-[0.95rem] hover:brightness-105 transition soft-lift shadow-[0_10px_40px_-8px_rgba(244,162,97,0.55)]">
-            Explore All 42 Packages
-            <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition" style="font-variation-settings:'FILL' 1;">arrow_outward</span>
-          </a>
-          <a href="https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20I%20would%20like%20to%20plan%20a%20custom%20trip!" target="_blank" class="group inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-7 py-[18px] rounded-full tracking-wide text-[0.95rem] transition shadow-lg backdrop-blur">
-            <span class="material-symbols-outlined text-[#27AE60]" style="font-variation-settings:'FILL' 1;">chat</span>
-            <span>WhatsApp Concierge</span>
-          </a>
-        </div>
-
-        <!-- Floating hero stats bar -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 max-w-4xl pt-4 border-t border-white/15" data-load="hero-meta">
-          <div>
-            <div class="font-display text-white text-[2.4rem] md:text-[3rem] leading-none mb-1">10K+</div>
-            <div class="font-sans text-eyebrow text-white/60">Happy Travellers</div>
-          </div>
-          <div>
-            <div class="font-display text-white text-[2.4rem] md:text-[3rem] leading-none mb-1">42</div>
-            <div class="font-sans text-eyebrow text-white/60">Destinations</div>
-          </div>
-          <div>
-            <div class="font-display text-white text-[2.4rem] md:text-[3rem] leading-none mb-1">4.9<span class="text-sunset">★</span></div>
-            <div class="font-sans text-eyebrow text-white/60">Google Rating</div>
-          </div>
-          <div>
-            <div class="font-display text-white text-[2.4rem] md:text-[3rem] leading-none mb-1">100%</div>
-            <div class="font-sans text-eyebrow text-white/60">Direct Wholesale DMC</div>
-          </div>
-        </div>
-
+      <!-- Transparent PNG Overlay with continuous Train-Bob motion -->
+      <div class="absolute inset-0 w-full h-full z-[1] pointer-events-none overflow-hidden">
+        <img src="images/lumora-overlay.png" onerror="this.src='https://soft-zoom-63098134.figma.site/_assets/v11/0b4a435b2df2747593c43d7a1c9b4578f7d8d90c.png'" alt="Train Window Overlay" class="w-full h-full object-cover animate-train-bob" />
       </div>
 
-      <!-- Scroll cue -->
-      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 flex flex-col items-center gap-3 animate-fade-in" style="animation-delay: 1.6s; opacity: 0;">
-        <span class="font-sans text-eyebrow text-white/60">Scroll</span>
-        <span class="w-px h-12 bg-gradient-to-b from-white/60 to-transparent"></span>
+      <!-- Content Layer (z-index 2) -->
+      <div class="relative z-[2] w-full h-full flex flex-col justify-between px-6 sm:px-10 lg:px-16 py-6 sm:py-8 pointer-events-auto">
+        <!-- Top Nav -->
+        <header class="w-full flex items-center justify-between">
+          <a href="lumora.html" class="text-white italic text-2xl sm:text-3xl tracking-wide font-normal">Lumora</a>
+          <nav class="hidden md:flex items-center liquid-glass rounded-full px-5 py-2 space-x-6">
+            <a href="lumora.html#how-it-works" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">How It Works</a>
+            <a href="lumora.html#features" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">Features</a>
+            <a href="lumora.html#pricing" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">Pricing</a>
+            <a href="lumora.html#community" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">Community</a>
+            <a href="lumora.html" class="font-sans bg-white text-black text-sm font-medium px-4 py-1.5 rounded-full hover:bg-white/90 transition-all duration-200 shadow-sm">Get Started</a>
+          </nav>
+          <a href="lumora.html" target="_blank" class="liquid-glass rounded-full px-4 py-2 text-white text-xs font-sans flex items-center gap-1.5 hover:bg-white/10 transition">
+            Fullscreen App <span class="material-symbols-outlined text-sm">open_in_new</span>
+          </a>
+        </header>
+
+        <!-- Centered Hero Content -->
+        <main id="lumora-hero-content" class="flex-1 flex flex-col items-center justify-center text-center my-auto px-2 max-w-5xl mx-auto w-full transition-colors duration-700 text-white">
+          <div id="lumora-badge" class="liquid-glass rounded-full px-5 py-2 mb-6 sm:mb-8 font-sans text-xs sm:text-sm tracking-wide transition-colors duration-700">
+            Over 10,000 minds already finding their clarity
+          </div>
+
+          <h1 id="lumora-heading" class="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.08] max-w-4xl font-normal tracking-tight mb-5 sm:mb-6 transition-colors duration-700">
+            Clarity in an Endlessly<br />Noisy Universe
+          </h1>
+
+          <p id="lumora-subtext" class="font-sans text-sm sm:text-base md:text-lg max-w-xl leading-relaxed mb-8 sm:mb-10 text-white/85 transition-colors duration-700">
+            Rise above the chaos of pings, infinite scrolling, and relentless demands.
+            Discover how to protect your presence and create with intention.
+          </p>
+
+          <form id="lumora-form" class="liquid-glass rounded-full p-1.5 flex items-center w-full max-w-[320px] sm:max-w-md mb-8 sm:mb-10" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Joined ✓';">
+            <input type="email" placeholder="Your Best Email" required class="font-sans bg-transparent px-4 py-2 w-full text-sm outline-none placeholder:text-current placeholder:opacity-60 transition-colors duration-700 text-inherit" />
+            <button type="submit" class="font-sans bg-white text-black font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full hover:bg-white/90 whitespace-nowrap transition-all duration-200 shrink-0 shadow-sm">
+              Get Early Access
+            </button>
+          </form>
+
+          <!-- Video Switcher -->
+          <div id="lumora-switcher" class="flex items-center space-x-4 sm:space-x-8 font-sans text-xs sm:text-sm">
+            <button type="button" onclick="switchLumoraVideo(0)" class="lumora-tab-btn pb-1 border-b-2 border-white font-medium opacity-100 transition-all duration-700" data-idx="0">Golden Hour</button>
+            <button type="button" onclick="switchLumoraVideo(1)" class="lumora-tab-btn pb-1 border-b-2 border-transparent opacity-50 hover:opacity-80 transition-all duration-700" data-idx="1">Still Water</button>
+            <button type="button" onclick="switchLumoraVideo(2)" class="lumora-tab-btn pb-1 border-b-2 border-transparent opacity-50 hover:opacity-80 transition-all duration-700" data-idx="2">Deep Woods</button>
+            <button type="button" onclick="switchLumoraVideo(3)" class="lumora-tab-btn pb-1 border-b-2 border-transparent opacity-50 hover:opacity-80 transition-all duration-700" data-idx="3">Quiet Dawn</button>
+          </div>
+        </main>
+
+        <!-- Bottom Stats -->
+        <footer class="w-full flex items-center justify-center font-sans text-white/70 text-xs sm:text-sm pt-4">
+          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-center">
+            <span>60+ Deep Sessions</span>
+            <span class="hidden sm:inline opacity-40">|</span>
+            <span>12,000+ Creators</span>
+            <span class="hidden sm:inline opacity-40">|</span>
+            <span>4.8 User Satisfaction</span>
+            <span class="hidden sm:inline opacity-40">|</span>
+            <span>Intentional-First Design</span>
+          </div>
+        </footer>
       </div>
 
     </section>
@@ -481,397 +941,90 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION: Featured Experiences — stone bg                     -->
+    <!-- SECTION: Travel Packages — Curved Floating Showcase          -->
     <!-- ============================================================ -->
-    <section class="bg-stone py-28 md:py-40 px-6 md:px-14 xl:px-24" id="packages">
+    <section class="bg-stone py-24 md:py-36 px-6 md:px-14 xl:px-24" id="packages">
       <div class="max-w-[1400px] mx-auto">
 
-        <div class="text-center max-w-3xl mx-auto mb-20 md:mb-28 reveal">
-          <div class="flex items-center justify-center gap-4 mb-5">
+        <!-- Section Title & Subtitle -->
+        <div class="text-center max-w-3xl mx-auto mb-14 md:mb-20 reveal">
+          <div class="flex items-center justify-center gap-4 mb-4">
             <span class="w-10 h-px bg-sunset"></span>
-            <span class="font-sans text-eyebrow text-ocean">Handcrafted Packages</span>
+            <span class="font-sans text-eyebrow text-ocean">Direct Wholesale Pricing · Handcrafted Packages</span>
             <span class="w-10 h-px bg-sunset"></span>
           </div>
-          <h2 class="font-display text-section-title text-navy-deep mb-6">
+          <h2 class="font-display text-section-title text-navy-deep mb-5">
             Journeys, <span class="italic font-serif text-navy-deep/70">not packages.</span>
           </h2>
-          <p class="text-fog text-lg leading-relaxed">
-            Every itinerary is personally vetted — hotels, guides, drivers, even which café to eat baklava at.
+          <p class="text-fog text-base md:text-lg leading-relaxed">
+            Every itinerary is personally vetted with verified hotel vouchers, private ground transfers, and wholesale B2B pricing across 28 global destinations.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        <!-- Interactive Search & Category Filter Bar -->
+        <div class="mb-12 flex flex-col md:flex-row items-center justify-between gap-6 bg-white p-5 md:p-6 rounded-[28px] border border-navy/5 shadow-[0_4px_25px_-10px_rgba(11,31,58,0.08)]">
+          
+          <!-- Category Filter Pills -->
+          <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+            <button onclick="filterPackagesCategory('all')" data-cat="all" class="pkg-filter-pill px-4 py-2 rounded-full text-xs font-bold transition-all bg-navy-deep text-white shadow-md">
+              All Packages (28)
+            </button>
+            <button onclick="filterPackagesCategory('international')" data-cat="international" class="pkg-filter-pill px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-navy-deep/80 hover:bg-mist">
+              🌍 International
+            </button>
+            <button onclick="filterPackagesCategory('domestic')" data-cat="domestic" class="pkg-filter-pill px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-navy-deep/80 hover:bg-mist">
+              🇮🇳 Domestic
+            </button>
+            <button onclick="filterPackagesCategory('beach')" data-cat="beach" class="pkg-filter-pill px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-navy-deep/80 hover:bg-mist">
+              🏝️ Beach & Island
+            </button>
+            <button onclick="filterPackagesCategory('luxury')" data-cat="luxury" class="pkg-filter-pill px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-navy-deep/80 hover:bg-mist">
+              ✨ Luxury & Honeymoon
+            </button>
+            <button onclick="filterPackagesCategory('budget')" data-cat="budget" class="pkg-filter-pill px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-navy-deep/80 hover:bg-mist">
+              💰 Budget (&lt;₹45K)
+            </button>
+          </div>
 
-          <!-- Georgia Card -->
-          <article class="pkg-card reveal reveal-delay-1 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col border-2 border-sunset/30">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80" alt="Discover Georgia" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-sunset text-navy-deep font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">star</span>$300 Special 🇬🇪</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.95<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="georgia-magic"
-                data-wish-title="Discover the Magic of Georgia"
-                data-wish-subtitle="5D/4N · Tbilisi · Kazbegi · Gudauri · Mtskheta"
-                data-wish-price="USD 300"
-                data-wish-img="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="georgia-package.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
+          <!-- Search Input & Live Count -->
+          <div class="flex items-center gap-4 w-full md:w-auto">
+            <div class="relative flex-grow md:w-72">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+              <input type="text" id="pkg-search-input" placeholder="Search destination, country..." class="w-full pl-10 pr-4 py-2.5 rounded-full bg-sand border border-gray-200 text-xs font-medium text-navy focus:outline-none focus:border-ocean transition"/>
             </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Discover The Magic of Georgia</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                5 Days / 4 Nights · Tbilisi · Kazbegi · Gudauri
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Kazbegi 4x4</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Bridge of Peace</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Cable Car</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">USD 300</div>
-                  <div class="text-[11px] text-forest font-semibold mt-0.5 font-sans">~$300 USD / ~₹28,999</div>
-                </div>
-                <a href="georgia-package.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-sunset text-navy-deep hover:bg-ocean hover:text-white transition-colors soft-lift font-bold">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Turkey Card -->
-          <article class="pkg-card reveal reveal-delay-1 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80" alt="Turkey Escape" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-navy-deep text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">flight_takeoff</span>Bestseller</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.9<span class="text-sunset">★</span>
-              </div>
-              <!-- Heart / Wishlist btn -->
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="turkey-escape"
-                data-wish-title="Turkey Escape & Wonders"
-                data-wish-subtitle="5D/4N · Istanbul · Cappadocia · Pamukkale"
-                data-wish-price="₹42,999"
-                data-wish-img="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="turkey-package.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Turkey Escape & Wonders</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                5 Days / 4 Nights · Istanbul · Cappadocia · Pamukkale
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Hot Air Balloon</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Bosphorus Cruise</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Cave Hotel</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹42,999</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person · quad sharing</div>
-                </div>
-                <a href="turkey-package.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Dubai Card -->
-          <article class="pkg-card reveal reveal-delay-2 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col md:-translate-y-6">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80" alt="Amazing Dubai" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-sunset text-navy-deep font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">apartment</span>Dussehra Special</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.8<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="dubai-luxury"
-                data-wish-title="Amazing Dubai & Abu Dhabi"
-                data-wish-subtitle="5D/4N · Burj Khalifa · Abu Dhabi Tour"
-                data-wish-price="₹65,000"
-                data-wish-img="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="dubai-package.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Amazing Dubai &amp; Abu Dhabi</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                5 Days / 4 Nights · Burj Khalifa · Abu Dhabi
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Burj Khalifa</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Dune Bashing</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">BAPS Temple</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹65,000</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person onwards</div>
-                </div>
-                <a href="dubai-package.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Bali / Thailand Card -->
-          <article class="pkg-card reveal reveal-delay-3 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80" alt="Thailand is Beautiful" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-[#16a34a] text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">trending_up</span>Trending</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.95<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="thailand-beautiful"
-                data-wish-title="Thailand Island Odyssey"
-                data-wish-subtitle="10D/9N · Phuket · Krabi · Koh Samui"
-                data-wish-price="₹63,000"
-                data-wish-img="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="thailand-package.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Thailand Island Odyssey</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                10 Days / 9 Nights · Phuket · Krabi · Koh Samui
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">James Bond</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Phi Phi Speedboat</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">4 Island Tour</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹63,000</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person onwards</div>
-                </div>
-                <a href="thailand-package.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-
-
-          <!-- European Flavours Card -->
-          <article class="pkg-card reveal reveal-delay-1 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=900&q=80" alt="European Flavours 2026" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-navy-deep text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">public</span>European Tour</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.95<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="european-flavours"
-                data-wish-title="European Flavours 2026"
-                data-wish-subtitle="11D/10N · Paris · Switzerland · Austria · Italy"
-                data-wish-price="₹1,94,990"
-                data-wish-img="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="deals.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">European Flavours 2026</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                11 Days / 10 Nights · Paris · Switzerland · Austria · Italy
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Eiffel Tower</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Swiss Alps</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Venice Gondola</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹1,94,990</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person · twin sharing</div>
-                </div>
-                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Japan Golden Route Card -->
-          <article class="pkg-card reveal reveal-delay-2 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col md:-translate-y-6">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=80" alt="Japan Golden Route" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-ocean text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">apartment</span>Japan Special</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.98<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="japan-golden"
-                data-wish-title="Japan Golden Route Discovery"
-                data-wish-subtitle="10D/9N · Osaka · Kyoto · Tokyo"
-                data-wish-price="₹2,21,000"
-                data-wish-img="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="deals.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Japan Golden Route</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                10 Days / 9 Nights · Osaka · Kyoto · Tokyo
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Mt Fuji</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Bullet Train</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Ancient Temples</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹2,21,000</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person · twin sharing</div>
-                </div>
-                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Astonishing Malaysia Card -->
-          <article class="pkg-card reveal reveal-delay-3 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=900&q=80" alt="Astonishing Malaysia" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-[#16a34a] text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">savings</span>Budget Friendly</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                4.8<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="malaysia-astonishing"
-                data-wish-title="Astonishing Malaysia"
-                data-wish-subtitle="5D/4N · Kuala Lumpur · Genting Highlands"
-                data-wish-price="₹41,500"
-                data-wish-img="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="deals.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Astonishing Malaysia</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                5 Days / 4 Nights · Kuala Lumpur · Genting Highlands
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Petronas Towers</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Genting Skyway</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Batu Caves</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹41,500</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person · twin sharing</div>
-                </div>
-                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Scandinavia Northern Lights Card -->
-          <article class="pkg-card reveal reveal-delay-1 bg-white rounded-[28px] overflow-hidden shadow-[0_4px_30px_-12px_rgba(11,31,58,0.15)] flex flex-col md:mt-10">
-            <div class="relative aspect-[4/3] overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=900&q=80" alt="Scandinavia Northern Lights" class="w-full h-full object-cover"/>
-              <div class="absolute top-5 left-5 flex gap-2">
-                <span class="bg-navy-deep text-white font-sans text-[0.7rem] px-3 py-1.5 rounded-full tracking-widest uppercase flex items-center gap-1.5"><span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">auto_awesome</span>Bucket List</span>
-              </div>
-              <div class="absolute top-5 right-5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 font-bold text-navy-deep flex items-center gap-1 text-sm">
-                5.0<span class="text-sunset">★</span>
-              </div>
-              <button class="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                data-wish-id="scandinavia-aurora"
-                data-wish-title="Scandinavia Northern Lights"
-                data-wish-subtitle="7D/6N · Oslo · Stockholm · Helsinki · Rovaniemi"
-                data-wish-price="₹3,60,000"
-                data-wish-img="https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=900&q=80"
-                data-wish-href="deals.html"
-                title="Save to Wishlist">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-            </div>
-            <div class="p-8 flex flex-col flex-grow">
-              <h3 class="font-display text-2xl text-navy-deep mb-2">Scandinavia Northern Lights</h3>
-              <p class="text-fog text-sm mb-5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-base text-ocean" style="font-variation-settings:'FILL' 1;">calendar_month</span>
-                7 Days / 6 Nights · Oslo · Stockholm · Helsinki · Rovaniemi
-              </p>
-              <div class="flex flex-wrap gap-2 mb-7">
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Aurora Borealis</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Santa Village</span>
-                <span class="text-[11px] px-3 py-1 rounded-full bg-mist text-ocean font-semibold tracking-wide">Fjord Cruise</span>
-              </div>
-              <div class="mt-auto flex items-end justify-between">
-                <div>
-                  <div class="font-sans text-eyebrow text-fog mb-1">Starting from</div>
-                  <div class="font-display text-3xl text-navy-deep">₹3,60,000</div>
-                  <div class="text-[11px] text-fog mt-0.5">per person · twin sharing</div>
-                </div>
-                <a href="deals.html" class="btn-premium inline-flex items-center justify-center w-12 h-12 rounded-full bg-navy-deep text-white hover:bg-ocean transition-colors soft-lift">
-                  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          </article>
+            <span id="packages-count-badge" class="hidden lg:inline-block px-3.5 py-2 rounded-full bg-mist text-ocean font-bold text-xs whitespace-nowrap">
+              Showing 28 of 28 Packages
+            </span>
+          </div>
 
         </div>
 
-        <div class="text-center mt-16 reveal">
-          <a href="deals.html" class="inline-flex items-center gap-3 bg-navy-deep text-white px-10 py-4 rounded-full font-semibold tracking-wide hover:bg-ocean transition-colors soft-lift">
-            View All Packages
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_forward</span>
-          </a>
+        <!-- Curved Floating Package Cards Grid Container (Powered by js/packages-showcase.js) -->
+        <div id="curved-packages-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <!-- Populated dynamically by js/packages-showcase.js with all 28 packages -->
+        </div>
+
+        <!-- Custom Itinerary Consultation CTA Banner -->
+        <div class="mt-16 bg-navy-deep rounded-[32px] p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-sunset/10 blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 max-w-xl">
+            <div class="inline-flex items-center gap-2 text-sunset font-mono text-xs uppercase tracking-widest font-bold mb-3">
+              <span class="material-symbols-outlined text-base">support_agent</span> 100% Tailor-Made DMC Journeys
+            </div>
+            <h3 class="font-display text-2xl md:text-3xl font-bold mb-3">Looking for a custom private itinerary?</h3>
+            <p class="text-white/75 text-sm md:text-base">
+              Speak directly with our on-ground DMC destination experts in Amravati & Mumbai. We customize private villas, chauffeur cars, and exclusive activities within 60 minutes.
+            </p>
+          </div>
+          <div class="relative z-10 flex flex-wrap items-center gap-4">
+            <a href="https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20I%20would%20like%20to%20customize%20a%20private%20tour%20package!" target="_blank" class="px-8 py-4 rounded-full bg-[#16a34a] hover:bg-[#15803d] text-white font-bold text-sm tracking-wide transition-all shadow-lg flex items-center gap-2">
+              <span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL'1">chat</span>
+              WhatsApp DMC Expert
+            </a>
+            <a href="deals.html" class="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm tracking-wide border border-white/20 transition-all backdrop-blur">
+              View All Offers
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1655,6 +1808,82 @@
         btn.classList.add('bg-sunset', 'text-navy-deep');
         btn.classList.remove('bg-[#16a34a]', 'text-white');
       }, 6000);
+    }
+  </script>
+
+  <!-- Lenis Smooth Scrolling Engine & Lumora Video Controller -->
+  <script>
+    // 1. Lenis Fast & Responsive Smooth Scrolling
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+          duration: 0.55,
+          wheelMultiplier: 1.85,
+          touchMultiplier: 2.2,
+          smoothWheel: true,
+          smoothTouch: false,
+        });
+
+        // Fast & seamless RAF sync (no duplicate raf loops)
+        if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
+          lenis.on('scroll', ScrollTrigger.update);
+          gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+          });
+          gsap.ticker.lagSmoothing(0);
+        } else {
+          function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+          }
+          requestAnimationFrame(raf);
+        }
+      }
+    });
+
+    // 2. Lumora Video Switcher & Deep Woods Dark Mode
+    let lumoraActive = 0;
+    let lumoraTransitioning = false;
+
+    function switchLumoraVideo(idx) {
+      if (idx === lumoraActive || lumoraTransitioning) return;
+      lumoraTransitioning = true;
+      lumoraActive = idx;
+
+      // Update video opacities
+      for (let i = 0; i < 4; i++) {
+        const vid = document.getElementById(`lumora-vid-${i}`);
+        if (vid) {
+          vid.classList.toggle('opacity-100', i === idx);
+          vid.classList.toggle('opacity-0', i !== idx);
+        }
+      }
+
+      // Update button tabs
+      document.querySelectorAll('.lumora-tab-btn').forEach((btn, i) => {
+        const isActive = i === idx;
+        btn.classList.toggle('opacity-100', isActive);
+        btn.classList.toggle('opacity-50', !isActive);
+        btn.classList.toggle('border-white', isActive && idx !== 2);
+        btn.classList.toggle('border-[#182C41]', isActive && idx === 2);
+        btn.classList.toggle('border-transparent', !isActive);
+      });
+
+      // Dark Mode for Deep Woods (index 2)
+      const hero = document.getElementById('lumora-hero-content');
+      if (hero) {
+        if (idx === 2) {
+          hero.classList.remove('text-white');
+          hero.classList.add('text-[#182C41]');
+        } else {
+          hero.classList.remove('text-[#182C41]');
+          hero.classList.add('text-white');
+        }
+      }
+
+      setTimeout(() => {
+        lumoraTransitioning = false;
+      }, 1000);
     }
   </script>
 

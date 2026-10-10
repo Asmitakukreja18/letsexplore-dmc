@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumora — Clarity in an Endlessly Noisy Universe</title>
+
+  <!-- Google Font: Instrument Serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React 18 & Babel for standalone execution -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Instrument Serif', serif;
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    /* Train Bob Animation */
+    @keyframes trainBob {
+      0%, 100% {
+        transform: scale(1.03) translateY(0px);
+      }
+      50% {
+        transform: scale(1.03) translateY(-6px);
+      }
+    }
+
+    .animate-train-bob {
+      animation: trainBob 3s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    /* Liquid Glass Effect */
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.01);
+      background-blend-mode: luminosity;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: none;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .liquid-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%,
+        rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+        rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* System Font Helper for Body Text */
+    .font-system {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Mobile Menu Staggered Transition */
+    .mobile-menu-link {
+      transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1), opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="bg-black select-none">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const VIDEOS = [
+      {
+        id: 0,
+        label: "Golden Hour",
+        url: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4"
+      },
+      {
+        id: 1,
+        label: "Still Water",
+        url: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_092026_dd05b805-ea0f-40b2-8c52-332b88502592.mp4"
+      },
+      {
+        id: 2,
+        label: "Deep Woods",
+        url: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4"
+      },
+      {
+        id: 3,
+        label: "Quiet Dawn",
+        url: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_080959_4cac5234-3573-464e-a5b7-76b94b8a7d61.mp4"
+      }
+    ];
+
+    const NAV_LINKS = ["How It Works", "Features", "Pricing", "Community"];
+
+    // Lucide Icons components (Menu & X)
+    function MenuIcon({ className }) {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      );
+    }
+
+    function XIcon({ className }) {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      );
+    }
+
+    function LumoraHero() {
+      const [activeVideo, setActiveVideo] = useState(0);
+      const [isTransitioning, setIsTransitioning] = useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      const [email, setEmail] = useState("");
+      const [subscribed, setSubscribed] = useState(false);
+
+      // Video switching logic with 1000ms cooldown
+      const handleVideoSelect = (index) => {
+        if (index === activeVideo || isTransitioning) return;
+        setIsTransitioning(true);
+        setActiveVideo(index);
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 1000);
+      };
+
+      // Dark Mode condition for Deep Woods (index 2)
+      const isDeepWoods = activeVideo === 2;
+      const heroTextColor = isDeepWoods ? "text-[#182C41]" : "text-white";
+      const heroSubtextColor = isDeepWoods ? "text-[#182C41]/85" : "text-white/85";
+      const heroBorderColor = isDeepWoods ? "border-[#182C41]" : "border-white";
+
+      return (
+        <section className="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
+          
+          {/* ============================================================ */}
+          {/* BACKGROUND VIDEO LAYER (4 Looping Fullscreen Videos)          */}
+          {/* ============================================================ */}
+          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black pointer-events-none">
+            {VIDEOS.map((vid, idx) => (
+              <video
+                key={vid.id}
+                src={vid.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                  activeVideo === idx ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* ============================================================ */}
+          {/* TRANSPARENT PNG OVERLAY (z-index 1) WITH TRAIN-BOB MOTION     */}
+          {/* ============================================================ */}
+          <div className="absolute inset-0 w-full h-full z-[1] pointer-events-none overflow-hidden">
+            <img
+              src="images/lumora-overlay.png"
+              onError={(e) => {
+                e.target.src = "https://soft-zoom-63098134.figma.site/_assets/v11/0b4a435b2df2747593c43d7a1c9b4578f7d8d90c.png";
+              }}
+              alt="Train Window Overlay"
+              className="w-full h-full object-cover animate-train-bob"
+            />
+          </div>
+
+          {/* ============================================================ */}
+          {/* CONTENT LAYER (z-index 2) - FLEX COLUMN FULL HEIGHT          */}
+          {/* ============================================================ */}
+          <div className="relative z-[2] w-full h-full flex flex-col justify-between px-6 sm:px-10 lg:px-16 py-6 sm:py-8 pointer-events-auto">
+
+            {/* 1. NAVIGATION (TOP) */}
+            <header className="w-full flex items-center justify-between">
+              {/* Brand Logo: Always white, italic Instrument Serif */}
+              <a href="#" className="text-white italic text-2xl sm:text-3xl tracking-wide font-normal">
+                Lumora
+              </a>
+
+              {/* Desktop Nav Pill (md+) */}
+              <nav className="hidden md:flex items-center liquid-glass rounded-full px-5 py-2 space-x-6">
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link}
+                    href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="font-system text-white/90 text-sm hover:text-white transition-colors duration-200"
+                  >
+                    {link}
+                  </a>
+                ))}
+                <button
+                  type="button"
+                  className="font-system bg-white text-black text-sm font-medium px-4 py-1.5 rounded-full hover:bg-white/90 transition-all duration-200 shadow-sm"
+                >
+                  Get Started
+                </button>
+              </nav>
+
+              {/* Mobile Hamburger Button */}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle Mobile Menu"
+                className="md:hidden liquid-glass rounded-full p-2.5 text-white flex items-center justify-center relative w-11 h-11"
+              >
+                <div
+                  className={`absolute transition-all duration-300 transform ${
+                    mobileMenuOpen ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100"
+                  }`}
+                >
+                  <MenuIcon />
+                </div>
+                <div
+                  className={`absolute transition-all duration-300 transform ${
+                    mobileMenuOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75"
+                  }`}
+                >
+                  <XIcon />
+                </div>
+              </button>
+            </header>
+
+            {/* 2. HERO CONTENT (CENTERED) */}
+            <main className="flex-1 flex flex-col items-center justify-center text-center my-auto px-2 max-w-5xl mx-auto w-full">
+              
+              {/* Badge */}
+              <div
+                className={`liquid-glass rounded-full px-5 py-2 mb-6 sm:mb-8 font-system text-xs sm:text-sm tracking-wide transition-colors duration-700 ${heroTextColor}`}
+              >
+                Over 10,000 minds already finding their clarity
+              </div>
+
+              {/* Heading: Line break after "Endlessly" */}
+              <h1
+                className={`text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.08] max-w-4xl font-normal tracking-tight mb-5 sm:mb-6 transition-colors duration-700 ${heroTextColor}`}
+              >
+                Clarity in an Endlessly<br />Noisy Universe
+              </h1>
+
+              {/* Subtext */}
+              <p
+                className={`font-system text-sm sm:text-base md:text-lg max-w-xl leading-relaxed mb-8 sm:mb-10 transition-colors duration-700 ${heroSubtextColor}`}
+              >
+                Rise above the chaos of pings, infinite scrolling, and relentless demands.
+                Discover how to protect your presence and create with intention.
+              </p>
+
+              {/* Email Input Container */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (email) setSubscribed(true);
+                }}
+                className="liquid-glass rounded-full p-1.5 flex items-center w-full max-w-[320px] sm:max-w-md mb-8 sm:mb-10"
+              >
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={subscribed ? "Access link sent!" : "Your Best Email"}
+                  disabled={subscribed}
+                  required
+                  className={`font-system bg-transparent px-4 py-2 w-full text-sm outline-none placeholder:text-current placeholder:opacity-60 transition-colors duration-700 ${heroTextColor}`}
+                />
+                <button
+                  type="submit"
+                  className="font-system bg-white text-black font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full hover:bg-white/90 whitespace-nowrap transition-all duration-200 shrink-0 shadow-sm"
+                >
+                  {subscribed ? "Joined ✓" : "Get Early Access"}
+                </button>
+              </form>
+
+              {/* Video Switcher (Row of 4 buttons) */}
+              <div className="flex items-center space-x-4 sm:space-x-8 font-system text-xs sm:text-sm">
+                {VIDEOS.map((vid, idx) => {
+                  const isActive = activeVideo === idx;
+                  return (
+                    <button
+                      key={vid.id}
+                      type="button"
+                      onClick={() => handleVideoSelect(idx)}
+                      disabled={isTransitioning}
+                      className={`pb-1 border-b-2 transition-all duration-700 ${
+                        isActive
+                          ? `${heroTextColor} ${heroBorderColor} font-medium opacity-100`
+                          : `${heroTextColor} border-transparent opacity-50 hover:opacity-80`
+                      }`}
+                    >
+                      {vid.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </main>
+
+            {/* 3. BOTTOM STATS (PUSHED TO BOTTOM VIA FLEX SPACER) */}
+            <footer className="w-full flex items-center justify-center font-system text-white/70 text-xs sm:text-sm pt-4">
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-center">
+                <span>60+ Deep Sessions</span>
+                <span className="hidden sm:inline opacity-40">|</span>
+                <span>12,000+ Creators</span>
+                <span className="hidden sm:inline opacity-40">|</span>
+                <span>4.8 User Satisfaction</span>
+                <span className="hidden sm:inline opacity-40">|</span>
+                <span>Intentional-First Design</span>
+              </div>
+            </footer>
+
+          </div>
+
+          {/* ============================================================ */}
+          {/* MOBILE MENU OVERLAY (FIXED, Z-50)                            */}
+          {/* ============================================================ */}
+          {mobileMenuOpen && (
+            <div
+              className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex flex-col items-center justify-center px-6 transition-opacity duration-300"
+            >
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-6 right-6 liquid-glass rounded-full p-2.5 text-white"
+                aria-label="Close Mobile Menu"
+              >
+                <XIcon />
+              </button>
+
+              <div className="flex flex-col items-center space-y-6 text-center">
+                {NAV_LINKS.map((link, idx) => (
+                  <a
+                    key={link}
+                    href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={{ transitionDelay: `${(idx + 1) * 50 + 50}ms` }}
+                    className="mobile-menu-link text-white text-3xl font-normal hover:text-white/80 transform translate-y-0 opacity-100"
+                  >
+                    {link}
+                  </a>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{ transitionDelay: `${(NAV_LINKS.length + 1) * 50 + 50}ms` }}
+                  className="font-system bg-white text-black text-base font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-transform duration-300 transform scale-100 shadow-lg mt-4"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          )}
+
+        </section>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<LumoraHero />);
+  </script>
+</body>
+</html>

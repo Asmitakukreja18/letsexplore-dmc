@@ -440,6 +440,8 @@ let selBudget = "₹50k-1L";
 function switchTab(t) {
   document.getElementById('view-visual').classList.add('hidden');
   document.getElementById('view-chat').classList.add('hidden');
+  document.getElementById('results-panel').classList.add('hidden');
+  document.getElementById('ai-loader-modal').classList.add('hidden');
   document.getElementById('tab-visual-btn').className = "px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all cursor-pointer";
   document.getElementById('tab-chat-btn').className = "px-4 sm:px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white/80 hover:text-white transition-all cursor-pointer";
 

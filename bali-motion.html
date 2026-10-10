@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bali 3D Motion Journey · Let's Explore DMC | Interactive Fly-Through Experience</title>
+  <meta name="description" content="Experience Bali & Nusa Penida like never before with Let's Explore DMC's interactive 3D motion journey. Seamless scrollytelling across Kuta, Uluwatu, Nusa Penida, Bedugul, and Ubud.">
+
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- GSAP & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0B1F3A',
+            'navy-deep': '#050D18',
+            'navy-card': '#0E2442',
+            ocean: '#1E88E5',
+            sunset: '#F4A261',
+            gold: '#FBBF24',
+            sand: '#F4E8D7',
+            mist: '#E8EEF6',
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #050D18;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    /* 3D Perspective Canvas */
+    .perspective-stage {
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+      transform-style: preserve-3d;
+    }
+
+    .camera-rig {
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+
+    /* Glassmorphism Styles */
+    .glass-panel {
+      background: rgba(14, 36, 66, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .glass-badge {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Dynamic SVG Route Line Glowing Dash */
+    .route-glow {
+      filter: drop-shadow(0 0 8px rgba(244, 162, 97, 0.9)) drop-shadow(0 0 20px rgba(30, 136, 229, 0.6));
+    }
+
+    .pulse-pin {
+      animation: pinPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pinPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050D18;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E88E5;
+      border-radius: 9999px;
+    }
+
+    /* Animated Radar Beam */
+    @keyframes radarSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-beam {
+      transform-origin: center;
+      animation: radarSpin 8s linear infinite;
+    }
+
+    .layer-card {
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+      transform-origin: center center;
+    }
+
+    /* Gradient Text */
+    .gradient-gold {
+      background: linear-gradient(135deg, #FFF6E0 0%, #F4A261 50%, #E76F51 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="font-sans selection:bg-sunset selection:text-navy-deep min-h-screen">
+
+  <!-- ================= TOP HUD NAVIGATION ================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3.5 flex items-center justify-between glass-panel border-b border-white/10">
+    <div class="flex items-center gap-4">
+      <a href="bali-package.html" class="flex items-center gap-2 group text-white/80 hover:text-white transition">
+        <span class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        <span class="text-xs uppercase tracking-widest font-mono font-semibold">Exit 3D Journey</span>
+      </a>
+      <span class="hidden md:inline-block w-px h-4 bg-white/20"></span>
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="font-display font-bold text-base md:text-lg tracking-wide text-white">Let's Explore DMC</span>
+        <span class="text-[10px] uppercase font-mono font-bold tracking-widest px-2 py-0.5 rounded-full bg-sunset/20 text-sunset border border-sunset/40">Motion Journey v2.4</span>
+      </div>
+    </div>
+
+    <!-- Active Waypoint Chips (Interactive Jump) -->
+    <div class="hidden lg:flex items-center gap-1.5 p-1 rounded-full bg-black/40 border border-white/10" id="hud-nav-tabs">
+      <button onclick="jumpToWaypoint(0)" class="hud-tab active px-3 py-1 rounded-full text-xs font-medium tracking-wide transition text-white bg-sunset/90" data-wp="0">01. Kuta & Beach</button>
+      <button onclick="jumpToWaypoint(1)" class="hud-tab px-3 py-1 rounded-full text-xs font-medium tracking-wide transition text-white/60 hover:text-white" data-wp="1">02. Uluwatu Cliffs</button>
+      <button onclick="jumpToWaypoint(2)" class="hud-tab px-3 py-1 rounded-full text-xs font-medium tracking-wide transition text-white/60 hover:text-white" data-wp="2">03. Nusa Penida</button>
+      <button onclick="jumpToWaypoint(3)" class="hud-tab px-3 py-1 rounded-full text-xs font-medium tracking-wide transition text-white/60 hover:text-white" data-wp="3">04. Bedugul Temple</button>
+      <button onclick="jumpToWaypoint(4)" class="hud-tab px-3 py-1 rounded-full text-xs font-medium tracking-wide transition text-white/60 hover:text-white" data-wp="4">05. Ubud Jungle</button>
+      <button onclick="jumpToWaypoint(5)" class="hud-tab px-3 py-1 rounded-full text-xs font-medium tracking-wide transition text-white/60 hover:text-white" data-wp="5">06. Full Package</button>
+    </div>
+
+    <!-- Controls: Sound Toggle + Autoplay -->
+    <div class="flex items-center gap-3">
+      <button id="audio-toggle" onclick="toggleAudio()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-badge text-xs font-mono text-white/80 hover:text-white transition" title="Toggle Spatial Audio FX">
+        <span class="material-symbols-outlined text-sm" id="audio-icon">volume_off</span>
+        <span class="hidden sm:inline" id="audio-status">Sound: Off</span>
+      </button>
+
+      <button id="autoplay-btn" onclick="toggleAutoplay()" class="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-sunset to-ocean text-white font-bold text-xs tracking-wide shadow-lg shadow-sunset/20 hover:scale-105 transition-all">
+        <span class="material-symbols-outlined text-sm" id="autoplay-icon">play_arrow</span>
+        <span id="autoplay-text">Auto Fly-Through</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= OVERALL PROGRESS STRIP ================= -->
+  <div class="fixed top-[57px] left-0 right-0 z-40 h-1 bg-white/10">
+    <div id="journey-progress-bar" class="h-full bg-gradient-to-r from-sunset via-gold to-ocean w-[10%] transition-all duration-300"></div>
+  </div>
+
+  <!-- ================= SPLIT VIEW MAIN CONTAINER ================= -->
+  <div class="relative w-full pt-[60px]">
+
+    <!-- ================= STICKY 3D STAGE & SCENE (VIEWPORT) ================= -->
+    <div class="fixed top-[60px] left-0 w-full lg:w-[58%] h-[calc(100vh-60px)] overflow-hidden z-10 perspective-stage bg-navy-deep">
+      
+      <!-- Background Ambient Grid & Glow -->
+      <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(rgba(30,136,229,0.3) 1px, transparent 1px); background-size: 36px 36px;"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-sunset/15 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 right-10 w-96 h-96 rounded-full bg-ocean/20 blur-3xl pointer-events-none"></div>
+
+      <!-- Island Map Overlay Grid / Connected Route Topology -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <svg id="route-svg" viewBox="0 0 800 600" class="w-full h-full max-w-[850px] max-h-[650px] opacity-75">
+          <defs>
+            <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#F4A261" />
+              <stop offset="50%" stop-color="#1E88E5" />
+              <stop offset="100%" stop-color="#FBBF24" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Bali Island Stylized Island Outlines -->
+          <path d="M 180,310 Q 240,240 330,220 T 470,240 T 600,280 T 560,390 T 420,440 T 260,420 Z" fill="rgba(14,36,66,0.35)" stroke="rgba(30,136,229,0.25)" stroke-width="2" stroke-dasharray="6,6"/>
+          
+          <!-- Nusa Penida Island Satellite Outline -->
+          <path d="M 590,410 Q 640,400 660,430 T 630,470 T 580,450 Z" fill="rgba(244,162,97,0.15)" stroke="rgba(244,162,97,0.35)" stroke-width="1.5"/>
+
+          <!-- Connected Travel Route Spline -->
+          <path id="travel-route-path" d="M 310,430 C 350,470 360,490 380,470 C 440,420 520,450 610,440 C 580,360 480,260 410,240 C 380,280 430,340 440,360" fill="none" stroke="url(#routeGradient)" stroke-width="3.5" stroke-dasharray="8,6" class="route-glow" />
+
+          <!-- Active Animated Pulse Dot on the Route -->
+          <circle id="route-beacon" cx="310" cy="430" r="7" fill="#F4A261" class="pulse-pin" filter="url(#glow)"/>
+
+          <!-- Location Waypoint Nodes on the Map -->
+          <!-- 1. Kuta / DPS -->
+          <g class="cursor-pointer pointer-events-auto" onclick="jumpToWaypoint(0)">
+            <circle cx="310" cy="430" r="14" fill="rgba(244,162,97,0.25)"/>
+            <circle cx="310" cy="430" r="6" fill="#F4A261"/>
+            <text x="325" y="435" fill="#FFFFFF" font-family="'Space Grotesk'" font-size="12" font-weight="600">01. Kuta & Beach</text>
+          </g>
+
+          <!-- 2. Uluwatu -->
+          <g class="cursor-pointer pointer-events-auto" onclick="jumpToWaypoint(1)">
+            <circle cx="380" cy="480" r="14" fill="rgba(30,136,229,0.25)"/>
+            <circle cx="380" cy="480" r="6" fill="#1E88E5"/>
+            <text x="395" y="485" fill="#FFFFFF" font-family="'Space Grotesk'" font-size="12" font-weight="600">02. Uluwatu Cliffs</text>
+          </g>
+
+          <!-- 3. Nusa Penida -->
+          <g class="cursor-pointer pointer-events-auto" onclick="jumpToWaypoint(2)">
+            <circle cx="610" cy="440" r="16" fill="rgba(251,191,36,0.25)"/>
+            <circle cx="610" cy="440" r="7" fill="#FBBF24"/>
+            <text x="625" y="445" fill="#FFFFFF" font-family="'Space Grotesk'" font-size="12" font-weight="600">03. Nusa Penida</text>
+          </g>
+
+          <!-- 4. Bedugul & Tanah Lot -->
+          <g class="cursor-pointer pointer-events-auto" onclick="jumpToWaypoint(3)">
+            <circle cx="410" cy="240" r="14" fill="rgba(244,162,97,0.25)"/>
+            <circle cx="410" cy="240" r="6" fill="#F4A261"/>
+            <text x="425" y="245" fill="#FFFFFF" font-family="'Space Grotesk'" font-size="12" font-weight="600">04. Bedugul Temple</text>
+          </g>
+
+          <!-- 5. Ubud Jungle -->
+          <g class="cursor-pointer pointer-events-auto" onclick="jumpToWaypoint(4)">
+            <circle cx="440" cy="360" r="15" fill="rgba(52,211,153,0.25)"/>
+            <circle cx="440" cy="360" r="6" fill="#34D399"/>
+            <text x="455" y="365" fill="#FFFFFF" font-family="'Space Grotesk'" font-size="12" font-weight="600">05. Ubud Adventure</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- CAMERA RIG (Contains 3D Zooming Visual Portals) -->
+      <div id="camera-rig" class="camera-rig relative w-full h-full flex items-center justify-center p-6 md:p-12">
+
+        <!-- LAYER 0: KUTA & BEACH CLUB -->
+        <div id="scene-layer-0" class="layer-card absolute inset-4 md:inset-12 rounded-3xl overflow-hidden glass-panel border border-white/20 transition-all duration-700 flex flex-col justify-end p-6 md:p-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80" alt="Kuta & Finns Beach Club" class="absolute inset-0 w-full h-full object-cover -z-10 scale-105 transition-transform duration-1000 ease-out">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-transparent -z-10"></div>
+          
+          <div class="relative z-10 max-w-xl space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunset/30 text-sunset border border-sunset/50">
+              <span class="material-symbols-outlined text-sm">flight_land</span> WAYPOINT 01 · SOUTH COAST
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">Kuta, Seminyak &amp; Finns Beach Club</h2>
+            <p class="text-sm md:text-base text-gray-200 font-sans leading-relaxed">
+              Arrive at Ngurah Rai Airport with traditional floral welcome. Settle into your luxury resort and dive into Bali's world-famous golden sunsets and chic beach lounge lifestyle.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Private Airport Transfer</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Finns Beach Club VIP Entry</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Kuta 4★ Resort Stay</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 1: TANJUNG BENOA & ULUWATU -->
+        <div id="scene-layer-1" class="layer-card absolute inset-4 md:inset-12 rounded-3xl overflow-hidden glass-panel border border-white/20 transition-all duration-700 opacity-0 pointer-events-none flex flex-col justify-end p-6 md:p-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1600&q=80" alt="Uluwatu Sunset Temple" class="absolute inset-0 w-full h-full object-cover -z-10 scale-105 transition-transform duration-1000 ease-out">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-transparent -z-10"></div>
+          
+          <div class="relative z-10 max-w-xl space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-ocean/30 text-ocean border border-ocean/50">
+              <span class="material-symbols-outlined text-sm">surfing</span> WAYPOINT 02 · OCEAN & CLIFFS
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">Tanjung Benoa &amp; Uluwatu Kecak</h2>
+            <p class="text-sm md:text-base text-gray-200 font-sans leading-relaxed">
+              Adrenaline thrills with Banana Boat, Parasailing &amp; Jet Ski at Tanjung Benoa. End the day high above the roaring ocean cliffs with the dramatic sunset Kecak &amp; Fire Dance.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Tanjung Benoa Watersports (3 Rides)</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Padang Padang Beach</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Uluwatu Kecak Show Ticket</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 2: WEST NUSA PENIDA ISLAND -->
+        <div id="scene-layer-2" class="layer-card absolute inset-4 md:inset-12 rounded-3xl overflow-hidden glass-panel border border-white/20 transition-all duration-700 opacity-0 pointer-events-none flex flex-col justify-end p-6 md:p-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=1600&q=80" alt="Kelingking Beach Nusa Penida" class="absolute inset-0 w-full h-full object-cover -z-10 scale-105 transition-transform duration-1000 ease-out">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-transparent -z-10"></div>
+          
+          <div class="relative z-10 max-w-xl space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-gold/30 text-gold border border-gold/50">
+              <span class="material-symbols-outlined text-sm">sailing</span> WAYPOINT 03 · ISLAND EXPEDITION
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">Nusa Penida &amp; Kelingking T-Rex</h2>
+            <p class="text-sm md:text-base text-gray-200 font-sans leading-relaxed">
+              Speed across the strait by Fast Boat Ferry. Stand atop the iconic T-Rex cliff, peer into Broken Beach (Pasih Uug), marvel at Angel's Billabong, and snorkel with exotic marine life.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Fast Boat Return Tickets</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Kelingking & Broken Beach</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Snorkeling Gear + Lunch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 3: BEDUGUL & TANAH LOT -->
+        <div id="scene-layer-3" class="layer-card absolute inset-4 md:inset-12 rounded-3xl overflow-hidden glass-panel border border-white/20 transition-all duration-700 opacity-0 pointer-events-none flex flex-col justify-end p-6 md:p-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1600&q=80" alt="Bedugul & Tanah Lot" class="absolute inset-0 w-full h-full object-cover -z-10 scale-105 transition-transform duration-1000 ease-out">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-transparent -z-10"></div>
+          
+          <div class="relative z-10 max-w-xl space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunset/30 text-sunset border border-sunset/50">
+              <span class="material-symbols-outlined text-sm">temple_buddhist</span> WAYPOINT 04 · HIGHLAND TEMPLES
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">Bedugul &amp; Tanah Lot Sea Temple</h2>
+            <p class="text-sm md:text-base text-gray-200 font-sans leading-relaxed">
+              Journey into the cool mountain air. Pose at the iconic Handara Golf Gate, witness the floating shrine of Ulun Danu Beratan on the volcanic lake, and watch the waves crash against Tanah Lot at sunset.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Handara Iconic Gate Entry</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Ulun Danu Floating Temple</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Tanah Lot Sunset Pass</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 4: UBUD RAFTING & ATV BIKING -->
+        <div id="scene-layer-4" class="layer-card absolute inset-4 md:inset-12 rounded-3xl overflow-hidden glass-panel border border-white/20 transition-all duration-700 opacity-0 pointer-events-none flex flex-col justify-end p-6 md:p-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1600&q=80" alt="Ayung River Rafting & Ubud Jungle" class="absolute inset-0 w-full h-full object-cover -z-10 scale-105 transition-transform duration-1000 ease-out">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-transparent -z-10"></div>
+          
+          <div class="relative z-10 max-w-xl space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-400/30 text-emerald-400 border border-emerald-400/50">
+              <span class="material-symbols-outlined text-sm">kayaking</span> WAYPOINT 05 · JUNGLE THRILLS
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">Ayung River Rafting &amp; ATV Biking</h2>
+            <p class="text-sm md:text-base text-gray-200 font-sans leading-relaxed">
+              Navigate exhilarating rapids along the emerald Ayung River canyon. Power through jungle mud, bamboo forests, and secret caves on 90–120 minute tandem ATV quad bikes, followed by jungle swings.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">White Water Rafting + Buffet</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">ATV Quad Biking (Jambe Asri)</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white font-mono">Tegenungan Waterfall Visit</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYER 5: COMPLETE TOUR ARCHIPELAGO DOSSIER -->
+        <div id="scene-layer-5" class="layer-card absolute inset-4 md:inset-12 rounded-3xl overflow-hidden glass-panel border border-white/20 transition-all duration-700 opacity-0 pointer-events-none flex flex-col justify-end p-6 md:p-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=1600&q=80" alt="Grand Bali Overview" class="absolute inset-0 w-full h-full object-cover -z-10 scale-105 transition-transform duration-1000 ease-out">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/80 to-transparent -z-10"></div>
+          
+          <div class="relative z-10 max-w-xl space-y-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunset/30 text-sunset border border-sunset/50">
+              <span class="material-symbols-outlined text-sm">verified</span> OFFICIAL VOUCHER LEDMC587358
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">The Complete Bali Expedition</h2>
+            <p class="text-sm md:text-base text-gray-200 font-sans leading-relaxed">
+              You've flown through all 5 iconic regions. From Kuta's vibrant shores to Nusa Penida's Jurassic cliffs and Ubud's misty rainforest valleys — experience seamless ground transfers with Let's Explore DMC.
+            </p>
+            <div class="flex items-center gap-4 pt-2">
+              <a href="https://wa.me/918007586871?text=Hi%20Let's%20Explore%20DMC,%20I%20just%20experienced%20the%20Bali%203D%20Motion%20Journey%20and%20want%20to%20book%20the%206N/7D%20package!" target="_blank" class="px-6 py-3 rounded-2xl bg-gradient-to-r from-sunset to-ocean text-white font-bold text-sm shadow-xl hover:scale-105 transition-all inline-flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">chat</span>
+                Book Entire Tour on WhatsApp
+              </a>
+              <a href="bali-package.html" class="px-5 py-3 rounded-2xl glass-badge text-white font-medium text-sm hover:bg-white/20 transition inline-flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base">description</span>
+                View Official Voucher
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Interactive Compass & Altitude Meter -->
+      <div class="absolute bottom-4 left-6 hidden md:flex items-center gap-4 text-xs font-mono text-white/70 glass-badge px-4 py-2 rounded-full pointer-events-none">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm text-sunset radar-beam">explore</span>
+          <span>LAT: 8.4095° S · LON: 115.1889° E</span>
+        </div>
+        <span class="w-px h-3 bg-white/20"></span>
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm text-ocean">altitude</span>
+          <span id="altitude-counter">ALT: 120m (Sea Level)</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================= SCROLL TRIGGER TRACK (LEFT INVISIBLE EXTENDER) ================= -->
+    <!-- This gives the user natural scroll room to drive the 3D transitions -->
+    <div class="relative w-full lg:w-[58%] pointer-events-none">
+      <div class="h-screen waypoint-trigger" data-index="0"></div>
+      <div class="h-screen waypoint-trigger" data-index="1"></div>
+      <div class="h-screen waypoint-trigger" data-index="2"></div>
+      <div class="h-screen waypoint-trigger" data-index="3"></div>
+      <div class="h-screen waypoint-trigger" data-index="4"></div>
+      <div class="h-screen waypoint-trigger" data-index="5"></div>
+    </div>
+
+
+    <!-- ================= RIGHT SIDE: DYNAMIC STICKY PACKAGE CARD ================= -->
+    <!-- As user requested: "side me bade se aise usme ho, unke packages bhi wahin pe hi likhe ho" -->
+    <div class="w-full lg:w-[42%] lg:fixed lg:right-0 lg:top-[60px] lg:h-[calc(100vh-60px)] z-30 p-4 md:p-8 flex flex-col justify-between overflow-y-auto">
+      
+      <!-- MAIN PACKAGE SPOTLIGHT CARD -->
+      <div class="glass-panel rounded-3xl p-6 md:p-8 space-y-6 border border-white/20 shadow-2xl relative overflow-hidden">
+        
+        <!-- Top Accent Shimmer -->
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-sunset/20 blur-2xl pointer-events-none"></div>
+
+        <!-- Header: Waypoint Badge & Live Counter -->
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-sunset animate-pulse"></span>
+            <span id="card-wp-counter" class="font-mono text-xs font-bold tracking-widest uppercase text-sunset">STOP 01 OF 06</span>
+          </div>
+          <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/15">
+            Akash Batra Voucher LEDMC587358
+          </span>
+        </div>
+
+        <!-- Dynamic Destination Title & Timeframe -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <h3 id="card-dest-title" class="font-display text-2xl md:text-3xl font-bold text-white">South Coast &amp; Kuta Beach</h3>
+            <span id="card-days-tag" class="text-xs font-mono font-semibold px-2.5 py-1 rounded-lg bg-sunset/20 text-sunset border border-sunset/30">Day 1</span>
+          </div>
+          <p id="card-dest-subtitle" class="text-sm font-sans text-white/70 italic">Arrival flower garland, Kuta 4★ check-in &amp; sunset chill at Finns Beach Club</p>
+        </div>
+
+        <!-- Big Price Highlight -->
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] font-mono uppercase tracking-wider text-white/50">Exclusive DMC Price</div>
+            <div class="flex items-baseline gap-2">
+              <span id="card-price" class="font-display text-3xl font-bold text-sunset">₹75,000</span>
+              <span class="text-xs text-white/60 font-sans">/ Adult (All In)</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] font-mono uppercase tracking-wider text-white/50">Duration</div>
+            <div class="font-mono text-sm font-bold text-white">6N / 7D Complete</div>
+          </div>
+        </div>
+
+        <!-- Key Highlights for Active Stop -->
+        <div class="space-y-2">
+          <div class="text-xs font-mono uppercase tracking-wider text-white/60">Stage Inclusions &amp; Activities</div>
+          <ul id="card-highlights-list" class="space-y-2 text-xs md:text-sm text-gray-200">
+            <li class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-sunset text-base shrink-0 mt-0.5">check_circle</span>
+              <span>Private vehicle airport pickup with traditional flower garland welcome</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-sunset text-base shrink-0 mt-0.5">check_circle</span>
+              <span>Dedicated Avanza/Xenia car with private driver-guide (10 hrs daily)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-sunset text-base shrink-0 mt-0.5">check_circle</span>
+              <span>Evening Finns Beach Club sunset experience in Canggu</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Connected Stops Quick Navigator -->
+        <div class="space-y-2 pt-2 border-t border-white/10">
+          <div class="flex items-center justify-between text-xs font-mono text-white/60">
+            <span>Direct Connected Hubs:</span>
+            <span class="text-sunset cursor-pointer hover:underline" onclick="toggleAutoplay()">Fly Next Stop →</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2" id="connected-nodes-pills">
+            <button onclick="jumpToWaypoint(0)" class="p-2 rounded-xl text-left bg-sunset/20 border border-sunset/50 transition hover:bg-sunset/30" data-pill="0">
+              <div class="font-mono text-[10px] text-sunset font-bold">01</div>
+              <div class="text-xs font-semibold text-white truncate">Kuta & Finns</div>
+            </button>
+            <button onclick="jumpToWaypoint(1)" class="p-2 rounded-xl text-left bg-white/5 border border-white/10 transition hover:bg-white/15" data-pill="1">
+              <div class="font-mono text-[10px] text-white/50 font-bold">02</div>
+              <div class="text-xs font-semibold text-white/80 truncate">Uluwatu</div>
+            </button>
+            <button onclick="jumpToWaypoint(2)" class="p-2 rounded-xl text-left bg-white/5 border border-white/10 transition hover:bg-white/15" data-pill="2">
+              <div class="font-mono text-[10px] text-white/50 font-bold">03</div>
+              <div class="text-xs font-semibold text-white/80 truncate">Nusa Penida</div>
+            </button>
+            <button onclick="jumpToWaypoint(3)" class="p-2 rounded-xl text-left bg-white/5 border border-white/10 transition hover:bg-white/15" data-pill="3">
+              <div class="font-mono text-[10px] text-white/50 font-bold">04</div>
+              <div class="text-xs font-semibold text-white/80 truncate">Bedugul</div>
+            </button>
+            <button onclick="jumpToWaypoint(4)" class="p-2 rounded-xl text-left bg-white/5 border border-white/10 transition hover:bg-white/15" data-pill="4">
+              <div class="font-mono text-[10px] text-white/50 font-bold">05</div>
+              <div class="text-xs font-semibold text-white/80 truncate">Ubud Adventure</div>
+            </button>
+            <button onclick="jumpToWaypoint(5)" class="p-2 rounded-xl text-left bg-white/5 border border-white/10 transition hover:bg-white/15" data-pill="5">
+              <div class="font-mono text-[10px] text-white/50 font-bold">06</div>
+              <div class="text-xs font-semibold text-white/80 truncate">Grand Dossier</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+          <a id="card-wa-btn" href="https://wa.me/918007586871?text=Hi%20Let's%20Explore%20DMC,%20I%20am%20interested%20in%20the%20Bali%206N/7D%20package%20(LEDMC587358)%20featured%20in%20the%203D%20Motion%20Tour!" target="_blank" class="flex-1 py-3.5 px-4 rounded-2xl bg-sunset hover:bg-[#E8904F] text-navy-deep font-bold text-center text-sm transition-all shadow-lg shadow-sunset/30 flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-lg">chat</span>
+            <span>WhatsApp Booking Inquiry</span>
+          </a>
+          <a href="bali-package.html" class="py-3.5 px-4 rounded-2xl glass-badge hover:bg-white/15 text-white font-medium text-center text-sm transition flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-lg">visibility</span>
+            <span>Voucher</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Quick Scroll Cue / Info Footer -->
+      <div class="mt-4 p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-xs font-mono text-white/60">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm text-sunset animate-bounce">mouse</span>
+          <span>Scroll down or click nodes to fly through</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="stepWaypoint(-1)" class="w-7 h-7 rounded-full glass-badge flex items-center justify-center text-white/80 hover:text-white">‹</button>
+          <button onclick="stepWaypoint(1)" class="w-7 h-7 rounded-full glass-badge flex items-center justify-center text-white/80 hover:text-white">›</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= CLIENT LOGIC & GSAP ANIMATIONS ================= -->
+  <script>
+    // --- WAYPOINTS DATA FROM OFFICIAL BALI VOUCHER (AKASH BATRA LEDMC587358) ---
+    const waypoints = [
+      {
+        id: 0,
+        name: "Kuta, Seminyak & Finns Beach Club",
+        days: "Day 1 · 01 Mar 2026",
+        subtitle: "Traditional flower garland welcome & Canggu sunset lounge vibes",
+        price: "₹75,000",
+        altitude: "ALT: 15m (Coastal Plain)",
+        beaconPos: { x: 310, y: 430 },
+        highlights: [
+          "Private vehicle airport pickup with traditional flower garland welcome",
+          "Dedicated Avanza/Xenia car with private driver-guide (10 hrs daily)",
+          "Check-in at Kuta luxury resort & relax",
+          "Sunset party & cocktail lounge at Finns Beach Club Canggu"
+        ],
+        waText: "Hi Let's Explore DMC, I loved Waypoint 1 (Kuta & Finns) in the 3D Motion Tour. Please share details!"
+      },
+      {
+        id: 1,
+        name: "Tanjung Benoa & Uluwatu Cliff Temple",
+        days: "Day 2 · 02 Mar 2026",
+        subtitle: "Triple watersports adventure + Sacred Kecak Fire Dance at dramatic sunset cliff",
+        price: "₹75,000",
+        altitude: "ALT: 85m (Limestone Cliff)",
+        beaconPos: { x: 380, y: 480 },
+        highlights: [
+          "Watersports Package A: Banana Boat, Single Parasailing & Jet Ski with instructor",
+          "Visit to picturesque Padang Padang Beach (Eat Pray Love film site)",
+          "Pura Luhur Uluwatu Sea Temple cliff walk",
+          "Admission tickets included for theatrical Sunset Kecak & Fire Dance"
+        ],
+        waText: "Hi Let's Explore DMC, I want the Tanjung Benoa watersports and Uluwatu Kecak package!"
+      },
+      {
+        id: 2,
+        name: "West Nusa Penida Island Expedition",
+        days: "Day 3 · 03 Mar 2026",
+        subtitle: "Fast boat ferry crossing, Kelingking T-Rex cliff, Angel's Billabong & Coral Snorkeling",
+        price: "₹75,000",
+        altitude: "ALT: 180m (Island Overlook)",
+        beaconPos: { x: 610, y: 440 },
+        highlights: [
+          "Early morning Sanur harbour transfer & fast boat ferry across Badung strait",
+          "Iconic Kelingking T-Rex viewpoint & Broken Beach (Pasih Uug)",
+          "Natural emerald infinity pool at Angel's Billabong",
+          "Authentic Indonesian lunch + complimentary crystal bay snorkeling (gear provided)"
+        ],
+        waText: "Hi Let's Explore DMC, I want the Nusa Penida Kelingking T-Rex fast boat package!"
+      },
+      {
+        id: 3,
+        name: "Bedugul & Tanah Lot Sea Temple",
+        days: "Day 4 · 04 Mar 2026",
+        subtitle: "Handara Golf Gate, Floating Lake Temple Ulun Danu & Tanah Lot sunset",
+        price: "₹75,000",
+        altitude: "ALT: 1,240m (Volcanic Highlands)",
+        beaconPos: { x: 410, y: 240 },
+        highlights: [
+          "Handara Golf Course iconic pathway gate photo opportunity",
+          "Ulun Danu Beratan floating lake temple in misty mountain setting",
+          "Scenic highland plantation drive through Candikuning",
+          "Pura Tanah Lot sunset visit with waves crashing against the rocky shrine"
+        ],
+        waText: "Hi Let's Explore DMC, I want the Bedugul Handara Gate and Tanah Lot temple tour!"
+      },
+      {
+        id: 4,
+        name: "Ayung River Rafting & ATV Jungle Quad",
+        days: "Day 5 · 05 Mar 2026",
+        subtitle: "White water river rapids, 120-min ATV mud ride, jungle swings & Tegenungan waterfall",
+        price: "₹75,000",
+        altitude: "ALT: 290m (Rainforest Valley)",
+        beaconPos: { x: 440, y: 360 },
+        highlights: [
+          "White water rafting on Ayung River canyon with expert safety instructors",
+          "Sumptuous Indonesian buffet lunch at rafting finish point",
+          "90-120 minute tandem ATV Quad Biking at Jambe Asri (mud tracks, tunnels & caves)",
+          "Desa Bali jungle swings & refreshing swim at Tegenungan Waterfall"
+        ],
+        waText: "Hi Let's Explore DMC, I want the Ayung River Rafting and ATV Quad Biking adventure!"
+      },
+      {
+        id: 5,
+        name: "Grand Bali & Nusa Penida 6N/7D Dossier",
+        days: "Full 7 Days Complete",
+        subtitle: "Official DMC Voucher LEDMC587358 · 2 Adults Akash Batra · Complete Itinerary",
+        price: "₹1,50,000 (Total 2 Pax)",
+        altitude: "ALT: Orbit Summary View",
+        beaconPos: { x: 430, y: 350 },
+        highlights: [
+          "6 Nights luxury resort stays (Kuta & Ubud)",
+          "All private air-conditioned vehicles (10 hrs daily with English-speaking driver)",
+          "Daily breakfast + 2 authentic lunches + all entrance permits",
+          "Fast boat tickets, watersports gear, ATV insurance and safety equipment included"
+        ],
+        waText: "Hi Let's Explore DMC, I'm ready to confirm the complete Bali 6N/7D package (Trip ID LEDMC587358)!"
+      }
+    ];
+
+    let currentWaypoint = 0;
+    let isAutoplaying = false;
+    let autoplayInterval = null;
+    let isAudioOn = false;
+    let audioCtx = null;
+
+    // --- SYNTHETIC WEB AUDIO FX (WHOOSH & CHIMES FOR CAMERA MOVES) ---
+    function playCameraWhoosh() {
+      if (!isAudioOn) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        // Synth Chime oscillator
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        
+        // Frequencies for a pleasant luxury pentatonic scale
+        const notes = [440, 523.25, 587.33, 659.25, 783.99, 880];
+        const freq = notes[currentWaypoint % notes.length];
+        
+        osc.frequency.setValueAtTime(freq * 0.5, now);
+        osc.frequency.exponentialRampToValueAtTime(freq, now + 0.35);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.65);
+      } catch (e) {
+        console.warn("Audio error:", e);
+      }
+    }
+
+    function toggleAudio() {
+      isAudioOn = !isAudioOn;
+      const statusEl = document.getElementById('audio-status');
+      const iconEl = document.getElementById('audio-icon');
+      if (isAudioOn) {
+        statusEl.textContent = "Sound: On";
+        iconEl.textContent = "volume_up";
+        playCameraWhoosh();
+      } else {
+        statusEl.textContent = "Sound: Off";
+        iconEl.textContent = "volume_off";
+      }
+    }
+
+    // --- CAMERA RIG & 3D PERSPECTIVE ZOOM-IN LOGIC ---
+    function updateScene(index) {
+      if (index < 0 || index >= waypoints.length) return;
+      currentWaypoint = index;
+      const data = waypoints[index];
+
+      // Play audio cue
+      playCameraWhoosh();
+
+      // 1. Update Camera 3D Transform (Zooming into each location)
+      const cameraRig = document.getElementById('camera-rig');
+      const zoomOffsets = [
+        { z: 0, rotX: 0, rotY: 0, scale: 1 },
+        { z: 120, rotX: 3, rotY: -3, scale: 1.05 },
+        { z: 240, rotX: -2, rotY: 4, scale: 1.1 },
+        { z: 360, rotX: 4, rotY: -2, scale: 1.14 },
+        { z: 480, rotX: -3, rotY: 3, scale: 1.18 },
+        { z: 60, rotX: 0, rotY: 0, scale: 1.02 }
+      ];
+      const offset = zoomOffsets[index];
+      cameraRig.style.transform = `translateZ(${offset.z}px) rotateX(${offset.rotX}deg) rotateY(${offset.rotY}deg) scale(${offset.scale})`;
+
+      // 2. Cross-fade layers with 3D depth
+      for (let i = 0; i < waypoints.length; i++) {
+        const layer = document.getElementById(`scene-layer-${i}`);
+        if (!layer) continue;
+        if (i === index) {
+          layer.style.opacity = '1';
+          layer.style.pointerEvents = 'auto';
+          layer.style.transform = 'translateZ(0px) scale(1)';
+        } else if (i < index) {
+          // Preceding layers zoom past camera
+          layer.style.opacity = '0';
+          layer.style.pointerEvents = 'none';
+          layer.style.transform = 'translateZ(200px) scale(1.15)';
+        } else {
+          // Future layers waiting behind
+          layer.style.opacity = '0';
+          layer.style.pointerEvents = 'none';
+          layer.style.transform = 'translateZ(-150px) scale(0.9)';
+        }
+      }
+
+      // 3. Move Route Beacon Pulse on SVG Map
+      const beacon = document.getElementById('route-beacon');
+      if (beacon && data.beaconPos) {
+        gsap.to(beacon, {
+          attr: { cx: data.beaconPos.x, cy: data.beaconPos.y },
+          duration: 0.8,
+          ease: "power2.out"
+        });
+      }
+
+      // 4. Update HUD Navigation Pills
+      document.querySelectorAll('#hud-nav-tabs .hud-tab').forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add('active', 'bg-sunset/90', 'text-white');
+          tab.classList.remove('text-white/60');
+        } else {
+          tab.classList.remove('active', 'bg-sunset/90', 'text-white');
+          tab.classList.add('text-white/60');
+        }
+      });
+
+      // 5. Update Sticky Package Card Contents
+      document.getElementById('card-wp-counter').textContent = `STOP 0${index + 1} OF 0${waypoints.length}`;
+      document.getElementById('card-dest-title').textContent = data.name;
+      document.getElementById('card-days-tag').textContent = data.days.split('·')[0].trim();
+      document.getElementById('card-dest-subtitle').textContent = data.subtitle;
+      document.getElementById('card-price').textContent = data.price;
+      document.getElementById('altitude-counter').textContent = data.altitude;
+
+      // Update Card Highlights list
+      const listEl = document.getElementById('card-highlights-list');
+      listEl.innerHTML = data.highlights.map(item => `
+        <li class="flex items-start gap-2">
+          <span class="material-symbols-outlined text-sunset text-base shrink-0 mt-0.5">check_circle</span>
+          <span>${item}</span>
+        </li>
+      `).join('');
+
+      // Update WhatsApp URL
+      const waBtn = document.getElementById('card-wa-btn');
+      waBtn.href = `https://wa.me/918007586871?text=${encodeURIComponent(data.waText)}`;
+
+      // Update Node pills in right card
+      document.querySelectorAll('#connected-nodes-pills button').forEach((btn, i) => {
+        if (i === index) {
+          btn.className = "p-2 rounded-xl text-left bg-sunset/30 border border-sunset transition";
+          btn.querySelector('.font-bold').className = "font-mono text-[10px] text-sunset font-bold";
+        } else {
+          btn.className = "p-2 rounded-xl text-left bg-white/5 border border-white/10 transition hover:bg-white/15";
+          btn.querySelector('.font-bold').className = "font-mono text-[10px] text-white/50 font-bold";
+        }
+      });
+
+      // 6. Update Top Progress Bar
+      const pct = Math.round(((index + 1) / waypoints.length) * 100);
+      document.getElementById('journey-progress-bar').style.width = `${pct}%`;
+    }
+
+    // --- JUMP DIRECTLY TO WAYPOINT ---
+    function jumpToWaypoint(index) {
+      if (index < 0 || index >= waypoints.length) return;
+      const triggers = document.querySelectorAll('.waypoint-trigger');
+      if (triggers[index]) {
+        triggers[index].scrollIntoView({ behavior: 'smooth' });
+      }
+      updateScene(index);
+    }
+
+    function stepWaypoint(delta) {
+      let target = currentWaypoint + delta;
+      if (target < 0) target = 0;
+      if (target >= waypoints.length) target = waypoints.length - 1;
+      jumpToWaypoint(target);
+    }
+
+    // --- AUTOPLAY FLY-THROUGH CINEMATIC MODE ---
+    function toggleAutoplay() {
+      isAutoplaying = !isAutoplaying;
+      const btnText = document.getElementById('autoplay-text');
+      const btnIcon = document.getElementById('autoplay-icon');
+
+      if (isAutoplaying) {
+        btnText.textContent = "Pause Tour";
+        btnIcon.textContent = "pause";
+        // Enable audio automatically on autoplay
+        if (!isAudioOn) toggleAudio();
+
+        autoplayInterval = setInterval(() => {
+          let next = (currentWaypoint + 1) % waypoints.length;
+          jumpToWaypoint(next);
+        }, 5000);
+      } else {
+        btnText.textContent = "Auto Fly-Through";
+        btnIcon.textContent = "play_arrow";
+        clearInterval(autoplayInterval);
+      }
+    }
+
+    // --- SCROLLTRIGGER BINDING ---
+    window.addEventListener('DOMContentLoaded', () => {
+      // Register GSAP plugins
+      if (window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const triggers = document.querySelectorAll('.waypoint-trigger');
+        triggers.forEach((el, index) => {
+          ScrollTrigger.create({
+            trigger: el,
+            start: "top center",
+            end: "bottom center",
+            onEnter: () => updateScene(index),
+            onEnterBack: () => updateScene(index)
+          });
+        });
+      }
+
+      // Initialize Scene 0
+      updateScene(0);
+
+      // Keyboard arrow shortcuts
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+          e.preventDefault();
+          stepWaypoint(1);
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          stepWaypoint(-1);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -38,12 +38,17 @@
         <a href="deals.html" class="nav-link ${isActive('deals')}">DEALS &amp; PACKAGES</a>
         <a href="booking.html" class="nav-link ${isActive('booking')}">CUSTOMISE TRIP</a>
         <a href="about.html" class="nav-link ${isActive('about')}">ABOUT US</a>
-        <a href="reviews.html" class="nav-link ${isActive('reviews')}">TESTIMONIALS</a>
+        <a href="lumora.html" class="nav-link">LUMORA</a>
         <a href="contact.html" class="nav-link ${isActive('contact')}">CONTACT</a>
       </div>
 
       <!-- Right Actions -->
       <div class="nav-actions">
+        <!-- ✈️ 3D FLIGHT JOURNEY -->
+        <a href="home.html#cinematic-scroll-journey-track" onclick="window.scrollTo({top: 2950, behavior: 'smooth'});" class="nav-ai-pill hidden lg:inline-flex" style="background: linear-gradient(135deg, rgba(244,162,97,0.18), rgba(30,136,229,0.18)); border-color: rgba(244,162,97,0.4);" title="3D Cinematic Flight Journey">
+          <span style="font-size: 14px;">✈️</span>
+          <span class="ai-chip-label" style="color: #0B1F3A; font-weight: 700;">3D Flight</span>
+        </a>
         <!-- ✨ AI TRIP PLANNER -->
         <a href="ai-travel.html" class="nav-ai-pill ${isActive('ai')}" title="AI Trip Planner">
           <span class="ai-sparkle">✨</span>
@@ -207,23 +212,27 @@
 
   .site-nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-    background: #ffffff;
-    border-bottom: 1px solid rgba(11,31,58,0.08);
-    box-shadow: 0 2px 14px rgba(11,31,58,0.06);
-    transition: all 0.3s ease;
+    background: transparent !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: none !important;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
     padding: 0;
-    height: 70px;
+    height: 72px;
   }
 
-  /* Compact state on scroll */
+  /* Transparent glass state on scroll */
   .site-nav.scrolled {
-    background: #ffffff;
-    border-bottom: 1px solid rgba(11,31,58,0.1);
-    box-shadow: 0 4px 20px rgba(11,31,58,0.08);
+    background: rgba(7, 21, 41, 0.6) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
   }
 
   .site-nav.scrolled .nav-logo-img {
-    filter: drop-shadow(0 2px 10px rgba(11,31,58,0.15));
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.25));
   }
 
   .nav-inner {
@@ -233,7 +242,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    height: 70px;
+    height: 72px;
     gap: 16px;
     box-sizing: border-box;
   }
@@ -254,7 +263,7 @@
     max-width: 250px;
     object-fit: contain;
     border-radius: 8px;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
     transition: transform 0.25s ease;
   }
   .nav-logo:hover .nav-logo-img {
@@ -268,29 +277,39 @@
     flex-wrap: nowrap;
   }
   .nav-link {
-    color: #0F172A;
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     text-decoration: none;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 700;
-    padding: 7px 12px;
-    border-radius: 8px;
-    transition: all 0.18s ease;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
     white-space: nowrap;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
     display: inline-flex;
     align-items: center;
   }
   .nav-link:hover {
-    color: #F4A261;
-    background: rgba(244, 162, 97, 0.08);
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
   }
   .nav-link.active {
-    color: #0B1F3A;
+    color: #ffffff !important;
     font-weight: 800;
-    background: rgba(11, 31, 58, 0.07);
-    box-shadow: inset 0 -2px 0 0 #F4A261;
+    background: rgba(255, 255, 255, 0.24) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.2px solid rgba(255, 255, 255, 0.55) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
   }
 
   /* Dropdown Menu CSS */
@@ -510,27 +529,28 @@
 
   /* 🔘 Accent CTA — Book / Plan Trip */
   .nav-cta {
-    background: var(--accent);
-    color: #fff;
+    background: linear-gradient(135deg, #F4A261 0%, #E07A38 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    color: #071529 !important;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-size: 11px; font-weight: 700;
-    padding: 7px 14px; border-radius: 8px;
-    letter-spacing: 0.03em; text-transform: uppercase;
+    font-size: 11px; font-weight: 800;
+    padding: 8px 18px; border-radius: 999px;
+    letter-spacing: 0.04em; text-transform: uppercase;
     transition: all 0.22s ease;
     white-space: nowrap;
-    box-shadow: 0 2px 10px rgba(244,162,97,0.28);
+    box-shadow: 0 4px 16px rgba(244,162,97,0.35), inset 0 1.5px 2px rgba(255,255,255,0.7);
   }
   .nav-cta:hover {
-    background: var(--accent-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(244,162,97,0.38);
+    background: linear-gradient(135deg, #ffa86b 0%, #F4A261 100%);
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 6px 22px rgba(244,162,97,0.5), inset 0 1.5px 2px #fff;
+    color: #071529 !important;
   }
   .site-nav.scrolled .nav-cta {
-    background: var(--accent);
-  }
-  .site-nav.scrolled .nav-cta:hover {
-    background: var(--accent-dark);
+    background: linear-gradient(135deg, #F4A261 0%, #E07A38 100%);
   }
 
   .nav-hamburger {
@@ -541,7 +561,8 @@
   }
   .nav-hamburger span {
     display: block; width: 20px; height: 2px;
-    background: rgba(15,23,42,0.75); border-radius: 2px;
+    background: #ffffff !important; border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     transition: all 0.3s;
   }
   .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
