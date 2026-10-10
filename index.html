@@ -736,87 +736,7 @@
 
     
 
-    <!-- ============================================================ -->
-    <!-- CINEMATIC LUMORA HERO & SCENIC SANCTUARY (VIDEO SWITCHER)    -->
-    <!-- ============================================================ -->
-    <section id="lumora-sanctuary" class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between font-instrument select-none">
-      
-      <!-- 4 Fullscreen Looping Videos -->
-      <div class="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black pointer-events-none">
-        <video id="lumora-vid-0" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4" autoplay muted loop playsinline></video>
-        <video id="lumora-vid-1" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_092026_dd05b805-ea0f-40b2-8c52-332b88502592.mp4" autoplay muted loop playsinline></video>
-        <video id="lumora-vid-2" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4" autoplay muted loop playsinline></video>
-        <video id="lumora-vid-3" class="lumora-video absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_080959_4cac5234-3573-464e-a5b7-76b94b8a7d61.mp4" autoplay muted loop playsinline></video>
-      </div>
 
-      <!-- Transparent PNG Overlay with continuous Train-Bob motion -->
-      <div class="absolute inset-0 w-full h-full z-[1] pointer-events-none overflow-hidden">
-        <img src="images/lumora-overlay.png" onerror="this.src='https://soft-zoom-63098134.figma.site/_assets/v11/0b4a435b2df2747593c43d7a1c9b4578f7d8d90c.png'" alt="Train Window Overlay" class="w-full h-full object-cover animate-train-bob" />
-      </div>
-
-      <!-- Content Layer (z-index 2) -->
-      <div class="relative z-[2] w-full h-full flex flex-col justify-between px-6 sm:px-10 lg:px-16 py-6 sm:py-8 pointer-events-auto">
-        <!-- Top Nav -->
-        <header class="w-full flex items-center justify-between">
-          <a href="lumora.html" class="text-white italic text-2xl sm:text-3xl tracking-wide font-normal">Lumora</a>
-          <nav class="hidden md:flex items-center liquid-glass rounded-full px-5 py-2 space-x-6">
-            <a href="lumora.html#how-it-works" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">How It Works</a>
-            <a href="lumora.html#features" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">Features</a>
-            <a href="lumora.html#pricing" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">Pricing</a>
-            <a href="lumora.html#community" class="font-sans text-white/90 text-sm hover:text-white transition-colors duration-200">Community</a>
-            <a href="lumora.html" class="font-sans bg-white text-black text-sm font-medium px-4 py-1.5 rounded-full hover:bg-white/90 transition-all duration-200 shadow-sm">Get Started</a>
-          </nav>
-          <a href="lumora.html" target="_blank" class="liquid-glass rounded-full px-4 py-2 text-white text-xs font-sans flex items-center gap-1.5 hover:bg-white/10 transition">
-            Fullscreen App <span class="material-symbols-outlined text-sm">open_in_new</span>
-          </a>
-        </header>
-
-        <!-- Centered Hero Content -->
-        <main id="lumora-hero-content" class="flex-1 flex flex-col items-center justify-center text-center my-auto px-2 max-w-5xl mx-auto w-full transition-colors duration-700 text-white">
-          <div id="lumora-badge" class="liquid-glass rounded-full px-5 py-2 mb-6 sm:mb-8 font-sans text-xs sm:text-sm tracking-wide transition-colors duration-700">
-            Over 10,000 minds already finding their clarity
-          </div>
-
-          <h1 id="lumora-heading" class="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.08] max-w-4xl font-normal tracking-tight mb-5 sm:mb-6 transition-colors duration-700">
-            Clarity in an Endlessly<br />Noisy Universe
-          </h1>
-
-          <p id="lumora-subtext" class="font-sans text-sm sm:text-base md:text-lg max-w-xl leading-relaxed mb-8 sm:mb-10 text-white/85 transition-colors duration-700">
-            Rise above the chaos of pings, infinite scrolling, and relentless demands.
-            Discover how to protect your presence and create with intention.
-          </p>
-
-          <form id="lumora-form" class="liquid-glass rounded-full p-1.5 flex items-center w-full max-w-[320px] sm:max-w-md mb-8 sm:mb-10" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Joined ✓';">
-            <input type="email" placeholder="Your Best Email" required class="font-sans bg-transparent px-4 py-2 w-full text-sm outline-none placeholder:text-current placeholder:opacity-60 transition-colors duration-700 text-inherit" />
-            <button type="submit" class="font-sans bg-white text-black font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full hover:bg-white/90 whitespace-nowrap transition-all duration-200 shrink-0 shadow-sm">
-              Get Early Access
-            </button>
-          </form>
-
-          <!-- Video Switcher -->
-          <div id="lumora-switcher" class="flex items-center space-x-4 sm:space-x-8 font-sans text-xs sm:text-sm">
-            <button type="button" onclick="switchLumoraVideo(0)" class="lumora-tab-btn pb-1 border-b-2 border-white font-medium opacity-100 transition-all duration-700" data-idx="0">Golden Hour</button>
-            <button type="button" onclick="switchLumoraVideo(1)" class="lumora-tab-btn pb-1 border-b-2 border-transparent opacity-50 hover:opacity-80 transition-all duration-700" data-idx="1">Still Water</button>
-            <button type="button" onclick="switchLumoraVideo(2)" class="lumora-tab-btn pb-1 border-b-2 border-transparent opacity-50 hover:opacity-80 transition-all duration-700" data-idx="2">Deep Woods</button>
-            <button type="button" onclick="switchLumoraVideo(3)" class="lumora-tab-btn pb-1 border-b-2 border-transparent opacity-50 hover:opacity-80 transition-all duration-700" data-idx="3">Quiet Dawn</button>
-          </div>
-        </main>
-
-        <!-- Bottom Stats -->
-        <footer class="w-full flex items-center justify-center font-sans text-white/70 text-xs sm:text-sm pt-4">
-          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-center">
-            <span>60+ Deep Sessions</span>
-            <span class="hidden sm:inline opacity-40">|</span>
-            <span>12,000+ Creators</span>
-            <span class="hidden sm:inline opacity-40">|</span>
-            <span>4.8 User Satisfaction</span>
-            <span class="hidden sm:inline opacity-40">|</span>
-            <span>Intentional-First Design</span>
-          </div>
-        </footer>
-      </div>
-
-    </section>
 
     <!-- ============================================================ -->
     <!-- SECTION: Signature Destinations — 3 big tiles                -->
@@ -1811,7 +1731,7 @@
     }
   </script>
 
-  <!-- Lenis Smooth Scrolling Engine & Lumora Video Controller -->
+  <!-- Lenis Smooth Scrolling Engine -->
   <script>
     // 1. Lenis Fast & Responsive Smooth Scrolling
     document.addEventListener('DOMContentLoaded', () => {
@@ -1840,51 +1760,6 @@
         }
       }
     });
-
-    // 2. Lumora Video Switcher & Deep Woods Dark Mode
-    let lumoraActive = 0;
-    let lumoraTransitioning = false;
-
-    function switchLumoraVideo(idx) {
-      if (idx === lumoraActive || lumoraTransitioning) return;
-      lumoraTransitioning = true;
-      lumoraActive = idx;
-
-      // Update video opacities
-      for (let i = 0; i < 4; i++) {
-        const vid = document.getElementById(`lumora-vid-${i}`);
-        if (vid) {
-          vid.classList.toggle('opacity-100', i === idx);
-          vid.classList.toggle('opacity-0', i !== idx);
-        }
-      }
-
-      // Update button tabs
-      document.querySelectorAll('.lumora-tab-btn').forEach((btn, i) => {
-        const isActive = i === idx;
-        btn.classList.toggle('opacity-100', isActive);
-        btn.classList.toggle('opacity-50', !isActive);
-        btn.classList.toggle('border-white', isActive && idx !== 2);
-        btn.classList.toggle('border-[#182C41]', isActive && idx === 2);
-        btn.classList.toggle('border-transparent', !isActive);
-      });
-
-      // Dark Mode for Deep Woods (index 2)
-      const hero = document.getElementById('lumora-hero-content');
-      if (hero) {
-        if (idx === 2) {
-          hero.classList.remove('text-white');
-          hero.classList.add('text-[#182C41]');
-        } else {
-          hero.classList.remove('text-[#182C41]');
-          hero.classList.add('text-white');
-        }
-      }
-
-      setTimeout(() => {
-        lumoraTransitioning = false;
-      }, 1000);
-    }
   </script>
 
 </body>

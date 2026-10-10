@@ -38,7 +38,6 @@
         <a href="deals.html" class="nav-link ${isActive('deals')}">DEALS &amp; PACKAGES</a>
         <a href="booking.html" class="nav-link ${isActive('booking')}">CUSTOMISE TRIP</a>
         <a href="about.html" class="nav-link ${isActive('about')}">ABOUT US</a>
-        <a href="lumora.html" class="nav-link">LUMORA</a>
         <a href="contact.html" class="nav-link ${isActive('contact')}">CONTACT</a>
       </div>
 
