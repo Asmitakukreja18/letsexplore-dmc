@@ -76,6 +76,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.95",
       img: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=900&q=80",
+      video: "images/bali.mp4",
       href: "bali-package.html",
       tags: ["Return Flights", "Private Pool Villa", "Lempuyang Gate"],
       voucherId: "LEDMC1024111"
@@ -162,6 +163,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.96",
       img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=900&q=80",
+      video: "images/marina.mp4",
       href: "dubai-package.html",
       tags: ["Museum of the Future", "Sheikh Zayed Mosque", "BAPS Mandir"],
       voucherId: "LEDMC1146323"
@@ -179,6 +181,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.91",
       img: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=900&q=80",
+      video: "images/desert.mp4",
       href: "dubai-package.html",
       tags: ["The View at the Palm", "Aquaventure Pass", "Miracle Garden"],
       voucherId: "LEDMC1129743"
@@ -538,15 +541,22 @@
       return;
     }
 
-    gridEl.innerHTML = filtered.map(pkg => `
-      <article class="pkg-card group relative bg-white rounded-[32px] overflow-hidden border border-navy/10 hover:border-sunset/40 shadow-[0_8px_30px_-10px_rgba(11,31,58,0.12)] hover:shadow-[0_20px_50px_-15px_rgba(11,31,58,0.25)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+    gridEl.innerHTML = filtered.map((pkg, idx) => `
+      <article class="pkg-card group relative bg-white rounded-[32px] overflow-hidden border border-navy/10 hover:border-sunset/50 shadow-[0_8px_30px_-10px_rgba(11,31,58,0.12)] hover:shadow-[0_24px_50px_-12px_rgba(244,162,97,0.22)] transition-all duration-500 hover:-translate-y-2.5 flex flex-col will-change-transform" style="animation: pkgCardFadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${Math.min(idx * 0.04, 0.36)}s both;">
         
-        <!-- Image & Badge Container -->
-        <div class="relative aspect-[16/11] overflow-hidden">
+        <!-- Image & Video Container -->
+        <div class="relative aspect-[16/11] overflow-hidden bg-navy-deep">
           ${pkg.video ? `
-            <video autoplay loop muted playsinline poster="${pkg.img}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
+            <video loop muted playsinline poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
               <source src="${pkg.video}" type="video/mp4"/>
             </video>
+            <!-- Animated 4K Video Badge -->
+            <div class="absolute top-4 right-16 z-10 pointer-events-none">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-navy-deep/85 backdrop-blur-md border border-white/20 text-[10px] font-mono font-bold uppercase tracking-wider text-white shadow-lg">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-ping"></span>
+                <span>4K REEL</span>
+              </span>
+            </div>
           ` : `
             <img src="${pkg.img}" alt="${pkg.name}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy"/>
           `}
@@ -625,6 +635,42 @@
         </div>
       </article>
     `).join('');
+
+    // Viewport IntersectionObserver: auto-play videos when card is in view, pause when scrolled away
+    setupPackageVideoObserver();
+  }
+
+  function setupPackageVideoObserver() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.pkg-video-player').forEach(v => v.play().catch(() => {}));
+      return;
+    }
+    const vids = document.querySelectorAll('.pkg-video-player');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const vid = entry.target;
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.15 });
+
+    vids.forEach(v => observer.observe(v));
+  }
+
+  // Inject keyframe animation if not already present
+  if (!document.getElementById('pkg-card-animation-style')) {
+    const styleEl = document.createElement('style');
+    styleEl.id = 'pkg-card-animation-style';
+    styleEl.textContent = `
+      @keyframes pkgCardFadeUp {
+        0% { opacity: 0; transform: translateY(28px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    `;
+    document.head.appendChild(styleEl);
   }
 
   window.filterPackagesCategory = function (category) {
