@@ -22,6 +22,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.95",
       img: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80",
+      video: "images/georgia.mp4",
       href: "georgia-package.html",
       tags: ["Kazbegi 4x4", "Bridge of Peace", "Old Tbilisi Cable Car"],
       voucherId: "LEDMC100300"
@@ -39,6 +40,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.92",
       img: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80",
+      video: "images/capadocia.mp4",
       href: "turkey-package.html",
       tags: ["Hot Air Balloon", "Bosphorus Cruise", "Cave Hotel"],
       voucherId: "LEDMC100420"
@@ -56,6 +58,7 @@
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.98",
       img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80",
+      video: "images/bali.mp4",
       href: "bali-package.html",
       tags: ["Finns Beach Club", "Kelingking T-Rex", "Ayung Rafting & ATV"],
       voucherId: "LEDMC587358"
@@ -141,6 +144,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.89",
       img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
+      video: "images/dubai.mp4",
       href: "dubai-package.html",
       tags: ["Burj Khalifa 124th", "4x4 Desert Safari", "Marina Dhow Cruise"],
       voucherId: "LEDMC1147561"
@@ -539,7 +543,13 @@
         
         <!-- Image & Badge Container -->
         <div class="relative aspect-[16/11] overflow-hidden">
-          <img src="${pkg.img}" alt="${pkg.name}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy"/>
+          ${pkg.video ? `
+            <video autoplay loop muted playsinline poster="${pkg.img}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
+              <source src="${pkg.video}" type="video/mp4"/>
+            </video>
+          ` : `
+            <img src="${pkg.img}" alt="${pkg.name}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy"/>
+          `}
           
           <!-- Top Left Ribbon -->
           <div class="absolute top-4 left-4 flex items-center gap-2">
