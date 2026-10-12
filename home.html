@@ -23,8 +23,8 @@
 <script src="js/wishlist.js" defer></script>
 <script src="js/packages-showcase.js" defer></script>
 <script src="js/cinematic-scroll-journey.js" defer></script>
-<script src="js/ocean-carousel.js?v=2.1" defer></script>
-<script src="js/signature-3d-motion.js?v=2.1" defer></script>
+<script src="js/ocean-carousel.js?v=3.0" defer></script>
+<script src="js/signature-3d-motion.js?v=3.0" defer></script>
 
 <script id="tailwind-config">
       tailwind.config = {
@@ -778,10 +778,17 @@
               Twelve years, forty-two countries, one promise — you'll return with stories, not photographs.
             </p>
           </div>
-          <a href="explore.html" class="group inline-flex items-center gap-3 font-sans text-navy-deep font-semibold w-fit">
-            <span class="link-underline">View all destinations</span>
-            <span class="material-symbols-outlined group-hover:translate-x-2 transition" style="font-variation-settings:'FILL' 0;">arrow_forward</span>
-          </a>
+          <div class="flex items-center gap-4 flex-wrap">
+            <button id="btn-trigger-3d-mix" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-navy-deep text-sunset font-sans text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-sunset/30 cursor-pointer">
+              <span class="material-symbols-outlined text-base animate-spin" style="animation-duration: 4s;">view_in_ar</span>
+              <span>3D Mix & Reveal Packages</span>
+              <span class="material-symbols-outlined text-base">arrow_downward</span>
+            </button>
+            <a href="explore.html" class="group inline-flex items-center gap-3 font-sans text-navy-deep font-semibold w-fit">
+              <span class="link-underline">View all destinations</span>
+              <span class="material-symbols-outlined group-hover:translate-x-2 transition" style="font-variation-settings:'FILL' 0;">arrow_forward</span>
+            </a>
+          </div>
         </div>
 
         <!-- Three big tiles -->
@@ -794,9 +801,9 @@
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100"
                      src="images/capadocia.mp4" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=1000&q=80"></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/istanbul.mp4" muted playsinline preload="metadata"></video>
+                     src="images/istanbul.mp4" autoplay loop muted playsinline></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/Pamukkale.mp4" muted playsinline preload="metadata"></video>
+                     src="images/Pamukkale.mp4" autoplay loop muted playsinline></video>
             </div>
             <div class="dest-overlay absolute inset-0"></div>
 
@@ -835,9 +842,9 @@
               <video class="ocean-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100"
                      src="images/maldives.mp4" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1000&q=80"></video>
               <video class="ocean-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/bali.mp4" muted playsinline preload="metadata"></video>
+                     src="images/bali.mp4" autoplay loop muted playsinline></video>
               <video class="ocean-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/andaman.mp4" muted playsinline preload="metadata"></video>
+                     src="images/andaman.mp4" autoplay loop muted playsinline></video>
             </div>
             <div class="dest-overlay absolute inset-0"></div>
 
@@ -877,9 +884,9 @@
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100"
                      src="images/desert.mp4" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80"></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/dubai.mp4" muted playsinline preload="metadata"></video>
+                     src="images/dubai.mp4" autoplay loop muted playsinline></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/marina.mp4" muted playsinline preload="metadata"></video>
+                     src="images/marina.mp4" autoplay loop muted playsinline></video>
             </div>
             <div class="dest-overlay absolute inset-0"></div>
 
@@ -912,6 +919,18 @@
             </div>
           </a>
 
+        </div>
+        <!-- 3D Scroll Convergence Transition Indicator to Packages -->
+        <div class="mt-14 flex flex-col items-center justify-center text-center">
+          <a href="#packages" onclick="window.trigger3DConvergenceAndScroll(event);" class="group inline-flex flex-col items-center gap-2 text-navy-deep/70 hover:text-sunset transition-colors duration-300 cursor-pointer">
+            <span class="text-xs font-bold uppercase tracking-widest text-ocean flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sunset animate-ping"></span>
+              <span>✦ 3D Convergence Active · Scroll or Click to Mix & Reveal Packages</span>
+            </span>
+            <div class="w-10 h-10 rounded-full bg-white shadow-lg border border-navy/10 flex items-center justify-center group-hover:translate-y-1 transition-transform">
+              <span class="material-symbols-outlined text-xl text-sunset animate-bounce">keyboard_arrow_down</span>
+            </div>
+          </a>
         </div>
       </div>
     </section>

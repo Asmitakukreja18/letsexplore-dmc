@@ -4,13 +4,16 @@
  * - Turkey: Cappadocia -> Istanbul -> Pamukkale
  * - Ocean Collection: Maldives -> Bali -> Andaman
  * - Dubai: Desert -> Burj -> Marina
+ *
+ * All videos play simultaneously in GPU background.
+ * True zero-latency double-exposure cross-fade mixing with no seeking or black frames.
  */
 document.addEventListener('DOMContentLoaded', () => {
   const carousels = document.querySelectorAll('.dest-video-carousel, .ocean-video-carousel');
   if (!carousels.length) return;
 
-  const DISPLAY_DURATION = 5500; // 5.5s display time per destination
-  const BLEND_DURATION = 2000;   // 2.0s silky cinematic film dissolve mix
+  const DISPLAY_DURATION = 5000; // 5.0s per destination
+  const BLEND_DURATION = 2000;   // 2.0s silky film dissolve mix
 
   carousels.forEach(carousel => {
     const videos = carousel.querySelectorAll('.carousel-tile-vid, .ocean-tile-vid');
@@ -35,25 +38,30 @@ document.addEventListener('DOMContentLoaded', () => {
     let isBlending = false;
     let timer = null;
 
-    // Initialize all video styling for true multi-layer film blending
+    // Initialize all video styling for true continuous parallel streaming & film blending
     videos.forEach((vid, idx) => {
       vid.muted = true;
+      vid.loop = true;
       vid.playsInline = true;
       vid.setAttribute('playsinline', '');
       vid.setAttribute('muted', '');
+      vid.setAttribute('loop', '');
       vid.style.willChange = 'opacity, transform, filter';
       vid.style.transition = `opacity ${BLEND_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1), transform 2.6s ease-out, filter ${BLEND_DURATION}ms ease-out`;
+
+      // Start all videos playing silently in parallel so frames are continuously hot in GPU
+      vid.play().catch(() => {});
 
       if (idx === 0) {
         vid.style.opacity = '1';
         vid.style.zIndex = '2';
         vid.style.transform = 'scale(1)';
-        vid.play().catch(() => {});
+        vid.style.filter = 'brightness(1) contrast(1)';
       } else {
         vid.style.opacity = '0';
         vid.style.zIndex = '1';
         vid.style.transform = 'scale(1.05)';
-        vid.preload = 'auto'; // Preload videos for instant playback
+        vid.style.filter = 'brightness(1.1) contrast(1.05)';
       }
     });
 
@@ -64,59 +72,33 @@ document.addEventListener('DOMContentLoaded', () => {
       const currentVid = videos[currentIndex];
       const nextVid = videos[nextIndex];
 
-      // Prepare incoming video in background
-      nextVid.currentTime = 0;
-      nextVid.style.zIndex = '3'; // Position incoming video over outgoing video
-      nextVid.style.opacity = '0';
-      nextVid.style.transform = 'scale(1.06)';
-      nextVid.style.filter = 'brightness(1.15) contrast(1.05)';
+      // Incoming video is ALREADY streaming live frames!
+      // Position incoming video on top, start cross-fade dissolve immediately
+      nextVid.style.zIndex = '3';
+      currentVid.style.zIndex = '2';
 
-      // Trigger video play
-      const startCrossDissolve = () => {
-        requestAnimationFrame(() => {
-          // Both videos blend simultaneously for a true double-exposure film dissolve
-          nextVid.style.opacity = '1';
-          nextVid.style.transform = 'scale(1)';
-          nextVid.style.filter = 'brightness(1) contrast(1)';
+      requestAnimationFrame(() => {
+        // True double-exposure film cross-dissolve:
+        // Incoming video fades smoothly in from 0 to 1 with gentle zoom breath
+        nextVid.style.opacity = '1';
+        nextVid.style.transform = 'scale(1)';
+        nextVid.style.filter = 'brightness(1) contrast(1)';
 
-          currentVid.style.opacity = '0';
-          currentVid.style.transform = 'scale(1.03)';
+        // Outgoing video dissolves smoothly out from 1 to 0 with gentle zoom
+        currentVid.style.opacity = '0';
+        currentVid.style.transform = 'scale(1.04)';
 
-          // After dissolve duration finishes, clean up
-          setTimeout(() => {
-            currentVid.style.zIndex = '1';
-            currentVid.style.transform = 'scale(1)';
-            currentVid.pause();
+        // After dissolve finishes, normalize z-indices
+        setTimeout(() => {
+          currentVid.style.zIndex = '1';
+          currentVid.style.transform = 'scale(1.05)';
+          currentVid.style.filter = 'brightness(1.1) contrast(1.05)';
 
-            nextVid.style.zIndex = '2';
-            currentIndex = nextIndex;
-            isBlending = false;
-          }, BLEND_DURATION);
-        });
-      };
-
-      // Ensure frames are decoding before dissolving (prevents black cuts)
-      let started = false;
-      const onFrameReady = () => {
-        if (started) return;
-        started = true;
-        nextVid.removeEventListener('timeupdate', onFrameReady);
-        nextVid.removeEventListener('playing', onFrameReady);
-        startCrossDissolve();
-      };
-
-      nextVid.addEventListener('timeupdate', onFrameReady, { once: true });
-      nextVid.addEventListener('playing', onFrameReady, { once: true });
-
-      const playPromise = nextVid.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
-      }
-
-      // Fallback safeguard in case timeupdate is delayed
-      setTimeout(() => {
-        if (!started) onFrameReady();
-      }, 300);
+          nextVid.style.zIndex = '2';
+          currentIndex = nextIndex;
+          isBlending = false;
+        }, BLEND_DURATION);
+      });
 
       // Smoothly update destination badge text with slide/fade
       if (badgeName && destNames[nextIndex]) {
@@ -179,9 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         stopAutoSequence();
-        videos[currentIndex]?.pause();
       } else {
-        videos[currentIndex]?.play().catch(() => {});
+        videos.forEach(v => v.play().catch(() => {}));
         startAutoSequence();
       }
     });

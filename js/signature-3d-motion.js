@@ -1,6 +1,7 @@
 /**
  * Let's Explore DMC — Signature Destinations & Packages Master 3D Motion System
  * - 3D Perspective Convergence & Mix on Scroll (Turkey, Indian Ocean, Dubai cards)
+ * - Interactive 3D Mix & Reveal Scroll Trigger (window.trigger3DConvergenceAndScroll)
  * - 3D Cascading Waterfall Wave Entry into #packages
  * - Floating Multiplane Parallax on Packages Scroll
  * - Interactive 3D Cursor Tilt with Dynamic Specular Glare on Package Cards
@@ -13,18 +14,19 @@
   styleEl.id = 'signature-3d-motion-styles';
   styleEl.textContent = `
     .signature-3d-container {
-      perspective: 1800px !important;
+      perspective: 2000px !important;
       perspective-origin: center center !important;
       transform-style: preserve-3d !important;
     }
     .dest-tile {
       transform-style: preserve-3d !important;
       will-change: transform, box-shadow !important;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
     }
     .pkg-3d-wave-card {
       opacity: 0;
-      transform: perspective(1200px) translateY(90px) rotateX(20deg) scale(0.9);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: perspective(1200px) translateY(90px) rotateX(22deg) scale(0.9);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, opacity;
     }
     .pkg-3d-wave-card.pkg-in-view {
@@ -44,46 +46,45 @@
   `;
   document.head.appendChild(styleEl);
 
+  let tiles = [];
+  let grid = null;
+  let currentFactor = 0;
+  let targetFactor = 0;
+  let isTicking = false;
+
   document.addEventListener('DOMContentLoaded', () => {
     initSignature3DConvergence();
     initPackages3DWaveEntry();
     initPackageCards3DTilt();
+    initTriggerButton();
   });
 
   /* ============================================================ */
   /* 1. SIGNATURE DESTINATIONS 3D CONVERGENCE & MIX ON SCROLL     */
   /* ============================================================ */
   function initSignature3DConvergence() {
-    const tiles = document.querySelectorAll('.dest-tile');
+    tiles = Array.from(document.querySelectorAll('.dest-tile'));
     if (!tiles || tiles.length < 3) return;
 
-    const grid = tiles[0].parentElement;
+    grid = tiles[0].parentElement;
     if (!grid) return;
     grid.classList.add('signature-3d-container');
-
-    // Lerp state for fluid 60fps / 120fps physics
-    let currentFactor = 0;
-    let targetFactor = 0;
-    let isTicking = false;
 
     function calculateScrollProgress() {
       const rect = grid.getBoundingClientRect();
       const windowH = window.innerHeight;
 
-      // When grid top is at windowH, progress = 0
-      // When grid center is at windowH / 2, progress = 0.5
-      // When grid bottom scrolls past top, progress = 1.0
+      // Progress: 0 when entering viewport, 1.0 when scrolling towards packages
       const totalDist = windowH + rect.height;
       const currentDist = windowH - rect.top;
       const progress = Math.max(0, Math.min(1.2, currentDist / totalDist));
 
-      // Convergence intensity peaks as user scrolls from center down towards packages
-      // factor: 0 (top of page) -> 0 (when tiles first enter) -> 1.0 (when scrolling towards packages)
-      if (progress < 0.3) {
+      // Convergence intensity peaks as user scrolls past tiles down towards packages
+      if (progress < 0.25) {
         targetFactor = 0;
       } else {
-        // Range 0.3 to 0.9 maps to 0 to 1.0
-        targetFactor = Math.min(1.0, (progress - 0.3) / 0.6);
+        // Range 0.25 to 0.85 maps to 0 to 1.0
+        targetFactor = Math.min(1.0, (progress - 0.25) / 0.6);
       }
 
       if (!isTicking) {
@@ -93,57 +94,13 @@
     }
 
     function render3DMotionLoop() {
-      // Smooth lerp (linear interpolation)
-      currentFactor += (targetFactor - currentFactor) * 0.12;
-
+      // Smooth lerp (linear interpolation) for silky 60fps/120fps physics
+      currentFactor += (targetFactor - currentFactor) * 0.14;
       const f = currentFactor; // 0 to 1
 
-      const tileLeft = tiles[0];   // Turkey
-      const tileCenter = tiles[1]; // Indian Ocean
-      const tileRight = tiles[2];  // Dubai
+      apply3DTransforms(f);
 
-      if (tileLeft) {
-        // Folds inward towards center, tilts on Y axis and drops slightly down
-        const rotY = (f * 22).toFixed(2);
-        const rotX = (f * 8).toFixed(2);
-        const rotZ = (-f * 4).toFixed(2);
-        const transX = (f * 95).toFixed(1);
-        const transY = (f * 35).toFixed(1);
-        const scale = (1 - f * 0.05).toFixed(3);
-        const shadowSpread = (f * 35).toFixed(0);
-
-        tileLeft.style.transform = `perspective(1600px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
-        tileLeft.style.boxShadow = `${-f * 20}px ${20 + f * 20}px ${shadowSpread}px -5px rgba(11, 31, 58, ${0.2 + f * 0.25})`;
-      }
-
-      if (tileCenter) {
-        // Pops forward towards the camera, lifting in 3D space with brilliant glow
-        const transZ = (f * 110).toFixed(1);
-        const transY = (-f * 25).toFixed(1);
-        const scale = (1 + f * 0.07).toFixed(3);
-        const rotX = (-f * 4).toFixed(2);
-
-        tileCenter.style.transform = `perspective(1600px) translateZ(${transZ}px) translateY(${transY}px) rotateX(${rotX}deg) scale(${scale})`;
-        tileCenter.style.boxShadow = `0 ${25 + f * 25}px ${40 + f * 30}px -10px rgba(244, 162, 97, ${0.25 + f * 0.35}), 0 0 ${f * 40}px rgba(30, 136, 229, ${f * 0.3})`;
-        tileCenter.style.zIndex = f > 0.1 ? '10' : '1';
-      }
-
-      if (tileRight) {
-        // Folds inward towards center, mirrors left tile
-        const rotY = (-f * 22).toFixed(2);
-        const rotX = (f * 8).toFixed(2);
-        const rotZ = (f * 4).toFixed(2);
-        const transX = (-f * 95).toFixed(1);
-        const transY = (f * 35).toFixed(1);
-        const scale = (1 - f * 0.05).toFixed(3);
-        const shadowSpread = (f * 35).toFixed(0);
-
-        tileRight.style.transform = `perspective(1600px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
-        tileRight.style.boxShadow = `${f * 20}px ${20 + f * 20}px ${shadowSpread}px -5px rgba(11, 31, 58, ${0.2 + f * 0.25})`;
-      }
-
-      // Continue RAF loop while animating
-      if (Math.abs(targetFactor - currentFactor) > 0.005) {
+      if (Math.abs(targetFactor - currentFactor) > 0.003) {
         requestAnimationFrame(render3DMotionLoop);
       } else {
         isTicking = false;
@@ -155,14 +112,95 @@
     calculateScrollProgress();
   }
 
+  function apply3DTransforms(f) {
+    if (!tiles || tiles.length < 3) return;
+
+    const tileLeft = tiles[0];   // Turkey
+    const tileCenter = tiles[1]; // Indian Ocean
+    const tileRight = tiles[2];  // Dubai
+
+    if (tileLeft) {
+      // Folds inward towards center, rotates in 3D perspective and layers smoothly
+      const rotY = (f * 28).toFixed(2);
+      const rotX = (f * 10).toFixed(2);
+      const rotZ = (-f * 5).toFixed(2);
+      const transX = (f * 160).toFixed(1);
+      const transY = (f * 45).toFixed(1);
+      const scale = (1 - f * 0.06).toFixed(3);
+      const shadowSpread = (f * 45).toFixed(0);
+
+      tileLeft.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
+      tileLeft.style.boxShadow = `${-f * 25}px ${25 + f * 25}px ${shadowSpread}px -5px rgba(11, 31, 58, ${0.2 + f * 0.3})`;
+      tileLeft.style.zIndex = '2';
+    }
+
+    if (tileCenter) {
+      // Pops forward towards the camera with glorious 3D depth and radiant aura
+      const transZ = (f * 140).toFixed(1);
+      const transY = (-f * 30).toFixed(1);
+      const scale = (1 + f * 0.09).toFixed(3);
+      const rotX = (-f * 5).toFixed(2);
+
+      tileCenter.style.transform = `perspective(1800px) translateZ(${transZ}px) translateY(${transY}px) rotateX(${rotX}deg) scale(${scale})`;
+      tileCenter.style.boxShadow = `0 ${30 + f * 35}px ${50 + f * 40}px -10px rgba(244, 162, 97, ${0.3 + f * 0.4}), 0 0 ${f * 50}px rgba(30, 136, 229, ${f * 0.35})`;
+      tileCenter.style.zIndex = f > 0.05 ? '10' : '3';
+    }
+
+    if (tileRight) {
+      // Folds inward towards center, mirroring left tile
+      const rotY = (-f * 28).toFixed(2);
+      const rotX = (f * 10).toFixed(2);
+      const rotZ = (f * 5).toFixed(2);
+      const transX = (-f * 160).toFixed(1);
+      const transY = (f * 45).toFixed(1);
+      const scale = (1 - f * 0.06).toFixed(3);
+      const shadowSpread = (f * 45).toFixed(0);
+
+      tileRight.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
+      tileRight.style.boxShadow = `${f * 25}px ${25 + f * 25}px ${shadowSpread}px -5px rgba(11, 31, 58, ${0.2 + f * 0.3})`;
+      tileRight.style.zIndex = '2';
+    }
+  }
+
   /* ============================================================ */
-  /* 2. PACKAGES SECTION 3D CASCADE WAVE ENTRANCE                 */
+  /* 2. EXPLICIT 3D CONVERGENCE & AUTO-SCROLL TRIGGER             */
+  /* ============================================================ */
+  window.trigger3DConvergenceAndScroll = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    // 1. Play dramatic 3D convergence
+    let step = 0;
+    const animInterval = setInterval(() => {
+      step += 0.08;
+      apply3DTransforms(Math.min(1.0, step));
+      if (step >= 1.0) {
+        clearInterval(animInterval);
+
+        // 2. Smoothly scroll into packages section
+        const packagesSection = document.getElementById('packages');
+        if (packagesSection) {
+          packagesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }, 16);
+  };
+
+  function initTriggerButton() {
+    const btn = document.getElementById('btn-trigger-3d-mix');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        window.trigger3DConvergenceAndScroll(e);
+      });
+    }
+  }
+
+  /* ============================================================ */
+  /* 3. PACKAGES SECTION 3D CASCADE WAVE ENTRANCE                 */
   /* ============================================================ */
   function initPackages3DWaveEntry() {
     const packagesSection = document.getElementById('packages');
     if (!packagesSection) return;
 
-    // Observe when packages container scrolls into view
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -170,7 +208,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.12 });
 
     observer.observe(packagesSection);
 
@@ -182,7 +220,7 @@
         card.classList.add('pkg-3d-wave-card');
         setTimeout(() => {
           card.classList.add('pkg-in-view');
-        }, index * 80); // Staggered 80ms wave cascade
+        }, index * 75); // Staggered 75ms wave cascade
       });
     }
 
@@ -207,11 +245,10 @@
       const cards = packagesSection.querySelectorAll('.pkg-card.pkg-in-view');
 
       cards.forEach((card, i) => {
-        // Skip card if currently hovered by mouse
         if (card.matches(':hover')) return;
 
-        // Multiplane depth float: alternate columns float with subtle depth delta
-        const speed = (i % 2 === 0) ? -20 : 15;
+        // Alternate columns float with subtle depth delta
+        const speed = (i % 2 === 0) ? -22 : 18;
         const offset = ((progress - 0.5) * speed).toFixed(1);
         card.style.transform = `perspective(1000px) translateY(${offset}px)`;
       });
@@ -219,7 +256,7 @@
   }
 
   /* ============================================================ */
-  /* 3. INTERACTIVE 3D MOUSE TILT & HOLOGRAPHIC SPECULAR GLARE    */
+  /* 4. INTERACTIVE 3D MOUSE TILT & HOLOGRAPHIC SPECULAR GLARE    */
   /* ============================================================ */
   function initPackageCards3DTilt() {
     const grid = document.getElementById('curved-packages-grid');
@@ -236,17 +273,16 @@
       const xPercent = (x / rect.width - 0.5) * 2; // -1 to +1
       const yPercent = (y / rect.height - 0.5) * 2; // -1 to +1
 
-      const maxTilt = 14; // Degrees
+      const maxTilt = 15; // Degrees
       const tiltX = (-yPercent * maxTilt).toFixed(2);
       const tiltY = (xPercent * maxTilt).toFixed(2);
 
-      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-12px) scale(1.03)`;
+      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-14px) scale(1.035)`;
       card.style.boxShadow = `
-        ${-tiltY * 2.5}px ${Math.abs(tiltX) * 2.5 + 20}px 50px -10px rgba(11, 31, 58, 0.28),
-        0 0 35px rgba(244, 162, 97, 0.22)
+        ${-tiltY * 3}px ${Math.abs(tiltX) * 3 + 22}px 55px -10px rgba(11, 31, 58, 0.3),
+        0 0 35px rgba(244, 162, 97, 0.24)
       `;
 
-      // Specular Glare Effect
       let glare = card.querySelector('.card-3d-glare');
       if (!glare) {
         glare = document.createElement('div');
@@ -255,7 +291,7 @@
         card.appendChild(glare);
       }
       glare.style.opacity = '1';
-      glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.35) 0%, rgba(244,162,97,0.18) 35%, transparent 70%)`;
+      glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.4) 0%, rgba(244,162,97,0.2) 35%, transparent 70%)`;
     });
 
     grid.addEventListener('mouseleave', (e) => {
