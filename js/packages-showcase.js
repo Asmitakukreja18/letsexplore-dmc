@@ -111,6 +111,7 @@
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.94",
       img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80",
+      video: "images/thailand/phiphiisland.mp4",
       href: "thailand-package.html",
       tags: ["Phi Phi Big Boat", "Phuket FantaSea", "Krabi 4-Island"],
       voucherId: "TVY448657"
@@ -128,6 +129,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.97",
       img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
+      video: "images/thailand/krabi.mp4",
       href: "thailand-package.html",
       tags: ["The Westin Siray Bay", "VIP Speedboat Phi Phi", "Sunset Longtail"],
       voucherId: "LEDMC1135678"
@@ -145,7 +147,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.89",
       img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
-      video: "images/dubai.mp4",
+      video: "images/dubai/deserdune.mp4",
       href: "dubai-package.html",
       tags: ["Burj Khalifa 124th", "4x4 Desert Safari", "Marina Dhow Cruise"],
       voucherId: "LEDMC1147561"
@@ -163,7 +165,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.96",
       img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=900&q=80",
-      video: "images/marina.mp4",
+      video: "images/dubai/meuseum of the future.mp4",
       href: "dubai-package.html",
       tags: ["Museum of the Future", "Sheikh Zayed Mosque", "BAPS Mandir"],
       voucherId: "LEDMC1146323"
@@ -181,7 +183,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.91",
       img: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=900&q=80",
-      video: "images/desert.mp4",
+      video: "images/dubai/palm jumeirah.mp4",
       href: "dubai-package.html",
       tags: ["The View at the Palm", "Aquaventure Pass", "Miracle Garden"],
       voucherId: "LEDMC1129743"
@@ -199,6 +201,7 @@
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.99",
       img: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=80",
+      video: "images/vitenam/goldenbridge.mp4",
       href: "vietnam-package.html",
       tags: ["Fansipan Cable Car 3143m", "Ba Na Golden Bridge", "Vinpearl Safari"],
       voucherId: "LEDMC1134219"
@@ -216,6 +219,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.90",
       img: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=900&q=80",
+      video: "images/singapore/Marina Bay Sands & SkyPark.mp4",
       href: "singapore-package.html",
       tags: ["Universal Studios", "MBS Skypark Deck", "Gardens by the Bay"],
       voucherId: "LEDMC1032890"
@@ -233,6 +237,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.93",
       img: "https://images.unsplash.com/photo-1506351421178-63b52a2d2562?auto=format&fit=crop&w=900&q=80",
+      video: "images/singapore/sentosa island.mp4",
       href: "singapore-package.html",
       tags: ["Night Safari Tram", "Wings of Time Show", "Madame Tussauds"],
       voucherId: "LEDMC1143890"
@@ -250,6 +255,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.96",
       img: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=900&q=80",
+      video: "images/singapore/Gardens by the Bay Supertrees Light Show.mp4",
       href: "singapore-package.html",
       tags: ["S.E.A. Aquarium", "Bird Paradise Mandai", "Sentosa Luge Skyride"],
       voucherId: "LEDMC1134589"
@@ -267,6 +273,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.95",
       img: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=900&q=80",
+      video: "images/Malaysia/19610480-uhd_3840_2160_30fps.mp4",
       href: "malaysia-package.html",
       tags: ["Petronas Twin Towers", "Nusa Penida Speedboat", "Ubud Pool Villa"],
       voucherId: "LEDMC1048820"
@@ -284,6 +291,7 @@
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.87",
       img: "https://images.unsplash.com/photo-1508963493744-76fce69379c0?auto=format&fit=crop&w=900&q=80",
+      video: "images/Malaysia/15994652-uhd_3840_2160_30fps.mp4",
       href: "malaysia-package.html",
       tags: ["Batu Caves Rainbow Steps", "Awana Cable Car", "KL City Tour"],
       voucherId: "LEDMC1148210"
@@ -335,6 +343,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.89",
       img: "https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=900&q=80",
+      video: "images/shrilanka/13936422_3840_2160_60fps.mp4",
       href: "srilanka-package.html",
       tags: ["Pinnawala Elephants", "Temple of Tooth Relic", "Madu River Safari"],
       voucherId: "LEDMC1148707"
@@ -386,6 +395,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.95",
       img: "https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=900&q=80",
+      video: "images/kashmir/10760774-uhd_3840_2160_24fps.mp4",
       href: "kashmir-package.html",
       tags: ["Dal Lake Shikara", "Gulmarg Gondola Ride", "Betaab Valley"],
       voucherId: "LEDMC100210"
