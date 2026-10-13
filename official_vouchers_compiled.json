@@ -399,25 +399,25 @@
     "badge": "Spiritual Yatra 🛕"
   },
   {
-    "id_code": "georgia-magic-300",
-    "name": "Georgia Flash Deal ($300 USD Special)",
+    "id_code": "georgia-magic-140k",
+    "name": "Discover The Magic of Georgia",
     "region": "georgia",
     "destination": "Tbilisi, Gudauri & Snowy Kazbegi",
     "duration": "4 Nights / 5 Days",
-    "pax": "2 Adults",
+    "pax": "Per Person",
     "trip_id": "LEDMC100300",
     "lead_guest": "Wholesale Direct Promotion",
-    "price_inr": 28999,
-    "price_usd": 300,
-    "total_inr": 57998,
-    "land_inr": 28999,
+    "price_inr": 140000,
+    "price_usd": 1670,
+    "total_inr": 140000,
+    "land_inr": 140000,
     "hotels": "4★ Boutique Hotel in Old Tbilisi (4N, Double Room, Daily Buffet Breakfast)",
     "flights": "Available on request via Sharjah (Air Arabia) or Kuwait (Jazeera)",
     "highlights": "Explore Historic Old Tbilisi, Narikala Fortress Aerial Cable Car, Bridge of Peace glowing at dusk, Jinvali Water Reservoir & Ananuri Fortress, Gudauri Ski Resort & Caucasus Friendship Monument, Off-road 4x4 Jeep Safari to 14th-century Gergeti Trinity Church (2,170m) under towering Mount Kazbek, Traditional Georgian wine cellar tasting.",
     "inclusions": "4 Nights 4★ Boutique Hotel stay with Daily Buffet Breakfast, 100% Private 4x4 Chauffeur vehicle throughout, Tbilisi Aerial Cable Car ticket, Kazbegi 4x4 Jeep Safari, All monument entries & English speaking guide.",
     "exclusions": "International Airfare, Georgia eVisa ($20 USD or Visa-on-Arrival if US/UK/Schengen/UAE visa holder), Dinners.",
     "category": "international",
-    "badge": "$300 Special 🇬🇪"
+    "badge": "Caucasus Magic 🇬🇪"
   },
   {
     "id_code": "turkey-escape-42k",

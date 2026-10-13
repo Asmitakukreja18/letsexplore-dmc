@@ -402,7 +402,7 @@ body {
         <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sunset to-ocean text-white font-bold flex items-center justify-center text-xl shadow">🤖</div>
         <div>
           <h4 class="font-display font-bold text-navy-deep text-lg">Gemini AI Travel Concierge</h4>
-          <p class="text-fog text-xs">Real-time answers for Thailand, Bali, Dubai, Singapore, Vietnam, Georgia $300, Turkey &amp; 22 official vouchers.</p>
+          <p class="text-fog text-xs">Real-time answers for Thailand, Bali, Dubai, Singapore, Vietnam, Georgia, Turkey &amp; 22 official vouchers.</p>
         </div>
       </div>
       <button onclick="clearChatHistory()" title="Reset Conversation Memory" class="text-xs text-navy-deep/70 hover:text-red-600 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/70 hover:bg-white border border-navy/10 shadow-sm transition cursor-pointer font-semibold">
@@ -754,8 +754,7 @@ CRITICAL PERSISTENT MEMORY & MULTI-TURN CONTINUITY:
 
 CRITICAL CURRENCY & RATES DISPLAY:
 - Always show INR prominently as the primary rate, along with USD equivalent alongside:
-  e.g. "INR 62,362 (~$745 USD) per adult".
-- For foreign promotional deals (like Georgia $300): show "$300 USD (~₹28,999 INR)".
+  e.g. "INR 62,362 (~$745 USD) per adult" or "Georgia Discover Magic: INR 1,40,000 per person".
 
 CRITICAL LANGUAGE RULE (STRICT):
 - If user writes in English, reply 100% in English only. Never use Devanagari Hindi.
@@ -1133,7 +1132,7 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
       if (smart.activeDestination) {
         activeAiDestination = smart.activeDestination;      }
     } else {
-      reply = "Hey there! 👋 I can help you plan your dream vacation. We have 22 verified direct DMC packages with locked wholesale rates across Thailand, Bali, Dubai, Georgia $300, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala.\n\nTell me where you want to travel, your dates, or your budget!";
+      reply = "Hey there! 👋 I can help you plan your dream vacation. We have 22 verified direct DMC packages with locked wholesale rates across Thailand, Bali, Dubai, Georgia, Singapore, Vietnam, Sri Lanka, Kashmir, and Kerala.\n\nTell me where you want to travel, your dates, or your budget!";
     }
     chatConversationHistory.push({ role: 'model', parts: [{ text: reply }] });  }
 

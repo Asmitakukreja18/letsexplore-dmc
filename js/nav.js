@@ -114,7 +114,7 @@
       <!-- Col 2: Top Destinations -->
       <div class="footer-col">
         <h5>Top Destinations</h5>
-        <a href="georgia-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-sunset">landscape</span>Georgia ($300 Special)</a>
+        <a href="georgia-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-sunset">landscape</span>Georgia Caucasus</a>
         <a href="turkey-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-ocean">flight</span>Turkey Cappadocia</a>
         <a href="bali-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 text-forest">wb_sunny</span>Bali Pool Villas</a>
         <a href="dubai-package.html"><span class="material-symbols-outlined text-[15px] align-middle mr-1 opacity-70">apartment</span>Dubai &amp; Abu Dhabi</a>

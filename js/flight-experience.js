@@ -109,11 +109,11 @@
       altitude: "FL370 · 37,000 FT",
       speed: "470 KTS · MACH 0.80",
       heading: "HDG 335° NNW",
-      price: "$300 USD Special",
+      price: "₹1,40,000",
       duration: "5 Days / 4 Nights",
       highlights: ["4★ Boutique Hotel in Old Tbilisi", "Off-road 4x4 Gergeti Trinity Church Safari", "Gudauri Ski Resort & Caucasus Panorama", "Tbilisi Aerial Cable Car & Wine Cellar"],
       href: "georgia-package.html",
-      waText: "Hi Let's Explore DMC, I want to book the Georgia $300 USD Special package!",
+      waText: "Hi Let's Explore DMC, I want to book the Georgia Caucasus Magic package (₹1,40,000 per person)!",
       bgTheme: {
         skyTop: "#07162c",
         skyBottom: "#f59e0b",

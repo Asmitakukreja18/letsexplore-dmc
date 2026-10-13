@@ -482,8 +482,7 @@ CRITICAL PERSISTENT MEMORY & CONTINUITY (DO NOT LOSE MEMORY):
 
 CRITICAL CURRENCY & RATES DISPLAY:
 - Always show INR prominently as the primary rate, along with USD equivalent alongside:
-  e.g. "INR 62,362 (~$745 USD) per adult".
-- For foreign promotional deals (like Georgia $300): show "$300 USD (~₹28,999 INR)".
+  e.g. "INR 62,362 (~$745 USD) per adult" or "Georgia Discover Magic: INR 1,40,000 per person".
 
 CRITICAL LANGUAGE RULE (STRICT):
 - If the user asks in English, reply 100% in English only! Never use Devanagari Hindi.
@@ -1632,7 +1631,7 @@ Bataiye aap kahan ghoomne ka plan kar rahe hain ya aapka budget kya hai:
 • 🍽️ *Dinner Cruise & Nightlife* ya *4–5 Days Low Budget*
 • 👑 *4–5 Days Luxury Escapes & Pool Villas*
 • 🏝️ *Bali / Thailand / Vietnam / Singapore / Malaysia*
-• ❄️ *Georgia $300 / Kashmir Snow / Turkey Caves*
+• ❄️ *Georgia Caucasus / Kashmir Snow / Turkey Caves*
 • 🥗 *Pure Veg/Jain friendly trips*, 💑 *Honeymoon Villas*, ya 👨‍👩‍👧‍👦 *Family Holidays*!
 
 Main aaj aapka trip plan karne me kaise madad kar sakta hoon?`
@@ -1646,7 +1645,7 @@ Tell me where you want to travel or what kind of trip you have in mind:
 • 🍽️ *Dinner Cruise & Nightlife* or *4–5 Days Low Budget*
 • 👑 *4–5 Days Luxury Escapes & Pool Villas*
 • 🏝️ *Bali / Thailand / Vietnam / Singapore / Malaysia*
-• ❄️ *Georgia $300 / Kashmir Snow / Turkey Caves*
+• ❄️ *Georgia Caucasus / Kashmir Snow / Turkey Caves*
 • 🥗 *Pure Veg/Jain friendly trips*, 💑 *Honeymoon Villas*, or 👨‍👩‍👧‍👦 *Family Holidays*!
 
 How can I help plan your trip today?`
