@@ -291,7 +291,7 @@
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.87",
       img: "https://images.unsplash.com/photo-1508963493744-76fce69379c0?auto=format&fit=crop&w=900&q=80",
-      video: "images/Malaysia/15994652-uhd_3840_2160_30fps.mp4",
+      video: "images/gemini_generated_video_f44802f9.mp4",
       href: "malaysia-package.html",
       tags: ["Batu Caves Rainbow Steps", "Awana Cable Car", "KL City Tour"],
       voucherId: "LEDMC1148210"
@@ -309,6 +309,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.96",
       img: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=900&q=80",
+      video: "images/gemini_generated_video_99d73533.mp4",
       href: "deals.html",
       tags: ["Disneyland 1-Day Pass", "TurboJET Fast Ferry", "Venetian Gondola Ride"],
       voucherId: "LEDMC1149838"
@@ -397,7 +398,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.95",
       img: "https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=900&q=80",
-      video: "images/kashmir/10760774-uhd_3840_2160_24fps.mp4",
+      video: "images/gemini_generated_video_1bee48fb.mp4",
       href: "kashmir-package.html",
       tags: ["Dal Lake Shikara", "Gulmarg Gondola Ride", "Betaab Valley"],
       voucherId: "LEDMC100210"
@@ -646,6 +647,11 @@
 
     // High-performance single-active playback
     setupPackageVideoObserver();
+
+    // Re-observe package cards for 3D Boarding Pass Unfold
+    if (typeof window.reobservePackageCards === 'function') {
+      window.reobservePackageCards();
+    }
   }
 
   function setupPackageVideoObserver() {

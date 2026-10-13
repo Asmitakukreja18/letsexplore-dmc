@@ -94,331 +94,289 @@
 }
 
 /* ============================================================ */
-/* STAGE 1: MOSTAR LAYERED BRIDGE SCROLL (IMAGE 4 & SPEC)        */
+/* STAGE 1: GLOBAL HORIZONS CINEMATIC INTRO (CAPPADOCIA, DUBAI, BALI) */
 /* ============================================================ */
-#mostar-stage {
+#global-horizons-stage {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #79b7dd;
+  background: #061322;
   z-index: 10;
   transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
 }
 
-#mostar-stage .mostar-world {
+#global-horizons-stage .horizons-world {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #79b7dd;
+  background: radial-gradient(circle at 50% 80%, #15325b 0%, #061322 70%);
 }
 
-#mostar-stage .scene-img {
+#global-horizons-stage .horizons-sky {
   position: absolute;
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
-  will-change: transform, opacity, filter;
-  pointer-events: none;
-}
-
-#mostar-stage .sky-img {
+  inset: 0;
+  background: linear-gradient(180deg, #050d18 0%, #0a2244 45%, rgba(244, 162, 97, 0.35) 90%, #061322 100%);
   z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: none;
-  filter: blur(var(--blur-px)) brightness(var(--back-brightness));
 }
 
-#mostar-stage .back-stack {
+#global-horizons-stage .horizons-sun {
   position: absolute;
-  z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: -3vw;
-  right: -3vw;
-  opacity: var(--back-opacity);
-  transform: translate3d(var(--back-x), var(--back-y), 0) scale(var(--back-scale));
-  transform-origin: 50% 100%;
-  will-change: transform, filter, opacity;
-}
-
-#mostar-stage .back-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(var(--blur-px)) brightness(var(--back-brightness));
-}
-
-#mostar-stage .back-bazaar {
-  top: auto;
-  bottom: 0;
-  left: 48%;
-  right: auto;
-  width: 112%;
-  height: auto;
-  object-fit: contain;
-  z-index: 3;
-  opacity: 1;
-  filter: blur(var(--bazaar-blur-px)) brightness(var(--bazaar-brightness)) saturate(var(--bazaar-saturation));
-  transform: translate3d(-50%, var(--bazaar-y), 0) scale(0.86);
-}
-
-#mostar-stage .back-four {
-  top: auto;
-  bottom: 0;
-  left: 48%;
-  right: auto;
-  width: 112%;
-  height: auto;
-  object-fit: contain;
-  z-index: 1;
-  opacity: 0.72;
-  mix-blend-mode: screen;
-  transform: translate3d(-50%, calc(var(--four-y) - 110px), 0) scale(var(--four-scale));
-}
-
-#mostar-stage .hero-title {
-  position: absolute;
-  z-index: 3;
   left: 50%;
-  top: clamp(122px, 19vh, 205px);
-  width: min(94vw, 1780px);
-  margin: 0;
-  color: #fdf1e1;
-  font-family: "Ogg Medium", "Playfair Display", serif;
-  font-size: 14rem;
-  font-weight: 500;
-  line-height: 0.78;
-  text-align: center;
-  text-shadow: none;
-  transform: translate3d(-50%, var(--title-y), 0) scale(var(--title-scale));
-  opacity: var(--title-opacity);
+  bottom: 22%;
+  transform: translate(-50%, 0);
+  width: min(850px, 90vw);
+  height: min(850px, 90vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 162, 97, 0.45) 0%, rgba(244, 162, 97, 0.15) 40%, transparent 70%);
+  filter: blur(45px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#global-horizons-stage .horizons-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   will-change: transform, opacity;
-  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#mostar-stage .bridge-img {
+#global-horizons-stage .layer-cappadocia {
+  z-index: 2;
+  opacity: var(--cappadocia-opacity, 1);
+  transform: scale(var(--cappadocia-scale, 1.02)) translate3d(calc(var(--mx) * -14px), calc(var(--cappadocia-y, 0px) + var(--my) * -6px), 0);
+}
+
+#global-horizons-stage .layer-dubai {
+  z-index: 3;
+  opacity: var(--dubai-opacity, 0);
+  transform: scale(1.04) translate3d(calc(var(--mx) * 16px), calc(var(--dubai-y, 20px) + var(--my) * -8px), 0);
+}
+
+#global-horizons-stage .layer-bali {
   z-index: 4;
-  left: 50%;
-  bottom: var(--bridge-bottom);
-  width: min(var(--bridge-width), 2140px);
-  height: auto;
-  transform: translate3d(var(--bridge-x), var(--bridge-y), 0) scale(var(--bridge-scale));
-  transform-origin: 50% 48%;
+  opacity: var(--bali-opacity, 0);
+  transform: scale(1.05) translate3d(calc(var(--mx) * -18px), calc(var(--bali-y, 20px) + var(--my) * -10px), 0);
 }
 
-#mostar-stage .splitframe-img {
-  z-index: 6;
-  left: 50%;
-  bottom: -2vh;
-  width: min(118vw, 2240px);
-  height: auto;
-  pointer-events: none;
-}
-
-#mostar-stage .splitframe-left {
-  transform: translate3d(var(--split-left-x), var(--split-left-y), 0) scale(var(--split-left-scale));
-  transform-origin: 21% 52%;
-}
-
-#mostar-stage .splitframe-right {
-  transform: translate3d(var(--split-right-x), var(--split-right-y), 0) scale(var(--split-right-scale));
-  transform-origin: 79% 52%;
-}
-
-#mostar-stage .frame-two-img {
+#global-horizons-stage .horizons-clouds-far {
+  position: absolute;
+  inset: 0;
   z-index: 5;
-  filter: none !important;
-  backdrop-filter: none;
+  pointer-events: none;
+  transform: translate3d(var(--clouds-far-x, 0px), 0, 0);
+  will-change: transform;
+}
+
+#global-horizons-stage .horizons-clouds-mid {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  transform: translate3d(var(--clouds-mid-x, 0px), 0, 0);
+  will-change: transform;
+}
+
+#global-horizons-stage .horizons-airliner-preview {
+  position: absolute;
   left: 50%;
   top: 50%;
-  width: min(122vw, 2160px);
-  height: auto;
-  opacity: var(--frame2-opacity);
-  transform: translate3d(var(--frame2-x), var(--frame2-y), 0) scale(var(--frame2-scale));
-  transform-origin: 50% 48%;
+  z-index: 7;
+  width: min(840px, 90vw);
+  aspect-ratio: 1907 / 825;
+  pointer-events: none;
+  will-change: transform, opacity;
+  opacity: var(--airliner-preview-opacity, 0.85);
+  transform: translate3d(calc(-50% + var(--mx) * 20px), calc(-50% + var(--airliner-preview-y, 0px) + var(--my) * 10px), 0)
+             scale(var(--airliner-preview-scale, 0.88))
+             rotate(var(--airliner-preview-bank, -1.5deg));
+  transition: opacity 0.3s ease;
 }
 
-#mostar-stage .shade {
+#global-horizons-stage .horizons-intro-copy {
+  position: absolute;
+  inset-x: 0;
+  bottom: clamp(60px, 16vh, 200px);
+  text-align: center;
+  z-index: 9;
+  padding: 0 24px;
+  margin: 0 auto;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translate3d(0, var(--title-y, 0px), 0);
+  opacity: var(--title-opacity, 1);
+}
+
+#global-horizons-stage .horizons-title {
+  text-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================ */
+/* MASTER CONTINUOUS GOLDEN FLIGHT TRAIL (ACROSS ALL SECTIONS)   */
+/* ============================================================ */
+.master-flight-trail-wrapper {
   position: absolute;
   inset: 0;
-  z-index: var(--shade-z);
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  opacity: var(--shade-opacity);
-  background: linear-gradient(180deg,
-    rgba(var(--blur-tint), var(--shade-top-alpha)) 0%,
-    rgba(var(--blur-tint), var(--shade-mid-alpha)) 48%,
-    rgba(var(--blur-tint), var(--shade-bottom-alpha)) 100%);
+  z-index: 1;
+  overflow: visible;
 }
 
-#mostar-stage .intro-copy {
+.flight-trajectory-svg {
   position: absolute;
-  z-index: 9;
-  left: 50%;
-  bottom: clamp(56px, 28vh, 400px);
-  width: min(560px, calc(100vw - 40px));
-  text-align: center;
-  transform: translate3d(-50%, var(--intro-copy-y), 0);
-  opacity: var(--intro-copy-opacity);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.golden-flight-glow-path {
+  fill: none;
+  stroke: url(#golden-flight-gradient);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(244, 162, 97, 0.8)) drop-shadow(0 0 18px rgba(30, 136, 229, 0.5));
+  will-change: stroke-dashoffset;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.golden-flight-dash-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-dasharray: 8 14;
+  opacity: 0.85;
+}
+
+/* Traveling Airplane / Beacon Marker along Path */
+.flight-trail-cruiser {
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(244, 162, 97, 0.95)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+  transform-origin: center center;
   will-change: transform, opacity;
-  pointer-events: auto;
+  transition: opacity 0.3s ease;
 }
 
-#mostar-stage .intro-copy p {
-  margin: 0 auto;
-  max-width: 560px;
-  color: #fdf1e1;
-  font-size: 1.18rem;
-  font-weight: 500;
-  line-height: 1.25;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
+/* 01. PACKAGES — BOARDING PASS 3D UNFOLD MOTION */
+.pkg-card {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  opacity: 0;
+  transform: perspective(1000px) translateY(55px) rotateX(14deg) scale(0.95);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
 }
 
-#mostar-stage .hero-tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 26px;
+.pkg-card.card-unfolded,
+.pkg-card.pkg-in-view {
+  opacity: 1 !important;
+  transform: perspective(1000px) translateY(0) rotateX(0deg) scale(1) !important;
 }
 
-#mostar-stage .hero-tags span {
-  min-height: 44px;
+/* 02. SERVICES — SEQUENTIAL MOTION WAVE */
+.service-wave-card {
+  opacity: 0;
+  transform: perspective(1000px) translateY(35px) rotateY(-5deg) scale(0.97);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  will-change: transform, opacity;
+}
+
+.service-wave-card.wave-in {
+  opacity: 1 !important;
+  transform: perspective(1000px) translateY(0) rotateY(0deg) scale(1) !important;
+}
+
+.service-wave-card:hover {
+  transform: perspective(1000px) translateY(-6px) translateZ(12px) scale(1.02) !important;
+  border-color: rgba(244, 162, 97, 0.45) !important;
+  box-shadow: 0 20px 40px -10px rgba(11, 31, 58, 0.12), 0 0 24px rgba(244, 162, 97, 0.16) !important;
+}
+
+/* 03. WHY US & REVIEWS — CINEMATIC DEPTH */
+.pillar-depth-card {
+  opacity: 0;
+  transform: perspective(1000px) translateY(40px) scale(0.95);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  will-change: transform, opacity;
+}
+
+.pillar-depth-card.pillar-in {
+  opacity: 1 !important;
+  transform: perspective(1000px) translateY(0) scale(1) !important;
+}
+
+/* 04. GLOBAL HUBS — DESTINATION LANDING & PULSING MARKERS */
+.hub-landing-card {
+  opacity: 0;
+  transform: perspective(1000px) translateY(45px) rotateX(8deg) scale(0.96);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.hub-landing-card.hub-landed {
+  opacity: 1 !important;
+  transform: perspective(1000px) translateY(0) rotateX(0deg) scale(1) !important;
+}
+
+.hub-waypoint-beacon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 28px;
-  color: #071529;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(253, 241, 225, 0.35) 100%);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  font-size: 0.98rem;
-  font-weight: 700;
-  box-shadow: 
-    0 14px 34px rgba(0, 0, 0, 0.22),
-    inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  transition: transform 0.2s, background-color 0.2s;
 }
 
-#mostar-stage .hero-tags span:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.85);
-}
-
-#mostar-stage .story-panel {
+.hub-waypoint-beacon .beacon-ring {
   position: absolute;
-  z-index: 10;
-  left: 50%;
-  top: 45%;
-  width: min(760px, calc(100vw - 42px));
-  text-align: center;
-  pointer-events: none;
-  transform: translate3d(-50%, -50%, 0);
-  will-change: transform, opacity;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 2px solid #F4A261;
+  opacity: 0;
+  animation: beaconPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-#mostar-stage .story-panel h2 {
-  margin: 0;
-  color: #fdf1e1;
-  font-family: "Ogg Medium", serif;
-  font-size: 4.75rem;
-  font-weight: 500;
-  line-height: 0.95;
-  text-shadow: 0 16px 38px var(--shadow);
+@keyframes beaconPulse {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  50% { transform: scale(1.6); opacity: 0.3; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 
-#mostar-stage .story-panel p {
-  width: min(520px, 100%);
-  margin: 26px auto 0;
-  color: #fdf1e1;
-  font-size: 1.14rem;
-  font-weight: 500;
-  line-height: 1.25;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .pkg-card,
+  .service-wave-card,
+  .pillar-depth-card,
+  .hub-landing-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .golden-flight-glow-path,
+  .golden-flight-dash-path {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
 }
 
-#mostar-stage .story-panel-bridge {
-  top: 60%;
-  opacity: var(--panel2-opacity);
-  transform: translate3d(-50%, var(--panel2-y), 0);
-}
-
-#mostar-stage .story-panel-bazaar {
-  top: 29%;
-  opacity: var(--panel3-opacity);
-  transform: translate3d(-50%, var(--panel3-y), 0);
-}
-
-#mostar-stage .facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px;
-  width: min(540px, 100%);
-  margin: 48px auto 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  border-radius: 32px;
-  padding: 32px 40px;
-  box-shadow: 
-    0 25px 60px rgba(0, 0, 0, 0.35),
-    inset 0 1.5px 2px rgba(255, 255, 255, 0.6);
-}
-
-#mostar-stage .facts dt {
-  color: #fdf1e1;
-  font-family: "Ogg Medium", serif;
-  font-size: 4.2rem;
-  font-weight: 500;
-  line-height: 0.9;
-  text-shadow: 0 14px 34px var(--shadow);
-}
-
-#mostar-stage .facts dd {
-  margin: 14px 0 0;
-  color: #fdf1e1;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.2;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
-}
-
-#mostar-stage .note-button {
-  min-height: 52px;
-  margin-top: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 0 32px;
-  border-radius: 999px;
-  color: #071529;
-  background: linear-gradient(135deg, rgba(253, 241, 225, 0.85) 0%, rgba(253, 241, 225, 0.45) 100%);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 
-    0 16px 36px rgba(0, 0, 0, 0.25),
-    inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
-  pointer-events: auto;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.95rem;
-  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-}
-
-#mostar-stage .note-button:hover {
-  transform: scale(1.05);
-  background: rgba(253, 241, 225, 0.95);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
-}
 
 /* ============================================================ */
 /* STAGE 2: LUXURY AIRPLANE CABIN WINDOW (WHITE FRAME SPEC)     */

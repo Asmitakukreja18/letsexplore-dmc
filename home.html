@@ -24,7 +24,7 @@
 <script src="js/packages-showcase.js" defer></script>
 <script src="js/cinematic-scroll-journey.js" defer></script>
 <script src="js/ocean-carousel.js?v=3.2" defer></script>
-<script src="js/signature-3d-motion.js?v=3.2" defer></script>
+<script src="js/signature-3d-motion.js?v=4.0" defer></script>
 
 <script id="tailwind-config">
       tailwind.config = {
@@ -576,64 +576,87 @@
     <!-- Stage 2: Auragate Luxury Airplane Cabin Window (Image 2)     -->
     <!-- Stage 3: 3D Curved Floating Travel Package Carousel (Image 3) -->
     <!-- ============================================================ -->
-    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 3500px;">
+    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 3500px;" data-scroll-track>
 
       <!-- Sticky Fullscreen Viewport Stage (100vh pinned) -->
       <div id="cinematic-sticky-stage" class="sticky top-0 h-screen w-full overflow-hidden bg-[#0b1110] text-white select-none">
 
         <!-- ============================================================ -->
-        <!-- STAGE 1: MOSTAR LAYERED BRIDGE PARALLAX (IMAGE 4)            -->
+        <!-- STAGE 1: GLOBAL HORIZONS CINEMATIC INTRO (CAPPADOCIA, DUBAI, BALI) -->
         <!-- ============================================================ -->
-        <div id="mostar-stage">
-          <div class="mostar-world">
-            <img class="scene-img sky-img" src="https://raft-blast-61784561.figma.site/_assets/v11/16b5007d9c93971e26ffe4e0e3e37946f6bd538c.png" alt="" />
+        <div id="global-horizons-stage" class="absolute inset-0 overflow-hidden bg-[#061322] z-10">
+          <div class="horizons-world absolute inset-0 overflow-hidden">
+            <!-- Atmospheric Sunrise Stratosphere -->
+            <div class="horizons-sky absolute inset-0 bg-gradient-to-b from-[#050d18] via-[#0b2447] to-[#f4a261]/35"></div>
             
-            <div class="back-stack">
-              <img class="scene-img back-img back-four" src="https://raft-blast-61784561.figma.site/_assets/v11/8a7f8af50e0ce92ec2e228e7b0b4112178c51cf1.png" alt="" />
-              <img class="scene-img back-img back-bazaar" src="https://raft-blast-61784561.figma.site/_assets/v11/864afe00e41e2fa20a5aa546e15cb807e0f81384.png" alt="" />
+            <!-- Distant Sunrise Radiant Glow -->
+            <div class="horizons-sun absolute left-1/2 bottom-[22%] -translate-x-1/2 w-[min(850px,90vw)] h-[min(850px,90vw)] rounded-full bg-gradient-to-t from-[#f4a261]/45 via-[#f4a261]/15 to-transparent blur-3xl pointer-events-none"></div>
+
+            <!-- Layer 1: Cappadocia Sunrise Hot-Air Balloons Panorama -->
+            <div class="horizons-layer layer-cappadocia absolute inset-0 pointer-events-none">
+              <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=1920&q=85" 
+                   alt="Cappadocia Sunrise with Hot Air Balloons" 
+                   class="w-full h-full object-cover object-center opacity-85 mix-blend-screen scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#061224] via-transparent to-[#06152a]/70"></div>
             </div>
 
-            <h1 class="hero-title">MOSTAR</h1>
+            <!-- Layer 2: Dubai Skyline Silhouette & Golden Horizon -->
+            <div class="horizons-layer layer-dubai absolute inset-0 pointer-events-none opacity-0 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1920&q=85" 
+                   alt="Dubai Skyline Silhouette" 
+                   class="w-full h-full object-cover object-bottom opacity-75 mix-blend-luminosity" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#061224] via-[#071b36]/60 to-transparent"></div>
+            </div>
 
-            <img class="scene-img splitframe-img splitframe-left" src="https://raft-blast-61784561.figma.site/_assets/v11/7536d7b60a1fce482cf6edf3f0bffd3bad5d0f8a.png" alt="" />
-            <img class="scene-img splitframe-img splitframe-right" src="https://raft-blast-61784561.figma.site/_assets/v11/392db6a6a6b98e868bd7f8d3f55bb719d51e5028.png" alt="" />
-            <img class="scene-img bridge-img" src="https://raft-blast-61784561.figma.site/_assets/v11/c6a6d8ef49bca43f708aa852692942c45ec950d4.png" alt="" />
-            <img class="scene-img frame-two-img" src="https://raft-blast-61784561.figma.site/_assets/v11/ba75252bab2b1c510987b74837770f7bc8a6b2d4.png" alt="" />
+            <!-- Layer 3: Bali Tropical Coastline & Palms -->
+            <div class="horizons-layer layer-bali absolute inset-0 pointer-events-none opacity-0 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1920&q=85" 
+                   alt="Bali Coastline & Palms" 
+                   class="w-full h-full object-cover object-bottom opacity-70 mix-blend-screen" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#061224] via-[#040e1c]/70 to-transparent"></div>
+            </div>
 
-            <div class="shade"></div>
+            <!-- Foreground Atmospheric Cloud Banks (Drifting with Depth Parallax) -->
+            <div class="horizons-clouds-far absolute inset-0 pointer-events-none">
+              <div class="absolute -bottom-20 -left-[10%] w-[120%] h-[55%] bg-gradient-to-t from-[#061224] via-[#0c2445]/50 to-transparent blur-2xl"></div>
+            </div>
+            
+            <div class="horizons-clouds-mid absolute inset-0 pointer-events-none">
+              <div class="absolute bottom-0 left-0 right-0 h-[42%] bg-gradient-to-t from-[#061224] via-[#071a33]/85 to-transparent"></div>
+            </div>
+
+            <!-- Emerging Let's Explore Airliner Silhouette (Breaching the Cloud Deck) -->
+            <div class="horizons-airliner-preview absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(840px,90vw)] aspect-[1907/825] pointer-events-none opacity-85 transition-transform">
+              <img src="images/lets-explore-airliner.png" alt="Let's Explore Airliner" class="w-full h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)]" />
+              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-48 h-1.5 bg-sunset/60 blur-md rounded-full"></div>
+            </div>
           </div>
 
-          <section class="intro-copy" aria-label="Mostar overview">
-            <p>A stone arch, emerald water, and a compact old city made for slow mornings, late light, and one unforgettable crossing.</p>
-            <div class="hero-tags" aria-label="Mostar highlights">
-              <span>Old Bridge</span>
-              <span>Neretva River</span>
-              <span>UNESCO old city</span>
+          <!-- Editorial Headline Copy (Clean Luxury DMC Presentation) -->
+          <section class="horizons-intro-copy absolute inset-x-0 bottom-[14vh] md:bottom-[18vh] text-center z-10 px-6 max-w-4xl mx-auto pointer-events-none transition-all">
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sunset font-mono text-xs uppercase tracking-[0.25em] font-semibold mb-5 shadow-lg">
+              <span class="w-2 h-2 rounded-full bg-sunset animate-pulse"></span>
+              <span>Let's Explore DMC · Handcrafted Global Journeys</span>
+            </div>
+            <h1 class="horizons-title font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-5 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+              GLOBAL HORIZONS
+            </h1>
+            <p class="horizons-subtitle text-white/80 font-sans text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-6 drop-shadow">
+              A single continuous voyage across Cappadocia's sunrise skies, Dubai's futuristic skylines, and Bali's emerald coastlines.
+            </p>
+            <div class="horizons-chips flex items-center justify-center gap-2 sm:gap-3 flex-wrap text-[11px] sm:text-xs font-mono font-medium text-white/90">
+              <span class="px-3 py-1 rounded-full bg-navy-deep/60 backdrop-blur border border-white/10">🎈 Cappadocia Balloons</span>
+              <span class="px-3 py-1 rounded-full bg-navy-deep/60 backdrop-blur border border-white/10">🏙️ Dubai Skyline</span>
+              <span class="px-3 py-1 rounded-full bg-navy-deep/60 backdrop-blur border border-white/10">🌴 Bali Coastline</span>
+              <span class="px-3 py-1 rounded-full bg-navy-deep/60 backdrop-blur border border-white/10">✨ 28+ Global Havens</span>
             </div>
           </section>
 
-          <section class="story-panel story-panel-bridge" id="bridge" aria-label="Old Bridge details">
-            <h2>The bridge is the city's compass.</h2>
-            <p>Stari Most links the banks of the Neretva and anchors a historic quarter shaped by Ottoman, Mediterranean, and European layers.</p>
-            <dl class="facts">
-              <div>
-                <dt>1566</dt>
-                <dd>Original bridge completed</dd>
-              </div>
-              <div>
-                <dt>2005</dt>
-                <dd>Old Bridge Area inscribed by UNESCO</dd>
-              </div>
-            </dl>
-          </section>
-
-          <section class="story-panel story-panel-bazaar" id="bazaar" aria-label="Old town details">
-            <h2>The bazaar keeps Mostar close.</h2>
-            <p>Stone lanes, mosque courtyards, copper stalls, and riverside coffee stay within a short walk of Stari Most.</p>
-            <button class="note-button" type="button" onclick="window.scrollTo({top: 2600, behavior: 'smooth'})">
-              <span aria-hidden="true">↗</span>
-              <span>Explore All Global Packages</span>
-            </button>
+          <!-- Scroll Prompter Cue -->
+          <div class="horizons-scroll-cue absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none text-white/70 text-xs font-mono">
+            <span>Scroll to Take Off</span>
+            <span class="material-symbols-outlined text-base text-sunset animate-bounce">expand_more</span>
+          </div>
         </div>
 
         <!-- ============================================================ -->
@@ -754,9 +777,69 @@
       </div>
     </div>
 
-    
+    <!-- ============================================================ -->
+    <!-- LOWER JOURNEY WRAPPER (CONTINUOUS CINEMATIC SCROLL CONTINUUM) -->
+    <!-- ============================================================ -->
+    <div id="cinematic-journey-lower" class="relative w-full overflow-hidden">
 
+      <!-- ============================================================ -->
+      <!-- MASTER CONTINUOUS GOLDEN FLIGHT TRAJECTORY (SVG SCROLL-LINKED) -->
+      <!-- ============================================================ -->
+      <div class="master-flight-trail-wrapper pointer-events-none" id="master-flight-trail-wrapper" aria-hidden="true">
+        <svg id="master-flight-svg" class="flight-trajectory-svg" viewBox="0 0 1000 5000" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="golden-flight-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+              <stop offset="15%" stop-color="#F4A261" stop-opacity="0.9"/>
+              <stop offset="50%" stop-color="#E76F51" stop-opacity="0.8"/>
+              <stop offset="80%" stop-color="#1E88E5" stop-opacity="0.75"/>
+              <stop offset="100%" stop-color="#F4A261" stop-opacity="0.1"/>
+            </linearGradient>
+          </defs>
 
+          <!-- Core Glowing Golden Trajectory Path -->
+          <path id="master-flight-path" class="golden-flight-glow-path"
+                d="M 500 20
+                   C 420 180, 260 340, 310 540
+                   C 360 740, 700 840, 640 1060
+                   C 570 1280, 340 1440, 420 1700
+                   C 500 1960, 740 2060, 660 2320
+                   C 570 2580, 300 2720, 440 2980
+                   C 590 3240, 700 3420, 530 3680
+                   C 360 3920, 640 4120, 500 4360
+                   C 420 4520, 470 4620, 500 4720
+                   C 500 4820, 500 4940, 500 5000"
+                pathLength="1000" stroke-dasharray="1000" stroke-dashoffset="1000" />
+
+          <!-- Navigational White Dash Path -->
+          <path id="master-flight-dash" class="golden-flight-dash-path"
+                d="M 500 20
+                   C 420 180, 260 340, 310 540
+                   C 360 740, 700 840, 640 1060
+                   C 570 1280, 340 1440, 420 1700
+                   C 500 1960, 740 2060, 660 2320
+                   C 570 2580, 300 2720, 440 2980
+                   C 590 3240, 700 3420, 530 3680
+                   C 360 3920, 640 4120, 500 4360
+                   C 420 4520, 470 4620, 500 4720
+                   C 500 4820, 500 4940, 500 5000"
+                pathLength="1000" stroke-dasharray="1000" stroke-dashoffset="1000" />
+
+          <!-- Global Hubs 5 Branching Connectors -->
+          <g id="hub-branches" opacity="0" class="transition-opacity duration-700">
+            <!-- Branch 1: Denpasar Bali HQ -->
+            <path class="golden-flight-dash-path" d="M 500 4500 C 380 4540, 240 4590, 200 4650" stroke-dasharray="4 8" />
+            <!-- Branch 2: Amravati Central Hub -->
+            <path class="golden-flight-dash-path" d="M 500 4500 C 500 4550, 500 4600, 500 4650" stroke-dasharray="4 8" />
+            <!-- Branch 3: Thailand Desk -->
+            <path class="golden-flight-dash-path" d="M 500 4500 C 620 4540, 760 4590, 800 4650" stroke-dasharray="4 8" />
+            <!-- Branch 4: Dubai Hub -->
+            <path class="golden-flight-dash-path" d="M 500 4720 C 380 4750, 280 4790, 220 4860" stroke-dasharray="4 8" />
+            <!-- Branch 5: Baku Hub -->
+            <path class="golden-flight-dash-path" d="M 500 4720 C 620 4750, 720 4790, 780 4860" stroke-dasharray="4 8" />
+          </g>
+        </svg>
+      </div>
 
     <!-- ============================================================ -->
     <!-- SECTION: Signature Destinations — 3 big tiles                -->
@@ -1372,12 +1455,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
 
           <!-- 1. Bali Global HQ -->
-          <div class="reveal reveal-delay-1 bg-white rounded-3xl overflow-hidden border-2 border-sunset/40 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between">
+          <div class="reveal reveal-delay-1 hub-landing-card bg-white rounded-3xl overflow-hidden border-2 border-sunset/40 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between" data-hub-id="bali">
             <div>
               <div class="h-52 relative overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80" alt="Bali Global HQ" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                 <div class="absolute top-4 left-4">
-                  <span class="bg-sunset text-navy-deep px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">👑 Global HQ</span>
+                  <span class="hub-waypoint-beacon bg-sunset text-navy-deep px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">
+                    <span class="beacon-ring"></span>👑 Global HQ
+                  </span>
                 </div>
                 <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-forest flex items-center gap-1.5 shadow-sm">
                   <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Direct Ground HQ
@@ -1390,20 +1475,22 @@
               </div>
             </div>
             <div class="p-6 pt-0">
-              <div class="pt-4 border-t border-navy/5 flex items-center justify-between">
+              <div class="pt-4 border-t border-navy/5 flex items-center justify-between flex-wrap gap-2">
                 <a href="mailto:bali@letsexploredmc.com" class="font-sans text-sm font-bold text-navy-deep flex items-center gap-2 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-base">mail</span> bali@letsexploredmc.com</a>
-                <a href="contact.html#offices" class="text-xs font-bold text-ocean hover:underline">Details →</a>
+                <a href="bali-motion.html" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sunset/15 text-sunset hover:bg-sunset hover:text-navy-deep font-sans text-xs font-bold transition">3D Motion Journey ✈️</a>
               </div>
             </div>
           </div>
 
           <!-- 2. Amravati Central Operations -->
-          <div class="reveal reveal-delay-2 bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between">
+          <div class="reveal reveal-delay-2 hub-landing-card bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between" data-hub-id="amravati">
             <div>
               <div class="h-52 relative overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Amravati Central Office" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                 <div class="absolute top-4 left-4">
-                  <span class="bg-ocean text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">🇮🇳 India Central Hub</span>
+                  <span class="hub-waypoint-beacon bg-ocean text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">
+                    <span class="beacon-ring"></span>🇮🇳 India Central Hub
+                  </span>
                 </div>
                 <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-forest flex items-center gap-1.5 shadow-sm">
                   <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Open 9am - 9pm
@@ -1424,12 +1511,14 @@
           </div>
 
           <!-- 3. Thailand Inbound Desk -->
-          <div class="reveal reveal-delay-3 bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between">
+          <div class="reveal reveal-delay-3 hub-landing-card bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between" data-hub-id="thailand">
             <div>
               <div class="h-52 relative overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80" alt="Thailand Desk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                 <div class="absolute top-4 left-4">
-                  <span class="bg-[#16a34a] text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">🇹🇭 Inbound Partner</span>
+                  <span class="hub-waypoint-beacon bg-[#16a34a] text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">
+                    <span class="beacon-ring"></span>🇹🇭 Inbound Partner
+                  </span>
                 </div>
               </div>
               <div class="p-6">
@@ -1448,12 +1537,14 @@
           </div>
 
           <!-- 4. Dubai (UAE) Operations -->
-          <div class="reveal reveal-delay-1 bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between">
+          <div class="reveal reveal-delay-1 hub-landing-card bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between" data-hub-id="dubai">
             <div>
               <div class="h-52 relative overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80" alt="Dubai Office" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                 <div class="absolute top-4 left-4">
-                  <span class="bg-[#D97706] text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">🇦🇪 Middle East Hub</span>
+                  <span class="hub-waypoint-beacon bg-[#D97706] text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">
+                    <span class="beacon-ring"></span>🇦🇪 Middle East Hub
+                  </span>
                 </div>
               </div>
               <div class="p-6">
@@ -1471,12 +1562,14 @@
           </div>
 
           <!-- 5. Baku (Azerbaijan) -->
-          <div class="reveal reveal-delay-2 bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between">
+          <div class="reveal reveal-delay-2 hub-landing-card bg-white rounded-3xl overflow-hidden border border-navy/10 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between" data-hub-id="baku">
             <div>
               <div class="h-52 relative overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=600&q=80" alt="Baku Azerbaijan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                 <div class="absolute top-4 left-4">
-                  <span class="bg-[#7C3AED] text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">🇦🇿 Caucasus Hub</span>
+                  <span class="hub-waypoint-beacon bg-[#7C3AED] text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md">
+                    <span class="beacon-ring"></span>🇦🇿 Caucasus Hub
+                  </span>
                 </div>
               </div>
               <div class="p-6">
@@ -1749,6 +1842,7 @@
       </div>
     </section>
 
+    </div>
   </main>
 
   <!-- ============ HOMEPAGE ENQUIRY SUCCESS MODAL ============ -->
@@ -1846,33 +1940,17 @@
     }
   </script>
 
-  <!-- Lenis Smooth Scrolling Engine -->
+  <!-- Scroll track height: auto-adjust based on actual viewport (fixes hardcoded 3500px) -->
   <script>
-    // 1. Lenis Fast & Responsive Smooth Scrolling
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof Lenis !== 'undefined') {
-        const lenis = new Lenis({
-          duration: 0.55,
-          wheelMultiplier: 1.85,
-          touchMultiplier: 2.2,
-          smoothWheel: true,
-          smoothTouch: false,
-        });
-
-        // Fast & seamless RAF sync (no duplicate raf loops)
-        if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
-          lenis.on('scroll', ScrollTrigger.update);
-          gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
-          });
-          gsap.ticker.lagSmoothing(0);
-        } else {
-          function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-          }
-          requestAnimationFrame(raf);
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+      var track = document.querySelector('[data-scroll-track]');
+      if (track) {
+        var baseH = Math.max(window.innerHeight * 4.5, 3200);
+        track.style.height = baseH + 'px';
+        window.addEventListener('resize', function() {
+          baseH = Math.max(window.innerHeight * 4.5, 3200);
+          track.style.height = baseH + 'px';
+        }, { passive: true });
       }
     });
   </script>
