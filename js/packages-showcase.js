@@ -565,13 +565,6 @@
             <video loop muted playsinline preload="none" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
               <source src="${pkg.video}" type="video/mp4"/>
             </video>
-            <!-- Animated 4K Video Badge -->
-            <div class="absolute top-4 right-16 z-10 pointer-events-none">
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-navy-deep/85 backdrop-blur-md border border-white/20 text-[10px] font-mono font-bold uppercase tracking-wider text-white shadow-lg">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-ping"></span>
-                <span>4K REEL</span>
-              </span>
-            </div>
           ` : `
             <img src="${pkg.img}" alt="${pkg.name}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy"/>
           `}
