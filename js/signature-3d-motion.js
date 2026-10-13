@@ -207,10 +207,12 @@
 
       apply3DTransforms(f, animTime);
 
-      // Keep motion alive with living 3D floating wave while user watches live video reels
-      if (inView || Math.abs(targetFactor - currentFactor) > 0.002) {
+      // Only continue loop when actively interpolating; halt on idle to preserve 60/120fps GPU performance
+      if (Math.abs(targetFactor - currentFactor) > 0.001) {
         requestAnimationFrame(render3DMotionLoop);
       } else {
+        currentFactor = targetFactor;
+        apply3DTransforms(currentFactor, animTime);
         isTicking = false;
       }
     }
@@ -365,16 +367,23 @@
     const parent = marqueeTrack.closest('section');
     if (parent) parent.classList.add('kinetic-3d-marquee');
 
+    let marqueeTicking = false;
     window.addEventListener('scroll', () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastScrollY;
-      lastScrollY = currentY;
+      if (!marqueeTicking) {
+        marqueeTicking = true;
+        requestAnimationFrame(() => {
+          const currentY = window.scrollY;
+          const delta = currentY - lastScrollY;
+          lastScrollY = currentY;
 
-      scrollVelocity = delta * 0.12;
-      const clampedTilt = Math.max(-10, Math.min(10, scrollVelocity));
+          scrollVelocity = delta * 0.12;
+          const clampedTilt = Math.max(-10, Math.min(10, scrollVelocity));
 
-      if (parent) {
-        parent.style.transform = `perspective(1000px) rotateX(${clampedTilt.toFixed(2)}deg)`;
+          if (parent) {
+            parent.style.transform = `perspective(1000px) rotateX(${clampedTilt.toFixed(2)}deg)`;
+          }
+          marqueeTicking = false;
+        });
       }
     }, { passive: true });
   }

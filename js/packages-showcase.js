@@ -562,7 +562,7 @@
         <!-- Image & Video Container -->
         <div class="relative aspect-[16/11] overflow-hidden bg-navy-deep">
           ${pkg.video ? `
-            <video loop muted playsinline poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
+            <video loop muted playsinline preload="none" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
               <source src="${pkg.video}" type="video/mp4"/>
             </video>
             <!-- Animated 4K Video Badge -->
@@ -651,28 +651,54 @@
       </article>
     `).join('');
 
-    // Viewport IntersectionObserver: auto-play videos when card is in view, pause when scrolled away
+    // High-performance single-active playback
     setupPackageVideoObserver();
   }
 
   function setupPackageVideoObserver() {
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.pkg-video-player').forEach(v => v.play().catch(() => {}));
-      return;
-    }
-    const vids = document.querySelectorAll('.pkg-video-player');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const vid = entry.target;
-        if (entry.isIntersecting) {
-          vid.play().catch(() => {});
-        } else {
-          vid.pause();
-        }
-      });
-    }, { threshold: 0.15 });
+    const cards = document.querySelectorAll('.pkg-card');
+    let currentlyPlaying = null;
 
-    vids.forEach(v => observer.observe(v));
+    cards.forEach(card => {
+      const vid = card.querySelector('.pkg-video-player');
+      if (!vid) return;
+
+      // Hover-to-play with zero memory leak
+      card.addEventListener('mouseenter', () => {
+        if (currentlyPlaying && currentlyPlaying !== vid) {
+          currentlyPlaying.pause();
+        }
+        vid.play().catch(() => {});
+        currentlyPlaying = vid;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        vid.pause();
+        if (currentlyPlaying === vid) currentlyPlaying = null;
+      });
+    });
+
+    // Mobile / Scroll observer: only play the single most centered card
+    if ('IntersectionObserver' in window && window.innerWidth < 768) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const vid = entry.target.querySelector('.pkg-video-player');
+          if (!vid) return;
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.7) {
+            if (currentlyPlaying && currentlyPlaying !== vid) {
+              currentlyPlaying.pause();
+            }
+            vid.play().catch(() => {});
+            currentlyPlaying = vid;
+          } else {
+            vid.pause();
+            if (currentlyPlaying === vid) currentlyPlaying = null;
+          }
+        });
+      }, { threshold: [0.2, 0.7] });
+
+      cards.forEach(c => observer.observe(c));
+    }
   }
 
   // Inject keyframe animation if not already present

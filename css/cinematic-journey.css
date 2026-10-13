@@ -52,8 +52,8 @@
 .glass-panel-light,
 .glass-frost-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.22) 100%) !important;
-  backdrop-filter: blur(32px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(190%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   box-shadow: 
     0 25px 60px rgba(0, 24, 48, 0.18),
@@ -63,8 +63,8 @@
 
 .glass-panel-dark {
   background: linear-gradient(135deg, rgba(7, 21, 41, 0.75) 0%, rgba(11, 31, 58, 0.6) 100%) !important;
-  backdrop-filter: blur(32px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(190%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
   box-shadow: 
     0 30px 70px rgba(0, 0, 0, 0.55),
@@ -73,8 +73,8 @@
 
 .glass-pill-light {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(253, 241, 225, 0.35) 100%) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
   color: #071529 !important;
   box-shadow: 
@@ -84,8 +84,8 @@
 
 .glass-pill-dark {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
   box-shadow: 
