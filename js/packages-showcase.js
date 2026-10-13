@@ -237,7 +237,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.93",
       img: "https://images.unsplash.com/photo-1506351421178-63b52a2d2562?auto=format&fit=crop&w=900&q=80",
-      video: "images/singapore/sentosa island.mp4",
+      video: "images/singapore/sentosa_island.mp4",
       href: "singapore-package.html",
       tags: ["Night Safari Tram", "Wings of Time Show", "Madame Tussauds"],
       voucherId: "LEDMC1143890"
@@ -255,7 +255,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.96",
       img: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=900&q=80",
-      video: "images/singapore/Gardens by the Bay Supertrees Light Show.mp4",
+      video: "images/singapore/gardens_by_the_bay.mp4",
       href: "singapore-package.html",
       tags: ["S.E.A. Aquarium", "Bird Paradise Mandai", "Sentosa Luge Skyride"],
       voucherId: "LEDMC1134589"
@@ -361,6 +361,7 @@
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.93",
       img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=80",
+      video: "images/kerala/360003_medium.mp4",
       href: "kerala-package.html",
       tags: ["Fort Kochi Nets", "Alleppey Houseboat", "Eravikulam Tahr"],
       voucherId: "LEDMC1112399"
@@ -378,6 +379,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.98",
       img: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=900&q=80",
+      video: "images/kerala/14728150_3840_2160_30fps.mp4",
       href: "kerala-package.html",
       tags: ["5★ Fragrant Nature", "Private Chef Houseboat", "Ayurvedic Massage"],
       voucherId: "LEDMC1135448"
