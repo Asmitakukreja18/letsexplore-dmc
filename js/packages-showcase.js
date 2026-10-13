@@ -432,6 +432,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.91",
       img: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=900&q=80",
+      video: "images/manali.mp4",
       href: "manali-package.html",
       tags: ["Hadimba Temple", "Solang Valley Adventure", "Naggar Castle"],
       voucherId: "LEDMC593412"
@@ -483,6 +484,7 @@
       badgeColor: "bg-navy-deep text-white",
       rating: "4.97",
       img: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=900&q=80",
+      video: "images/europe_and_japan.mp4",
       href: "deals.html",
       tags: ["Eiffel Tower Level 2", "Swiss Alps Jungfrau", "Venice Gondola Ride"],
       voucherId: "LEDMC1139499"
@@ -500,6 +502,7 @@
       badgeColor: "bg-ocean text-white",
       rating: "4.98",
       img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=80",
+      video: "images/europe_and_japan.mp4",
       href: "deals.html",
       tags: ["Mt Fuji 5th Station", "Shinkansen Bullet Train", "Kyoto Fushimi Inari"],
       voucherId: "LEDMC1142210"
