@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const carousels = document.querySelectorAll('.dest-video-carousel, .ocean-video-carousel');
   if (!carousels.length) return;
 
-  const DISPLAY_DURATION = 5000; // 5.0s per destination
-  const BLEND_DURATION = 2000;   // 2.0s silky film dissolve mix
+  const DISPLAY_DURATION = 3200; // 3.2s per destination for lively reel experience
+  const BLEND_DURATION = 1000;   // 1.0s silky film dissolve mix
 
   carousels.forEach(carousel => {
     const videos = carousel.querySelectorAll('.carousel-tile-vid, .ocean-tile-vid');

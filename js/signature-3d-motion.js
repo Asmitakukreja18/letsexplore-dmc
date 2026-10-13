@@ -51,6 +51,8 @@
   let currentFactor = 0;
   let targetFactor = 0;
   let isTicking = false;
+  let animTime = 0;
+  let inView = false;
 
   document.addEventListener('DOMContentLoaded', () => {
     initSignature3DConvergence();
@@ -77,12 +79,12 @@
       const rect = grid.getBoundingClientRect();
       const windowH = window.innerHeight;
 
-      // When grid top enters viewport from bottom: rect.top ~= windowH
-      // When grid is centered in viewport: rect.top ~= windowH * 0.25
-      // Scrolling DOWN brings grid into view -> openFactor grows 0.0 -> 1.0 (CARDS OPEN UP / FAN OUT)
-      // Scrolling UP towards top -> openFactor decreases back 1.0 -> 0.0 (CARDS FOLD BACK TOGETHER)
-      const startOpen = windowH * 0.95;
-      const fullOpen = windowH * 0.22;
+      inView = rect.bottom > 0 && rect.top < windowH;
+
+      // Snappy trigger range: starts opening as soon as top approaches (0.88 * windowH)
+      // and completes full opening quickly by (0.58 * windowH) so it feels responsive & lively!
+      const startOpen = windowH * 0.88;
+      const fullOpen = windowH * 0.58;
 
       let progress = (startOpen - rect.top) / (startOpen - fullOpen);
       progress = Math.max(0, Math.min(1.0, progress));
@@ -96,17 +98,18 @@
     }
 
     function render3DMotionLoop() {
-      // Smooth lerp (linear interpolation) with 0.09 momentum for silky fluid 60fps/120fps physics
-      currentFactor += (targetFactor - currentFactor) * 0.09;
-      const f = currentFactor; // 0 (clustered/folded) to 1.0 (fully open & fanned out)
+      animTime += 0.025; // Continuous organic breathing time
 
-      apply3DTransforms(f);
+      // Snappy 0.18 lerp for immediate response to scroll without sluggish delay
+      currentFactor += (targetFactor - currentFactor) * 0.18;
+      const f = currentFactor; // 0 (folded) to 1.0 (fully open & fanned out)
 
-      if (Math.abs(targetFactor - currentFactor) > 0.002) {
+      apply3DTransforms(f, animTime);
+
+      // Keep animation running when in view so user can enjoy continuous 3D float + live videos!
+      if (inView || Math.abs(targetFactor - currentFactor) > 0.002) {
         requestAnimationFrame(render3DMotionLoop);
       } else {
-        currentFactor = targetFactor;
-        apply3DTransforms(currentFactor);
         isTicking = false;
       }
     }
@@ -116,7 +119,7 @@
     calculateScrollProgress();
   }
 
-  function apply3DTransforms(f) {
+  function apply3DTransforms(f, time) {
     if (!tiles || tiles.length < 3) return;
 
     const tileLeft = tiles[0];   // Turkey
@@ -127,27 +130,32 @@
     const unfold = Math.max(0, Math.min(1, f)); // 0 = folded, 1 = fully open
     const fold = 1 - unfold;                   // 1 = folded, 0 = fully open
 
+    // Organic living float delta (only active when cards are opened, giving living 3D feel while videos play)
+    const t = time || 0;
+    const floatYLeft = unfold * Math.sin(t) * 4;
+    const floatRotLeft = unfold * Math.sin(t * 0.8) * 1.4;
+    const floatYCenter = unfold * -Math.cos(t) * 5;
+    const floatZCenter = unfold * Math.sin(t * 1.2) * 8;
+    const floatYRight = unfold * Math.sin(t + 1.2) * 4;
+    const floatRotRight = unfold * -Math.sin(t * 0.8) * 1.4;
+
     // LEFT TILE (Turkey)
     if (tileLeft && !tileLeft.dataset.isHovered) {
       if (isDesktop) {
-        // As user scrolls down (unfold goes 0 -> 1):
-        // transX glides from +125px (tucked behind center) smoothly OUT to 0px (fully open slot)
-        // rotY swings gracefully from +18deg inward OUT to -5deg (subtle outward IMAX 3D perspective)
-        const transX = (fold * 125).toFixed(1);
-        const transY = (fold * 22).toFixed(1);
-        const rotY = (fold * 20 - unfold * 5).toFixed(2);
-        const rotX = (fold * 6).toFixed(2);
-        const rotZ = (-fold * 3.5).toFixed(2);
-        const scale = (0.93 + unfold * 0.07).toFixed(3);
+        const transX = (fold * 115).toFixed(1);
+        const transY = (fold * 20 + floatYLeft).toFixed(1);
+        const rotY = (fold * 18 - unfold * 5 + floatRotLeft).toFixed(2);
+        const rotX = (fold * 5).toFixed(2);
+        const rotZ = (-fold * 3).toFixed(2);
+        const scale = (0.94 + unfold * 0.06).toFixed(3);
         const shadowSpread = (25 + unfold * 20).toFixed(0);
 
         tileLeft.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
         tileLeft.style.boxShadow = `${-fold * 15}px ${20 + unfold * 15}px ${shadowSpread}px -8px rgba(11, 31, 58, ${0.18 + unfold * 0.15})`;
         tileLeft.style.zIndex = fold > 0.6 ? '2' : '3';
       } else {
-        // Mobile / Small screen: subtle 3D lift & scale without horizontal overflow
-        const transY = (fold * 35).toFixed(1);
-        const scale = (0.95 + unfold * 0.05).toFixed(3);
+        const transY = (fold * 30 + floatYLeft * 0.5).toFixed(1);
+        const scale = (0.96 + unfold * 0.04).toFixed(3);
         tileLeft.style.transform = `perspective(1000px) translateY(${transY}px) scale(${scale})`;
         tileLeft.style.boxShadow = '';
       }
@@ -156,17 +164,16 @@
     // CENTER TILE (Indian Ocean)
     if (tileCenter && !tileCenter.dataset.isHovered) {
       if (isDesktop) {
-        // Elevated in 3D space, proud center focal point
-        const transZ = (20 + unfold * 30).toFixed(1);
-        const transY = (-fold * 12).toFixed(1);
+        const transZ = (22 + unfold * 28 + floatZCenter).toFixed(1);
+        const transY = (-fold * 10 + floatYCenter).toFixed(1);
         const scale = (0.98 + unfold * 0.04).toFixed(3);
 
         tileCenter.style.transform = `perspective(1800px) translateZ(${transZ}px) translateY(${transY}px) scale(${scale})`;
         tileCenter.style.boxShadow = `0 ${25 + unfold * 20}px ${45 + unfold * 25}px -10px rgba(244, 162, 97, ${0.25 + unfold * 0.25}), 0 0 ${unfold * 35}px rgba(30, 136, 229, ${unfold * 0.25})`;
         tileCenter.style.zIndex = '10';
       } else {
-        const transY = (fold * 35).toFixed(1);
-        const scale = (0.95 + unfold * 0.05).toFixed(3);
+        const transY = (fold * 30 + floatYCenter * 0.5).toFixed(1);
+        const scale = (0.96 + unfold * 0.04).toFixed(3);
         tileCenter.style.transform = `perspective(1000px) translateY(${transY}px) scale(${scale})`;
         tileCenter.style.boxShadow = '';
       }
@@ -175,23 +182,20 @@
     // RIGHT TILE (Dubai)
     if (tileRight && !tileRight.dataset.isHovered) {
       if (isDesktop) {
-        // As user scrolls down (unfold goes 0 -> 1):
-        // transX glides from -125px (tucked behind center) smoothly OUT to 0px (fully open slot)
-        // rotY swings gracefully from -18deg inward OUT to +5deg (subtle outward IMAX 3D perspective)
-        const transX = (-fold * 125).toFixed(1);
-        const transY = (fold * 22).toFixed(1);
-        const rotY = (-fold * 20 + unfold * 5).toFixed(2);
-        const rotX = (fold * 6).toFixed(2);
-        const rotZ = (fold * 3.5).toFixed(2);
-        const scale = (0.93 + unfold * 0.07).toFixed(3);
+        const transX = (-fold * 115).toFixed(1);
+        const transY = (fold * 20 + floatYRight).toFixed(1);
+        const rotY = (-fold * 18 + unfold * 5 + floatRotRight).toFixed(2);
+        const rotX = (fold * 5).toFixed(2);
+        const rotZ = (fold * 3).toFixed(2);
+        const scale = (0.94 + unfold * 0.06).toFixed(3);
         const shadowSpread = (25 + unfold * 20).toFixed(0);
 
         tileRight.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
         tileRight.style.boxShadow = `${fold * 15}px ${20 + unfold * 15}px ${shadowSpread}px -8px rgba(11, 31, 58, ${0.18 + unfold * 0.15})`;
         tileRight.style.zIndex = fold > 0.6 ? '2' : '3';
       } else {
-        const transY = (fold * 35).toFixed(1);
-        const scale = (0.95 + unfold * 0.05).toFixed(3);
+        const transY = (fold * 30 + floatYRight * 0.5).toFixed(1);
+        const scale = (0.96 + unfold * 0.04).toFixed(3);
         tileRight.style.transform = `perspective(1000px) translateY(${transY}px) scale(${scale})`;
         tileRight.style.boxShadow = '';
       }
