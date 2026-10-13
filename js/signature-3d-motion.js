@@ -60,7 +60,7 @@
   });
 
   /* ============================================================ */
-  /* 1. SIGNATURE DESTINATIONS 3D CONVERGENCE & MIX ON SCROLL     */
+  /* 1. SIGNATURE DESTINATIONS 3D FAN-OUT & REVEAL ON SCROLL     */
   /* ============================================================ */
   function initSignature3DConvergence() {
     tiles = Array.from(document.querySelectorAll('.dest-tile'));
@@ -70,22 +70,24 @@
     if (!grid) return;
     grid.classList.add('signature-3d-container');
 
+    // Attach interactive 3D cursor tilt to each dest-tile
+    initDestTiles3DTilt();
+
     function calculateScrollProgress() {
       const rect = grid.getBoundingClientRect();
       const windowH = window.innerHeight;
 
-      // Progress: 0 when entering viewport, 1.0 when scrolling towards packages
-      const totalDist = windowH + rect.height;
-      const currentDist = windowH - rect.top;
-      const progress = Math.max(0, Math.min(1.2, currentDist / totalDist));
+      // When grid top enters viewport from bottom: rect.top ~= windowH
+      // When grid is centered in viewport: rect.top ~= windowH * 0.25
+      // Scrolling DOWN brings grid into view -> openFactor grows 0.0 -> 1.0 (CARDS OPEN UP / FAN OUT)
+      // Scrolling UP towards top -> openFactor decreases back 1.0 -> 0.0 (CARDS FOLD BACK TOGETHER)
+      const startOpen = windowH * 0.95;
+      const fullOpen = windowH * 0.22;
 
-      // Convergence intensity peaks as user scrolls past tiles down towards packages
-      if (progress < 0.25) {
-        targetFactor = 0;
-      } else {
-        // Range 0.25 to 0.85 maps to 0 to 1.0
-        targetFactor = Math.min(1.0, (progress - 0.25) / 0.6);
-      }
+      let progress = (startOpen - rect.top) / (startOpen - fullOpen);
+      progress = Math.max(0, Math.min(1.0, progress));
+
+      targetFactor = progress;
 
       if (!isTicking) {
         isTicking = true;
@@ -94,15 +96,17 @@
     }
 
     function render3DMotionLoop() {
-      // Smooth lerp (linear interpolation) for silky 60fps/120fps physics
-      currentFactor += (targetFactor - currentFactor) * 0.14;
-      const f = currentFactor; // 0 to 1
+      // Smooth lerp (linear interpolation) with 0.09 momentum for silky fluid 60fps/120fps physics
+      currentFactor += (targetFactor - currentFactor) * 0.09;
+      const f = currentFactor; // 0 (clustered/folded) to 1.0 (fully open & fanned out)
 
       apply3DTransforms(f);
 
-      if (Math.abs(targetFactor - currentFactor) > 0.003) {
+      if (Math.abs(targetFactor - currentFactor) > 0.002) {
         requestAnimationFrame(render3DMotionLoop);
       } else {
+        currentFactor = targetFactor;
+        apply3DTransforms(currentFactor);
         isTicking = false;
       }
     }
@@ -119,70 +123,144 @@
     const tileCenter = tiles[1]; // Indian Ocean
     const tileRight = tiles[2];  // Dubai
 
-    if (tileLeft) {
-      // Folds inward towards center, rotates in 3D perspective and layers smoothly
-      const rotY = (f * 28).toFixed(2);
-      const rotX = (f * 10).toFixed(2);
-      const rotZ = (-f * 5).toFixed(2);
-      const transX = (f * 160).toFixed(1);
-      const transY = (f * 45).toFixed(1);
-      const scale = (1 - f * 0.06).toFixed(3);
-      const shadowSpread = (f * 45).toFixed(0);
+    const isDesktop = window.innerWidth >= 768;
+    const unfold = Math.max(0, Math.min(1, f)); // 0 = folded, 1 = fully open
+    const fold = 1 - unfold;                   // 1 = folded, 0 = fully open
 
-      tileLeft.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
-      tileLeft.style.boxShadow = `${-f * 25}px ${25 + f * 25}px ${shadowSpread}px -5px rgba(11, 31, 58, ${0.2 + f * 0.3})`;
-      tileLeft.style.zIndex = '2';
+    // LEFT TILE (Turkey)
+    if (tileLeft && !tileLeft.dataset.isHovered) {
+      if (isDesktop) {
+        // As user scrolls down (unfold goes 0 -> 1):
+        // transX glides from +125px (tucked behind center) smoothly OUT to 0px (fully open slot)
+        // rotY swings gracefully from +18deg inward OUT to -5deg (subtle outward IMAX 3D perspective)
+        const transX = (fold * 125).toFixed(1);
+        const transY = (fold * 22).toFixed(1);
+        const rotY = (fold * 20 - unfold * 5).toFixed(2);
+        const rotX = (fold * 6).toFixed(2);
+        const rotZ = (-fold * 3.5).toFixed(2);
+        const scale = (0.93 + unfold * 0.07).toFixed(3);
+        const shadowSpread = (25 + unfold * 20).toFixed(0);
+
+        tileLeft.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
+        tileLeft.style.boxShadow = `${-fold * 15}px ${20 + unfold * 15}px ${shadowSpread}px -8px rgba(11, 31, 58, ${0.18 + unfold * 0.15})`;
+        tileLeft.style.zIndex = fold > 0.6 ? '2' : '3';
+      } else {
+        // Mobile / Small screen: subtle 3D lift & scale without horizontal overflow
+        const transY = (fold * 35).toFixed(1);
+        const scale = (0.95 + unfold * 0.05).toFixed(3);
+        tileLeft.style.transform = `perspective(1000px) translateY(${transY}px) scale(${scale})`;
+        tileLeft.style.boxShadow = '';
+      }
     }
 
-    if (tileCenter) {
-      // Pops forward towards the camera with glorious 3D depth and radiant aura
-      const transZ = (f * 140).toFixed(1);
-      const transY = (-f * 30).toFixed(1);
-      const scale = (1 + f * 0.09).toFixed(3);
-      const rotX = (-f * 5).toFixed(2);
+    // CENTER TILE (Indian Ocean)
+    if (tileCenter && !tileCenter.dataset.isHovered) {
+      if (isDesktop) {
+        // Elevated in 3D space, proud center focal point
+        const transZ = (20 + unfold * 30).toFixed(1);
+        const transY = (-fold * 12).toFixed(1);
+        const scale = (0.98 + unfold * 0.04).toFixed(3);
 
-      tileCenter.style.transform = `perspective(1800px) translateZ(${transZ}px) translateY(${transY}px) rotateX(${rotX}deg) scale(${scale})`;
-      tileCenter.style.boxShadow = `0 ${30 + f * 35}px ${50 + f * 40}px -10px rgba(244, 162, 97, ${0.3 + f * 0.4}), 0 0 ${f * 50}px rgba(30, 136, 229, ${f * 0.35})`;
-      tileCenter.style.zIndex = f > 0.05 ? '10' : '3';
+        tileCenter.style.transform = `perspective(1800px) translateZ(${transZ}px) translateY(${transY}px) scale(${scale})`;
+        tileCenter.style.boxShadow = `0 ${25 + unfold * 20}px ${45 + unfold * 25}px -10px rgba(244, 162, 97, ${0.25 + unfold * 0.25}), 0 0 ${unfold * 35}px rgba(30, 136, 229, ${unfold * 0.25})`;
+        tileCenter.style.zIndex = '10';
+      } else {
+        const transY = (fold * 35).toFixed(1);
+        const scale = (0.95 + unfold * 0.05).toFixed(3);
+        tileCenter.style.transform = `perspective(1000px) translateY(${transY}px) scale(${scale})`;
+        tileCenter.style.boxShadow = '';
+      }
     }
 
-    if (tileRight) {
-      // Folds inward towards center, mirroring left tile
-      const rotY = (-f * 28).toFixed(2);
-      const rotX = (f * 10).toFixed(2);
-      const rotZ = (f * 5).toFixed(2);
-      const transX = (-f * 160).toFixed(1);
-      const transY = (f * 45).toFixed(1);
-      const scale = (1 - f * 0.06).toFixed(3);
-      const shadowSpread = (f * 45).toFixed(0);
+    // RIGHT TILE (Dubai)
+    if (tileRight && !tileRight.dataset.isHovered) {
+      if (isDesktop) {
+        // As user scrolls down (unfold goes 0 -> 1):
+        // transX glides from -125px (tucked behind center) smoothly OUT to 0px (fully open slot)
+        // rotY swings gracefully from -18deg inward OUT to +5deg (subtle outward IMAX 3D perspective)
+        const transX = (-fold * 125).toFixed(1);
+        const transY = (fold * 22).toFixed(1);
+        const rotY = (-fold * 20 + unfold * 5).toFixed(2);
+        const rotX = (fold * 6).toFixed(2);
+        const rotZ = (fold * 3.5).toFixed(2);
+        const scale = (0.93 + unfold * 0.07).toFixed(3);
+        const shadowSpread = (25 + unfold * 20).toFixed(0);
 
-      tileRight.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
-      tileRight.style.boxShadow = `${f * 25}px ${25 + f * 25}px ${shadowSpread}px -5px rgba(11, 31, 58, ${0.2 + f * 0.3})`;
-      tileRight.style.zIndex = '2';
+        tileRight.style.transform = `perspective(1800px) translateX(${transX}px) translateY(${transY}px) rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) scale(${scale})`;
+        tileRight.style.boxShadow = `${fold * 15}px ${20 + unfold * 15}px ${shadowSpread}px -8px rgba(11, 31, 58, ${0.18 + unfold * 0.15})`;
+        tileRight.style.zIndex = fold > 0.6 ? '2' : '3';
+      } else {
+        const transY = (fold * 35).toFixed(1);
+        const scale = (0.95 + unfold * 0.05).toFixed(3);
+        tileRight.style.transform = `perspective(1000px) translateY(${transY}px) scale(${scale})`;
+        tileRight.style.boxShadow = '';
+      }
     }
   }
 
+  /* Interactive 3D Cursor Tilt & Specular Light Reflection on Dest Tiles */
+  function initDestTiles3DTilt() {
+    if (!tiles || !tiles.length) return;
+
+    tiles.forEach((tile) => {
+      tile.addEventListener('mouseenter', () => {
+        tile.dataset.isHovered = 'true';
+        tile.style.transition = 'transform 0.15s ease-out, box-shadow 0.25s ease';
+      });
+
+      tile.addEventListener('mousemove', (e) => {
+        const rect = tile.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const xPercent = (x / rect.width - 0.5) * 2;  // -1 to +1
+        const yPercent = (y / rect.height - 0.5) * 2; // -1 to +1
+
+        const maxTilt = 10; // Subtle luxury tilt
+        const tiltX = (-yPercent * maxTilt).toFixed(2);
+        const tiltY = (xPercent * maxTilt).toFixed(2);
+
+        tile.style.transform = `perspective(1600px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px) scale(1.028) translateZ(45px)`;
+        tile.style.boxShadow = `
+          ${-tiltY * 3}px ${Math.abs(tiltX) * 3 + 28}px 55px -10px rgba(11, 31, 58, 0.35),
+          0 0 35px rgba(244, 162, 97, 0.3)
+        `;
+        tile.style.zIndex = '20';
+
+        let glare = tile.querySelector('.card-3d-glare');
+        if (!glare) {
+          glare = document.createElement('div');
+          glare.className = 'card-3d-glare';
+          tile.appendChild(glare);
+        }
+        glare.style.opacity = '0.9';
+        glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.45) 0%, rgba(244,162,97,0.2) 40%, transparent 70%)`;
+      });
+
+      tile.addEventListener('mouseleave', () => {
+        delete tile.dataset.isHovered;
+        tile.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease';
+        apply3DTransforms(currentFactor);
+
+        const glare = tile.querySelector('.card-3d-glare');
+        if (glare) {
+          glare.style.opacity = '0';
+        }
+      });
+    });
+  }
+
   /* ============================================================ */
-  /* 2. EXPLICIT 3D CONVERGENCE & AUTO-SCROLL TRIGGER             */
+  /* 2. EXPLICIT 3D FAN-OUT & AUTO-SCROLL TRIGGER                 */
   /* ============================================================ */
   window.trigger3DConvergenceAndScroll = function (e) {
     if (e && e.preventDefault) e.preventDefault();
 
-    // 1. Play dramatic 3D convergence
-    let step = 0;
-    const animInterval = setInterval(() => {
-      step += 0.08;
-      apply3DTransforms(Math.min(1.0, step));
-      if (step >= 1.0) {
-        clearInterval(animInterval);
-
-        // 2. Smoothly scroll into packages section
-        const packagesSection = document.getElementById('packages');
-        if (packagesSection) {
-          packagesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    }, 16);
+    // Smoothly scroll into packages section
+    const packagesSection = document.getElementById('packages');
+    if (packagesSection) {
+      packagesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   function initTriggerButton() {
