@@ -48,6 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
       vid.style.willChange = 'opacity';
       vid.style.transition = `opacity ${BLEND_DURATION}ms ease-out`;
 
+      // Guarantee endless looping without stalls
+      vid.addEventListener('ended', function () {
+        this.currentTime = 0;
+        const p = this.play();
+        if (p !== undefined) p.catch(() => {});
+      });
+
       if (idx === 0) {
         vid.style.opacity = '1';
         vid.style.zIndex = '2';

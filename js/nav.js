@@ -1031,6 +1031,106 @@
         nav.classList.toggle('scrolled', window.scrollY > 50);
       }, { passive: true });
     }
+
+    // ── 🔥 UNIVERSAL INFINITE VIDEO LOOP GUARDIAN ────────────────────────
+    function initUniversalVideoLoop() {
+      function makeVideoLoopInfinitely(vid) {
+        if (!vid || vid._hasLoopGuardian) return;
+        vid._hasLoopGuardian = true;
+
+        // Force infinite loop & autoplay attributes & properties
+        vid.loop = true;
+        vid.muted = true;
+        vid.defaultMuted = true;
+        vid.playsInline = true;
+        vid.setAttribute('loop', '');
+        vid.setAttribute('muted', '');
+        vid.setAttribute('playsinline', '');
+        vid.setAttribute('webkit-playsinline', '');
+
+        // 1. Explicit 'ended' event listener: rewinds and immediately resumes playback
+        vid.addEventListener('ended', function () {
+          this.currentTime = 0;
+          const p = this.play();
+          if (p !== undefined) p.catch(() => {});
+        });
+
+        // 2. Error recovery safeguard: reload and replay if a stream stalls
+        vid.addEventListener('error', function () {
+          setTimeout(() => {
+            try {
+              vid.load();
+              const p = vid.play();
+              if (p !== undefined) p.catch(() => {});
+            } catch (err) {}
+          }, 1000);
+        });
+
+        // 3. Autoplay if flagged as autoplay or hero video
+        if (vid.hasAttribute('autoplay') || vid.autoplay) {
+          const p = vid.play();
+          if (p !== undefined) p.catch(() => {});
+        }
+      }
+
+      function scanAndEnforceAllVideos() {
+        document.querySelectorAll('video').forEach(makeVideoLoopInfinitely);
+      }
+
+      // Initial scan
+      scanAndEnforceAllVideos();
+
+      // MutationObserver to automatically catch all dynamically injected videos
+      if (typeof MutationObserver !== 'undefined' && document.body) {
+        const videoObserver = new MutationObserver((mutations) => {
+          for (let i = 0; i < mutations.length; i++) {
+            const added = mutations[i].addedNodes;
+            for (let j = 0; j < added.length; j++) {
+              const node = added[j];
+              if (node.nodeType === 1) {
+                if (node.tagName === 'VIDEO') {
+                  makeVideoLoopInfinitely(node);
+                } else if (node.querySelectorAll) {
+                  node.querySelectorAll('video').forEach(makeVideoLoopInfinitely);
+                }
+              }
+            }
+          }
+        });
+        videoObserver.observe(document.body, { childList: true, subtree: true });
+      }
+
+      // First user interaction unlocker (for strict mobile/browser autoplay policies)
+      const userInteractionEvents = ['touchstart', 'click', 'scroll', 'keydown'];
+      function unlockAutoplayOnInteraction() {
+        document.querySelectorAll('video[autoplay]').forEach((vid) => {
+          if (vid.paused && vid.style.display !== 'none' && vid.style.opacity !== '0') {
+            const p = vid.play();
+            if (p !== undefined) p.catch(() => {});
+          }
+        });
+        userInteractionEvents.forEach((evt) => {
+          window.removeEventListener(evt, unlockAutoplayOnInteraction, { passive: true });
+        });
+      }
+      userInteractionEvents.forEach((evt) => {
+        window.addEventListener(evt, unlockAutoplayOnInteraction, { passive: true, once: true });
+      });
+
+      // Tab visibility change: resume playing looping videos upon tab refocus
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          document.querySelectorAll('video[autoplay]').forEach((vid) => {
+            if (vid.paused && vid.style.display !== 'none' && vid.style.opacity !== '0') {
+              const p = vid.play();
+              if (p !== undefined) p.catch(() => {});
+            }
+          });
+        }
+      });
+    }
+
+    initUniversalVideoLoop();
   }
 
   // Run after DOM is ready (works with both defer and inline)
@@ -1041,3 +1141,4 @@
   }
 
 })();
+

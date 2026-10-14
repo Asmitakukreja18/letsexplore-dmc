@@ -662,12 +662,26 @@
       const vid = card.querySelector('.pkg-video-player');
       if (!vid) return;
 
+      // Ensure infinite seamless looping
+      vid.loop = true;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.setAttribute('loop', '');
+      vid.setAttribute('muted', '');
+      vid.setAttribute('playsinline', '');
+      vid.addEventListener('ended', function () {
+        this.currentTime = 0;
+        const p = this.play();
+        if (p !== undefined) p.catch(() => {});
+      });
+
       // Hover-to-play with zero memory leak
       card.addEventListener('mouseenter', () => {
         if (currentlyPlaying && currentlyPlaying !== vid) {
           currentlyPlaying.pause();
         }
-        vid.play().catch(() => {});
+        const p = vid.play();
+        if (p !== undefined) p.catch(() => {});
         currentlyPlaying = vid;
       });
 
