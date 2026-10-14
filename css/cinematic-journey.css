@@ -1135,3 +1135,251 @@
   .card-pkg-title { font-size: 18px; }
   .btn-carousel-nav { width: 46px; height: 46px; font-size: 16px; }
 }
+
+/* ============================================================ */
+/* MASTER SCROLL JOURNEY MOTION SYSTEM                          */
+/* ============================================================ */
+
+/* 1. Journey Progress Indicator */
+.journey-progress-nav {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: rgba(11, 31, 58, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 18px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: auto;
+}
+
+.journey-progress-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.journey-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.journey-progress-label {
+  position: absolute;
+  right: 24px;
+  background: #0B1F3A;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(8px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  border: 1px solid rgba(244, 162, 97, 0.3);
+}
+
+.journey-progress-item:hover .journey-progress-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.journey-progress-item.is-active .journey-progress-dot {
+  width: 10px;
+  height: 22px;
+  background: #F4A261;
+  box-shadow: 0 0 12px rgba(244, 162, 97, 0.8);
+}
+
+@media (max-width: 1024px) {
+  .journey-progress-nav {
+    display: none;
+  }
+}
+
+/* 2. Package Cards Motion */
+.pkg-card {
+  will-change: transform, opacity, box-shadow;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+}
+
+.pkg-card.pkg-in-focus {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(244, 162, 97, 0.6) !important;
+  box-shadow: 0 24px 50px -10px rgba(244, 162, 97, 0.22), 0 12px 25px -8px rgba(11, 31, 58, 0.18) !important;
+}
+
+.pkg-card.pkg-distant {
+  opacity: 0.92;
+}
+
+.pkg-card .pkg-video-player {
+  transform: scale(1.05) translateY(var(--card-shift-y, 0px));
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* 3. DMC Expertise & Services Stagger Reveal */
+.service-card-motion {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.service-card-motion.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-card-motion:hover .service-icon-box {
+  transform: rotate(-6deg) scale(1.12);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 4. Sabse Important — Traveller Gallery (#stories) */
+.gallery-card-motion {
+  opacity: 0;
+  transform: translateY(35px) scale(0.96);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.gallery-card-motion.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.gallery-card-motion img {
+  transform: scale(1.06) translateY(var(--gallery-img-y, 0px));
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.gallery-card-motion:hover img {
+  transform: scale(1.12);
+}
+
+.gallery-card-motion.gallery-focused {
+  transform: translateY(-4px) scale(1.025);
+  box-shadow: 0 20px 40px rgba(11, 31, 58, 0.25);
+  z-index: 10;
+}
+
+#stories:hover .gallery-card-motion:not(:hover) {
+  opacity: 0.85;
+  transition: opacity 0.35s ease;
+}
+
+/* 5. Branch Network (#offices) */
+.office-card-motion {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.office-card-motion.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.office-card-motion img {
+  transform: scale(1.05) translateY(var(--office-img-y, 0px));
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* 6. Why Travellers Return (#why-us) */
+.pillar-card-motion {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.pillar-card-motion.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 7. Trip CTA Form Micro-interactions */
+#trip-plan input:focus,
+#trip-plan select:focus {
+  border-color: #F4A261 !important;
+  box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.28) !important;
+}
+
+.budget-pill-motion {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.budget-pill-motion:active {
+  transform: scale(0.96);
+}
+
+/* 8. Floating Back to Top Button */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 85;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: rgba(11, 31, 58, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #F4A261;
+  border: 1.5px solid rgba(244, 162, 97, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.back-to-top-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top-btn:hover {
+  background: #F4A261;
+  color: #0B1F3A;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(244, 162, 97, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pkg-card, .service-card-motion, .gallery-card-motion, .office-card-motion, .pillar-card-motion {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+

@@ -94,6 +94,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.88",
       img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
+      video: "images/bali.mp4",
       href: "bali-package.html",
       tags: ["Grand Barong Resort", "Tanjung Benoa Watersports", "Tanah Lot"],
       voucherId: "LEDMC1132629"
@@ -290,7 +291,7 @@
       badge: "Value Deal 🇲🇾",
       badgeColor: "bg-[#16a34a] text-white",
       rating: "4.87",
-      img: "https://images.unsplash.com/photo-1508963493744-76fce69379c0?auto=format&fit=crop&w=900&q=80",
+      img: "images/gemini_generated_video_f44802f9_thumb.jpg",
       video: "images/gemini_generated_video_f44802f9.mp4",
       href: "malaysia-package.html",
       tags: ["Batu Caves Rainbow Steps", "Awana Cable Car", "KL City Tour"],
@@ -308,7 +309,7 @@
       badge: "Disney & Vegas 🇭🇰",
       badgeColor: "bg-navy-deep text-white",
       rating: "4.96",
-      img: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=900&q=80",
+      img: "images/gemini_generated_video_99d73533_thumb.jpg",
       video: "images/gemini_generated_video_99d73533.mp4",
       href: "deals.html",
       tags: ["Disneyland 1-Day Pass", "TurboJET Fast Ferry", "Venetian Gondola Ride"],
@@ -326,7 +327,8 @@
       badge: "Business Expo 🇨🇳",
       badgeColor: "bg-ocean text-white",
       rating: "4.90",
-      img: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=900&q=80",
+      img: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=80",
+      video: "images/gemini_generated_video_99d73533.mp4",
       href: "deals.html",
       tags: ["Pazhou Complex Passes", "Daily Coach Transfers", "Bullet Train to HK"],
       voucherId: "LEDMC1131584"
@@ -397,8 +399,8 @@
       badge: "Snow Paradise 🏔️",
       badgeColor: "bg-ocean text-white",
       rating: "4.95",
-      img: "https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=900&q=80",
-      video: "images/gemini_generated_video_1bee48fb.mp4",
+      img: "images/gemini_generated_video_1bee48fb_thumb.jpg",
+      video: "images/kashmir/kashmir_snow.mp4",
       href: "kashmir-package.html",
       tags: ["Dal Lake Shikara", "Gulmarg Gondola Ride", "Betaab Valley"],
       voucherId: "LEDMC100210"
@@ -416,6 +418,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.94",
       img: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=900&q=80",
+      video: "images/andaman.mp4",
       href: "andaman-package.html",
       tags: ["Cellular Jail Light & Sound", "Radhanagar Beach Sunset", "Makruzz Cruise"],
       voucherId: "LEDMC592311"
@@ -451,6 +454,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.93",
       img: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=900&q=80",
+      video: "images/manali/Manali_snow_mountains_and_valley_20261013125941.mp4",
       href: "nepal-package.html",
       tags: ["Muktinath 4x4 Scorpio", "Chitwan Jungle Safari", "Pashupatinath Aarati"],
       voucherId: "LEDMC584910"
@@ -468,6 +472,7 @@
       badgeColor: "bg-sunset text-navy-deep",
       rating: "4.96",
       img: "https://images.unsplash.com/photo-1545232979-fbf671151608?auto=format&fit=crop&w=900&q=80",
+      video: "images/kerala/324928.mp4",
       href: "ujjain-package.html",
       tags: ["VIP Bhasma Aarti Guidance", "Mahakal Lok Corridor", "Narmada River Boat"],
       voucherId: "LEDMC1141325"
@@ -563,7 +568,7 @@
         <!-- Image & Video Container -->
         <div class="relative aspect-[16/11] overflow-hidden bg-navy-deep">
           ${pkg.video ? `
-            <video loop muted playsinline preload="none" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
+            <video autoplay loop muted playsinline preload="auto" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
               <source src="${pkg.video}" type="video/mp4"/>
             </video>
           ` : `
@@ -656,7 +661,6 @@
 
   function setupPackageVideoObserver() {
     const cards = document.querySelectorAll('.pkg-card');
-    let currentlyPlaying = null;
 
     cards.forEach(card => {
       const vid = card.querySelector('.pkg-video-player');
@@ -665,52 +669,49 @@
       // Ensure infinite seamless looping
       vid.loop = true;
       vid.muted = true;
+      vid.defaultMuted = true;
       vid.playsInline = true;
       vid.setAttribute('loop', '');
       vid.setAttribute('muted', '');
       vid.setAttribute('playsinline', '');
+      vid.setAttribute('webkit-playsinline', '');
+
       vid.addEventListener('ended', function () {
         this.currentTime = 0;
         const p = this.play();
         if (p !== undefined) p.catch(() => {});
       });
 
-      // Hover-to-play with zero memory leak
+      // Hover ensures video stays actively playing
       card.addEventListener('mouseenter', () => {
-        if (currentlyPlaying && currentlyPlaying !== vid) {
-          currentlyPlaying.pause();
-        }
         const p = vid.play();
         if (p !== undefined) p.catch(() => {});
-        currentlyPlaying = vid;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        vid.pause();
-        if (currentlyPlaying === vid) currentlyPlaying = null;
       });
     });
 
-    // Mobile / Scroll observer: only play the single most centered card
-    if ('IntersectionObserver' in window && window.innerWidth < 768) {
+    // Viewport IntersectionObserver: all cards in view autoplay continuously in loop
+    if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           const vid = entry.target.querySelector('.pkg-video-player');
           if (!vid) return;
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.7) {
-            if (currentlyPlaying && currentlyPlaying !== vid) {
-              currentlyPlaying.pause();
-            }
-            vid.play().catch(() => {});
-            currentlyPlaying = vid;
+
+          if (entry.isIntersecting) {
+            const p = vid.play();
+            if (p !== undefined) p.catch(() => {});
           } else {
             vid.pause();
-            if (currentlyPlaying === vid) currentlyPlaying = null;
           }
         });
-      }, { threshold: [0.2, 0.7] });
+      }, { threshold: 0.08 });
 
       cards.forEach(c => observer.observe(c));
+    } else {
+      // Fallback
+      document.querySelectorAll('.pkg-video-player').forEach(vid => {
+        const p = vid.play();
+        if (p !== undefined) p.catch(() => {});
+      });
     }
   }
 
