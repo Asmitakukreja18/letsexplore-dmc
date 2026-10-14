@@ -319,43 +319,143 @@
     }, { passive: true });
   }
 
+  let autoSpin = true;
+  let baseAutoSpeed = 0.34; // degrees per frame (~20 deg/s, smooth cinematic rotation)
+  let currentSpeed = 0.34;
+  let targetSpeed = 0.34;
+  let continuousYaw = 0;
+  let isHoveringCard = false;
+
+  function injectAtmosphere() {
+    if (!stage || stage.querySelector('.client-sphere-stars')) return;
+
+    // 1. Cosmic Starlight Bokeh Particles
+    const starsContainer = document.createElement('div');
+    starsContainer.className = 'client-sphere-stars';
+
+    for (let i = 0; i < 28; i++) {
+      const star = document.createElement('div');
+      star.className = 'client-sphere-star';
+      const size = (Math.random() * 3 + 1.5).toFixed(1);
+      const top = (Math.random() * 100).toFixed(1);
+      const left = (Math.random() * 100).toFixed(1);
+      const delay = (Math.random() * 4).toFixed(2);
+      const dur = (Math.random() * 3 + 2.5).toFixed(2);
+      const color = Math.random() > 0.4 ? 'rgba(244,162,97,0.85)' : 'rgba(142,244,255,0.85)';
+
+      star.style.cssText = `
+        position: absolute;
+        top: ${top}%;
+        left: ${left}%;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        background: ${color};
+        box-shadow: 0 0 ${size * 3}px ${color};
+        opacity: ${(Math.random() * 0.6 + 0.2).toFixed(2)};
+        animation: starTwinkle ${dur}s ease-in-out ${delay}s infinite alternate;
+        pointer-events: none;
+        z-index: 2;
+      `;
+      starsContainer.appendChild(star);
+    }
+    stage.appendChild(starsContainer);
+
+    // 2. Interactive Orbit Controls at the bottom
+    const controls = document.createElement('div');
+    controls.className = 'client-sphere-orbit-controls';
+    controls.innerHTML = `
+      <button id="btn-sphere-spin-left" class="sphere-ctrl-btn" title="Spin Left">
+        <span class="material-symbols-outlined text-base">rotate_left</span>
+      </button>
+      <button id="btn-sphere-toggle-orbit" class="sphere-ctrl-btn active" title="Toggle Auto-Orbit">
+        <span class="material-symbols-outlined text-base">motion_photos_auto</span>
+        <span class="text-[11px] font-bold uppercase tracking-wider">Auto-Orbit ON</span>
+      </button>
+      <button id="btn-sphere-spin-right" class="sphere-ctrl-btn" title="Spin Right">
+        <span class="material-symbols-outlined text-base">rotate_right</span>
+      </button>
+    `;
+    stage.appendChild(controls);
+
+    // Bind controls
+    document.getElementById('btn-sphere-spin-left').addEventListener('click', () => {
+      velX -= 4.5;
+    });
+    document.getElementById('btn-sphere-spin-right').addEventListener('click', () => {
+      velX += 4.5;
+    });
+    const toggleBtn = document.getElementById('btn-sphere-toggle-orbit');
+    toggleBtn.addEventListener('click', () => {
+      autoSpin = !autoSpin;
+      if (autoSpin) {
+        toggleBtn.classList.add('active');
+        toggleBtn.querySelector('span:nth-child(2)').textContent = 'Auto-Orbit ON';
+      } else {
+        toggleBtn.classList.remove('active');
+        toggleBtn.querySelector('span:nth-child(2)').textContent = 'Auto-Orbit PAUSED';
+      }
+    });
+  }
+
   function startLoop() {
     if (rafId) cancelAnimationFrame(rafId);
+    injectAtmosphere();
+
+    // Hover listeners on cards to gently slow down auto-spin
+    cards.forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        isHoveringCard = true;
+        targetSpeed = 0.05; // Gentle crawl when hovering so user can click comfortably
+      });
+      card.addEventListener('mouseleave', () => {
+        isHoveringCard = false;
+        targetSpeed = baseAutoSpeed; // Accelerate back to normal speed
+      });
+    });
 
     const tick = () => {
       if (!isLightboxOpen) {
+        // Smooth speed interpolation
+        currentSpeed += (targetSpeed - currentSpeed) * 0.06;
+
+        // Auto-spin continuously if enabled and not actively dragging
         if (!isDragging) {
-          // Slow continuous idle rotation if user is not dragging
-          if (Math.abs(velX) < 0.05) velX = 0.05;
+          if (autoSpin) {
+            continuousYaw += currentSpeed;
+          }
+
+          // Smooth drag inertia decay
+          velX *= 0.94;
+          velY *= 0.94;
           dragX += velX;
           dragY += velY;
 
-          velX *= 0.95;
-          velY *= 0.95;
-
-          // Keep dragY clamped
-          dragY = Math.max(-32 - tilt, Math.min(32 - tilt, dragY));
+          // Gently return pitch to natural -3 deg
+          dragY *= 0.96;
         }
 
         camZ += (camZTarget - camZ) * 0.08;
 
         const sx = tilt + dragY;
-        const sy = spin + dragX;
+        const sy = continuousYaw + dragX;
 
-        // 1. Rotate the 3D World
+        // 1. Rotate the 3D World (Silky smooth auto-spin!)
         world.style.transform = `translateZ(${camZ.toFixed(1)}px) rotateY(${sy.toFixed(2)}deg) rotateX(${sx.toFixed(2)}deg)`;
 
-        // 2. Counter-rotate the Centered Headline so it sits deep in the center of the sphere
-        const tzHead = (R * 0.18).toFixed(1);
+        // 2. Counter-rotate the Centered Headline so it stays square to camera
+        const tzHead = (R * 0.16).toFixed(1);
         headline.style.transform = `rotateX(${-sx.toFixed(2)}deg) rotateY(${-sy.toFixed(2)}deg) translateZ(${tzHead}px)`;
 
-        // 3. Update Depth & Fade on cards according to camera orientation
+        // 3. Update Depth, Floating Bob & Shading on cards
         const radX = (sx * Math.PI) / 180;
         const radY = (sy * Math.PI) / 180;
         const cosX = Math.cos(radX), sinX = Math.sin(radX);
         const cosY = Math.cos(radY), sinY = Math.sin(radY);
 
-        cards.forEach((card) => {
+        const timeSec = performance.now() * 0.0016;
+
+        cards.forEach((card, idx) => {
           const u = card.unitVector;
           // Rotate vector by Y then X
           const x1 = u.x * cosY + u.z * sinY;
@@ -366,14 +466,19 @@
           // Photos must remain bright, colorful & clearly visible at all angles
           const zf = z2;
           const depthNorm = (zf + 1) / 2; // 0 (far) to 1 (near)
-          // Front cards have 0 dimming (100% natural photo color); far cards only get slight 0.20 tint
-          const dim = Math.max(0, (1 - depthNorm) * 0.20);
-          const opacity = Math.max(0.70, 0.70 + depthNorm * 0.30);
-          const scale = 0.88 + depthNorm * 0.22;
+
+          // Front cards have 0 dimming (100% natural photo color); far cards only get slight 0.18 tint
+          const dim = Math.max(0, (1 - depthNorm) * 0.18);
+          const opacity = Math.max(0.72, 0.72 + depthNorm * 0.28);
+          const scale = 0.90 + depthNorm * 0.22;
+
+          // Subtle organic floating bob (weightless polaroids)
+          const bob = Math.sin(timeSec * 2.2 + idx * 0.85) * 6;
 
           card.style.setProperty('--d', dim.toFixed(2));
           card.style.opacity = opacity.toFixed(2);
           card.style.setProperty('--card-scale', scale.toFixed(2));
+          card.style.setProperty('--bob-y', bob.toFixed(1) + 'px');
           card.style.zIndex = Math.round(depthNorm * 100);
         });
       }
