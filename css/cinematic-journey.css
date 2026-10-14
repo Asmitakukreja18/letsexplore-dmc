@@ -394,57 +394,7 @@
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
 }
 
-/* ============================================================ */
-/* MASTER CONTINUOUS GOLDEN FLIGHT TRAIL (ACROSS ALL SECTIONS)   */
-/* ============================================================ */
-.master-flight-trail-wrapper {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: visible;
-}
 
-.flight-trajectory-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.golden-flight-glow-path {
-  fill: none;
-  stroke: url(#golden-flight-gradient);
-  stroke-width: 3px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px rgba(244, 162, 97, 0.8)) drop-shadow(0 0 18px rgba(30, 136, 229, 0.5));
-  will-change: stroke-dashoffset;
-  transition: stroke-dashoffset 0.1s linear;
-}
-
-.golden-flight-dash-path {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 1.5px;
-  stroke-linecap: round;
-  stroke-dasharray: 8 14;
-  opacity: 0.85;
-}
-
-/* Traveling Airplane / Beacon Marker along Path */
-.flight-trail-cruiser {
-  pointer-events: none;
-  filter: drop-shadow(0 0 10px rgba(244, 162, 97, 0.95)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
-  transform-origin: center center;
-  will-change: transform, opacity;
-  transition: opacity 0.3s ease;
-}
 
 /* 01. PACKAGES — BOARDING PASS 3D UNFOLD MOTION */
 .pkg-card {
@@ -549,11 +499,6 @@
   .hub-landing-card {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
-  }
-  .golden-flight-glow-path,
-  .golden-flight-dash-path {
-    stroke-dashoffset: 0 !important;
     transition: none !important;
   }
 }

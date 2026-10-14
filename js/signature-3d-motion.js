@@ -47,7 +47,6 @@
 
     measureLayout();
 
-    initMasterFlightTrajectory();
     initBoardingPassUnfold();
     initServicesMotionWave();
     initWhyUsDepthPillars();
@@ -58,54 +57,7 @@
 
   window.addEventListener('resize', () => {
     measureLayout();
-    onScrollUpdate();
   }, { passive: true });
-
-  /* ============================================================ */
-  /* 1. MASTER CONTINUOUS GOLDEN FLIGHT TRAIL                     */
-  /* ============================================================ */
-  function onScrollUpdate() {
-    if (reduceMotion.matches) return;
-    if (!flightPath || lowerHeight <= 0) return;
-
-    const scrollY = window.scrollY;
-    const windowH = window.innerHeight;
-
-    // Fast calculation without getBoundingClientRect
-    const scrolled = (scrollY + windowH * 0.85) - lowerTop;
-    const progress = Math.max(0, Math.min(1, scrolled / (lowerHeight + windowH * 0.2)));
-
-    // SVG pathLength is 1000
-    const dashOffset = (1000 * (1 - progress)).toFixed(1);
-    flightPath.style.strokeDashoffset = dashOffset;
-    if (flightDash) flightDash.style.strokeDashoffset = dashOffset;
-
-    // Reveal 5 branching connector lines near Global Hubs (~0.74 - 0.96)
-    if (hubBranches) {
-      if (progress > 0.74 && progress < 0.98) {
-        const branchAlpha = Math.min(1, (progress - 0.74) / 0.08);
-        hubBranches.style.opacity = branchAlpha.toFixed(2);
-      } else {
-        hubBranches.style.opacity = '0';
-      }
-    }
-  }
-
-  function initMasterFlightTrajectory() {
-    if (!flightPath) return;
-
-    window.addEventListener('scroll', () => {
-      if (!isScrollTicking) {
-        isScrollTicking = true;
-        requestAnimationFrame(() => {
-          onScrollUpdate();
-          isScrollTicking = false;
-        });
-      }
-    }, { passive: true });
-
-    onScrollUpdate();
-  }
 
   /* ============================================================ */
   /* 2. PACKAGES — BOARDING PASS 3D UNFOLD MOTION                 */
