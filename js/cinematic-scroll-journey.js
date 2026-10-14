@@ -257,7 +257,7 @@
   const root = document.documentElement;
   const trackContainer = document.getElementById('cinematic-scroll-journey-track');
   const stickyStage = document.getElementById('cinematic-sticky-stage');
-  const mostarStage = document.getElementById('global-horizons-stage') || document.getElementById('mostar-stage');
+  const mostarStage = document.getElementById('mostar-stage');
   const flightTakeoffStage = document.getElementById('airplane-flight-stage');
   const flightRig = document.getElementById('airliner-flight-rig');
   const cabinStage = document.getElementById('cabin-window-stage');
@@ -462,49 +462,70 @@
     mouseY = lerp(mouseY, targetMouseY, 0.16);
 
     // ============================================================
-    // STAGE 1: GLOBAL HORIZONS SCROLL CHOREOGRAPHY (0 -> 1350px)
-    // Cappadocia Balloons -> Dubai Skyline -> Bali Palms -> Airliner Emergence
+    // STAGE 1: MOSTAR BRIDGE SCROLL CHOREOGRAPHY (0 -> 1350px)
     // ============================================================
-    const horizonsProgress = clamp(smoothScroll / 1250);
-    const dubaiEnter = smoothstep(180, 520, smoothScroll);
-    const dubaiExit = smoothstep(850, 1150, smoothScroll);
-    const dubaiOpacity = dubaiEnter * (1 - dubaiExit);
+    const mostarProgress = clamp(smoothScroll / 1350);
+    const frame2 = segmentInOut(smoothScroll, 260, 440, 640, 820);
+    const frame3 = segmentInOut(smoothScroll, 860, 1040, 1220, 1350);
+    const introExit = smoothstep(40, 280, smoothScroll);
+    const blurActive = clamp(frame2.active + frame3.active);
+    const frame2Opacity = frame2.active * (1 - frame3.enter);
+    const splitDrift = Math.pow(frame2.enter, 1.5);
+    const panel2Opacity = frame2.active * (1 - frame2.exit);
+    const panel3Opacity = frame3.active * (1 - frame3.exit);
+    const backScale = 0.76 + mostarProgress * 0.2 + frame2.enter * 0.18 + frame3.enter * 0.16;
+    const sharedHeroY = mostarProgress * -74;
+    const sharedHeroScale = mostarProgress * 0.23;
 
-    const baliEnter = smoothstep(450, 780, smoothScroll);
-    const baliExit = smoothstep(950, 1250, smoothScroll);
-    const baliOpacity = baliEnter * (1 - baliExit);
-
-    const introExit = smoothstep(60, 360, smoothScroll);
-
-    // Airliner emergence from clouds in Stage 1
-    const airlinerRise = smoothstep(120, 1050, smoothScroll);
-    const airlinerScale = 0.85 + airlinerRise * 0.42;
-    const airlinerY = (1 - airlinerRise) * 120 - airlinerRise * 60;
-    const airlinerBank = -1.5 + airlinerRise * 4.5;
-    const airlinerOpacity = clamp(0.75 + airlinerRise * 0.25);
-
-    // Clouds parting laterally
-    const cloudsFarX = smoothScroll * -0.06;
-    const cloudsMidX = smoothScroll * 0.08;
-
+    // Set verbatim CSS variables for Mostar layers
     root.style.setProperty('--mx', (reduceMotion.matches ? 0 : mouseX).toFixed(4));
     root.style.setProperty('--my', (reduceMotion.matches ? 0 : mouseY).toFixed(4));
-    root.style.setProperty('--cappadocia-opacity', (1 - dubaiEnter * 0.7).toFixed(4));
-    root.style.setProperty('--cappadocia-scale', (1.02 + horizonsProgress * 0.12).toFixed(4));
-    root.style.setProperty('--cappadocia-y', `${(horizonsProgress * -40).toFixed(1)}px`);
-    root.style.setProperty('--dubai-opacity', dubaiOpacity.toFixed(4));
-    root.style.setProperty('--dubai-y', `${(25 - dubaiEnter * 25).toFixed(1)}px`);
-    root.style.setProperty('--bali-opacity', baliOpacity.toFixed(4));
-    root.style.setProperty('--bali-y', `${(30 - baliEnter * 30).toFixed(1)}px`);
-    root.style.setProperty('--clouds-far-x', `${cloudsFarX.toFixed(1)}px`);
-    root.style.setProperty('--clouds-mid-x', `${cloudsMidX.toFixed(1)}px`);
-    root.style.setProperty('--airliner-preview-opacity', airlinerOpacity.toFixed(4));
-    root.style.setProperty('--airliner-preview-scale', airlinerScale.toFixed(4));
-    root.style.setProperty('--airliner-preview-y', `${airlinerY.toFixed(1)}px`);
-    root.style.setProperty('--airliner-preview-bank', `${airlinerBank.toFixed(1)}deg`);
+    root.style.setProperty('--back-opacity', (1 - frame2.active * 0.06).toFixed(4));
+    root.style.setProperty('--back-x', `${(mouseX * -12).toFixed(2)}px`);
+    root.style.setProperty('--back-y', `${(mouseY * -4).toFixed(2)}px`);
+    root.style.setProperty('--back-scale', backScale.toFixed(4));
+    root.style.setProperty('--four-y', `${(10 + mostarProgress * 10).toFixed(2)}vh`);
+    root.style.setProperty('--four-scale', (0.78 + mostarProgress * 0.16).toFixed(4));
+    root.style.setProperty('--bazaar-y', `${(20 - mostarProgress * 8).toFixed(2)}vh`);
+    root.style.setProperty('--blur-px', `${(blurActive * 14).toFixed(2)}px`);
+    root.style.setProperty('--back-brightness', (1 - blurActive * 0.255).toFixed(4));
+    root.style.setProperty('--bazaar-blur-px', `${(frame2.active * 14).toFixed(2)}px`);
+    root.style.setProperty('--bazaar-brightness', (1 - frame2.active * 0.255 - frame3.active * 0.06).toFixed(4));
+    root.style.setProperty('--bazaar-saturation', (1 + frame3.active * 0.18).toFixed(4));
+    root.style.setProperty('--shade-opacity', '1');
+    root.style.setProperty('--shade-z', frame2.active > 0.02 ? '2' : '0');
+    root.style.setProperty('--shade-top-alpha', (blurActive * 0.465).toFixed(4));
+    root.style.setProperty('--shade-mid-alpha', (blurActive * 0.42).toFixed(4));
+    root.style.setProperty('--shade-bottom-alpha', (blurActive * 0.51).toFixed(4));
 
-    root.style.setProperty('--title-y', `${(introExit * -140).toFixed(2)}px`);
+    root.style.setProperty('--title-y', `${(introExit * -210).toFixed(2)}px`);
+    root.style.setProperty('--title-scale', (1 - introExit * 0.08).toFixed(4));
     root.style.setProperty('--title-opacity', (1 - introExit).toFixed(4));
+
+    root.style.setProperty('--bridge-x', `calc(-50% + ${(mouseX * 18).toFixed(2)}px)`);
+    root.style.setProperty('--bridge-y', `${(mouseY * 8 + sharedHeroY - frame2.exit * 760).toFixed(2)}px`);
+    root.style.setProperty('--bridge-bottom', `${(5 - frame2.enter * 13).toFixed(2)}vh`);
+    root.style.setProperty('--bridge-width', `${(67.2 + frame2.enter * 37.8).toFixed(2)}vw`);
+    root.style.setProperty('--bridge-scale', (1.02 + sharedHeroScale + frame2.exit * 0.46).toFixed(4));
+
+    root.style.setProperty('--split-left-x', `calc(-50% + ${(-splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
+    root.style.setProperty('--split-left-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
+    root.style.setProperty('--split-left-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
+    root.style.setProperty('--split-right-x', `calc(-50% + ${(splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
+    root.style.setProperty('--split-right-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
+    root.style.setProperty('--split-right-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
+
+    root.style.setProperty('--frame2-opacity', frame2Opacity.toFixed(4));
+    root.style.setProperty('--frame2-x', `calc(-50% + ${(mouseX * 10).toFixed(2)}px)`);
+    root.style.setProperty('--frame2-y', `calc(-50% + ${(mouseY * 8 - frame2.exit * 150).toFixed(2)}px)`);
+    root.style.setProperty('--frame2-scale', (1.06 + frame2.enter * 0.08 + frame2.exit * 0.08).toFixed(4));
+
+    root.style.setProperty('--intro-copy-y', `${(introExit * 90).toFixed(2)}px`);
+    root.style.setProperty('--intro-copy-opacity', (1 - introExit).toFixed(4));
+    root.style.setProperty('--panel2-opacity', panel2Opacity.toFixed(4));
+    root.style.setProperty('--panel2-y', `calc(-50% + ${(-frame2.exit * 86 + (1 - frame2.enter) * 58).toFixed(2)}px)`);
+    root.style.setProperty('--panel3-opacity', panel3Opacity.toFixed(4));
+    root.style.setProperty('--panel3-y', `calc(-50% + ${(-frame3.exit * 86 + (1 - frame3.enter) * 58).toFixed(2)}px)`);
 
     // ============================================================
     // AIRLINER FLIGHT TAKEOFF (SCENE 4): 1250px -> 1900px
@@ -537,7 +558,7 @@
     const cabinOpacity = cabinEnter * (1 - cabinExit);
 
     if (mostarStage) {
-      const mostarFade = smoothstep(1150, 1380, smoothScroll);
+      const mostarFade = smoothstep(1250, 1500, smoothScroll);
       mostarStage.style.opacity = (1 - mostarFade).toFixed(3);
       mostarStage.style.pointerEvents = mostarFade > 0.8 ? 'none' : 'auto';
     }
