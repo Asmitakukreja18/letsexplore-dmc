@@ -26,6 +26,8 @@
 <script src="js/cinematic-journey-scroll.js?v=5.0" defer></script>
 <script src="js/ocean-carousel.js?v=5.0" defer></script>
 <script src="js/signature-3d-motion.js?v=5.0" defer></script>
+<script src="js/client-sphere-3d.js?v=5.0" defer></script>
+<script src="js/offices-ring-3d.js?v=5.0" defer></script>
 
 <script id="tailwind-config">
       tailwind.config = {
@@ -1288,14 +1290,14 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION: Stories Gallery — mist bg, masonry feel             -->
+    <!-- SECTION: Stories Gallery — 3D Fibonacci Sphere & Masonry       -->
     <!-- ============================================================ -->
-    <section class="bg-mist py-28 md:py-40 px-6 md:px-14 xl:px-24" id="stories">
+    <section class="bg-mist py-28 md:py-36 px-6 md:px-14 xl:px-24" id="stories">
       <div class="max-w-[1400px] mx-auto">
 
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16 md:mb-20 reveal">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
           <div>
-            <div class="flex items-center gap-4 mb-5">
+            <div class="flex items-center gap-4 mb-4">
               <span class="w-10 h-px bg-sunset"></span>
               <span class="font-sans text-eyebrow text-ocean">Real Trips · Real People</span>
             </div>
@@ -1304,12 +1306,40 @@
               <span class="italic font-serif text-navy-deep/70">travellers.</span>
             </h2>
           </div>
-          <p class="text-fog text-lg max-w-md">
-            Unfiltered moments shared from Turkey, Dubai, Bali, Ladakh and beyond.
-          </p>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <!-- 3D Sphere vs Grid Mode Switcher -->
+            <div class="view-switch-pill">
+              <button id="btn-client-sphere" class="view-switch-btn active" onclick="toggleClientView('sphere')">
+                <span class="material-symbols-outlined text-base">public</span> 3D Sphere Archive
+              </button>
+              <button id="btn-client-grid" class="view-switch-btn" onclick="toggleClientView('grid')">
+                <span class="material-symbols-outlined text-base">grid_view</span> Classic Grid
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[140px] md:auto-rows-[180px]">
+        <!-- 3D Fibonacci Photo Sphere Stage -->
+        <div id="client-sphere-stage" class="mb-10">
+          <div class="client-sphere-vig"></div>
+          <div id="client-sphere-world">
+            <div id="client-sphere-orb"></div>
+            <h2 id="client-sphere-headline">
+              <span class="inner">
+                <span class="block text-xs md:text-sm font-bold tracking-[0.25em] uppercase text-sunset mb-2">Verified Travellers</span>
+                <span class="block font-display text-3xl md:text-5xl text-white font-bold leading-tight drop-shadow-md">Real Trips.<br/><span class="italic font-serif text-sunset font-normal">Real People.</span></span>
+                <span class="block text-xs text-white/70 tracking-widest mt-3 uppercase font-sans">Drag to rotate the 3D archive</span>
+              </span>
+            </h2>
+          </div>
+          <div class="absolute bottom-5 left-1/2 -translate-x-1/2 pointer-events-none z-20 flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/15 text-white/85 text-xs font-medium">
+            <span class="material-symbols-outlined text-sm text-sunset animate-pulse">drag_indicator</span>
+            <span>Drag in 3D to explore • Click card for verified review</span>
+          </div>
+        </div>
+
+        <!-- Classic Masonry Grid (Togglable) -->
+        <div id="client-grid-stage" class="hidden grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[140px] md:auto-rows-[180px]">
           <a href="reviews.html" class="reveal reveal-delay-1 group relative overflow-hidden rounded-[22px] md:row-span-2 col-span-1">
             <img src="images/clients/client-01.jpeg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Happy Clients Tour"/>
             <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy-deep/20 to-transparent opacity-80 group-hover:opacity-60 transition"></div>
@@ -1359,22 +1389,49 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- SECTION: Our Branch Network (Competing with Top DMCs)       -->
+    <!-- SECTION: Our Branch Network (3D Perspective Ring Carousel)  -->
     <!-- ============================================================ -->
     <section class="bg-stone/80 py-24 md:py-32 px-6 md:px-14 xl:px-24" id="offices">
       <div class="max-w-[1280px] mx-auto">
-        <div class="text-center mb-16 reveal">
-          <div class="inline-flex items-center gap-3 mb-3">
-            <span class="w-8 h-px bg-sunset"></span>
-            <span class="font-sans text-xs font-bold uppercase tracking-widest text-ocean">Our Offices</span>
-            <span class="w-8 h-px bg-sunset"></span>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+          <div>
+            <div class="inline-flex items-center gap-3 mb-3">
+              <span class="w-8 h-px bg-sunset"></span>
+              <span class="font-sans text-xs font-bold uppercase tracking-widest text-ocean">Our Offices</span>
+              <span class="w-8 h-px bg-sunset"></span>
+            </div>
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-navy-deep mb-2">Our Branch Network</h2>
+            <p class="text-fog text-base md:text-lg max-w-xl">Direct DMC presence across Maharashtra and Central India with verified on-ground operations internationally.</p>
           </div>
-          <h2 class="font-display text-3xl md:text-5xl font-bold text-navy-deep mb-4">Our Branch Network</h2>
-          <p class="text-fog text-base md:text-lg max-w-xl mx-auto">Direct DMC presence across Maharashtra and Central India with verified on-ground operations internationally.</p>
+          <!-- 3D Ring vs Grid View Switcher -->
+          <div class="view-switch-pill">
+            <button id="btn-offices-ring" class="view-switch-btn active" onclick="toggleOfficesView('ring')">
+              <span class="material-symbols-outlined text-base">3d_rotation</span> 3D Cylinder Ring
+            </button>
+            <button id="btn-offices-grid" class="view-switch-btn" onclick="toggleOfficesView('grid')">
+              <span class="material-symbols-outlined text-base">grid_view</span> Grid View
+            </button>
+          </div>
         </div>
 
-        <!-- Global Branch Network Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <!-- 3D Perspective Ring Stage -->
+        <div id="offices-ring-stage" class="mb-4">
+          <div id="offices-ring-cylinder"></div>
+        </div>
+
+        <!-- Ring Navigation Controls -->
+        <div id="offices-ring-controls" class="flex items-center justify-center gap-4 mb-12">
+          <button id="btn-offices-prev" class="w-11 h-11 rounded-full bg-white border border-navy/15 text-navy-deep hover:bg-sunset hover:text-navy-deep hover:border-sunset flex items-center justify-center shadow-md transition-all" aria-label="Previous Branch">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </button>
+          <span class="text-xs font-bold uppercase tracking-wider text-fog">Drag to rotate • Click details</span>
+          <button id="btn-offices-next" class="w-11 h-11 rounded-full bg-white border border-navy/15 text-navy-deep hover:bg-sunset hover:text-navy-deep hover:border-sunset flex items-center justify-center shadow-md transition-all" aria-label="Next Branch">
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+
+        <!-- Global Branch Network Cards Grid (Togglable) -->
+        <div id="offices-grid-stage" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
 
           <!-- 1. Bali Global HQ -->
           <div class="reveal reveal-delay-1 hub-landing-card bg-white rounded-3xl overflow-hidden border-2 border-sunset/40 shadow-lg hover:shadow-2xl transition-all group flex flex-col justify-between" data-hub-id="bali">

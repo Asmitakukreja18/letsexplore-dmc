@@ -1383,3 +1383,455 @@
   }
 }
 
+/* ============================================================ */
+/* SIGNATURE 3D CLIENT MEMORIES FIBONACCI PHOTO SPHERE          */
+/* ============================================================ */
+#client-sphere-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(520px, 72vh, 760px);
+  perspective: 1150px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+  background: radial-gradient(ellipse 90% 90% at 50% 50%, #0d223d 0%, #07152a 70%, #040d1a 100%);
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(7, 21, 42, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+#client-sphere-stage:active {
+  cursor: grabbing;
+}
+
+.client-sphere-vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 42%, rgba(4, 13, 26, 0.45) 75%, rgba(4, 13, 26, 0.9) 100%);
+}
+
+#client-sphere-world {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+#client-sphere-orb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+#client-sphere-headline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(560px, 86vw);
+  margin-left: calc(min(560px, 86vw) / -2);
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 10;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+#client-sphere-headline .inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.client-sphere-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+}
+
+.client-sphere-card:hover {
+  box-shadow: 0 26px 50px rgba(244, 162, 97, 0.4), 0 0 0 2px #F4A261;
+}
+
+.client-sphere-figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #0B1F3A;
+}
+
+.client-sphere-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.client-sphere-card:hover .client-sphere-figure img {
+  transform: scale(1.08);
+}
+
+.client-sphere-figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 21, 42, var(--d, 0));
+  border-radius: inherit;
+  pointer-events: none;
+  transition: background 0.25s;
+}
+
+.client-sphere-card-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(7, 21, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.client-sphere-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 0 6px #25D366;
+}
+
+.client-sphere-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 18px 10px 8px;
+  background: linear-gradient(to top, rgba(7, 21, 42, 0.95) 0%, rgba(7, 21, 42, 0.6) 65%, transparent 100%);
+  z-index: 2;
+  transform: translateY(4px);
+  transition: transform 0.3s;
+}
+
+.client-sphere-card:hover .client-sphere-caption {
+  transform: translateY(0);
+}
+
+/* Lightbox Modal */
+.client-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.client-lightbox-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.client-lightbox-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 21, 42, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.client-lightbox-plate {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.client-lightbox-overlay.is-open .client-lightbox-plate {
+  transform: scale(1) translateY(0);
+}
+
+.client-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(7, 21, 42, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.client-lightbox-close:hover {
+  background: #F4A261;
+  color: #0B1F3A;
+  transform: scale(1.08);
+}
+
+.client-lightbox-body {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .client-lightbox-body {
+    grid-template-columns: 1.05fr 1.15fr;
+  }
+}
+
+.client-lightbox-media {
+  position: relative;
+  min-height: 280px;
+  background: #0B1F3A;
+}
+
+.client-lightbox-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.client-lightbox-media-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(7, 21, 42, 0.85);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.client-lightbox-info {
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================ */
+/* SIGNATURE 3D OFFICES PERSPECTIVE CYLINDER RING               */
+/* ============================================================ */
+#offices-ring-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 58vh, 560px);
+  perspective: 950px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+#offices-ring-stage:active {
+  cursor: grabbing;
+}
+
+#offices-ring-cylinder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.office-ring-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 390px;
+  margin-left: -160px;
+  margin-top: -195px;
+  border-radius: 26px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, filter, opacity;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+}
+
+@media (max-width: 640px) {
+  .office-ring-card {
+    width: 270px;
+    height: 360px;
+    margin-left: -135px;
+    margin-top: -180px;
+  }
+}
+
+.office-ring-card-inner {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(11, 31, 58, 0.1);
+  box-shadow: 0 24px 50px rgba(7, 21, 42, 0.16);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.office-ring-card:hover .office-ring-card-inner {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px rgba(244, 162, 97, 0.35);
+  border-color: rgba(244, 162, 97, 0.6);
+}
+
+.office-ring-thumb {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: #0B1F3A;
+}
+
+.office-ring-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.office-ring-card:hover .office-ring-thumb img {
+  transform: scale(1.08);
+}
+
+.office-ring-badge-top {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+}
+
+.office-ring-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.office-ring-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  font-size: 10px;
+  font-weight: 700;
+  color: #16a34a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.office-ring-content {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* 3D View Switcher Pill Buttons */
+.view-switch-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(11, 31, 58, 0.06);
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 31, 58, 0.1);
+}
+
+.view-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0B1F3A;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.view-switch-btn.active {
+  background: #0B1F3A;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(11, 31, 58, 0.25);
+}
+
+.view-switch-btn:hover:not(.active) {
+  background: rgba(11, 31, 58, 0.12);
+}
+
+
