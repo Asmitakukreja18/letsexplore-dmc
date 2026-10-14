@@ -576,7 +576,7 @@
     <!-- Stage 2: Auragate Luxury Airplane Cabin Window (Image 2)     -->
     <!-- Stage 3: 3D Curved Floating Travel Package Carousel (Image 3) -->
     <!-- ============================================================ -->
-    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 3500px;" data-scroll-track>
+    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 2000px;" data-scroll-track>
 
       <!-- Sticky Fullscreen Viewport Stage (100vh pinned) -->
       <div id="cinematic-sticky-stage" class="sticky top-0 h-screen w-full overflow-hidden bg-[#0b1110] text-white select-none">
@@ -630,7 +630,7 @@
           <section class="story-panel story-panel-bazaar" id="bazaar" aria-label="Old town details">
             <h2>The bazaar keeps Mostar close.</h2>
             <p>Stone lanes, mosque courtyards, copper stalls, and riverside coffee stay within a short walk of Stari Most.</p>
-            <button class="note-button" type="button" onclick="window.scrollTo({top: 2600, behavior: 'smooth'})">
+            <button class="note-button" type="button" onclick="window.scrollTo({top: 1150, behavior: 'smooth'})">
               <span aria-hidden="true">↗</span>
               <span>Explore All Global Packages</span>
             </button>
@@ -1861,16 +1861,15 @@
     }
   </script>
 
-  <!-- Scroll track height: auto-adjust based on actual viewport (fixes hardcoded 3500px) -->
+  <!-- Scroll track height: auto-adjust based on actual viewport (fast & responsive) -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Adjust scroll track height for different screen sizes
       var track = document.querySelector('[data-scroll-track]');
       if (track) {
-        var baseH = Math.max(window.innerHeight * 4.5, 3200);
+        var baseH = Math.max(window.innerHeight * 2.2, 1900);
         track.style.height = baseH + 'px';
         window.addEventListener('resize', function() {
-          baseH = Math.max(window.innerHeight * 4.5, 3200);
+          baseH = Math.max(window.innerHeight * 2.2, 1900);
           track.style.height = baseH + 'px';
         }, { passive: true });
       }

@@ -102,7 +102,6 @@
   overflow: hidden;
   background: var(--bg);
   z-index: 10;
-  transition: opacity 0.8s ease, transform 0.8s ease;
   will-change: opacity, transform;
 }
 
@@ -520,7 +519,7 @@
   pointer-events: none;
   opacity: 0;
   transform: scale(0.96);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
   overflow: hidden;
 }
 
@@ -779,7 +778,7 @@
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  will-change: opacity, transform;
 }
 
 .sky-cloud-backdrop {

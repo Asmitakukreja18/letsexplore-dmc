@@ -462,12 +462,13 @@
     mouseY = lerp(mouseY, targetMouseY, 0.16);
 
     // ============================================================
-    // STAGE 1: MOSTAR BRIDGE SCROLL CHOREOGRAPHY (0 -> 1350px)
+    // STAGE 1: MOSTAR BRIDGE SCROLL CHOREOGRAPHY (0 -> 480px)
+    // Fast, crisp bridge parallax without dragging
     // ============================================================
-    const mostarProgress = clamp(smoothScroll / 1350);
-    const frame2 = segmentInOut(smoothScroll, 260, 440, 640, 820);
-    const frame3 = segmentInOut(smoothScroll, 860, 1040, 1220, 1350);
-    const introExit = smoothstep(40, 280, smoothScroll);
+    const mostarProgress = clamp(smoothScroll / 480);
+    const frame2 = segmentInOut(smoothScroll, 70, 160, 240, 340);
+    const frame3 = segmentInOut(smoothScroll, 300, 380, 440, 500);
+    const introExit = smoothstep(20, 120, smoothScroll);
     const blurActive = clamp(frame2.active + frame3.active);
     const frame2Opacity = frame2.active * (1 - frame3.enter);
     const splitDrift = Math.pow(frame2.enter, 1.5);
@@ -527,20 +528,30 @@
     root.style.setProperty('--panel3-opacity', panel3Opacity.toFixed(4));
     root.style.setProperty('--panel3-y', `calc(-50% + ${(-frame3.exit * 86 + (1 - frame3.enter) * 58).toFixed(2)}px)`);
 
+    // Clean Mostar Fade
+    if (mostarStage) {
+      const mostarFade = smoothstep(440, 560, smoothScroll);
+      const mOp = 1 - mostarFade;
+      mostarStage.style.opacity = mOp.toFixed(3);
+      mostarStage.style.visibility = mOp > 0.005 ? 'visible' : 'hidden';
+      mostarStage.style.pointerEvents = mOp > 0.2 ? 'auto' : 'none';
+    }
+
     // ============================================================
-    // AIRLINER FLIGHT TAKEOFF (SCENE 4): 1250px -> 1900px
+    // AIRLINER FLIGHT TAKEOFF (SCENE 4): 460px -> 760px
     // The white "Lets Explore, DMC..." airliner takes flight!
     // ============================================================
-    const flightEnter = smoothstep(1250, 1450, smoothScroll);
-    const flightExit = smoothstep(1650, 1900, smoothScroll);
+    const flightEnter = smoothstep(460, 560, smoothScroll);
+    const flightExit = smoothstep(660, 760, smoothScroll);
     const flightOpacity = flightEnter * (1 - flightExit);
 
     if (flightTakeoffStage) {
       flightTakeoffStage.style.opacity = flightOpacity.toFixed(3);
+      flightTakeoffStage.style.visibility = flightOpacity > 0.005 ? 'visible' : 'hidden';
       flightTakeoffStage.style.pointerEvents = flightOpacity > 0.1 ? 'auto' : 'none';
 
       if (flightRig) {
-        const progress = clamp((smoothScroll - 1250) / 600);
+        const progress = clamp((smoothScroll - 460) / 280);
         const flyX = (progress - 0.45) * 520 + mouseX * 25;
         const flyY = (0.45 - progress) * 240 + mouseY * 15;
         const flyScale = 0.85 + progress * 0.95;
@@ -551,33 +562,29 @@
 
     // ============================================================
     // TRANSITION TO STAGE 2 (AIRPLANE CABIN WINDOW — IMAGE 2)
-    // 1650px -> 2400px
+    // 720px -> 1060px
     // ============================================================
-    const cabinEnter = smoothstep(1650, 1900, smoothScroll);
-    const cabinExit = smoothstep(2250, 2500, smoothScroll);
+    const cabinEnter = smoothstep(720, 840, smoothScroll);
+    const cabinExit = smoothstep(960, 1070, smoothScroll);
     const cabinOpacity = cabinEnter * (1 - cabinExit);
-
-    if (mostarStage) {
-      const mostarFade = smoothstep(1250, 1500, smoothScroll);
-      mostarStage.style.opacity = (1 - mostarFade).toFixed(3);
-      mostarStage.style.pointerEvents = mostarFade > 0.8 ? 'none' : 'auto';
-    }
 
     if (cabinStage) {
       cabinStage.style.opacity = cabinOpacity.toFixed(3);
+      cabinStage.style.visibility = cabinOpacity > 0.005 ? 'visible' : 'hidden';
       cabinStage.style.transform = `scale(${(0.96 + cabinEnter * 0.04).toFixed(3)})`;
       cabinStage.style.pointerEvents = cabinOpacity > 0.1 ? 'auto' : 'none';
     }
 
     // ============================================================
     // TRANSITION TO STAGE 3 (3D CURVED CARDS CAROUSEL — IMAGE 3)
-    // 2300px -> 3400px WITH SMOOTH SETTLE HANDOFF TO SIGNATURE TILES
+    // 1040px -> 1800px — ARRIVES RAPIDLY & CLEANLY!
     // ============================================================
-    const skyEnter = smoothstep(2300, 2650, smoothScroll);
-    const arcSettle = smoothstep(3050, 3450, smoothScroll);
+    const skyEnter = smoothstep(1040, 1200, smoothScroll);
+    const arcSettle = smoothstep(1520, 1800, smoothScroll);
     if (carouselStage) {
       const arcOpacity = skyEnter * (1 - arcSettle * 0.85);
       carouselStage.style.opacity = arcOpacity.toFixed(3);
+      carouselStage.style.visibility = skyEnter > 0.005 ? 'visible' : 'hidden';
       carouselStage.style.transform = `translateY(${(arcSettle * 90).toFixed(1)}px) scale(${(1 - arcSettle * 0.08).toFixed(3)})`;
       carouselStage.style.pointerEvents = arcOpacity > 0.1 ? 'auto' : 'none';
     }
