@@ -1486,7 +1486,7 @@
     0 24px 55px rgba(0, 0, 0, 0.65),
     0 0 35px rgba(244, 162, 97, 0.25),
     inset 0 1px 2px rgba(255, 255, 255, 0.7);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s, border-color 0.4s;
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 /* Diagonal Glass Gloss Sheen */
@@ -1509,6 +1509,16 @@
   z-index: 9999 !important;
 }
 
+/* Pure GPU Floating Bob Keyframe */
+@keyframes clientCardFloat {
+  0%, 100% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
 .client-sphere-figure {
   position: relative;
   width: 100%;
@@ -1516,8 +1526,6 @@
   margin: 0;
   overflow: hidden;
   background: #0B1F3A;
-  transform: translateY(var(--bob-y, 0px));
-  transition: transform 0.2s ease-out;
 }
 
 .client-sphere-figure img {
@@ -1536,13 +1544,7 @@
 }
 
 .client-sphere-figure::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(7, 21, 42, var(--d, 0));
-  border-radius: inherit;
-  pointer-events: none;
-  transition: background 0.25s;
+  display: none;
 }
 
 /* Floating Orbit Controls */
@@ -1811,8 +1813,6 @@
   border-radius: 26px;
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  will-change: transform, filter, opacity;
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
 }
 
 @media (max-width: 640px) {

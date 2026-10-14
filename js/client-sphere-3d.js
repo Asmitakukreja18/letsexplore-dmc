@@ -320,11 +320,12 @@
   }
 
   let autoSpin = true;
-  let baseAutoSpeed = 0.34; // degrees per frame (~20 deg/s, smooth cinematic rotation)
-  let currentSpeed = 0.34;
-  let targetSpeed = 0.34;
+  let baseAutoSpeed = 0.14; // Silky smooth, calm cinematic rotation (~8.4 deg/s)
+  let currentSpeed = 0.14;
+  let targetSpeed = 0.14;
   let continuousYaw = 0;
   let isHoveringCard = false;
+  let isStageVisible = true;
 
   function injectAtmosphere() {
     if (!stage || stage.querySelector('.client-sphere-stars')) return;
@@ -380,10 +381,10 @@
 
     // Bind controls
     document.getElementById('btn-sphere-spin-left').addEventListener('click', () => {
-      velX -= 4.5;
+      velX -= 3.2;
     });
     document.getElementById('btn-sphere-spin-right').addEventListener('click', () => {
-      velX += 4.5;
+      velX += 3.2;
     });
     const toggleBtn = document.getElementById('btn-sphere-toggle-orbit');
     toggleBtn.addEventListener('click', () => {
@@ -406,85 +407,85 @@
     cards.forEach((card) => {
       card.addEventListener('mouseenter', () => {
         isHoveringCard = true;
-        targetSpeed = 0.05; // Gentle crawl when hovering so user can click comfortably
+        targetSpeed = 0.02; // Gentle crawl when hovering so user can view/click comfortably
       });
       card.addEventListener('mouseleave', () => {
         isHoveringCard = false;
-        targetSpeed = baseAutoSpeed; // Accelerate back to normal speed
+        targetSpeed = baseAutoSpeed; // Accelerate back to smooth speed
       });
     });
 
-    const tick = () => {
+    let lastTimestamp = performance.now();
+
+    const tick = (now) => {
+      if (!now) now = performance.now();
+      const dt = Math.min((now - lastTimestamp) / 1000, 0.05); // Capped at 50ms so no jump
+      lastTimestamp = now;
+      const timeFactor = dt * 60; // Exact 60fps baseline
+
       if (!isLightboxOpen) {
-        // Smooth speed interpolation
-        currentSpeed += (targetSpeed - currentSpeed) * 0.06;
+        // Silky smooth speed lerp
+        currentSpeed += (targetSpeed - currentSpeed) * Math.min(1, 0.05 * timeFactor);
 
         // Auto-spin continuously if enabled and not actively dragging
         if (!isDragging) {
           if (autoSpin) {
-            continuousYaw += currentSpeed;
+            continuousYaw += currentSpeed * timeFactor;
           }
 
-          // Smooth drag inertia decay
-          velX *= 0.94;
-          velY *= 0.94;
-          dragX += velX;
-          dragY += velY;
+          // Smooth drag inertia decay with exponential time damping
+          velX *= Math.pow(0.92, timeFactor);
+          velY *= Math.pow(0.92, timeFactor);
+          if (Math.abs(velX) < 0.001) velX = 0;
+          if (Math.abs(velY) < 0.001) velY = 0;
+
+          dragX += velX * timeFactor;
+          dragY += velY * timeFactor;
 
           // Gently return pitch to natural -3 deg
-          dragY *= 0.96;
+          dragY *= Math.pow(0.96, timeFactor);
         }
 
-        camZ += (camZTarget - camZ) * 0.08;
+        camZ += (camZTarget - camZ) * Math.min(1, 0.08 * timeFactor);
 
         const sx = tilt + dragY;
         const sy = continuousYaw + dragX;
 
-        // 1. Rotate the 3D World (Silky smooth auto-spin!)
-        world.style.transform = `translateZ(${camZ.toFixed(1)}px) rotateY(${sy.toFixed(2)}deg) rotateX(${sx.toFixed(2)}deg)`;
+        // 1. Rotate the 3D World (Hardware-accelerated subpixel transforms)
+        world.style.transform = `translate3d(0, 0, ${camZ.toFixed(2)}px) rotateY(${sy.toFixed(3)}deg) rotateX(${sx.toFixed(3)}deg)`;
 
         // 2. Counter-rotate the Centered Headline so it stays square to camera
         const tzHead = (R * 0.16).toFixed(1);
-        headline.style.transform = `rotateX(${-sx.toFixed(2)}deg) rotateY(${-sy.toFixed(2)}deg) translateZ(${tzHead}px)`;
-
-        // 3. Update Depth, Floating Bob & Shading on cards
-        const radX = (sx * Math.PI) / 180;
-        const radY = (sy * Math.PI) / 180;
-        const cosX = Math.cos(radX), sinX = Math.sin(radX);
-        const cosY = Math.cos(radY), sinY = Math.sin(radY);
-
-        const timeSec = performance.now() * 0.0016;
-
-        cards.forEach((card, idx) => {
-          const u = card.unitVector;
-          // Rotate vector by Y then X
-          const x1 = u.x * cosY + u.z * sinY;
-          const z1 = -u.x * sinY + u.z * cosY;
-          const y2 = u.y * cosX - z1 * sinX;
-          const z2 = u.y * sinX + z1 * cosX; // world z in -1..1
-
-          // Photos must remain bright, colorful & clearly visible at all angles
-          const zf = z2;
-          const depthNorm = (zf + 1) / 2; // 0 (far) to 1 (near)
-
-          // Front cards have 0 dimming (100% natural photo color); far cards only get slight 0.18 tint
-          const dim = Math.max(0, (1 - depthNorm) * 0.18);
-          const opacity = Math.max(0.72, 0.72 + depthNorm * 0.28);
-          const scale = 0.90 + depthNorm * 0.22;
-
-          // Subtle organic floating bob (weightless polaroids)
-          const bob = Math.sin(timeSec * 2.2 + idx * 0.85) * 6;
-
-          card.style.setProperty('--d', dim.toFixed(2));
-          card.style.opacity = opacity.toFixed(2);
-          card.style.setProperty('--card-scale', scale.toFixed(2));
-          card.style.setProperty('--bob-y', bob.toFixed(1) + 'px');
-          card.style.zIndex = Math.round(depthNorm * 100);
-        });
+        headline.style.transform = `rotateX(${-sx.toFixed(3)}deg) rotateY(${-sy.toFixed(3)}deg) translate3d(0, 0, ${tzHead}px)`;
       }
 
-      rafId = requestAnimationFrame(tick);
+      if (isStageVisible) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = null;
+      }
     };
+
+    // Viewport-aware IntersectionObserver: Zero CPU/GPU usage when off-screen
+    if ('IntersectionObserver' in window && stage) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const visible = entry.isIntersecting;
+          if (visible && !isStageVisible) {
+            isStageVisible = true;
+            lastTimestamp = performance.now();
+            if (!rafId) rafId = requestAnimationFrame(tick);
+          } else if (!visible) {
+            isStageVisible = false;
+            if (rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
+          }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(stage);
+    }
 
     rafId = requestAnimationFrame(tick);
   }

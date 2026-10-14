@@ -213,10 +213,7 @@
 
       card.style.transform = `translate3d(${tx}px, 0px, ${tz}px) rotateY(${rotY}deg)`;
 
-      // Brightness: cards in center facing camera are 1.0, side cards soften to 0.75
-      const brightness = 0.82 + 0.38 * Math.max(0, c);
-      const opacity = 0.5 + 0.5 * Math.max(0, c);
-      card.style.filter = `brightness(${brightness.toFixed(2)})`;
+      const opacity = 0.55 + 0.45 * Math.max(0, c);
       card.style.opacity = opacity.toFixed(2);
       card.style.zIndex = Math.round(c * 100);
     });
@@ -291,6 +288,8 @@
     requestAnimationFrame(anim);
   }
 
+  let isRingVisible = true;
+
   function startAnimation() {
     if (rafId) cancelAnimationFrame(rafId);
     lastTime = performance.now();
@@ -304,7 +303,31 @@
         placeCards();
       }
 
-      rafId = requestAnimationFrame(tick);
+      if (isRingVisible) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = null;
+      }
+    }
+
+    if ('IntersectionObserver' in window && stage) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const visible = entry.isIntersecting;
+          if (visible && !isRingVisible) {
+            isRingVisible = true;
+            lastTime = performance.now();
+            if (!rafId) rafId = requestAnimationFrame(tick);
+          } else if (!visible) {
+            isRingVisible = false;
+            if (rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
+          }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(stage);
     }
 
     rafId = requestAnimationFrame(tick);
