@@ -130,22 +130,22 @@
     }
   ];
 
-  // 21 Positions on the Fibonacci Sphere (cycles through the 12 verified stories)
-  const N = 21;
+  // 16 Positions on the Fibonacci Sphere (clean spacing, large photos)
+  const N = 16;
   const GA = Math.PI * (3 - Math.sqrt(5)); // Golden angle ~2.39996 rad
 
   let stage, world, orb, headline;
   let cards = [];
-  let R = 320;
-  let cw = 140;
-  let ch = 95;
+  let R = 440;
+  let cw = 270;
+  let ch = 190;
   let perspective = 1150;
 
   // Camera & Interaction State
   let spin = 0;
-  let tilt = -4;
-  let camZ = 0;
-  let camZTarget = 0;
+  let tilt = -3;
+  let camZ = 20;
+  let camZTarget = 20;
   let dragX = 0;
   let dragY = 0;
   let velX = 0.08; // Gentle initial idle spin
@@ -168,7 +168,7 @@
 
     if (!world || !orb || !headline) return;
 
-    // Create 21 cards distributed along Fibonacci sphere
+    // Create cards distributed along Fibonacci sphere
     orb.innerHTML = '';
     cards = [];
 
@@ -183,22 +183,23 @@
       const lon = Math.atan2(x, z) * 180 / Math.PI;
 
       const card = document.createElement('div');
-      card.className = 'client-sphere-card' + (i % 5 === 0 ? ' tall' : '');
+      card.className = 'client-sphere-card' + (i % 4 === 0 ? ' tall' : '');
       card.dataset.index = i;
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
       card.setAttribute('aria-label', story.name + ' - ' + story.dest);
 
+      // Clean, photo-first layout: 90% photo visibility with minimal bottom hairline
       card.innerHTML = `
         <figure class="client-sphere-figure">
-          <img src="${story.img}" alt="${story.name}" loading="lazy"/>
-          <div class="client-sphere-card-badge">
-            <span class="client-sphere-badge-dot"></span>
-            <span class="truncate max-w-[90px]">${story.dest.split(' ')[1] || 'Trip'}</span>
+          <img src="${story.img}" alt="${story.name}" loading="eager" />
+          <div class="client-sphere-pill">
+            <span>${story.dest.split(' ')[0]}</span>
+            <span class="font-bold text-[10px] tracking-wide">${story.dest.split(' ')[1] || 'Trip'}</span>
           </div>
           <div class="client-sphere-caption">
-            <div class="font-serif italic text-white/90 text-[10px] leading-tight truncate">${story.name}</div>
-            <div class="font-sans font-bold text-sunset text-[9px] truncate">${story.dest}</div>
+            <div class="client-sphere-name">${story.name}</div>
+            <div class="client-sphere-loc">${story.dest}</div>
           </div>
         </figure>
       `;
@@ -224,28 +225,36 @@
   function computeDimensions() {
     if (!stage) return;
     const w = stage.clientWidth || window.innerWidth;
-    const h = stage.clientHeight || 600;
+    const h = stage.clientHeight || 700;
 
     const isMobile = w <= 640;
     const isTablet = w > 640 && w <= 1024;
 
-    const hr = isMobile ? 0.38 : isTablet ? 0.42 : 0.46;
-    const wr = isMobile ? 0.44 : isTablet ? 0.48 : 0.52;
-    const floor = isMobile ? 120 : isTablet ? 180 : 260;
+    if (isMobile) {
+      cw = 175;
+      ch = 125;
+      R = Math.max(220, Math.min(320, w * 0.46));
+      perspective = 800;
+    } else if (isTablet) {
+      cw = 225;
+      ch = 160;
+      R = Math.max(340, Math.min(440, w * 0.42));
+      perspective = 980;
+    } else {
+      // Desktop: Large, crisp, vibrant cards
+      cw = 275;
+      ch = 190;
+      R = Math.max(400, Math.min(520, w * 0.42, h * 0.58));
+      perspective = 1200;
+    }
 
-    R = Math.max(floor, Math.min(390, h * hr, w * wr));
-    const scale = isMobile ? 0.42 : 0.46;
-    cw = Math.round(Math.max(88, R * scale));
-    ch = Math.round(cw / 1.48);
-
-    perspective = isMobile ? 760 : isTablet ? 950 : 1150;
     stage.style.perspective = perspective + 'px';
 
     // Apply geometry to each card
     cards.forEach((card) => {
       const u = card.unitVector;
       const isTall = card.classList.contains('tall');
-      const cardHeight = isTall ? Math.round(cw * 1.25) : ch;
+      const cardHeight = isTall ? Math.round(cw * 1.22) : ch;
 
       card.style.width = cw + 'px';
       card.style.height = cardHeight + 'px';
@@ -336,8 +345,8 @@
         // 1. Rotate the 3D World
         world.style.transform = `translateZ(${camZ.toFixed(1)}px) rotateY(${sy.toFixed(2)}deg) rotateX(${sx.toFixed(2)}deg)`;
 
-        // 2. Counter-rotate the Centered Headline so it faces the camera exactly
-        const tzHead = (R * 0.58).toFixed(1);
+        // 2. Counter-rotate the Centered Headline so it sits deep in the center of the sphere
+        const tzHead = (R * 0.18).toFixed(1);
         headline.style.transform = `rotateX(${-sx.toFixed(2)}deg) rotateY(${-sy.toFixed(2)}deg) translateZ(${tzHead}px)`;
 
         // 3. Update Depth & Fade on cards according to camera orientation
@@ -354,14 +363,18 @@
           const y2 = u.y * cosX - z1 * sinX;
           const z2 = u.y * sinX + z1 * cosX; // world z in -1..1
 
-          // Deep cards get shaded darker; front cards are crisp
+          // Photos must remain bright, colorful & clearly visible at all angles
           const zf = z2;
           const depthNorm = (zf + 1) / 2; // 0 (far) to 1 (near)
-          const dim = Math.max(0, Math.min(0.85, 1 - Math.pow(depthNorm, 0.75)));
-          const opacity = Math.max(0.35, Math.min(1, 0.35 + depthNorm * 0.65));
+          // Front cards have 0 dimming (100% natural photo color); far cards only get slight 0.20 tint
+          const dim = Math.max(0, (1 - depthNorm) * 0.20);
+          const opacity = Math.max(0.70, 0.70 + depthNorm * 0.30);
+          const scale = 0.88 + depthNorm * 0.22;
 
           card.style.setProperty('--d', dim.toFixed(2));
           card.style.opacity = opacity.toFixed(2);
+          card.style.setProperty('--card-scale', scale.toFixed(2));
+          card.style.zIndex = Math.round(depthNorm * 100);
         });
       }
 
