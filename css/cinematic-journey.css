@@ -1219,24 +1219,14 @@
 
 /* 2. Package Cards Motion */
 .pkg-card {
-  will-change: transform, opacity, box-shadow;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
-}
-
-.pkg-card.pkg-in-focus {
-  transform: translateY(-6px) scale(1.02);
-  border-color: rgba(244, 162, 97, 0.6) !important;
-  box-shadow: 0 24px 50px -10px rgba(244, 162, 97, 0.22), 0 12px 25px -8px rgba(11, 31, 58, 0.18) !important;
-}
-
-.pkg-card.pkg-distant {
-  opacity: 0.92;
+  will-change: transform, box-shadow;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .pkg-card .pkg-video-player {
-  transform: scale(1.05) translateY(var(--card-shift-y, 0px));
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* 3. DMC Expertise & Services Stagger Reveal */

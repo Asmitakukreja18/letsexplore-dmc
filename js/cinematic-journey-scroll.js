@@ -209,53 +209,6 @@
     } else {
       galleryCards.forEach(c => c.classList.add('in-view'));
     }
-
-    if (prefersReducedMotion) return;
-
-    // Center-viewport focus and internal image parallax
-    let ticking = false;
-    function updateGalleryCenterFocus() {
-      const vh = window.innerHeight;
-      const centerY = vh / 2;
-
-      let closestCard = null;
-      let minDistance = Infinity;
-
-      galleryCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > vh) return;
-
-        const cardCenter = rect.top + rect.height / 2;
-        const dist = Math.abs(centerY - cardCenter);
-
-        // Subtle internal parallax
-        const offset = ((cardCenter - centerY) / vh) * 16;
-        card.style.setProperty('--gallery-img-y', `${offset.toFixed(1)}px`);
-
-        if (dist < minDistance && dist < vh * 0.35) {
-          minDistance = dist;
-          closestCard = card;
-        }
-      });
-
-      galleryCards.forEach(card => {
-        if (card === closestCard) {
-          card.classList.add('gallery-focused');
-        } else {
-          card.classList.remove('gallery-focused');
-        }
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateGalleryCenterFocus();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
   }
 
   /* ============================================================ */
@@ -284,33 +237,6 @@
     } else {
       officeCards.forEach(c => c.classList.add('in-view'));
     }
-
-    if (prefersReducedMotion) return;
-
-    // Subtle image parallax inside office cards
-    let ticking = false;
-    function updateOfficeParallax() {
-      const vh = window.innerHeight;
-      const centerY = vh / 2;
-
-      officeCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > vh) return;
-        const cardCenter = rect.top + rect.height / 2;
-        const offset = ((cardCenter - centerY) / vh) * 14;
-        card.style.setProperty('--office-img-y', `${offset.toFixed(1)}px`);
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateOfficeParallax();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
   }
 
   /* ============================================================ */
@@ -345,59 +271,7 @@
   /* 7. PACKAGE CARDS FOCUS & SCROLL DEPTH                        */
   /* ============================================================ */
   function initPackagesDepthMotion() {
-    const grid = document.getElementById('curved-packages-grid');
-    if (!grid) return;
-
-    if (prefersReducedMotion) return;
-
-    let ticking = false;
-    function updatePackageDepth() {
-      const cards = grid.querySelectorAll('.pkg-card');
-      if (!cards.length) return;
-
-      const vh = window.innerHeight;
-      const centerY = vh / 2;
-
-      let closest = null;
-      let minDistance = Infinity;
-
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > vh) return;
-
-        const cardCenter = rect.top + rect.height / 2;
-        const dist = Math.abs(centerY - cardCenter);
-
-        // Internal video subtle shift
-        const shiftY = ((cardCenter - centerY) / vh) * 12;
-        card.style.setProperty('--card-shift-y', `${shiftY.toFixed(1)}px`);
-
-        if (dist < minDistance && dist < vh * 0.4) {
-          minDistance = dist;
-          closest = card;
-        }
-      });
-
-      cards.forEach(card => {
-        if (card === closest) {
-          card.classList.add('pkg-in-focus');
-          card.classList.remove('pkg-distant');
-        } else {
-          card.classList.remove('pkg-in-focus');
-          card.classList.add('pkg-distant');
-        }
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updatePackageDepth();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
+    // Pure GPU CSS hover handles focus without synchronous getBoundingClientRect layout reflow
   }
 
   /* ============================================================ */
