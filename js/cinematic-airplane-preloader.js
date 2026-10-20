@@ -228,6 +228,19 @@
     window.addEventListener('pointerdown', unlockAudio, { passive: true });
     window.addEventListener('keydown', unlockAudio, { passive: true });
 
+    // Auto-skip if already viewed in this browser session
+    if (sessionStorage.getItem('cap_intro_seen') === 'true') {
+      preloader.style.display = 'none';
+      preloader.classList.add('is-hidden');
+      return;
+    }
+
+    // Tap/Click anywhere on the preloader screen to skip instantly
+    preloader.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('#cap-sound-btn')) return;
+      finishAnimation();
+    });
+
     // -------------------------------------------------------------
     // MASTER ANIMATION TIMELINE (GSAP or fallback CSS)
     // -------------------------------------------------------------
@@ -239,9 +252,9 @@
 
         // Initial Rig Placement (Extreme Left)
         gsap.set(airplaneRig, {
-          x: '-120vw',
-          y: '8vh',
-          scale: 0.9,
+          x: '-110vw',
+          y: '6vh',
+          scale: 0.92,
           rotation: 3,
           opacity: 1
         });
@@ -253,129 +266,127 @@
         // Start engine audio
         sound.playEngineRoar();
 
-        // SCENE 1 & 2: Airplane flies smoothly from Left to Center (0.2s -> 2.2s)
+        // SCENE 1 & 2: Airplane flies smoothly from Left to Center (0.1s -> 1.2s)
         tl.to(airplaneRig, {
           x: '0vw',
           y: '0vh',
           scale: 1,
           rotation: -1,
-          duration: 2.0,
+          duration: 1.1,
           ease: 'power3.out'
-        }, 0.2);
+        }, 0.1);
 
-        // SCENE 3: Entire Airplane & Fuselage Window Zoom In Together (2.2s -> 4.4s)
+        // SCENE 3: Entire Airplane & Fuselage Window Zoom In Together (1.2s -> 2.4s)
         tl.call(() => {
           sound.playCabinChime();
           startSlideCycle();
-        }, null, 2.1);
+        }, null, 1.1);
 
-        // Camera zooms in: Subtle & natural 1.08x scale (airplane stays completely in frame!)
         tl.to(airplaneRig, {
-          scale: 1.08,
+          scale: 1.07,
           x: '0vw',
-          y: '1vh',
+          y: '0.5vh',
           rotation: -1,
-          duration: 1.4,
+          duration: 0.8,
           ease: 'power2.inOut'
-        }, 2.2);
+        }, 1.2);
 
-        // Window reveals and expands on fuselage
         tl.to(windowPortal, {
           scale: 1,
           opacity: 1,
-          duration: 1.1,
+          duration: 0.6,
           ease: 'power2.out'
-        }, 2.3);
+        }, 1.25);
 
-        // Subtle atmospheric float while viewing packages
+        // Natural cruise float
         tl.to(airplaneRig, {
-          scale: 1.10,
-          y: '-0.5vh',
-          duration: 2.0,
+          scale: 1.09,
+          y: '-0.3vh',
+          duration: 1.0,
           ease: 'sine.inOut'
-        }, 3.6);
+        }, 2.0);
 
-        // SCENE 4: Camera Zooms Out smoothly revealing the whole Airplane again (4.8s -> 6.0s)
+        // SCENE 4: Window shrinks back into fuselage (2.7s -> 3.2s)
         tl.to(windowPortal, {
           scale: 0.1,
           opacity: 0,
-          duration: 1.0,
+          duration: 0.5,
           ease: 'power2.in'
-        }, 4.8);
+        }, 2.7);
 
         tl.to(airplaneRig, {
           scale: 1.0,
           x: '0vw',
           y: '0vh',
           rotation: -1,
-          duration: 1.2,
+          duration: 0.6,
           ease: 'power2.inOut'
-        }, 4.8);
+        }, 2.7);
 
-        // SCENE 5: Airplane exits smoothly toward the RIGHT (5.9s -> 7.6s)
+        // SCENE 5: Airplane exits smoothly toward the RIGHT (3.2s -> 4.1s)
         tl.call(() => {
           sound.playFlybyWhoosh();
           stopSlideCycle();
-        }, null, 5.8);
+        }, null, 3.1);
 
         tl.to(airplaneRig, {
-          x: '135vw',
-          y: '-14vh',
-          scale: 1.15,
-          rotation: -6,
-          duration: 1.7,
+          x: '125vw',
+          y: '-10vh',
+          scale: 1.12,
+          rotation: -5,
+          duration: 1.0,
           ease: 'power2.in'
-        }, 5.9);
+        }, 3.2);
 
-        // SCENE 6: Sky overlay fades out smoothly revealing original hero (6.8s -> 8.0s)
+        // SCENE 6: Sky overlay fades out smoothly revealing original hero (3.8s -> 4.5s)
         tl.to(preloader, {
           opacity: 0,
-          duration: 1.2,
+          duration: 0.7,
           ease: 'power2.out'
-        }, 6.8);
+        }, 3.8);
 
       } else {
         // Vanilla CSS Fallback
         sound.playEngineRoar();
-        airplaneRig.style.transform = 'translate(-120vw, 8vh) scale(0.9) rotate(3deg)';
-        airplaneRig.style.transition = 'transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)';
+        airplaneRig.style.transform = 'translate(-110vw, 6vh) scale(0.92) rotate(3deg)';
+        airplaneRig.style.transition = 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1)';
 
         setTimeout(() => {
           airplaneRig.style.transform = 'translate(0vw, 0vh) scale(1) rotate(-1deg)';
-        }, 200);
+        }, 100);
 
         setTimeout(() => {
           sound.playCabinChime();
           startSlideCycle();
-          airplaneRig.style.transition = 'transform 1.4s cubic-bezier(0.4, 0, 0.2, 1)';
-          airplaneRig.style.transform = 'translate(0vw, 1vh) scale(1.08) rotate(-1deg)';
-          windowPortal.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease';
+          airplaneRig.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+          airplaneRig.style.transform = 'translate(0vw, 0.5vh) scale(1.07) rotate(-1deg)';
+          windowPortal.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease';
           windowPortal.style.transform = 'translate(-50%, -50%) scale(1)';
           windowPortal.style.opacity = '1';
-        }, 2200);
+        }, 1200);
 
         setTimeout(() => {
-          windowPortal.style.transition = 'transform 1.0s ease-in, opacity 0.8s ease';
+          windowPortal.style.transition = 'transform 0.5s ease-in, opacity 0.4s ease';
           windowPortal.style.transform = 'translate(-50%, -50%) scale(0.1)';
           windowPortal.style.opacity = '0';
-          airplaneRig.style.transition = 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+          airplaneRig.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
           airplaneRig.style.transform = 'translate(0vw, 0vh) scale(1) rotate(-1deg)';
-        }, 4800);
+        }, 2700);
 
         setTimeout(() => {
           sound.playFlybyWhoosh();
           stopSlideCycle();
-          airplaneRig.style.transition = 'transform 1.7s cubic-bezier(0.4, 0, 0.2, 1)';
-          airplaneRig.style.transform = 'translate(135vw, -14vh) scale(1.15) rotate(-6deg)';
-        }, 5900);
+          airplaneRig.style.transition = 'transform 1.0s cubic-bezier(0.4, 0, 0.2, 1)';
+          airplaneRig.style.transform = 'translate(125vw, -10vh) scale(1.12) rotate(-5deg)';
+        }, 3200);
 
         setTimeout(() => {
           finishAnimation();
-        }, 7200);
+        }, 4100);
       }
     }
 
-    // Slides cycle inside the window (Smooth 750ms pacing)
+    // Slides cycle inside the window (Smooth 450ms pacing)
     function startSlideCycle() {
       updateBadge(0);
       slideInterval = setInterval(() => {
@@ -386,7 +397,7 @@
           if (el) el.classList.toggle('is-active', i === currentSlide);
         });
         updateBadge(currentSlide);
-      }, 750);
+      }, 450);
     }
 
     function stopSlideCycle() {
@@ -398,11 +409,12 @@
       if (isFinished) return;
       isFinished = true;
       stopSlideCycle();
+      sessionStorage.setItem('cap_intro_seen', 'true');
 
       preloader.classList.add('is-hidden');
       setTimeout(() => {
         preloader.style.display = 'none';
-      }, 950);
+      }, 700);
     }
 
     // Skip button
@@ -417,7 +429,7 @@
     // Safety fallback
     setTimeout(() => {
       if (!isFinished) finishAnimation();
-    }, 8500);
+    }, 4800);
 
     // Run animation immediately
     runTimeline();

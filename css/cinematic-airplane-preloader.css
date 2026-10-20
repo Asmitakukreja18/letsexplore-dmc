@@ -261,13 +261,25 @@
     max-width: 86%;
   }
   .cap-controls {
-    bottom: 16px;
-    right: 16px;
+    top: 18px;
+    bottom: auto;
+    right: 18px;
     gap: 8px;
+    z-index: 100;
   }
-  .cap-skip-btn, .cap-sound-btn {
-    padding: 5px 12px;
+  .cap-skip-btn {
+    padding: 8px 16px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: rgba(11, 31, 58, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+  .cap-sound-btn {
+    padding: 8px 12px;
     font-size: 11px;
+    background: rgba(11, 31, 58, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 }
 

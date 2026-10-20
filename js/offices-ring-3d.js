@@ -225,15 +225,48 @@
       placeCards();
     }, { passive: true });
 
-    // Drag / swipe controls on ring stage
+    // Drag / swipe controls on ring stage (mobile touch-friendly: allows natural vertical scrolling)
+    let startTouchX = 0;
+    let startTouchY = 0;
+    let gestureDetermined = false;
+    let isHorizontalSpin = false;
+
     stage.addEventListener('pointerdown', (e) => {
       isDragging = true;
       startX = e.clientX;
-      stage.setPointerCapture(e.pointerId);
+      startTouchX = e.clientX;
+      startTouchY = e.clientY;
+      gestureDetermined = e.pointerType !== 'touch';
+      isHorizontalSpin = e.pointerType !== 'touch';
+      if (e.pointerType !== 'touch') {
+        try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+      }
     });
 
     stage.addEventListener('pointermove', (e) => {
       if (!isDragging) return;
+
+      if (!gestureDetermined) {
+        const totalDx = Math.abs(e.clientX - startTouchX);
+        const totalDy = Math.abs(e.clientY - startTouchY);
+        if (totalDx > 6 || totalDy > 6) {
+          gestureDetermined = true;
+          if (totalDx > totalDy) {
+            isHorizontalSpin = true;
+            try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+          } else {
+            // User is scrolling vertically
+            isHorizontalSpin = false;
+            isDragging = false;
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
+      if (!isHorizontalSpin) return;
+
       const dx = e.clientX - startX;
       startX = e.clientX;
       phase += dx * 0.22;
@@ -243,6 +276,8 @@
     const endDrag = (e) => {
       if (!isDragging) return;
       isDragging = false;
+      gestureDetermined = false;
+      isHorizontalSpin = false;
       try { stage.releasePointerCapture(e.pointerId); } catch (_) {}
     };
 

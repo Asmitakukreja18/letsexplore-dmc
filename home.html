@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -16,18 +16,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/cinematic-journey.css?v=5.4" />
-<link rel="stylesheet" href="css/cinematic-airplane-preloader.css?v=5.4" />
-<script src="js/cinematic-airplane-preloader.js?v=5.4" defer></script>
-<script src="js/nav.js?v=5.4" defer></script>
-<script src="js/wishlist.js?v=5.4" defer></script>
-<script src="js/packages-showcase.js?v=5.4" defer></script>
-<script src="js/cinematic-scroll-journey.js?v=5.4" defer></script>
-<script src="js/cinematic-journey-scroll.js?v=5.4" defer></script>
-<script src="js/ocean-carousel.js?v=5.4" defer></script>
-<script src="js/signature-3d-motion.js?v=5.4" defer></script>
-<script src="js/client-sphere-3d.js?v=5.4" defer></script>
-<script src="js/offices-ring-3d.js?v=5.4" defer></script>
+<link rel="stylesheet" href="css/cinematic-journey.css?v=5.5" />
+<link rel="stylesheet" href="css/cinematic-airplane-preloader.css?v=5.5" />
+<script src="js/cinematic-airplane-preloader.js?v=5.5" defer></script>
+<script src="js/nav.js?v=5.5" defer></script>
+<script src="js/wishlist.js?v=5.5" defer></script>
+<script src="js/packages-showcase.js?v=5.5" defer></script>
+<script src="js/cinematic-scroll-journey.js?v=5.5" defer></script>
+<script src="js/cinematic-journey-scroll.js?v=5.5" defer></script>
+<script src="js/ocean-carousel.js?v=5.5" defer></script>
+<script src="js/signature-3d-motion.js?v=5.5" defer></script>
+<script src="js/client-sphere-3d.js?v=5.5" defer></script>
+<script src="js/offices-ring-3d.js?v=5.5" defer></script>
 
 <script id="tailwind-config">
       tailwind.config = {
@@ -95,11 +95,18 @@
 
 <style>
       * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-      html { scroll-behavior: smooth; background: #ffffff; }
+      html { background: #ffffff; -webkit-overflow-scrolling: touch; }
       body {
         background: var(--bg, #F9FAFC);
         color: #0F172A;
         font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
+
+      @media (max-width: 768px) {
+        #cinematic-scroll-journey-track {
+          height: 1400px !important;
+        }
       }
 
       /* Instant smooth reveal on scroll */

@@ -555,64 +555,87 @@
   .nav-hamburger {
     display: none;
     flex-direction: column; gap: 4px;
-    background: none; border: none; cursor: pointer;
-    padding: 6px;
+    background: rgba(11, 31, 58, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 8px 10px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  }
+  .nav-hamburger:hover {
+    background: rgba(11, 31, 58, 0.85);
   }
   .nav-hamburger span {
-    display: block; width: 20px; height: 2px;
+    display: block; width: 18px; height: 2px;
     background: #ffffff !important; border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     transition: all 0.3s;
   }
-  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
   .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   /* Mobile Drawer */
   .mobile-drawer {
     display: none;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(0,0,0,0.06);
+    background: rgba(7, 21, 41, 0.96);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     padding: 12px 0 20px;
-    max-height: 80vh; overflow-y: auto;
+    max-height: 85vh; overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    animation: drawerFadeIn 0.25s ease-out;
+  }
+  @keyframes drawerFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .mobile-drawer.open { display: flex; }
   .mobile-link {
-    color: rgba(15,23,42,0.78);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-size: 15px; font-weight: 500;
-    padding: 13px 24px;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-size: 14.5px; font-weight: 500;
+    padding: 12px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
   }
   .mobile-link:hover, .mobile-link.active {
-    color: var(--accent);
-    background: rgba(244,162,97,0.05);
+    color: #F4A261 !important;
+    background: rgba(244,162,97,0.12);
   }
   .mobile-ai {
-    color: #7B61FF !important;
+    color: #F4A261 !important;
     font-weight: 700 !important;
-    background: linear-gradient(90deg, rgba(123,97,255,0.06), rgba(0,198,255,0.06)) !important;
+    background: linear-gradient(90deg, rgba(244,162,97,0.12), rgba(30,136,229,0.12)) !important;
   }
   .mobile-contact {
-    padding: 16px 24px;
+    padding: 16px 22px;
     display: flex; flex-direction: column; gap: 10px;
   }
   .mobile-contact-link {
-    color: rgba(15,23,42,0.7);
+    color: rgba(255, 255, 255, 0.75);
     text-decoration: none; font-size: 14px;
+    display: inline-flex; align-items: center;
   }
   .mobile-wa-btn {
     display: block; text-align: center;
-    background: #27AE60; color: #fff;
-    padding: 13px; border-radius: 12px;
-    font-weight: 700; font-size: 14px;
+    background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff;
+    padding: 12px; border-radius: 999px;
+    font-weight: 700; font-size: 13.5px;
     text-decoration: none;
-    box-shadow: 0 4px 16px rgba(39,174,96,0.3);
+    box-shadow: 0 4px 16px rgba(34,197,94,0.35);
   }
 
   /* =========  FOOTER — ✨ PURE CRISP WHITE BACKGROUND  ========= */
@@ -945,8 +968,9 @@
     styleEl.textContent = css;
     document.head.appendChild(styleEl);
 
-    // Inject Seamless Preloader at top of body
-    if (!document.getElementById('global-preloader')) {
+    // Inject Seamless Preloader ONLY if no cinematic airplane preloader exists on this page
+    const hasCinematicPreloader = !!document.getElementById('cinematic-airplane-preloader');
+    if (!hasCinematicPreloader && !document.getElementById('global-preloader')) {
       document.body.insertAdjacentHTML('afterbegin', preloaderHTML);
     }
 

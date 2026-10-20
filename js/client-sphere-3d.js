@@ -274,22 +274,55 @@
   function bindEvents() {
     window.addEventListener('resize', computeDimensions, { passive: true });
 
-    // Drag interactions on stage
+    // Drag interactions on stage (mobile touch-friendly: allows natural vertical scrolling)
+    let startTouchX = 0;
+    let startTouchY = 0;
+    let gestureDetermined = false;
+    let isHorizontalSpin = false;
+
     stage.addEventListener('pointerdown', (e) => {
       if (isLightboxOpen) return;
       isDragging = true;
+      startTouchX = e.clientX;
+      startTouchY = e.clientY;
       lastPointerX = e.clientX;
       lastPointerY = e.clientY;
       pointerDownTime = Date.now();
       velX = 0;
       velY = 0;
-      stage.setPointerCapture(e.pointerId);
+      gestureDetermined = e.pointerType !== 'touch';
+      isHorizontalSpin = e.pointerType !== 'touch';
+      if (e.pointerType !== 'touch') {
+        try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+      }
     });
 
     stage.addEventListener('pointermove', (e) => {
       if (!isDragging || isLightboxOpen) return;
       const dx = e.clientX - lastPointerX;
       const dy = e.clientY - lastPointerY;
+
+      if (!gestureDetermined) {
+        const totalDx = Math.abs(e.clientX - startTouchX);
+        const totalDy = Math.abs(e.clientY - startTouchY);
+        if (totalDx > 6 || totalDy > 6) {
+          gestureDetermined = true;
+          if (totalDx > totalDy) {
+            isHorizontalSpin = true;
+            try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+          } else {
+            // User is scrolling down/up the page
+            isHorizontalSpin = false;
+            isDragging = false;
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
+      if (!isHorizontalSpin) return;
+
       lastPointerX = e.clientX;
       lastPointerY = e.clientY;
 
@@ -305,6 +338,8 @@
     const endDrag = (e) => {
       if (!isDragging) return;
       isDragging = false;
+      gestureDetermined = false;
+      isHorizontalSpin = false;
       try { stage.releasePointerCapture(e.pointerId); } catch (_) {}
     };
 

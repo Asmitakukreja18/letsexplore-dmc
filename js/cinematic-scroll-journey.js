@@ -348,6 +348,30 @@
     update3DCardPositions();
   }
 
+  // Touch swipe support for 3D carousel on mobile
+  let carouselTouchStartX = 0;
+  let carouselTouchStartY = 0;
+  if (carouselViewport) {
+    carouselViewport.addEventListener('touchstart', (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      carouselTouchStartX = e.touches[0].clientX;
+      carouselTouchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    carouselViewport.addEventListener('touchend', (e) => {
+      if (!e.changedTouches || !e.changedTouches[0]) return;
+      const dx = e.changedTouches[0].clientX - carouselTouchStartX;
+      const dy = e.changedTouches[0].clientY - carouselTouchStartY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) {
+          window.carouselNext();
+        } else {
+          window.carouselPrev();
+        }
+      }
+    }, { passive: true });
+  }
+
   // Update cylindrical positioning of cards across 3D arc
   function update3DCardPositions() {
     const cards = Array.from(carouselViewport.querySelectorAll('.carousel-3d-card'));
@@ -363,39 +387,45 @@
       card.classList.toggle('card-active', offset === 0);
 
       const isMobile = window.innerWidth < 640;
-      const xSpacing = isMobile ? 180 : 310;
-      const farSpacing = isMobile ? 320 : 560;
+      const xSpacing = isMobile ? 150 : 310;
+      const farSpacing = isMobile ? 260 : 560;
 
       if (offset === 0) {
-        // Active Center Card (Image 3: prominent, upright, slightly larger)
-        card.style.transform = `translateX(0) translateZ(80px) rotateY(0deg) scale(1.05)`;
+        // Active Center Card
+        card.style.transform = isMobile
+          ? `translateX(0) translateZ(35px) rotateY(0deg) scale(1.02)`
+          : `translateX(0) translateZ(80px) rotateY(0deg) scale(1.05)`;
         card.style.opacity = '1';
         card.style.zIndex = '10';
         card.style.pointerEvents = 'auto';
       } else if (offset === -1) {
         // Immediate Left (Curved inward)
-        card.style.transform = `translateX(-${xSpacing}px) translateZ(-40px) rotateY(18deg) scale(0.92)`;
-        card.style.opacity = '0.85';
+        card.style.transform = isMobile
+          ? `translateX(-${xSpacing}px) translateZ(-30px) rotateY(16deg) scale(0.88)`
+          : `translateX(-${xSpacing}px) translateZ(-40px) rotateY(18deg) scale(0.92)`;
+        card.style.opacity = isMobile ? '0.7' : '0.85';
         card.style.zIndex = '5';
         card.style.pointerEvents = 'auto';
       } else if (offset === 1) {
         // Immediate Right (Curved inward)
-        card.style.transform = `translateX(${xSpacing}px) translateZ(-40px) rotateY(-18deg) scale(0.92)`;
-        card.style.opacity = '0.85';
+        card.style.transform = isMobile
+          ? `translateX(${xSpacing}px) translateZ(-30px) rotateY(-16deg) scale(0.88)`
+          : `translateX(${xSpacing}px) translateZ(-40px) rotateY(-18deg) scale(0.92)`;
+        card.style.opacity = isMobile ? '0.7' : '0.85';
         card.style.zIndex = '5';
         card.style.pointerEvents = 'auto';
       } else if (offset === -2) {
         // Far Left
         card.style.transform = `translateX(-${farSpacing}px) translateZ(-160px) rotateY(32deg) scale(0.8)`;
-        card.style.opacity = '0.45';
+        card.style.opacity = isMobile ? '0' : '0.45';
         card.style.zIndex = '2';
-        card.style.pointerEvents = 'auto';
+        card.style.pointerEvents = isMobile ? 'none' : 'auto';
       } else if (offset === 2) {
         // Far Right
         card.style.transform = `translateX(${farSpacing}px) translateZ(-160px) rotateY(-32deg) scale(0.8)`;
-        card.style.opacity = '0.45';
+        card.style.opacity = isMobile ? '0' : '0.45';
         card.style.zIndex = '2';
-        card.style.pointerEvents = 'auto';
+        card.style.pointerEvents = isMobile ? 'none' : 'auto';
       } else {
         // Hidden cards behind the arc
         card.style.transform = `translateX(0) translateZ(-300px) scale(0.5)`;
@@ -450,11 +480,14 @@
     const totalScrollRange = trackContainer.offsetHeight - window.innerHeight;
     targetScroll = clamp(-trackContainer.getBoundingClientRect().top, 0, totalScrollRange);
 
+    const isMobile = window.innerWidth < 768;
     if (!initialized || reduceMotion.matches) {
       smoothScroll = targetScroll;
       initialized = true;
     } else {
-      smoothScroll = lerp(smoothScroll, targetScroll, 0.28);
+      // Snappy and fluid: 0.45 on desktop, 0.88 on touch/mobile (no lag or floating delays)
+      const lerpFactor = isMobile ? 0.88 : 0.45;
+      smoothScroll = lerp(smoothScroll, targetScroll, lerpFactor);
     }
     if (Math.abs(smoothScroll - targetScroll) < 0.08) smoothScroll = targetScroll;
 
@@ -478,55 +511,56 @@
     const sharedHeroY = mostarProgress * -74;
     const sharedHeroScale = mostarProgress * 0.23;
 
-    // Set verbatim CSS variables for Mostar layers
-    root.style.setProperty('--mx', (reduceMotion.matches ? 0 : mouseX).toFixed(4));
-    root.style.setProperty('--my', (reduceMotion.matches ? 0 : mouseY).toFixed(4));
-    root.style.setProperty('--back-opacity', (1 - frame2.active * 0.06).toFixed(4));
-    root.style.setProperty('--back-x', `${(mouseX * -12).toFixed(2)}px`);
-    root.style.setProperty('--back-y', `${(mouseY * -4).toFixed(2)}px`);
-    root.style.setProperty('--back-scale', backScale.toFixed(4));
-    root.style.setProperty('--four-y', `${(10 + mostarProgress * 10).toFixed(2)}vh`);
-    root.style.setProperty('--four-scale', (0.78 + mostarProgress * 0.16).toFixed(4));
-    root.style.setProperty('--bazaar-y', `${(20 - mostarProgress * 8).toFixed(2)}vh`);
-    root.style.setProperty('--blur-px', `${(blurActive * 14).toFixed(2)}px`);
-    root.style.setProperty('--back-brightness', (1 - blurActive * 0.255).toFixed(4));
-    root.style.setProperty('--bazaar-blur-px', `${(frame2.active * 14).toFixed(2)}px`);
-    root.style.setProperty('--bazaar-brightness', (1 - frame2.active * 0.255 - frame3.active * 0.06).toFixed(4));
-    root.style.setProperty('--bazaar-saturation', (1 + frame3.active * 0.18).toFixed(4));
-    root.style.setProperty('--shade-opacity', '1');
-    root.style.setProperty('--shade-z', frame2.active > 0.02 ? '2' : '0');
-    root.style.setProperty('--shade-top-alpha', (blurActive * 0.465).toFixed(4));
-    root.style.setProperty('--shade-mid-alpha', (blurActive * 0.42).toFixed(4));
-    root.style.setProperty('--shade-bottom-alpha', (blurActive * 0.51).toFixed(4));
+    // Scope CSS variables to mostarStage to prevent full-document layout invalidation!
+    const targetEl = mostarStage || root;
+    targetEl.style.setProperty('--mx', (reduceMotion.matches ? 0 : mouseX).toFixed(4));
+    targetEl.style.setProperty('--my', (reduceMotion.matches ? 0 : mouseY).toFixed(4));
+    targetEl.style.setProperty('--back-opacity', (1 - frame2.active * 0.06).toFixed(4));
+    targetEl.style.setProperty('--back-x', `${(mouseX * -12).toFixed(2)}px`);
+    targetEl.style.setProperty('--back-y', `${(mouseY * -4).toFixed(2)}px`);
+    targetEl.style.setProperty('--back-scale', backScale.toFixed(4));
+    targetEl.style.setProperty('--four-y', `${(10 + mostarProgress * 10).toFixed(2)}vh`);
+    targetEl.style.setProperty('--four-scale', (0.78 + mostarProgress * 0.16).toFixed(4));
+    targetEl.style.setProperty('--bazaar-y', `${(20 - mostarProgress * 8).toFixed(2)}vh`);
+    targetEl.style.setProperty('--blur-px', `${(blurActive * 14).toFixed(2)}px`);
+    targetEl.style.setProperty('--back-brightness', (1 - blurActive * 0.255).toFixed(4));
+    targetEl.style.setProperty('--bazaar-blur-px', `${(frame2.active * 14).toFixed(2)}px`);
+    targetEl.style.setProperty('--bazaar-brightness', (1 - frame2.active * 0.255 - frame3.active * 0.06).toFixed(4));
+    targetEl.style.setProperty('--bazaar-saturation', (1 + frame3.active * 0.18).toFixed(4));
+    targetEl.style.setProperty('--shade-opacity', '1');
+    targetEl.style.setProperty('--shade-z', frame2.active > 0.02 ? '2' : '0');
+    targetEl.style.setProperty('--shade-top-alpha', (blurActive * 0.465).toFixed(4));
+    targetEl.style.setProperty('--shade-mid-alpha', (blurActive * 0.42).toFixed(4));
+    targetEl.style.setProperty('--shade-bottom-alpha', (blurActive * 0.51).toFixed(4));
 
-    root.style.setProperty('--title-y', `${(introExit * -210).toFixed(2)}px`);
-    root.style.setProperty('--title-scale', (1 - introExit * 0.08).toFixed(4));
-    root.style.setProperty('--title-opacity', (1 - introExit).toFixed(4));
+    targetEl.style.setProperty('--title-y', `${(introExit * -210).toFixed(2)}px`);
+    targetEl.style.setProperty('--title-scale', (1 - introExit * 0.08).toFixed(4));
+    targetEl.style.setProperty('--title-opacity', (1 - introExit).toFixed(4));
 
-    root.style.setProperty('--bridge-x', `calc(-50% + ${(mouseX * 18).toFixed(2)}px)`);
-    root.style.setProperty('--bridge-y', `${(mouseY * 8 + sharedHeroY - frame2.exit * 760).toFixed(2)}px`);
-    root.style.setProperty('--bridge-bottom', `${(5 - frame2.enter * 13).toFixed(2)}vh`);
-    root.style.setProperty('--bridge-width', `${(67.2 + frame2.enter * 37.8).toFixed(2)}vw`);
-    root.style.setProperty('--bridge-scale', (1.02 + sharedHeroScale + frame2.exit * 0.46).toFixed(4));
+    targetEl.style.setProperty('--bridge-x', `calc(-50% + ${(mouseX * 18).toFixed(2)}px)`);
+    targetEl.style.setProperty('--bridge-y', `${(mouseY * 8 + sharedHeroY - frame2.exit * 760).toFixed(2)}px`);
+    targetEl.style.setProperty('--bridge-bottom', `${(5 - frame2.enter * 13).toFixed(2)}vh`);
+    targetEl.style.setProperty('--bridge-width', `${(67.2 + frame2.enter * 37.8).toFixed(2)}vw`);
+    targetEl.style.setProperty('--bridge-scale', (1.02 + sharedHeroScale + frame2.exit * 0.46).toFixed(4));
 
-    root.style.setProperty('--split-left-x', `calc(-50% + ${(-splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
-    root.style.setProperty('--split-left-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
-    root.style.setProperty('--split-left-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
-    root.style.setProperty('--split-right-x', `calc(-50% + ${(splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
-    root.style.setProperty('--split-right-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
-    root.style.setProperty('--split-right-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
+    targetEl.style.setProperty('--split-left-x', `calc(-50% + ${(-splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
+    targetEl.style.setProperty('--split-left-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
+    targetEl.style.setProperty('--split-left-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
+    targetEl.style.setProperty('--split-right-x', `calc(-50% + ${(splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
+    targetEl.style.setProperty('--split-right-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
+    targetEl.style.setProperty('--split-right-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
 
-    root.style.setProperty('--frame2-opacity', frame2Opacity.toFixed(4));
-    root.style.setProperty('--frame2-x', `calc(-50% + ${(mouseX * 10).toFixed(2)}px)`);
-    root.style.setProperty('--frame2-y', `calc(-50% + ${(mouseY * 8 - frame2.exit * 150).toFixed(2)}px)`);
-    root.style.setProperty('--frame2-scale', (1.06 + frame2.enter * 0.08 + frame2.exit * 0.08).toFixed(4));
+    targetEl.style.setProperty('--frame2-opacity', frame2Opacity.toFixed(4));
+    targetEl.style.setProperty('--frame2-x', `calc(-50% + ${(mouseX * 10).toFixed(2)}px)`);
+    targetEl.style.setProperty('--frame2-y', `calc(-50% + ${(mouseY * 8 - frame2.exit * 150).toFixed(2)}px)`);
+    targetEl.style.setProperty('--frame2-scale', (1.06 + frame2.enter * 0.08 + frame2.exit * 0.08).toFixed(4));
 
-    root.style.setProperty('--intro-copy-y', `${(introExit * 90).toFixed(2)}px`);
-    root.style.setProperty('--intro-copy-opacity', (1 - introExit).toFixed(4));
-    root.style.setProperty('--panel2-opacity', panel2Opacity.toFixed(4));
-    root.style.setProperty('--panel2-y', `calc(-50% + ${(-frame2.exit * 86 + (1 - frame2.enter) * 58).toFixed(2)}px)`);
-    root.style.setProperty('--panel3-opacity', panel3Opacity.toFixed(4));
-    root.style.setProperty('--panel3-y', `calc(-50% + ${(-frame3.exit * 86 + (1 - frame3.enter) * 58).toFixed(2)}px)`);
+    targetEl.style.setProperty('--intro-copy-y', `${(introExit * 90).toFixed(2)}px`);
+    targetEl.style.setProperty('--intro-copy-opacity', (1 - introExit).toFixed(4));
+    targetEl.style.setProperty('--panel2-opacity', panel2Opacity.toFixed(4));
+    targetEl.style.setProperty('--panel2-y', `calc(-50% + ${(-frame2.exit * 86 + (1 - frame2.enter) * 58).toFixed(2)}px)`);
+    targetEl.style.setProperty('--panel3-opacity', panel3Opacity.toFixed(4));
+    targetEl.style.setProperty('--panel3-y', `calc(-50% + ${(-frame3.exit * 86 + (1 - frame3.enter) * 58).toFixed(2)}px)`);
 
     // Clean Mostar Fade
     if (mostarStage) {
