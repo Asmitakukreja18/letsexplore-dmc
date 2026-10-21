@@ -1950,4 +1950,55 @@
   background: rgba(11, 31, 58, 0.12);
 }
 
+/* ============================================================ */
+/* FLOATING STAGE PROGRESS HUD & QUICK CONTROLS                 */
+/* ============================================================ */
+#cinematic-stage-hud {
+  position: absolute;
+  bottom: clamp(18px, 3.5vh, 32px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  background: rgba(6, 18, 36, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  pointer-events: auto;
+  user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+.cinematic-hud-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+}
+
+.cinematic-hud-dot.active {
+  width: 22px;
+  border-radius: 9999px;
+  background: #F4A261;
+  box-shadow: 0 0 12px rgba(244, 162, 97, 0.7);
+}
+
+.cinematic-hud-dot:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 640px) {
+  #cinematic-stage-hud {
+    padding: 6px 14px;
+    gap: 8px;
+    bottom: 14px;
+  }
+}

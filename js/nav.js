@@ -44,7 +44,7 @@
       <!-- Right Actions -->
       <div class="nav-actions">
         <!-- ✈️ 3D FLIGHT JOURNEY -->
-        <a href="home.html#cinematic-scroll-journey-track" onclick="window.scrollTo({top: 2950, behavior: 'smooth'});" class="nav-ai-pill hidden lg:inline-flex" style="background: linear-gradient(135deg, rgba(244,162,97,0.18), rgba(30,136,229,0.18)); border-color: rgba(244,162,97,0.4);" title="3D Cinematic Flight Journey">
+        <a href="home.html#cinematic-scroll-journey-track" onclick="const t = document.getElementById('cinematic-scroll-journey-track'); if (t) { t.scrollIntoView({behavior: 'smooth'}); return false; }" class="nav-ai-pill hidden lg:inline-flex" style="background: linear-gradient(135deg, rgba(244,162,97,0.18), rgba(30,136,229,0.18)); border-color: rgba(244,162,97,0.4);" title="3D Cinematic Flight Journey">
           <span style="font-size: 14px;">✈️</span>
           <span class="ai-chip-label" style="color: #0B1F3A; font-weight: 700;">3D Flight</span>
         </a>

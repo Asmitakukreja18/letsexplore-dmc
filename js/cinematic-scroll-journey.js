@@ -473,110 +473,181 @@
     render3DCarousel();
   };
 
-  // Main Per-Frame Update (Verbatim Math for Mostar Parallax + Multi-Stage Handoff)
+  // Floating Stage Progress HUD elements
+  let hudLabel = null;
+  let hudDots = [];
+
+  function initHUDControls() {
+    hudLabel = document.getElementById('cinematic-hud-label');
+    hudDots = Array.from(document.querySelectorAll('.cinematic-hud-dot'));
+
+    hudDots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const stageNum = parseInt(dot.dataset.stage, 10);
+        const totalScrollRange = Math.max(1, trackContainer.offsetHeight - window.innerHeight);
+        const targetP = stageNum === 1 ? 0.02 : stageNum === 2 ? 0.36 : stageNum === 3 ? 0.58 : 0.84;
+        const targetY = trackContainer.offsetTop + targetP * totalScrollRange;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      });
+    });
+
+    const skipBtn = document.getElementById('cinematic-skip-btn');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const pkgs = document.getElementById('packages');
+        if (pkgs) {
+          pkgs.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: trackContainer.offsetTop + trackContainer.offsetHeight + 20, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+
+  function updateHUD(progress) {
+    if (!hudLabel && !hudDots.length) return;
+    let currentStage = 1;
+    let label = '1. Mostar Bridge';
+    if (progress >= 0.72) {
+      currentStage = 4;
+      label = '4. 3D Packages';
+    } else if (progress >= 0.48) {
+      currentStage = 3;
+      label = '3. Cabin Window';
+    } else if (progress >= 0.27) {
+      currentStage = 2;
+      label = '2. Flight Takeoff';
+    }
+
+    if (hudLabel && hudLabel.textContent !== label) {
+      hudLabel.textContent = label;
+    }
+    if (hudDots && hudDots.length) {
+      hudDots.forEach(dot => {
+        const s = parseInt(dot.dataset.stage, 10);
+        dot.classList.toggle('active', s === currentStage);
+      });
+    }
+  }
+
+  // Main Per-Frame Update (Normalized 0.00 -> 1.00 Progress Across Multi-Stage Journey)
   function update() {
     rafPending = false;
 
-    const totalScrollRange = trackContainer.offsetHeight - window.innerHeight;
-    targetScroll = clamp(-trackContainer.getBoundingClientRect().top, 0, totalScrollRange);
+    // Viewport check: If track is scrolled past, abort RAF and save resources!
+    const trackRect = trackContainer.getBoundingClientRect();
+    if (trackRect.bottom < -120 || trackRect.top > window.innerHeight + 120) {
+      return;
+    }
+
+    const totalScrollRange = Math.max(1, trackContainer.offsetHeight - window.innerHeight);
+    targetScroll = clamp(-trackRect.top, 0, totalScrollRange);
 
     const isMobile = window.innerWidth < 768;
     if (!initialized || reduceMotion.matches) {
       smoothScroll = targetScroll;
       initialized = true;
     } else {
-      // Snappy and fluid: 0.45 on desktop, 0.88 on touch/mobile (no lag or floating delays)
-      const lerpFactor = isMobile ? 0.88 : 0.45;
+      // Fluid and responsive: 0.35 on desktop, 0.75 on touch (snappy, no floaty lag)
+      const lerpFactor = isMobile ? 0.75 : 0.35;
       smoothScroll = lerp(smoothScroll, targetScroll, lerpFactor);
     }
-    if (Math.abs(smoothScroll - targetScroll) < 0.08) smoothScroll = targetScroll;
+    if (Math.abs(smoothScroll - targetScroll) < 0.15) smoothScroll = targetScroll;
+
+    // Normalized progress: exactly 0.00 to 1.00 throughout the entire sticky track
+    const progress = clamp(smoothScroll / totalScrollRange, 0, 1);
 
     mouseX = lerp(mouseX, targetMouseX, 0.16);
     mouseY = lerp(mouseY, targetMouseY, 0.16);
 
     // ============================================================
-    // STAGE 1: MOSTAR BRIDGE SCROLL CHOREOGRAPHY (0 -> 480px)
-    // Fast, crisp bridge parallax without dragging
+    // STAGE 1: MOSTAR BRIDGE SCROLL CHOREOGRAPHY (progress: 0.00 -> 0.32)
     // ============================================================
-    const mostarProgress = clamp(smoothScroll / 480);
-    const frame2 = segmentInOut(smoothScroll, 70, 160, 240, 340);
-    const frame3 = segmentInOut(smoothScroll, 300, 380, 440, 500);
-    const introExit = smoothstep(20, 120, smoothScroll);
-    const blurActive = clamp(frame2.active + frame3.active);
-    const frame2Opacity = frame2.active * (1 - frame3.enter);
-    const splitDrift = Math.pow(frame2.enter, 1.5);
-    const panel2Opacity = frame2.active * (1 - frame2.exit);
-    const panel3Opacity = frame3.active * (1 - frame3.exit);
-    const backScale = 0.76 + mostarProgress * 0.2 + frame2.enter * 0.18 + frame3.enter * 0.16;
-    const sharedHeroY = mostarProgress * -74;
-    const sharedHeroScale = mostarProgress * 0.23;
+    const mostarFade = smoothstep(0.24, 0.32, progress);
+    const mOp = 1 - mostarFade;
 
-    // Scope CSS variables to mostarStage to prevent full-document layout invalidation!
-    const targetEl = mostarStage || root;
-    targetEl.style.setProperty('--mx', (reduceMotion.matches ? 0 : mouseX).toFixed(4));
-    targetEl.style.setProperty('--my', (reduceMotion.matches ? 0 : mouseY).toFixed(4));
-    targetEl.style.setProperty('--back-opacity', (1 - frame2.active * 0.06).toFixed(4));
-    targetEl.style.setProperty('--back-x', `${(mouseX * -12).toFixed(2)}px`);
-    targetEl.style.setProperty('--back-y', `${(mouseY * -4).toFixed(2)}px`);
-    targetEl.style.setProperty('--back-scale', backScale.toFixed(4));
-    targetEl.style.setProperty('--four-y', `${(10 + mostarProgress * 10).toFixed(2)}vh`);
-    targetEl.style.setProperty('--four-scale', (0.78 + mostarProgress * 0.16).toFixed(4));
-    targetEl.style.setProperty('--bazaar-y', `${(20 - mostarProgress * 8).toFixed(2)}vh`);
-    targetEl.style.setProperty('--blur-px', `${(blurActive * 14).toFixed(2)}px`);
-    targetEl.style.setProperty('--back-brightness', (1 - blurActive * 0.255).toFixed(4));
-    targetEl.style.setProperty('--bazaar-blur-px', `${(frame2.active * 14).toFixed(2)}px`);
-    targetEl.style.setProperty('--bazaar-brightness', (1 - frame2.active * 0.255 - frame3.active * 0.06).toFixed(4));
-    targetEl.style.setProperty('--bazaar-saturation', (1 + frame3.active * 0.18).toFixed(4));
-    targetEl.style.setProperty('--shade-opacity', '1');
-    targetEl.style.setProperty('--shade-z', frame2.active > 0.02 ? '2' : '0');
-    targetEl.style.setProperty('--shade-top-alpha', (blurActive * 0.465).toFixed(4));
-    targetEl.style.setProperty('--shade-mid-alpha', (blurActive * 0.42).toFixed(4));
-    targetEl.style.setProperty('--shade-bottom-alpha', (blurActive * 0.51).toFixed(4));
-
-    targetEl.style.setProperty('--title-y', `${(introExit * -210).toFixed(2)}px`);
-    targetEl.style.setProperty('--title-scale', (1 - introExit * 0.08).toFixed(4));
-    targetEl.style.setProperty('--title-opacity', (1 - introExit).toFixed(4));
-
-    targetEl.style.setProperty('--bridge-x', `calc(-50% + ${(mouseX * 18).toFixed(2)}px)`);
-    targetEl.style.setProperty('--bridge-y', `${(mouseY * 8 + sharedHeroY - frame2.exit * 760).toFixed(2)}px`);
-    targetEl.style.setProperty('--bridge-bottom', `${(5 - frame2.enter * 13).toFixed(2)}vh`);
-    targetEl.style.setProperty('--bridge-width', `${(67.2 + frame2.enter * 37.8).toFixed(2)}vw`);
-    targetEl.style.setProperty('--bridge-scale', (1.02 + sharedHeroScale + frame2.exit * 0.46).toFixed(4));
-
-    targetEl.style.setProperty('--split-left-x', `calc(-50% + ${(-splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
-    targetEl.style.setProperty('--split-left-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
-    targetEl.style.setProperty('--split-left-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
-    targetEl.style.setProperty('--split-right-x', `calc(-50% + ${(splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
-    targetEl.style.setProperty('--split-right-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
-    targetEl.style.setProperty('--split-right-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
-
-    targetEl.style.setProperty('--frame2-opacity', frame2Opacity.toFixed(4));
-    targetEl.style.setProperty('--frame2-x', `calc(-50% + ${(mouseX * 10).toFixed(2)}px)`);
-    targetEl.style.setProperty('--frame2-y', `calc(-50% + ${(mouseY * 8 - frame2.exit * 150).toFixed(2)}px)`);
-    targetEl.style.setProperty('--frame2-scale', (1.06 + frame2.enter * 0.08 + frame2.exit * 0.08).toFixed(4));
-
-    targetEl.style.setProperty('--intro-copy-y', `${(introExit * 90).toFixed(2)}px`);
-    targetEl.style.setProperty('--intro-copy-opacity', (1 - introExit).toFixed(4));
-    targetEl.style.setProperty('--panel2-opacity', panel2Opacity.toFixed(4));
-    targetEl.style.setProperty('--panel2-y', `calc(-50% + ${(-frame2.exit * 86 + (1 - frame2.enter) * 58).toFixed(2)}px)`);
-    targetEl.style.setProperty('--panel3-opacity', panel3Opacity.toFixed(4));
-    targetEl.style.setProperty('--panel3-y', `calc(-50% + ${(-frame3.exit * 86 + (1 - frame3.enter) * 58).toFixed(2)}px)`);
-
-    // Clean Mostar Fade
     if (mostarStage) {
-      const mostarFade = smoothstep(440, 560, smoothScroll);
-      const mOp = 1 - mostarFade;
       mostarStage.style.opacity = mOp.toFixed(3);
       mostarStage.style.visibility = mOp > 0.005 ? 'visible' : 'hidden';
       mostarStage.style.pointerEvents = mOp > 0.2 ? 'auto' : 'none';
+
+      // ONLY calculate and set the 40 Mostar CSS properties while Mostar is visible!
+      if (mOp > 0.005) {
+        const mostarProgress = clamp(progress / 0.22);
+        const frame2 = segmentInOut(progress, 0.04, 0.09, 0.14, 0.20);
+        const frame3 = segmentInOut(progress, 0.16, 0.21, 0.25, 0.30);
+        const introExit = smoothstep(0.01, 0.06, progress);
+        const blurActive = clamp(frame2.active + frame3.active);
+        const frame2Opacity = frame2.active * (1 - frame3.enter);
+        const splitDrift = Math.pow(frame2.enter, 1.5);
+        const panel2Opacity = frame2.active * (1 - frame2.exit);
+        const panel3Opacity = frame3.active * (1 - frame3.exit);
+        const backScale = 0.76 + mostarProgress * 0.2 + frame2.enter * 0.18 + frame3.enter * 0.16;
+        const sharedHeroY = mostarProgress * -74;
+        const sharedHeroScale = mostarProgress * 0.23;
+
+        const targetEl = mostarStage;
+        targetEl.style.setProperty('--mx', (reduceMotion.matches ? 0 : mouseX).toFixed(4));
+        targetEl.style.setProperty('--my', (reduceMotion.matches ? 0 : mouseY).toFixed(4));
+        targetEl.style.setProperty('--back-opacity', (1 - frame2.active * 0.06).toFixed(4));
+        targetEl.style.setProperty('--back-x', `${(mouseX * -12).toFixed(2)}px`);
+        targetEl.style.setProperty('--back-y', `${(mouseY * -4).toFixed(2)}px`);
+        targetEl.style.setProperty('--back-scale', backScale.toFixed(4));
+        targetEl.style.setProperty('--four-y', `${(10 + mostarProgress * 10).toFixed(2)}vh`);
+        targetEl.style.setProperty('--four-scale', (0.78 + mostarProgress * 0.16).toFixed(4));
+        targetEl.style.setProperty('--bazaar-y', `${(20 - mostarProgress * 8).toFixed(2)}vh`);
+        targetEl.style.setProperty('--blur-px', `${(blurActive * 14).toFixed(2)}px`);
+        targetEl.style.setProperty('--back-brightness', (1 - blurActive * 0.255).toFixed(4));
+        targetEl.style.setProperty('--bazaar-blur-px', `${(frame2.active * 14).toFixed(2)}px`);
+        targetEl.style.setProperty('--bazaar-brightness', (1 - frame2.active * 0.255 - frame3.active * 0.06).toFixed(4));
+        targetEl.style.setProperty('--bazaar-saturation', (1 + frame3.active * 0.18).toFixed(4));
+        targetEl.style.setProperty('--shade-opacity', '1');
+        targetEl.style.setProperty('--shade-z', frame2.active > 0.02 ? '2' : '0');
+        targetEl.style.setProperty('--shade-top-alpha', (blurActive * 0.465).toFixed(4));
+        targetEl.style.setProperty('--shade-mid-alpha', (blurActive * 0.42).toFixed(4));
+        targetEl.style.setProperty('--shade-bottom-alpha', (blurActive * 0.51).toFixed(4));
+
+        targetEl.style.setProperty('--title-y', `${(introExit * -210).toFixed(2)}px`);
+        targetEl.style.setProperty('--title-scale', (1 - introExit * 0.08).toFixed(4));
+        targetEl.style.setProperty('--title-opacity', (1 - introExit).toFixed(4));
+
+        targetEl.style.setProperty('--bridge-x', `calc(-50% + ${(mouseX * 18).toFixed(2)}px)`);
+        targetEl.style.setProperty('--bridge-y', `${(mouseY * 8 + sharedHeroY - frame2.exit * 760).toFixed(2)}px`);
+        targetEl.style.setProperty('--bridge-bottom', `${(5 - frame2.enter * 13).toFixed(2)}vh`);
+        targetEl.style.setProperty('--bridge-width', `${(67.2 + frame2.enter * 37.8).toFixed(2)}vw`);
+        targetEl.style.setProperty('--bridge-scale', (1.02 + sharedHeroScale + frame2.exit * 0.46).toFixed(4));
+
+        targetEl.style.setProperty('--split-left-x', `calc(-50% + ${(-splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
+        targetEl.style.setProperty('--split-left-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
+        targetEl.style.setProperty('--split-left-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
+        targetEl.style.setProperty('--split-right-x', `calc(-50% + ${(splitDrift * 46).toFixed(2)}vw + ${(mouseX * 22).toFixed(2)}px)`);
+        targetEl.style.setProperty('--split-right-y', `${(mouseY * 10 + sharedHeroY - splitDrift * 180).toFixed(2)}px`);
+        targetEl.style.setProperty('--split-right-scale', (1 + sharedHeroScale + frame2.enter * 0.74).toFixed(4));
+
+        targetEl.style.setProperty('--frame2-opacity', frame2Opacity.toFixed(4));
+        targetEl.style.setProperty('--frame2-x', `calc(-50% + ${(mouseX * 10).toFixed(2)}px)`);
+        targetEl.style.setProperty('--frame2-y', `calc(-50% + ${(mouseY * 8 - frame2.exit * 150).toFixed(2)}px)`);
+        targetEl.style.setProperty('--frame2-scale', (1.06 + frame2.enter * 0.08 + frame2.exit * 0.08).toFixed(4));
+
+        targetEl.style.setProperty('--intro-copy-y', `${(introExit * 90).toFixed(2)}px`);
+        targetEl.style.setProperty('--intro-copy-opacity', (1 - introExit).toFixed(4));
+        targetEl.style.setProperty('--panel2-opacity', panel2Opacity.toFixed(4));
+        targetEl.style.setProperty('--panel2-y', `calc(-50% + ${(-frame2.exit * 86 + (1 - frame2.enter) * 58).toFixed(2)}px)`);
+        targetEl.style.setProperty('--panel3-opacity', panel3Opacity.toFixed(4));
+        targetEl.style.setProperty('--panel3-y', `calc(-50% + ${(-frame3.exit * 86 + (1 - frame3.enter) * 58).toFixed(2)}px)`);
+      }
     }
 
     // ============================================================
-    // AIRLINER FLIGHT TAKEOFF (SCENE 4): 460px -> 760px
+    // AIRLINER FLIGHT TAKEOFF (SCENE 4): progress 0.27 -> 0.52
     // The white "Lets Explore, DMC..." airliner takes flight!
     // ============================================================
-    const flightEnter = smoothstep(460, 560, smoothScroll);
-    const flightExit = smoothstep(660, 760, smoothScroll);
+    const flightEnter = smoothstep(0.27, 0.33, progress);
+    const flightExit = smoothstep(0.46, 0.52, progress);
     const flightOpacity = flightEnter * (1 - flightExit);
 
     if (flightTakeoffStage) {
@@ -584,22 +655,21 @@
       flightTakeoffStage.style.visibility = flightOpacity > 0.005 ? 'visible' : 'hidden';
       flightTakeoffStage.style.pointerEvents = flightOpacity > 0.1 ? 'auto' : 'none';
 
-      if (flightRig) {
-        const progress = clamp((smoothScroll - 460) / 280);
-        const flyX = (progress - 0.45) * 520 + mouseX * 25;
-        const flyY = (0.45 - progress) * 240 + mouseY * 15;
-        const flyScale = 0.85 + progress * 0.95;
+      if (flightRig && flightOpacity > 0.005) {
+        const flyP = clamp((progress - 0.27) / 0.19);
+        const flyX = (flyP - 0.45) * 520 + mouseX * 25;
+        const flyY = (0.45 - flyP) * 240 + mouseY * 15;
+        const flyScale = 0.85 + flyP * 0.95;
         const bankAngle = (flyY * 0.02 - 3).toFixed(1);
         flightRig.style.transform = `translate(${flyX.toFixed(1)}px, ${flyY.toFixed(1)}px) scale(${flyScale.toFixed(3)}) rotate(${bankAngle}deg)`;
       }
     }
 
     // ============================================================
-    // TRANSITION TO STAGE 2 (AIRPLANE CABIN WINDOW — IMAGE 2)
-    // 720px -> 1060px
+    // STAGE 2: AIRPLANE CABIN WINDOW: progress 0.48 -> 0.72
     // ============================================================
-    const cabinEnter = smoothstep(720, 840, smoothScroll);
-    const cabinExit = smoothstep(960, 1070, smoothScroll);
+    const cabinEnter = smoothstep(0.48, 0.56, progress);
+    const cabinExit = smoothstep(0.66, 0.72, progress);
     const cabinOpacity = cabinEnter * (1 - cabinExit);
 
     if (cabinStage) {
@@ -610,22 +680,25 @@
     }
 
     // ============================================================
-    // TRANSITION TO STAGE 3 (3D CURVED CARDS CAROUSEL — IMAGE 3)
-    // 1040px -> 1800px — ARRIVES RAPIDLY & CLEANLY!
+    // STAGE 3: 3D CURVED CARDS CAROUSEL: progress 0.68 -> 1.00
+    // Sits settled and interactive at full scale from 0.78 to 0.97!
     // ============================================================
-    const skyEnter = smoothstep(1040, 1200, smoothScroll);
-    const arcSettle = smoothstep(1520, 1800, smoothScroll);
+    const skyEnter = smoothstep(0.68, 0.78, progress);
+    const arcSettle = smoothstep(0.78, 0.88, progress);
     if (carouselStage) {
-      const arcOpacity = skyEnter * (1 - arcSettle * 0.85);
+      const arcOpacity = skyEnter * (1 - smoothstep(0.97, 1.0, progress) * 0.45);
       carouselStage.style.opacity = arcOpacity.toFixed(3);
       carouselStage.style.visibility = skyEnter > 0.005 ? 'visible' : 'hidden';
-      carouselStage.style.transform = `translateY(${(arcSettle * 90).toFixed(1)}px) scale(${(1 - arcSettle * 0.08).toFixed(3)})`;
-      carouselStage.style.pointerEvents = arcOpacity > 0.1 ? 'auto' : 'none';
+      carouselStage.style.transform = `translateY(${((1 - arcSettle) * 35).toFixed(1)}px) scale(${(0.96 + arcSettle * 0.04).toFixed(3)})`;
+      carouselStage.style.pointerEvents = arcOpacity > 0.15 ? 'auto' : 'none';
     }
+
+    // Update Floating HUD (Stage Indicator & Quick-Jump)
+    updateHUD(progress);
 
     // Re-request frame if scrolling or pointer in motion
     if (
-      Math.abs(smoothScroll - targetScroll) > 0.08 ||
+      Math.abs(smoothScroll - targetScroll) > 0.15 ||
       Math.abs(mouseX - targetMouseX) > 0.001 ||
       Math.abs(mouseY - targetMouseY) > 0.001
     ) {
@@ -648,15 +721,11 @@
   }, { passive: true });
 
   // Only trigger rAF from pointermove when the sticky cinematic stage is visible
-  // (i.e. user is scrolling through the track section), not during normal page scroll
   window.addEventListener('pointermove', (e) => {
     targetMouseX = e.clientX / window.innerWidth - 0.5;
     targetMouseY = e.clientY / window.innerHeight - 0.5;
-    // Only schedule update if we're within the cinematic scroll track
-    const scrollY = window.scrollY || 0;
-    const trackTop = trackContainer.offsetTop || 0;
-    const trackBottom = trackTop + (trackContainer.offsetHeight || 0);
-    if (scrollY >= trackTop - window.innerHeight && scrollY <= trackBottom) {
+    const rect = trackContainer.getBoundingClientRect();
+    if (rect.bottom > 0 && rect.top < window.innerHeight) {
       requestTick();
     }
   }, { passive: true });
@@ -664,7 +733,9 @@
   // Init
   window.addEventListener('DOMContentLoaded', () => {
     render3DCarousel();
+    initHUDControls();
     requestTick();
   });
 
 })();
+

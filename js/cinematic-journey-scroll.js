@@ -71,19 +71,31 @@
       .map(id => document.getElementById(id))
       .filter(Boolean);
 
+    let sectionMetrics = [];
+    function cacheSectionMetrics() {
+      sectionMetrics = sections.map(sec => ({
+        id: sec.id,
+        top: sec.offsetTop,
+        height: sec.offsetHeight
+      }));
+    }
+    cacheSectionMetrics();
+    window.addEventListener('resize', cacheSectionMetrics, { passive: true });
+    window.addEventListener('load', cacheSectionMetrics, { passive: true });
+
     function updateActiveSection() {
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
       const triggerPoint = scrollY + vh * 0.45;
 
       let currentSectionId = '';
-      sections.forEach(sec => {
-        const top = sec.offsetTop;
-        const height = sec.offsetHeight;
-        if (triggerPoint >= top && triggerPoint < top + height) {
-          currentSectionId = sec.id;
+      for (let i = 0; i < sectionMetrics.length; i++) {
+        const m = sectionMetrics[i];
+        if (triggerPoint >= m.top && triggerPoint < m.top + m.height) {
+          currentSectionId = m.id;
+          break;
         }
-      });
+      }
 
       if (currentSectionId) {
         navItems.forEach(item => {

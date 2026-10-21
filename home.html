@@ -105,7 +105,7 @@
 
       @media (max-width: 768px) {
         #cinematic-scroll-journey-track {
-          height: 1400px !important;
+          height: 1600px !important;
         }
       }
 
@@ -586,7 +586,7 @@
     <!-- Stage 2: Auragate Luxury Airplane Cabin Window (Image 2)     -->
     <!-- Stage 3: 3D Curved Floating Travel Package Carousel (Image 3) -->
     <!-- ============================================================ -->
-    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 2000px;" data-scroll-track>
+    <div id="cinematic-scroll-journey-track" class="relative w-full" style="height: 2200px;" data-scroll-track>
 
       <!-- Sticky Fullscreen Viewport Stage (100vh pinned) -->
       <div id="cinematic-sticky-stage" class="sticky top-0 h-screen w-full overflow-hidden bg-[#0b1110] text-white select-none">
@@ -640,7 +640,7 @@
           <section class="story-panel story-panel-bazaar" id="bazaar" aria-label="Old town details">
             <h2>The bazaar keeps Mostar close.</h2>
             <p>Stone lanes, mosque courtyards, copper stalls, and riverside coffee stay within a short walk of Stari Most.</p>
-            <button class="note-button" type="button" onclick="window.scrollTo({top: 1150, behavior: 'smooth'})">
+            <button class="note-button" type="button" onclick="const p = document.getElementById('packages'); if (p) p.scrollIntoView({behavior: 'smooth'}); else window.scrollTo({top: 1400, behavior: 'smooth'});">
               <span aria-hidden="true">↗</span>
               <span>Explore All Global Packages</span>
             </button>
@@ -760,6 +760,22 @@
               <span class="material-symbols-outlined text-sm animate-bounce">arrow_downward</span>
             </a>
           </div>
+        </div>
+
+        <!-- Floating Stage Progress HUD & Quick Skip Control -->
+        <div id="cinematic-stage-hud" aria-label="Cinematic Journey Controls">
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <span class="cinematic-hud-dot active" data-stage="1" title="1. Mostar Bridge"></span>
+            <span class="cinematic-hud-dot" data-stage="2" title="2. Flight Takeoff"></span>
+            <span class="cinematic-hud-dot" data-stage="3" title="3. Cabin Window"></span>
+            <span class="cinematic-hud-dot" data-stage="4" title="4. 3D Packages"></span>
+          </div>
+          <span class="w-px h-3.5 bg-white/20"></span>
+          <span id="cinematic-hud-label" class="text-[11px] sm:text-xs font-sans font-medium text-white/90 uppercase tracking-wider">1. Mostar Bridge</span>
+          <button id="cinematic-skip-btn" type="button" class="ml-1 text-[11px] sm:text-xs font-sans font-semibold text-sunset hover:text-white transition-colors flex items-center gap-0.5 cursor-pointer" title="Jump straight to all packages">
+            <span>Skip to Packages</span>
+            <span class="material-symbols-outlined text-sm">arrow_downward</span>
+          </button>
         </div>
 
       </div>
