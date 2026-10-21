@@ -868,6 +868,26 @@ function detectLanguage(text) {
   return 'english';
 }
 
+function getPackageWebUrl(pkgOrDestId) {
+  const str = String(pkgOrDestId || '').toLowerCase();
+  if (str.includes('turkey')) return 'turkey-package.html';
+  if (str.includes('bali')) return 'bali-package.html';
+  if (str.includes('dubai')) return 'dubai-package.html';
+  if (str.includes('georgia')) return 'georgia-package.html';
+  if (str.includes('thailand') || str.includes('phuket') || str.includes('krabi')) return 'thailand-package.html';
+  if (str.includes('singapore')) return 'singapore-package.html';
+  if (str.includes('vietnam')) return 'vietnam-package.html';
+  if (str.includes('srilanka') || str.includes('sri-lanka') || str.includes('sri lanka')) return 'srilanka-package.html';
+  if (str.includes('malaysia')) return 'malaysia-package.html';
+  if (str.includes('kashmir')) return 'kashmir-package.html';
+  if (str.includes('kerala')) return 'kerala-package.html';
+  if (str.includes('andaman')) return 'andaman-package.html';
+  if (str.includes('manali')) return 'manali-package.html';
+  if (str.includes('nepal')) return 'nepal-package.html';
+  if (str.includes('ujjain')) return 'ujjain-package.html';
+  return 'deals.html';
+}
+
 function getPackageSummary(pkg, lang = 'english') {
   let itemsEn = [];
   let itemsHi = [];
@@ -1169,8 +1189,8 @@ ${numberedListHi}
 यह हमारी वेरीफाइड डायरेक्ट DMC शुरुआती बेस रेट है। फाइनल कीमत आपके शहर, फ्लाइट टिकट, यात्रा की तारीखों और 4★ या 5★ होटल के चुनाव पर निर्भर करती है।
 
 • अगला कदम (Next Step):
-आप किस महीने में जाने की योजना बना रहे हैं और कितने लोग साथ होंगे?
-[📲 व्हाट्सएप (+91 80075 86871) पर कस्टमाइज्ड कोटेशन के लिए बात करें](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20कृपया%20${encodeURIComponent(pkg.name)}%20का%20कोटेशन%20शेयर%20करें)`;
+[🌐 वेबसाइट पर ${pkg.name} का आधिकारिक पेज देखें](${getPackageWebUrl(pkg.id_code)})
+[📲 या व्हाट्सएप (+91 80075 86871) पर कस्टमाइज्ड कोटेशन के लिए बात करें](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20कृपया%20${encodeURIComponent(pkg.name)}%20का%20कोटेशन%20शेयर%20करें)`;
   }
 
   // Hinglish Response (Golden 4-Part Structure)
@@ -1188,8 +1208,8 @@ ${numberedListHing}
 Ye hamara direct DMC verified starting base rate hai. Final pricing aapke departure city, flight rates, travel dates aur 4★ ya 5★ hotel choice par depend karti hai.
 
 • Next Step:
-Aap kaun se month me travel plan kar rahe hain aur kitne log sath honge?
-[📲 WhatsApp (+91 80075 86871) par customized quote payein](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+[🌐 View ${pkg.name} Page on Website](${getPackageWebUrl(pkg.id_code)})
+[📲 Or Chat on WhatsApp (+91 80075 86871) to customize](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
   }
 
   // Default English Response (Golden 4-Part Structure)
@@ -1206,8 +1226,8 @@ ${numberedListEn}
 This is our verified starting base rate. Final pricing depends on your departure city, flight rates, travel dates, and whether you choose 4★ or 5★ hotels.
 
 • Next Step:
-Which month are you planning to travel, and how many people will be joining? 
-[📲 Chat on WhatsApp (+91 80075 86871) for a customized quote](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+[🌐 View ${pkg.name} Page on Website](${getPackageWebUrl(pkg.id_code)})
+[📲 Or Chat on WhatsApp (+91 80075 86871) for a customized quote](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
 }
 
 const DETAILED_DAY_ITINERARIES = {
@@ -1537,7 +1557,8 @@ ${daysText}
 ---
 💰 **पैकेज दर**: ₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) प्रति व्यक्ति
 ✅ **शामिल**: होटल, प्रतिदिन नाश्ता, सभी प्राइवेट ट्रांसफर और प्रवेश टिकट।
-📲 [**व्हाट्सएप (+91 80075 86871) पर यह टूर बुक या कस्टमाइज करें**](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20कृपया%20${encodeURIComponent(pkg.name)}%20का%20बुकिंग%20शेड्यूल%20बताएं)`;
+[🌐 वेबसाइट पर ${pkg.name} का पेज देखें](${getPackageWebUrl(pkg.id_code)})
+[📲 या व्हाट्सएप (+91 80075 86871) पर बात करें](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20कृपया%20${encodeURIComponent(pkg.name)}%20का%20बुकिंग%20शेड्यूल%20बताएं)`;
     }
 
     if (lang === 'hinglish') {
@@ -1552,7 +1573,8 @@ ${daysText}
 ---
 💰 **All-Inclusive Rate**: ₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person
 ✅ **Included**: 4★ Hotels, Daily Breakfast, 100% Private AC Transfers & Sightseeing Passes.
-📲 [**WhatsApp (+91 80075 86871) par customized quote lock karein**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+[🌐 View Full Package on Website](${getPackageWebUrl(pkg.id_code)})
+[📲 Or Chat on WhatsApp (+91 80075 86871) to customize](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
     }
 
     const daysText = data.days.map(d => `📅 **Day ${d.day}: ${d.title}**\n• ${d.desc_en}`).join('\n\n');
@@ -1566,7 +1588,8 @@ ${daysText}
 ---
 💰 **Wholesale DMC Rate**: INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person
 ✅ **Included**: Hotels, Daily Breakfast, 100% Private AC Transfers & Sightseeing Passes.
-📲 [**Lock This Itinerary on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+[🌐 View Full Package on Website](${getPackageWebUrl(pkg.id_code)})
+[📲 Or Lock Rate on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
   }
 
   // Fallback for packages where day-by-day is derived from highlights
@@ -1582,7 +1605,8 @@ ${derivedDays}
 
 ---
 💰 **Rate**: INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person
-📲 [**Lock Rate on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+[🌐 View Full Package on Website](${getPackageWebUrl(pkg.id_code)})
+[📲 Or Chat on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
 }
 
 
@@ -1597,6 +1621,118 @@ function generateSmartReply(message, history = [], activeDestination = null) {
     return {
       activeDestination: resolvedDest,
       reply: getPackageItinerary(PACKAGES_KNOWLEDGE[resolvedDest], lang)
+    };
+  }
+
+  // Query Intent: Where is this package / Can't find / Website pe kahan hai / Link do
+  const isWebsiteLocationQuery = msgLower.match(/\b(kahan hai|kaha hai|nahi mil raha|kahan milega|website pe|website par|where is it|where is the package|can't find|cannot find|give me link|link bhejo|link do|page link|show page|where on website|website link|open page|open package|link chahiye)\b/i) ||
+    msgLower.includes('कहाँ है') || msgLower.includes('नहीं मिल रहा') || msgLower.includes('वेबसाइट') || msgLower.includes('लिंक');
+
+  if (isWebsiteLocationQuery) {
+    if (currentPkg) {
+      const pageUrl = getPackageWebUrl(currentPkg.id_code);
+      if (lang === 'hindi') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `📍 **${currentPkg.name}** हमारी वेबसाइट पर यहाँ उपलब्ध है:
+
+[🌐 वेबसाइट पर ${currentPkg.name} पेज खोलें](${pageUrl})
+
+यहाँ इसकी मुख्य जानकारी है:
+• **अवधि**: ${currentPkg.duration}
+• **शुरुआती दर**: ₹${currentPkg.price_inr.toLocaleString('en-IN')} (~$${currentPkg.price_usd} USD) प्रति व्यक्ति
+• **होटल**: ${currentPkg.hotels}
+• **हाइलाइट्स**: ${currentPkg.highlights}
+
+👉 क्या आप इसका विस्तृत दिन-प्रतिदिन का टूर प्लान (Itinerary) यहीं स्क्रीन पर देखना चाहते हैं?`
+        };
+      }
+      return {
+        activeDestination: resolvedDest,
+        reply: `📍 You can find the official package page for **${currentPkg.name}** right here on our website:
+
+[🌐 View ${currentPkg.name} Page on Website](${pageUrl})
+
+Here is the quick snapshot:
+• **Duration**: ${currentPkg.duration}
+• **Locked Wholesale Rate**: INR ${currentPkg.price_inr.toLocaleString('en-IN')} (~$${currentPkg.price_usd} USD) per person
+• **Stays**: ${currentPkg.hotels}
+• **Highlights**: ${currentPkg.highlights}
+
+👉 Would you like me to display the complete Day-by-Day itinerary right here on the screen?`
+      };
+    } else {
+      return {
+        activeDestination: null,
+        reply: `📍 हमारी वेबसाइट के सभी वेरिफाइड पैकेजेस और आइटिनरेरी आप यहाँ सीधे देख सकते हैं:
+
+• 🇹🇷 [Turkey Escape 5D/4N Package](turkey-package.html)
+• 🏝️ [Bali Signature 7D/6N Pool Villa](bali-package.html)
+• 🇦🇪 [Dubai Highlights 5D/4N Package](dubai-package.html)
+• ❄️ [Georgia High Caucasus 5D/4N ($300)](georgia-package.html)
+• 🇹🇭 [Thailand Grand Signature 8D/7N](thailand-package.html)
+• 🇸🇬 [Singapore Signature 4D/3N](singapore-package.html)
+• 🇻🇳 [Vietnam Grand Expedition 10D/9N](vietnam-package.html)
+• 🏔️ [Kashmir Snow Valley 5D/4N](kashmir-package.html)
+• 🌴 [Kerala God's Own Country 7D/6N](kerala-package.html)
+
+[🌐 View All 22 Direct Packages on Website](deals.html)`
+      };
+    }
+  }
+
+  // Query Intent: Suggestions / Recommendations / "Kahan jau" / Confused
+  const isSuggestionQuery = msgLower.match(/\b(suggest|suggestion|suggestions|recommend|recommendation|recommendations|kahan jau|kaha jau|kahan ja sakte|kaha ja sakte|kahan jana chahiye|where should i go|best place to go|confused|samajh nahi aa raha|suggest me|places to visit|where can we travel|batao kahan jau|kuch suggest karo|kaha ghume)\b/i) ||
+    msgLower.includes('सुझाव') || msgLower.includes('कहाँ जाऊं') || msgLower.includes('कहाँ जा सकते') || msgLower.includes('सलाह');
+
+  if (isSuggestionQuery) {
+    if (lang === 'hindi') {
+      return {
+        activeDestination: null,
+        reply: `🌟 **आपके लिए बेहतरीन यात्रा सुझाव (Curated Travel Recommendations)**:
+
+यदि आप तय नहीं कर पा रहे हैं, तो अपनी पसंद के आधार पर इन टॉप डेस्टिनेशन्स को चुन सकते हैं:
+
+🏝️ **1. बीच और प्राइवेट पूल विला (Beach & Romantic)**:
+• **बाली**: [वेबसाइट पर बाली पैकेज देखें](bali-package.html) — ₹48,999 से (उबूद में प्राइवेट पूल विला और नुसा पेनिडा)
+• **थाईलैंड**: [वेबसाइट पर थाईलैंड पैकेज देखें](thailand-package.html) — ₹28,999 से (फुकेत और क्राबी आइलैंड्स)
+
+❄️ **2. बर्फीले पहाड़ और प्राकृतिक सौंदर्य (Snow & Scenery)**:
+• **जॉर्जिया**: [वेबसाइट पर जॉर्जिया $300 डील देखें](georgia-package.html) — $300 USD (~₹28,999) (काजबेगी स्नो 4x4)
+• **कश्मीर**: [वेबसाइट पर कश्मीर पैकेज देखें](kashmir-package.html) — ₹21,999 (डल झील हाउसबोट और गुलमर्ग गोंडोला)
+
+🏙️ **3. 4–5 दिन की लग्जरी और सिटी लाइफ (4-5 Days Luxury City)**:
+• **दुबई**: [वेबसाइट पर दुबई पैकेज देखें](dubai-package.html) — ₹42,598 (मरीना धो डिनर क्रूज़ और डेजर्ट सफारी)
+• **सिंगापुर**: [वेबसाइट पर सिंगापुर पैकेज देखें](singapore-package.html) — ₹52,062 (यूनिवर्सल स्टूडियोज और मरीना बे)
+
+🇹🇷 **4. केव सुइट और हॉट एयर बैलून (Unique Wonder)**:
+• **तुर्की**: [वेबसाइट पर तुर्की पैकेज देखें](turkey-package.html) — ₹42,999 (कप्पाडोसिया केव स्टे और बोस्फोरस क्रूज़)
+
+👉 आप इनमें से किस प्रकार का अनुभव पसंद करेंगे? मुझे बताएं, मैं तुरंत उसका पूरा दिन-वार प्लान (Itinerary) यहीं स्क्रीन पर दिखा दूँगा!`
+      };
+    }
+    return {
+      activeDestination: null,
+      reply: `🌟 **Curated Travel Suggestions & Recommendations**:
+
+If you're not sure which destination to choose, here are handpicked options based on your travel mood:
+
+🏝️ **1. Beach Paradise & Private Pool Villas**:
+• **Bali, Indonesia**: [🌐 View Bali Package on Website](bali-package.html) — From ₹48,999 (Ubud Private Pool Villa & Nusa Penida)
+• **Thailand Island Hopper**: [🌐 View Thailand Package on Website](thailand-package.html) — From ₹28,999 (Phuket & Krabi)
+
+❄️ **2. Snow Mountains & Majestic Landscapes**:
+• **Georgia ($300 Flash Deal)**: [🌐 View Georgia Package on Website](georgia-package.html) — $300 USD (~₹28,999) (Gudauri Snow & Kazbegi 4x4)
+• **Kashmir Heaven on Earth**: [🌐 View Kashmir Package on Website](kashmir-package.html) — ₹21,999 (Dal Lake Houseboat & Gulmarg Gondola)
+
+🏙️ **3. 4–5 Days Luxury City & Nightlife**:
+• **Dubai Highlights & Desert**: [🌐 View Dubai Package on Website](dubai-package.html) — ₹42,598 (Marina Dinner Cruise & Desert Safari)
+• **Singapore Signature**: [🌐 View Singapore Package on Website](singapore-package.html) — From ₹52,062 (Universal Studios & Sentosa)
+
+🇹🇷 **4. Iconic Cave Suites & Fairy Chimneys**:
+• **Turkey Escape**: [🌐 View Turkey Package on Website](turkey-package.html) — ₹42,999 (Cappadocia Cave Resort & Bosphorus Yacht)
+
+👉 Tell me which vibe appeals to you, and I can present the full day-by-day itinerary right here on the screen!`
     };
   }
 

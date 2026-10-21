@@ -706,12 +706,17 @@ function formatChatMarkdown(rawText) {
     return `__WA_BUTTON__${label.replace(/\*\*/g, '')}__SEP__${url}__END__`;
   });
 
-  // Convert other markdown links
+  // 2. On-Site Website Page Button Transformer (.html)
+  text = text.replace(/\[([^\]]+)\]\(([^)]+\.html(?:[?#][^\s)]*)?)\)/g, (match, label, url) => {
+    return `__PAGE_BUTTON__${label.replace(/\*\*/g, '')}__SEP__${url}__END__`;
+  });
+
+  // 3. Convert other markdown links
   text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, (match, label, url) => {
     return `<a href="${url}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-bold text-ocean hover:underline">${label} ↗</a>`;
   });
 
-  // 2. Bold styling
+  // 4. Bold styling
   text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-navy-deep">$1</strong>');
 
   // Split into lines
@@ -724,6 +729,24 @@ function formatChatMarkdown(rawText) {
 
     if (!line) {
       if (inList) { html += '</ul>'; inList = false; }
+      continue;
+    }
+
+    // Check for Website Page Button Placeholder
+    if (line.includes('__PAGE_BUTTON__')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const pageMatch = line.match(/__PAGE_BUTTON__(.*?)__SEP__(.*?)__END__/);
+      if (pageMatch) {
+        html += `
+          <div class="my-2.5">
+            <a href="${pageMatch[2]}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-ocean hover:bg-ocean/90 text-white font-bold text-xs sm:text-sm shadow transition-all duration-200 cursor-pointer">
+              <span>🌐</span>
+              <span>${pageMatch[1]}</span>
+              <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+            </a>
+          </div>
+        `;
+      }
       continue;
     }
 

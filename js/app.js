@@ -706,12 +706,17 @@ function formatChatText(text) {
     return `__WA_BUTTON__${label.replace(/\*\*/g, '')}__SEP__${url}__END__`;
   });
 
-  // Convert other markdown links
+  // 2. On-Site Website Page Button Transformer (.html)
+  rawText = rawText.replace(/\[([^\]]+)\]\(([^)]+\.html(?:[?#][^\s)]*)?)\)/g, (match, label, url) => {
+    return `__PAGE_BUTTON__${label.replace(/\*\*/g, '')}__SEP__${url}__END__`;
+  });
+
+  // 3. Convert other markdown links
   rawText = rawText.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, (match, label, url) => {
     return `<a href="${url}" target="_blank" rel="noopener" style="color:#0284c7; font-weight:700; text-decoration:underline;">${label} ↗</a>`;
   });
 
-  // 2. Bold styling
+  // 4. Bold styling
   rawText = rawText.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#031636; font-weight:700;">$1</strong>');
 
   // Split into lines
@@ -724,6 +729,24 @@ function formatChatText(text) {
 
     if (!line) {
       if (inList) { html += '</ul>'; inList = false; }
+      continue;
+    }
+
+    // Check for Website Page Button
+    if (line.includes('__PAGE_BUTTON__')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const pageMatch = line.match(/__PAGE_BUTTON__(.*?)__SEP__(.*?)__END__/);
+      if (pageMatch) {
+        html += `
+          <div style="margin:8px 0;">
+            <a href="${pageMatch[2]}" style="display:inline-flex; align-items:center; gap:8px; padding:7px 14px; background:#0284c7; color:#ffffff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none; box-shadow:0 2px 6px rgba(2,132,199,0.3);">
+              <span>🌐</span>
+              <span>${pageMatch[1]}</span>
+              <span>➔</span>
+            </a>
+          </div>
+        `;
+      }
       continue;
     }
 
