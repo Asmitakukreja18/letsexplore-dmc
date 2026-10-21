@@ -42,11 +42,6 @@ tailwind.config = {
 
 body {
     background: #071324;
-    background-image: 
-      radial-gradient(ellipse 60% 50% at 80% 10%, rgba(244,162,97,0.18) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 10% 90%, rgba(30,136,229,0.2) 0%, transparent 60%),
-      linear-gradient(180deg, #071324 0%, #0B1F3A 50%, #060E1A 100%);
-    background-attachment: fixed;
     color: #0F172A;
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
@@ -137,6 +132,28 @@ body {
 </style>
 </head>
 <body class="relative overflow-x-hidden antialiased">
+
+<!-- ============ CINEMATIC GLOBAL DESTINATION BACKGROUND VIDEO ROTATOR ============ -->
+<div id="hero-video-container" class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 bg-[#071324]">
+  <!-- Active Video Layer A -->
+  <video id="bg-video-a" autoplay muted loop playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100">
+    <source src="images/capadocia.mp4" type="video/mp4" />
+  </video>
+  <!-- Crossfade Video Layer B -->
+  <video id="bg-video-b" muted loop playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0">
+  </video>
+
+  <!-- Luxury Cinematic Dark Gradient Overlay (Keeps text & cards 100% readable & high-contrast) -->
+  <div class="absolute inset-0 bg-gradient-to-b from-[#071324]/80 via-[#0b1f3a]/75 to-[#060e1a]/92 backdrop-blur-[1px]"></div>
+  <div class="absolute inset-0" style="background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(244,162,97,0.12) 0%, transparent 60%);"></div>
+
+  <!-- Real-time Country Badge floating in bottom-right corner -->
+  <div class="absolute bottom-6 right-6 z-20 hidden md:flex items-center gap-2.5 px-4 py-2 rounded-full bg-navy-deep/85 backdrop-blur-md border border-white/20 text-white shadow-2xl pointer-events-auto transition-all duration-500" id="video-dest-badge">
+    <span class="w-2.5 h-2.5 rounded-full bg-sunset animate-pulse"></span>
+    <span class="text-xs font-semibold tracking-wide" id="video-dest-name">🇹🇷 Cappadocia, Turkey</span>
+    <button type="button" onclick="playNextDestinationVideo()" title="Next Country Video" class="ml-1 hover:text-sunset transition text-xs font-bold cursor-pointer">⏭️</button>
+  </div>
+</div>
 
 <main class="relative z-10 pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-10 max-w-6xl mx-auto">
 
@@ -470,6 +487,9 @@ function setDestQuick(dest, btn) {
   if (btn) {
     btn.className = "trending-pill px-3 py-1.5 rounded-full text-xs font-bold bg-navy text-white border border-navy shadow-sm";
   }
+  if (typeof switchBackgroundCountryVideo === 'function') {
+    switchBackgroundCountryVideo(dest);
+  }
 }
 
 function toggleStyle(btn, styleName) {
@@ -556,6 +576,10 @@ function markStepDone(stepNum) {
 function renderAIResult(destination, duration, budget, notes) {
   document.getElementById('results-panel').classList.remove('hidden');
   const d = destination.toLowerCase();
+
+  if (typeof switchBackgroundCountryVideo === 'function') {
+    switchBackgroundCountryVideo(destination);
+  }
 
   let title = `${destination} Explorer & Highlights`;
   let price = budget === "₹2L+" ? "₹1,45,000" : budget === "₹1-2L" ? "₹85,000" : "₹42,999";
@@ -892,6 +916,10 @@ async function submitChat(e) {
   const input = document.getElementById('chat-input-text');
   const val = input.value.trim();
   if(!val) return;
+
+  if (typeof switchBackgroundCountryVideo === 'function') {
+    switchBackgroundCountryVideo(val);
+  }
 
   const box = document.getElementById('chat-box');
   box.innerHTML += `
@@ -1353,6 +1381,92 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
   }, 200);
 }
 
+/* ============ CINEMATIC GLOBAL DESTINATION BACKGROUND VIDEO ROTATOR ============ */
+const DESTINATION_VIDEOS = [
+  { name: "🇹🇷 Cappadocia, Turkey", src: "images/capadocia.mp4", country: "turkey" },
+  { name: "🏝️ Bali, Indonesia", src: "images/bali.mp4", country: "bali" },
+  { name: "🇦🇪 Dubai Skyline & Safari", src: "images/dubai.mp4", country: "dubai" },
+  { name: "❄️ High Caucasus, Georgia", src: "images/georgia.mp4", country: "georgia" },
+  { name: "🇹🇭 Phi Phi Islands, Thailand", src: "images/thailand/phiphiisland.mp4", country: "thailand" },
+  { name: "🇸🇬 Marina Bay, Singapore", src: "images/singapore/gardens_by_the_bay.mp4", country: "singapore" },
+  { name: "🇻🇳 Golden Bridge, Vietnam", src: "images/vitenam/goldenbridge.mp4", country: "vietnam" },
+  { name: "🏔️ Snow Valley, Kashmir", src: "images/kashmir/kashmir_snow.mp4", country: "kashmir" },
+  { name: "🌴 Backwaters & Hills, Kerala", src: "images/kerala.mp4", country: "kerala" },
+  { name: "🏝️ Coral Atolls, Maldives", src: "images/maldives.mp4", country: "maldives" }
+];
+
+let currentVideoIdx = 0;
+let activeVideoLayer = 'a';
+let videoCycleTimer = null;
+
+function playNextDestinationVideo(targetIndex = null) {
+  if (targetIndex !== null) {
+    currentVideoIdx = targetIndex % DESTINATION_VIDEOS.length;
+  } else {
+    currentVideoIdx = (currentVideoIdx + 1) % DESTINATION_VIDEOS.length;
+  }
+
+  const nextDest = DESTINATION_VIDEOS[currentVideoIdx];
+  const videoA = document.getElementById('bg-video-a');
+  const videoB = document.getElementById('bg-video-b');
+  const badge = document.getElementById('video-dest-name');
+
+  if (!videoA || !videoB) return;
+
+  if (activeVideoLayer === 'a') {
+    videoB.src = nextDest.src;
+    videoB.load();
+    const playPromise = videoB.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        videoB.classList.remove('opacity-0');
+        videoB.classList.add('opacity-100');
+        videoA.classList.remove('opacity-100');
+        videoA.classList.add('opacity-0');
+        activeVideoLayer = 'b';
+        if (badge) badge.textContent = nextDest.name;
+      }).catch(() => {});
+    }
+  } else {
+    videoA.src = nextDest.src;
+    videoA.load();
+    const playPromise = videoA.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        videoA.classList.remove('opacity-0');
+        videoA.classList.add('opacity-100');
+        videoB.classList.remove('opacity-100');
+        videoB.classList.add('opacity-0');
+        activeVideoLayer = 'a';
+        if (badge) badge.textContent = nextDest.name;
+      }).catch(() => {});
+    }
+  }
+}
+
+function startVideoCycle() {
+  if (videoCycleTimer) clearInterval(videoCycleTimer);
+  videoCycleTimer = setInterval(() => {
+    playNextDestinationVideo();
+  }, 9000);
+}
+
+window.switchBackgroundCountryVideo = function(input) {
+  if (!input) return;
+  const str = input.toLowerCase();
+  const matchIdx = DESTINATION_VIDEOS.findIndex(v => str.includes(v.country) || v.name.toLowerCase().includes(str));
+  if (matchIdx !== -1 && matchIdx !== currentVideoIdx) {
+    playNextDestinationVideo(matchIdx);
+    startVideoCycle();
+  }
+};
+
+// Start background cycle automatically
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startVideoCycle);
+} else {
+  startVideoCycle();
+}
 </script>
 
 </body>
