@@ -411,11 +411,18 @@ body {
       </button>
     </div>
 
-    <div id="chat-box" class="space-y-4 max-h-[380px] overflow-y-auto pr-2 mb-6 text-sm">
+    <div id="chat-box" class="space-y-4 max-h-[460px] overflow-y-auto pr-2 mb-6 text-sm">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">🤖</div>
-        <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-md leading-relaxed border border-navy/5 shadow-sm text-sm">
-          Hey there! 👋 I am your Gemini AI Travel Concierge. Tell me where you wish to explore or your budget, and I'll craft a bespoke travel proposal for you instantly!
+        <div class="bg-white/95 text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-xl leading-relaxed border border-navy/10 shadow-sm text-xs sm:text-sm">
+          <div class="font-bold text-navy-deep text-sm mb-1">Hello! I am Atlas, your AI Travel Architect. 👋</div>
+          <p class="text-fog text-xs leading-relaxed mb-2.5">Tell me where you want to travel, your dates, or your budget. I can instantly share verified luxury packages, day-by-day itineraries, hotel options, or direct DMC rates across 22+ destinations.</p>
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Tell me about Turkey package'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-amber-50 hover:bg-sunset hover:text-white border border-sunset/30 text-sunset font-semibold text-[11px] transition">🇹🇷 Turkey Package</button>
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Bali pool villa package with price'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-blue-50 hover:bg-ocean hover:text-white border border-ocean/30 text-ocean font-semibold text-[11px] transition">🏝️ Bali Pool Villa</button>
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Dubai luxury desert & dinner cruise'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-purple-50 hover:bg-purple-600 hover:text-white border border-purple-200 text-purple-700 font-semibold text-[11px] transition">🇦🇪 Dubai Luxury</button>
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Georgia $300 package itinerary'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-600 hover:text-white border border-emerald-200 text-emerald-700 font-semibold text-[11px] transition">❄️ Georgia $300</button>
+          </div>
         </div>
       </div>
     </div>
@@ -663,12 +670,194 @@ try {
   localStorage.removeItem('letsexplore_active_dest');
 } catch(e) {}
 
-function formatChatMarkdown(text) {
-  return (text || '')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 14px; background:#25D366; color:#ffffff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none;">$1</a>')
-    .replace(/\n\n+/g, '<div style="height:6px;"></div>')
-    .replace(/\n/g, '<br/>');
+function formatChatMarkdown(rawText) {
+  if (!rawText) return '';
+  let text = rawText.trim();
+
+  // Strip robotic prefix
+  text = text.replace(/^(🤖\s*)?(\*{1,2})?Atlas AI Concierge(\*{1,2})?:?\s*/i, '');
+
+  // 1. WhatsApp Button Transformer
+  text = text.replace(/\[([^\]]+)\]\((https:\/\/wa\.me\/[^\s\)]+)\)/g, (match, label, url) => {
+    return `__WA_BUTTON__${label.replace(/\*\*/g, '')}__SEP__${url}__END__`;
+  });
+
+  // Convert other markdown links
+  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, (match, label, url) => {
+    return `<a href="${url}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-bold text-ocean hover:underline">${label} ↗</a>`;
+  });
+
+  // 2. Bold styling
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-navy-deep">$1</strong>');
+
+  // Split into lines
+  const rawLines = text.split('\n');
+  let html = '';
+  let inList = false;
+
+  for (let i = 0; i < rawLines.length; i++) {
+    let line = rawLines[i].trim();
+
+    if (!line) {
+      if (inList) { html += '</ul>'; inList = false; }
+      continue;
+    }
+
+    // Check for WhatsApp Button Placeholder
+    if (line.includes('__WA_BUTTON__')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const waMatch = line.match(/__WA_BUTTON__(.*?)__SEP__(.*?)__END__/);
+      if (waMatch) {
+        html += `
+          <div class="mt-4 pt-1">
+            <a href="${waMatch[2]}" target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-[#25D366] hover:bg-[#1ebe5b] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer">
+              <span class="text-base">📲</span>
+              <span>${waMatch[1]}</span>
+              <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+            </a>
+          </div>
+        `;
+      }
+      continue;
+    }
+
+    // A. Day by Day Itinerary Line: "📅 Day 1: ..." or "📅 दिन 1: ..." or "Day 1:"
+    const dayMatch = line.match(/^(?:📅\s*)?(?:Day|दिन)\s*(\d+)[\s:]+(.*)/i);
+    if (dayMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const dayNum = dayMatch[1];
+      const rest = dayMatch[2];
+      
+      let dayTitle = rest;
+      let dayDesc = '';
+      if (rest.includes(' - ')) {
+        const parts = rest.split(' - ');
+        dayTitle = parts[0];
+        dayDesc = parts.slice(1).join(' - ');
+      } else if (rest.includes(': ')) {
+        const parts = rest.split(': ');
+        dayTitle = parts[0];
+        dayDesc = parts.slice(1).join(': ');
+      }
+
+      html += `
+        <div class="my-2.5 p-3 sm:p-3.5 rounded-2xl bg-white border border-navy/10 shadow-sm flex items-start gap-3 hover:border-sunset/40 transition">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-sunset to-amber-500 text-navy-deep font-black text-xs sm:text-sm flex items-center justify-center shrink-0 shadow-sm">D${dayNum}</div>
+          <div class="min-w-0 flex-grow">
+            <div class="font-bold text-navy-deep text-xs sm:text-sm mb-1">${dayTitle}</div>
+            ${dayDesc ? `<div class="text-xs text-fog leading-relaxed">${dayDesc}</div>` : ''}
+          </div>
+        </div>
+      `;
+      continue;
+    }
+
+    // B. Price Highlight line: e.g. contains 💰 or "starts from INR" or "Wholesale DMC Rate"
+    if (line.includes('💰') || line.match(/starts from INR|starts from ₹|Wholesale DMC Rate|All-Inclusive Rate|पैकेज दर|Per Adult Rate/i)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `
+        <div class="my-3 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/5 border border-sunset/40 shadow-sm">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 text-sunset font-bold text-[11px] uppercase tracking-wider">
+              <span>💎</span> <span>Official DMC Locked Rate</span>
+            </span>
+            <span class="px-2 py-0.5 rounded-full bg-sunset text-navy-deep text-[10px] font-black uppercase tracking-wider">Wholesale</span>
+          </div>
+          <div class="text-sm sm:text-base font-bold text-navy-deep leading-relaxed">
+            ${line.replace(/^[💰•\s]+/, '')}
+          </div>
+        </div>
+      `;
+      continue;
+    }
+
+    // C. Section Headings: e.g. "• Package Overview:", "• What's Included:", "• Pricing & Real-world Factors:", "• Next Step:"
+    const sectionHeaderMatch = line.match(/^•\s*(Package Overview|What's Included|Pricing & Real-world Factors|Next Step|Detailed Itinerary|Inclusions & Exclusions|Payment Schedule|Verified Inclusions|Exclusions):?/i);
+    if (sectionHeaderMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      
+      const secName = sectionHeaderMatch[1];
+      let icon = '📌';
+      if (/included|inclusions/i.test(secName)) icon = '✅';
+      else if (/pricing|rate/i.test(secName)) icon = '💰';
+      else if (/next step/i.test(secName)) icon = '👉';
+      else if (/itinerary/i.test(secName)) icon = '🗺️';
+      else if (/payment/i.test(secName)) icon = '💳';
+
+      html += `
+        <div class="mt-4 mb-2 flex items-center gap-2 text-xs sm:text-sm font-bold text-navy-deep uppercase tracking-wider">
+          <span>${icon}</span>
+          <span>${secName}</span>
+        </div>
+      `;
+      continue;
+    }
+
+    // D. Numbered Step / Item (e.g. "1. Authentic 5★ Cave Resort..." or "1. Step 1: Advance...")
+    const stepMatch = line.match(/^(\d+)\.\s+(.*)/);
+    if (stepMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const num = stepMatch[1];
+      const content = stepMatch[2];
+
+      html += `
+        <div class="my-1.5 p-2.5 rounded-xl bg-white/90 border border-navy/5 shadow-xs flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-ocean/15 text-ocean font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${num}</span>
+          <div class="text-xs sm:text-sm text-navy-deep leading-relaxed">${content}</div>
+        </div>
+      `;
+      continue;
+    }
+
+    // E. Bullet point (• or * or -)
+    if (line.match(/^[\*\•\-]\s+(.*)/)) {
+      const bulletContent = line.replace(/^[\*\•\-]\s+/, '');
+      if (!inList) {
+        html += '<ul class="my-2 space-y-1.5 pl-0.5">';
+        inList = true;
+      }
+
+      if (bulletContent.toLowerCase().startsWith('route:') || bulletContent.toLowerCase().startsWith('रूट:')) {
+        html += `<li class="flex items-start gap-2 p-2 rounded-xl bg-blue-50/60 border border-blue-100 text-xs sm:text-sm text-navy-deep font-medium">
+          <span class="text-ocean">📍</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      } else if (bulletContent.toLowerCase().startsWith('hotels:') || bulletContent.toLowerCase().startsWith('होटल:') || bulletContent.toLowerCase().startsWith('stays:')) {
+        html += `<li class="flex items-start gap-2 p-2 rounded-xl bg-amber-50/60 border border-amber-100 text-xs sm:text-sm text-navy-deep font-medium">
+          <span class="text-sunset">🏨</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      } else if (bulletContent.toLowerCase().startsWith('flights:') || bulletContent.toLowerCase().startsWith('फ्लाइट:')) {
+        html += `<li class="flex items-start gap-2 p-2 rounded-xl bg-sky-50/60 border border-sky-100 text-xs sm:text-sm text-navy-deep font-medium">
+          <span>✈️</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      } else if (bulletContent.toLowerCase().startsWith('included:') || bulletContent.toLowerCase().startsWith('inclusions:') || bulletContent.toLowerCase().startsWith('शामिल:')) {
+        html += `<li class="flex items-start gap-2 p-2 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs sm:text-sm text-emerald-800 font-medium">
+          <span class="text-emerald-600">✅</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      } else if (bulletContent.toLowerCase().startsWith('exclusions:') || bulletContent.toLowerCase().startsWith('शामिल नहीं:')) {
+        html += `<li class="flex items-start gap-2 p-2 rounded-xl bg-red-50/60 border border-red-100 text-xs sm:text-sm text-red-700 font-medium">
+          <span class="text-red-500">❌</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      } else {
+        html += `<li class="flex items-start gap-2 text-xs sm:text-sm text-navy-deep leading-relaxed">
+          <span class="text-sunset text-xs mt-1 shrink-0">▪</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      }
+      continue;
+    }
+
+    // F. Regular paragraph
+    if (inList) { html += '</ul>'; inList = false; }
+    html += `<p class="my-1.5 text-xs sm:text-sm text-navy-deep leading-relaxed">${line}</p>`;
+  }
+
+  if (inList) { html += '</ul>'; inList = false; }
+  return html;
 }
 
 function clearChatHistory() {
@@ -683,8 +872,15 @@ function clearChatHistory() {
     box.innerHTML = `
       <div class="flex items-start gap-3 mb-4">
         <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0">🤖</div>
-        <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-md leading-relaxed border border-navy/5 shadow-sm text-sm">
-          Hey there! 👋 I am your Gemini AI Travel Concierge. Tell me where you wish to explore or your budget, and I'll craft a bespoke travel proposal for you instantly!
+        <div class="bg-white/95 text-navy-deep rounded-2xl rounded-tl-none p-4 max-w-xl leading-relaxed border border-navy/10 shadow-sm text-xs sm:text-sm">
+          <div class="font-bold text-navy-deep text-sm mb-1">Hello! I am Atlas, your AI Travel Architect. 👋</div>
+          <p class="text-fog text-xs leading-relaxed mb-2.5">Tell me where you want to travel, your dates, or your budget. I can instantly share verified luxury packages, day-by-day itineraries, hotel options, or direct DMC rates across 22+ destinations.</p>
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Tell me about Turkey package'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-amber-50 hover:bg-sunset hover:text-white border border-sunset/30 text-sunset font-semibold text-[11px] transition">🇹🇷 Turkey Package</button>
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Bali pool villa package with price'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-blue-50 hover:bg-ocean hover:text-white border border-ocean/30 text-ocean font-semibold text-[11px] transition">🏝️ Bali Pool Villa</button>
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Dubai luxury desert & dinner cruise'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-purple-50 hover:bg-purple-600 hover:text-white border border-purple-200 text-purple-700 font-semibold text-[11px] transition">🇦🇪 Dubai Luxury</button>
+            <button type="button" onclick="document.getElementById('chat-input-text').value='Georgia $300 package itinerary'; submitChat(event);" class="px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-600 hover:text-white border border-emerald-200 text-emerald-700 font-semibold text-[11px] transition">❄️ Georgia $300</button>
+          </div>
         </div>
       </div>
     `;
@@ -1146,9 +1342,9 @@ OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
     const formatted = formatChatMarkdown(reply);
 
     box.innerHTML += `
-      <div class="flex items-start gap-3 mb-3.5">
-        <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">🤖</div>
-        <div class="bg-mist text-navy-deep rounded-2xl rounded-tl-none p-3.5 max-w-2xl leading-relaxed text-sm border border-navy/5 shadow-sm">
+      <div class="flex items-start gap-3 mb-4">
+        <div class="w-8 h-8 rounded-full bg-ocean text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm">🤖</div>
+        <div class="bg-white/95 text-navy-deep rounded-2xl rounded-tl-none p-4 sm:p-5 max-w-2xl leading-relaxed text-sm border border-navy/10 shadow-md">
           ${formatted}
         </div>
       </div>

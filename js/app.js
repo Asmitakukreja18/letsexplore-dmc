@@ -695,11 +695,186 @@ function renderSavedWidgetMessages() {
 }
 
 function formatChatText(text) {
-  return (text || '')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" style="display:inline-block; margin-top:6px; padding:6px 14px; background:#25D366; color:#ffffff; border-radius:10px; font-weight:700; font-size:12px; text-decoration:none;">$1</a>')
-    .replace(/\n\n+/g, '<br/><br/>')
-    .replace(/\n/g, '<br/>');
+  let rawText = (text || '').trim();
+  if (!rawText) return '';
+
+  // Strip robotic prefix
+  rawText = rawText.replace(/^(🤖\s*)?(\*{1,2})?Atlas AI Concierge(\*{1,2})?:?\s*/i, '');
+
+  // 1. WhatsApp Button Transformer
+  rawText = rawText.replace(/\[([^\]]+)\]\((https:\/\/wa\.me\/[^\s\)]+)\)/g, (match, label, url) => {
+    return `__WA_BUTTON__${label.replace(/\*\*/g, '')}__SEP__${url}__END__`;
+  });
+
+  // Convert other markdown links
+  rawText = rawText.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, (match, label, url) => {
+    return `<a href="${url}" target="_blank" rel="noopener" style="color:#0284c7; font-weight:700; text-decoration:underline;">${label} ↗</a>`;
+  });
+
+  // 2. Bold styling
+  rawText = rawText.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#031636; font-weight:700;">$1</strong>');
+
+  // Split into lines
+  const rawLines = rawText.split('\n');
+  let html = '';
+  let inList = false;
+
+  for (let i = 0; i < rawLines.length; i++) {
+    let line = rawLines[i].trim();
+
+    if (!line) {
+      if (inList) { html += '</ul>'; inList = false; }
+      continue;
+    }
+
+    // Check for WhatsApp Button
+    if (line.includes('__WA_BUTTON__')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const waMatch = line.match(/__WA_BUTTON__(.*?)__SEP__(.*?)__END__/);
+      if (waMatch) {
+        html += `
+          <div style="margin-top:10px; margin-bottom:4px;">
+            <a href="${waMatch[2]}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; padding:8px 16px; background:#25D366; color:#ffffff; border-radius:12px; font-weight:700; font-size:12px; text-decoration:none; box-shadow:0 4px 10px rgba(37,211,102,0.3); transition:all 0.2s;">
+              <span>📲</span>
+              <span>${waMatch[1]}</span>
+              <span>➔</span>
+            </a>
+          </div>
+        `;
+      }
+      continue;
+    }
+
+    // A. Day by Day Itinerary Line: "📅 Day 1: ..." or "📅 दिन 1: ..." or "Day 1:"
+    const dayMatch = line.match(/^(?:📅\s*)?(?:Day|दिन)\s*(\d+)[\s:]+(.*)/i);
+    if (dayMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const dayNum = dayMatch[1];
+      const rest = dayMatch[2];
+      
+      let dayTitle = rest;
+      let dayDesc = '';
+      if (rest.includes(' - ')) {
+        const parts = rest.split(' - ');
+        dayTitle = parts[0];
+        dayDesc = parts.slice(1).join(' - ');
+      } else if (rest.includes(': ')) {
+        const parts = rest.split(': ');
+        dayTitle = parts[0];
+        dayDesc = parts.slice(1).join(': ');
+      }
+
+      html += `
+        <div style="margin:8px 0; padding:10px 12px; border-radius:12px; background:#ffffff; border:1px solid #e2e8f0; display:flex; align-items:flex-start; gap:10px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+          <div style="width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, #f59e0b, #d97706); color:#031636; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">D${dayNum}</div>
+          <div style="min-width:0; flex-grow:1;">
+            <div style="font-weight:700; color:#031636; font-size:12.5px; margin-bottom:2px;">${dayTitle}</div>
+            ${dayDesc ? `<div style="font-size:11.5px; color:#64748b; line-height:1.45;">${dayDesc}</div>` : ''}
+          </div>
+        </div>
+      `;
+      continue;
+    }
+
+    // B. Price Highlight line: e.g. contains 💰 or "starts from INR" or "Wholesale DMC Rate"
+    if (line.includes('💰') || line.match(/starts from INR|starts from ₹|Wholesale DMC Rate|All-Inclusive Rate|पैकेज दर|Per Adult Rate/i)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `
+        <div style="margin:10px 0; padding:12px; border-radius:12px; background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,191,36,0.06)); border:1px solid rgba(245,158,11,0.4); box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:10.5px; font-weight:800; text-transform:uppercase; color:#d97706; letter-spacing:0.5px;">💎 Official DMC Locked Rate</span>
+            <span style="font-size:9.5px; font-weight:800; text-transform:uppercase; background:#f59e0b; color:#031636; padding:2px 8px; border-radius:10px;">Wholesale</span>
+          </div>
+          <div style="font-size:13px; font-weight:700; color:#031636; line-height:1.5;">
+            ${line.replace(/^[💰•\s]+/, '')}
+          </div>
+        </div>
+      `;
+      continue;
+    }
+
+    // C. Section Headings: e.g. "• Package Overview:", "• What's Included:", etc.
+    const sectionHeaderMatch = line.match(/^•\s*(Package Overview|What's Included|Pricing & Real-world Factors|Next Step|Detailed Itinerary|Inclusions & Exclusions|Payment Schedule|Verified Inclusions|Exclusions):?/i);
+    if (sectionHeaderMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const secName = sectionHeaderMatch[1];
+      let icon = '📌';
+      if (/included|inclusions/i.test(secName)) icon = '✅';
+      else if (/pricing|rate/i.test(secName)) icon = '💰';
+      else if (/next step/i.test(secName)) icon = '👉';
+      else if (/itinerary/i.test(secName)) icon = '🗺️';
+      else if (/payment/i.test(secName)) icon = '💳';
+
+      html += `
+        <div style="margin-top:12px; margin-bottom:6px; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:800; color:#031636; text-transform:uppercase; letter-spacing:0.5px;">
+          <span>${icon}</span>
+          <span>${secName}</span>
+        </div>
+      `;
+      continue;
+    }
+
+    // D. Numbered Step / Item
+    const stepMatch = line.match(/^(\d+)\.\s+(.*)/);
+    if (stepMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const num = stepMatch[1];
+      const content = stepMatch[2];
+
+      html += `
+        <div style="margin:5px 0; padding:8px 10px; border-radius:10px; background:#ffffff; border:1px solid #e2e8f0; display:flex; align-items:flex-start; gap:8px;">
+          <span style="width:20px; height:20px; border-radius:50%; background:#e0f2fe; color:#0284c7; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">${num}</span>
+          <div style="font-size:12px; color:#031636; line-height:1.45;">${content}</div>
+        </div>
+      `;
+      continue;
+    }
+
+    // E. Bullet point (• or * or -)
+    if (line.match(/^[\*\•\-]\s+(.*)/)) {
+      const bulletContent = line.replace(/^[\*\•\-]\s+/, '');
+      if (!inList) {
+        html += '<ul style="margin:6px 0; padding-left:0; list-style:none;">';
+        inList = true;
+      }
+
+      const lower = bulletContent.toLowerCase();
+      if (lower.startsWith('route:') || lower.startsWith('रूट:')) {
+        html += `<li style="margin-bottom:5px; padding:6px 10px; border-radius:10px; background:#eff6ff; border:1px solid #bfdbfe; font-size:12px; color:#1e3a8a; display:flex; align-items:flex-start; gap:6px;">
+          <span>📍</span> <span>${bulletContent}</span>
+        </li>`;
+      } else if (lower.startsWith('hotels:') || lower.startsWith('होटल:') || lower.startsWith('stays:')) {
+        html += `<li style="margin-bottom:5px; padding:6px 10px; border-radius:10px; background:#fffbeb; border:1px solid #fde68a; font-size:12px; color:#78350f; display:flex; align-items:flex-start; gap:6px;">
+          <span>🏨</span> <span>${bulletContent}</span>
+        </li>`;
+      } else if (lower.startsWith('flights:') || lower.startsWith('फ्लाइट:')) {
+        html += `<li style="margin-bottom:5px; padding:6px 10px; border-radius:10px; background:#f0f9ff; border:1px solid #bae6fd; font-size:12px; color:#0369a1; display:flex; align-items:flex-start; gap:6px;">
+          <span>✈️</span> <span>${bulletContent}</span>
+        </li>`;
+      } else if (lower.startsWith('included:') || lower.startsWith('inclusions:') || lower.startsWith('शामिल:')) {
+        html += `<li style="margin-bottom:5px; padding:6px 10px; border-radius:10px; background:#ecfdf5; border:1px solid #a7f3d0; font-size:12px; color:#065f46; display:flex; align-items:flex-start; gap:6px;">
+          <span>✅</span> <span>${bulletContent}</span>
+        </li>`;
+      } else if (lower.startsWith('exclusions:') || lower.startsWith('शामिल नहीं:')) {
+        html += `<li style="margin-bottom:5px; padding:6px 10px; border-radius:10px; background:#fef2f2; border:1px solid #fecaca; font-size:12px; color:#991b1b; display:flex; align-items:flex-start; gap:6px;">
+          <span>❌</span> <span>${bulletContent}</span>
+        </li>`;
+      } else {
+        html += `<li style="margin-bottom:4px; font-size:12px; color:#1e293b; display:flex; align-items:flex-start; gap:6px; line-height:1.45;">
+          <span style="color:#f59e0b; font-size:10px; margin-top:3px; flex-shrink:0;">▪</span>
+          <span>${bulletContent}</span>
+        </li>`;
+      }
+      continue;
+    }
+
+    // F. Regular paragraph
+    if (inList) { html += '</ul>'; inList = false; }
+    html += `<p style="margin:5px 0; font-size:12.5px; color:#1e293b; line-height:1.5;">${line}</p>`;
+  }
+
+  if (inList) { html += '</ul>'; inList = false; }
+  return html;
 }
 
 function toggleAIChat() {
