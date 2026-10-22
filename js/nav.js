@@ -1127,7 +1127,7 @@
       // First user interaction unlocker (for strict mobile/browser autoplay policies)
       const userInteractionEvents = ['touchstart', 'click', 'scroll', 'keydown'];
       function unlockAutoplayOnInteraction() {
-        document.querySelectorAll('video[autoplay]').forEach((vid) => {
+        document.querySelectorAll('video[autoplay], video.pkg-video-player, video[loop]').forEach((vid) => {
           if (vid.paused && vid.style.display !== 'none' && vid.style.opacity !== '0') {
             const p = vid.play();
             if (p !== undefined) p.catch(() => {});
@@ -1144,7 +1144,7 @@
       // Tab visibility change: resume playing looping videos upon tab refocus
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
-          document.querySelectorAll('video[autoplay]').forEach((vid) => {
+          document.querySelectorAll('video[autoplay], video.pkg-video-player, video[loop]').forEach((vid) => {
             if (vid.paused && vid.style.display !== 'none' && vid.style.opacity !== '0') {
               const p = vid.play();
               if (p !== undefined) p.catch(() => {});

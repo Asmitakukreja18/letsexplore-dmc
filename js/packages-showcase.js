@@ -568,7 +568,7 @@
         <!-- Image & Video Container -->
         <div class="relative aspect-[16/11] overflow-hidden bg-navy-deep">
           ${pkg.video ? `
-            <video loop muted playsinline preload="none" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
+            <video autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
               <source src="${pkg.video}" type="video/mp4"/>
             </video>
           ` : `
@@ -660,13 +660,10 @@
   }
 
   let pkgVideoObserver = null;
-  const activePlayingVideos = new Set();
-  const MAX_CONCURRENT_VIDEOS = 3;
 
   function setupPackageVideoObserver() {
     if (pkgVideoObserver) {
       pkgVideoObserver.disconnect();
-      activePlayingVideos.clear();
     }
 
     const cards = document.querySelectorAll('.pkg-card');
@@ -675,34 +672,40 @@
       const vid = card.querySelector('.pkg-video-player');
       if (!vid) return;
 
-      // Ensure infinite seamless looping
+      // Ensure infinite seamless looping attributes & properties
       vid.loop = true;
       vid.muted = true;
       vid.defaultMuted = true;
       vid.playsInline = true;
+      vid.setAttribute('autoplay', '');
       vid.setAttribute('loop', '');
       vid.setAttribute('muted', '');
       vid.setAttribute('playsinline', '');
       vid.setAttribute('webkit-playsinline', '');
 
+      // Explicit 'ended' event listener: rewinds and continuously loops
       vid.addEventListener('ended', function () {
         this.currentTime = 0;
         const p = this.play();
         if (p !== undefined) p.catch(() => {});
       });
 
-      // Hover priority: when user hovers a card, it immediately plays!
+      // Error recovery safeguard: reload and replay if a stream hiccups
+      vid.addEventListener('error', function () {
+        setTimeout(() => {
+          try {
+            vid.load();
+            const p = vid.play();
+            if (p !== undefined) p.catch(() => {});
+          } catch (err) {}
+        }, 1000);
+      });
+
+      // Hover priority
       card.addEventListener('mouseenter', () => {
         vid.preload = 'metadata';
         const p = vid.play();
         if (p !== undefined) p.catch(() => {});
-      });
-
-      card.addEventListener('mouseleave', () => {
-        // If it's not currently tracked in view, pause to save GPU
-        if (!card.dataset.inView) {
-          vid.pause();
-        }
       });
     });
 
@@ -715,53 +718,37 @@
 
           if (entry.isIntersecting) {
             card.dataset.inView = 'true';
-            // Only play if within budget of 3 concurrent videos
-            if (activePlayingVideos.size < MAX_CONCURRENT_VIDEOS) {
-              activePlayingVideos.add(vid);
-              vid.preload = 'metadata';
-              const p = vid.play();
-              if (p !== undefined) p.catch(() => {});
-            }
+            vid.preload = 'metadata';
+            const p = vid.play();
+            if (p !== undefined) p.catch(() => {});
           } else {
             delete card.dataset.inView;
             vid.pause();
-            activePlayingVideos.delete(vid);
-
-            // Backfill next visible video if under limit
-            if (activePlayingVideos.size < MAX_CONCURRENT_VIDEOS) {
-              const waitingCards = document.querySelectorAll('.pkg-card[data-in-view="true"]');
-              for (let i = 0; i < waitingCards.length; i++) {
-                const wVid = waitingCards[i].querySelector('.pkg-video-player');
-                if (wVid && !activePlayingVideos.has(wVid)) {
-                  activePlayingVideos.add(wVid);
-                  wVid.preload = 'metadata';
-                  const p = wVid.play();
-                  if (p !== undefined) p.catch(() => {});
-                  break;
-                }
-              }
-            }
           }
         });
-      }, { threshold: 0.25, rootMargin: '30px 0px 30px 0px' });
+      }, { threshold: 0.08, rootMargin: '100px 0px 100px 0px' });
 
       cards.forEach(c => pkgVideoObserver.observe(c));
+    } else {
+      // Fallback
+      cards.forEach(c => {
+        const vid = c.querySelector('.pkg-video-player');
+        if (vid) {
+          vid.play().catch(() => {});
+        }
+      });
     }
 
-    // Tab visibility handling
+    // Tab visibility handling: pause background videos when tab is hidden, resume all visible cards on return
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         document.querySelectorAll('.pkg-video-player').forEach(v => v.pause());
-        activePlayingVideos.clear();
       } else {
         const visibleCards = document.querySelectorAll('.pkg-card[data-in-view="true"]');
-        visibleCards.forEach((c, idx) => {
-          if (idx < MAX_CONCURRENT_VIDEOS) {
-            const vid = c.querySelector('.pkg-video-player');
-            if (vid) {
-              activePlayingVideos.add(vid);
-              vid.play().catch(() => {});
-            }
+        visibleCards.forEach(c => {
+          const vid = c.querySelector('.pkg-video-player');
+          if (vid) {
+            vid.play().catch(() => {});
           }
         });
       }

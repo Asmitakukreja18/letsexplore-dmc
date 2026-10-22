@@ -248,8 +248,8 @@
       entries.forEach(entry => {
         const vid = entry.target;
         if (entry.isIntersecting) {
-          // Only play if it's supposed to autoplay or in active carousel
-          if (vid.hasAttribute('autoplay') || vid.classList.contains('is-playing')) {
+          // Only play if it's supposed to autoplay, looping, or in package cards
+          if (vid.hasAttribute('autoplay') || vid.classList.contains('is-playing') || vid.classList.contains('pkg-video-player') || vid.hasAttribute('loop')) {
             vid.play().catch(() => {});
           }
         } else {
