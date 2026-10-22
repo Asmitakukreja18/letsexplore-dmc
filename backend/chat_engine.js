@@ -428,73 +428,82 @@ const PACKAGES_KNOWLEDGE = {
   }
 };
 
-const MASTER_SYSTEM_PROMPT = `You are an elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct ground DMC for Thailand, Bali, Malaysia, Singapore, Vietnam, Georgia, Turkey, Dubai, Kashmir, Kerala, Sri Lanka, Hong Kong, China (Canton Fair), and Ujjain.
+const MASTER_SYSTEM_PROMPT = `You are Atlas, the elite Luxury Travel Concierge & Architect at Let's Explore DMC (Amravati, Maharashtra). Direct DMC for 22+ destinations including Turkey, Bali, Dubai, Georgia, Thailand, Singapore, Vietnam, Kashmir, Kerala, and Sri Lanka.
 
-CRITICAL GOLDEN RESPONSE FORMAT:
-When user asks about any package, destination, overview, or what is included, you MUST strictly structure your answer in this exact 4-part format:
+CORE ARCHITECTURE RULES:
+1. INTENT-BASED FILTERING (STRICT):
+   - User ne price pucha toh SIRF price aayega (Format 3). DO NOT dump itinerary or hotels!
+   - User ne itinerary puchi toh SIRF day-wise itinerary aayegi (Format 2). ZERO price clutter!
+   - User ne hotels puche toh SIRF hotels and stay details aayenge (Format 5). DO NOT dump price or itinerary!
+   - User ne package overview pucha ("tell me about dubai package", "what is included"): Follow Format 1.
+   - User ne suggestions maange ("kahan jau", "options do", "suggest me", "confused"): Give categorized suggestions with direct website links without forcing WhatsApp!
+   - User ne pucha "website pe kahan hai / link do / nahi mil raha": Give direct website link and snapshot.
 
-Hello! I am Atlas, your AI Travel Architect at Let's Explore DMC.
+2. VISUAL BULLET STRUCTURE:
+   - Always break paragraphs into clean visual points using curated icons (🏨 Stay, 🏙 Sightseeing, 🏜 Adventure, 🚢 Experience, 🚗 Transfers, 💎 Rate, 📅 Day, ✅ Inclusions, ❌ Exclusions).
 
-• Package Overview:
-Our [Package Name] starts from INR [Price] (~$[USD] USD) per person ([Duration]).
+3. ZERO HALLUCINATION:
+   - Strictly quote real locked wholesale rates and verified hotel names from our 22 DMC vouchers.
 
-• What's Included:
-1. 4★ Luxury Hotel with daily buffet breakfast
-2. [Attraction / Observation Deck Tickets]
-3. [Key iconic activity / Cruise / Safari / Speedboat with meals]
-4. [Secondary attraction or special experience]
-5. 100% Private AC Airport Transfers
+4. 1-CLICK ACTIONS & WEBSITE EXPLORATION:
+   - Provide direct website page links for on-site exploration and WhatsApp booking links for rate locks.
 
-• Pricing & Real-world Factors:
-This is our verified starting base rate. Final pricing depends on your departure city, flight rates, travel dates, and whether you choose 4★ or 5★ hotels.
+5 STANDARD RESPONSE FORMATS:
+📌 FORMAT 1: Package & Overview Query
+When user asks about a destination package or what is included:
+1 Persona & Welcome: "Hello! I am Atlas, your Luxury Travel Architect at Let's Explore DMC."
+2 Core Package & Rate: "💎 Our [Package Name] starts from ₹[Price] per person ([Duration])."
+3 Key Inclusions (Bulleted Icons):
+  • 🏨 Stay: [Hotels & Breakfast]
+  • 🏙 Sightseeing: [Major Landmark / Observation Tickets]
+  • 🏜 Adventure: [Safari / Island / Cable Car / Adventure]
+  • 🚢 Experience: [Cruise / Cultural / Specialty Dinner]
+  • 🚗 Transfers: [100% Private AC Airport & Tour Transfers]
+4 Real-world Transparency Note: "Note: Final price depends on your travel dates, departure city, and hotel preference (4★ vs 5★)."
+5 Direct Next Step / CTA: Website Link + WhatsApp Link.
 
-• Next Step:
-Which month are you planning to travel, and how many people will be joining? 
-[📲 Chat on WhatsApp (+91 80075 86871) for a customized quote]
+📌 FORMAT 2: Itinerary Only Query
+When user asks for itinerary / day-wise plan ("Give me a 5-day itinerary for Georgia, no price right now"):
+"Here is your [Duration] curated route for [Destination]:
+📅 Day 1: [Day 1 Route & Title] → [Highlights]
+📅 Day 2: [Day 2 Route & Title] → [Highlights]
+📅 Day 3: [Day 3 Route & Title] → [Highlights]
+📅 Day 4: [Day 4 Route & Title] → [Highlights]
+📅 Day 5: [Day 5 Route & Title] → [Highlights]
+👉 Would you like recommendations on verified 4★ hotels or flight options for these dates?
+[🌐 View Full Itinerary on Website]([destination]-package.html)"
+(ZERO price clutter!)
 
-CRITICAL RULES:
-1. ZERO ROBOTIC PREFIX:
-   - DO NOT prefix your answers with "🤖 Atlas AI Concierge:" or "Atlas AI Concierge:".
-   - Start directly with your warm, polite, and helpful answer.
-2. JITNA PUCHA UTNA HI EXACT ANSWER DO (ANSWER ONLY WHAT IS SPECIFICALLY ASKED):
-   - If user asks for "price", "amount", "cost", "rates": Answer ONLY the exact price breakdown (INR primary, USD equivalent, total group amount, land package option). DO NOT dump the full itinerary, flights, or policies unless asked!
-   - If user asks for "inclusions and exclusions": Provide ONLY the clear itemized Inclusions and Exclusions.
-   - If user asks for "hotels": Provide ONLY the hotels, room categories, meal plans, and nights.
-   - If user asks for "itinerary" or "sightseeing" or "places": Provide ONLY the day-wise itinerary breakdown.
-   - If user asks for "flights": Provide ONLY the flight schedule.
-   - If user asks for recommendations (e.g. low budget, 4-5 days, dinner night, nightlife): Suggest top matching curated options with prices and highlights.
-   - ONLY when user asks for "full package", "poora details", "complete voucher", or "overview" should you present the comprehensive multi-section breakdown.
-3. COMPACT FORMATTING & ZERO EXTRA SPACING:
-   - Keep answers compact, clean, and elegant.
-   - DO NOT leave excessive blank lines, large vertical gaps, or repetitive filler text.
-   - Use clean, tight bullet points.
+📌 FORMAT 3: Price-Specific Query
+When user asks for price / cost / rate / budget ("Turkey package ka exact price kya hai?"):
+"💎 [Package Name] ([Duration])
+• Per Adult Rate: ₹[Price] (~$[USD] USD)
+• Total for 2 Adults: ₹[Total]
+• Land Package (Ex-[Country]): From ₹[Land] / person
+• Includes: [Top 4 Highlights]
+[🌐 View Package Page]([destination]-package.html)
+📲 [Lock this Rate on WhatsApp (+91 80075 86871)](https://wa.me/918007586871?text=...)"
 
-CRITICAL PERSISTENT MEMORY & CONTINUITY (DO NOT LOSE MEMORY):
-- You MUST maintain strict continuity across the ENTIRE conversation history (up to 30 turns).
-- If a destination was discussed in ANY previous message (e.g. Malaysia with Bali, Thailand, Bali, Singapore, Vietnam, Dubai, Georgia, Turkey, Kashmir, Kerala, Sri Lanka, Hong Kong, Canton Fair, Ujjain) and the user asks follow-up questions:
-  * "pricing?" / "price btao" / "kitna hoga" / "cost"
-  * "places we will visit?" / "places to see" / "sightseeing" / "kya dekhenge"
-  * "hotels?" / "hotel kon sa hai" / "resort"
-  * "inclusions exclusions" / "kya include hai"
-  * "flight schedule" / "airline"
-  * "child policy" / "cancellation"
-  YOU ALREADY KNOW THE DESTINATION! NEVER ask "Which package are you interested in?" or "Please specify your destination." ALWAYS immediately answer for the ACTIVE destination currently in context!
+📌 FORMAT 4: Language Matching (Hindi / Hinglish)
+User jis language me bolega, AI usi tone me connect karega:
+e.g. User: "Mujhe Bali ka honeymoon plan batao under 50k"
+AI: "Namaste! Bali honeymoon ke liye ₹48,999 per person me hamara 6D/5N package perfect rahega:
+• 🏨 Stays: Kuta Beach Resort (3N) + Ubud me Luxury Private Pool Villa (2N)
+• 🍳 Special: Villa me Floating Breakfast & Romantic Candlelight Dinner
+• 🏝 Island Tour: Nusa Penida West Speedboat Tour (Kelingking Beach & Snorkeling)
+• 🚗 Comfort: 100% Dedicated Private AC Car with Chauffeur
+Aap tentative travel month aur departure city bataiye, taaki flight ke sath exact quote share kar sakein!
+[🌐 Website par Bali Honeymoon Package dekhein](bali-package.html)
+📲 [WhatsApp par direct travel architect se baat karein](https://wa.me/918007586871?text=...)"
 
-CRITICAL CURRENCY & RATES DISPLAY:
-- Always show INR prominently as the primary rate, along with USD equivalent alongside:
-  e.g. "INR 62,362 (~$745 USD) per adult" or "Georgia Discover Magic: INR 1,40,000 per person".
-
-CRITICAL LANGUAGE RULE (STRICT):
-- If the user asks in English, reply 100% in English only! Never use Devanagari Hindi.
-- If the user asks in Hindi (in Devanagari script), reply in Hindi.
-- If the user asks in Hinglish (Roman script Hindi, e.g. "dinner nightt ho my budget is low and for 4-5 days" or "price kitna hai"), reply in clear, friendly Hinglish / Latin script. NEVER use Devanagari Hindi.
-
-ABOUT LET'S EXPLORE DMC:
-- Direct Ground DMC with official ground teams & offices in:
-  • India: Amravati Global HQ (Shiv Krupa Residence, Opp New Cotton Market), Mumbai, Jaipur, Nagpur
-  • International: Bali (Denpasar) & Turkey (Taksim, Istanbul)
-- Official WhatsApp / Hotline: +91 80075 86871 | Email: Info@letsexploredmc.com
-- Bank Details: YES BANK LIMITED | Account No: 108163400004886 | IFSC: YESB0001081 | Account Type: LETS EXPLORE DMC
+📌 FORMAT 5: Hotels & Stays Only Query
+When user asks for hotels or rooms ("Which hotels do you provide in Thailand?"):
+"🏨 Verified Accommodations for [Package Name] ([Duration])
+1. [City 1] ([Nights] Nights): [Hotel Name] ([Star Rating] & [Room Type])
+2. [City 2] ([Nights] Nights): [Hotel Name] ([Star Rating] & [Room Type])
+• All hotels include daily buffet breakfast, certified cleanliness ratings, and free room upgrades on advance bookings.
+[🌐 View Hotels & Details on Website]([destination]-package.html)"
+(ZERO price dump!)
 
 ============================================================
 OFFICIAL VERIFIED PACKAGES (EXACT VOUCHER DATA WITH BOTH INR & USD RATES):
@@ -868,349 +877,413 @@ function detectLanguage(text) {
   return 'english';
 }
 
-function getPackageSummary(pkg, lang = 'english') {
-  let itemsEn = [];
-  let itemsHi = [];
-  let itemsHing = [];
+function getPackageWebUrl(pkgOrDestId) {
+  const str = String(pkgOrDestId || '').toLowerCase();
+  if (str.includes('turkey')) return 'turkey-package.html';
+  if (str.includes('bali')) return 'bali-package.html';
+  if (str.includes('dubai')) return 'dubai-package.html';
+  if (str.includes('georgia')) return 'georgia-package.html';
+  if (str.includes('thailand') || str.includes('phuket') || str.includes('krabi')) return 'thailand-package.html';
+  if (str.includes('singapore')) return 'singapore-package.html';
+  if (str.includes('vietnam')) return 'vietnam-package.html';
+  if (str.includes('srilanka') || str.includes('sri-lanka') || str.includes('sri lanka')) return 'srilanka-package.html';
+  if (str.includes('malaysia')) return 'malaysia-package.html';
+  if (str.includes('kashmir')) return 'kashmir-package.html';
+  if (str.includes('kerala')) return 'kerala-package.html';
+  if (str.includes('andaman')) return 'andaman-package.html';
+  if (str.includes('manali')) return 'manali-package.html';
+  if (str.includes('nepal')) return 'nepal-package.html';
+  if (str.includes('ujjain')) return 'ujjain-package.html';
+  return 'deals.html';
+}
 
-  const id = pkg.id_code || '';
+function getPackageSummary(pkg, lang = 'english') {
+  const id = (pkg.id_code || '').toLowerCase();
+  const pageUrl = getPackageWebUrl(pkg.id_code);
+  const waUrl = `https://wa.me/918007586871?text=${encodeURIComponent('Hello Lets Explore DMC, please share customized quote for ' + pkg.name)}`;
+
+  let inclusionsListEn = [];
+  let inclusionsListHi = [];
+  let inclusionsListHing = [];
 
   if (id.includes('dubai')) {
-    itemsEn = [
-      "4★ Luxury Hotel with daily buffet breakfast",
-      "Burj Khalifa 124th Floor observation deck tickets",
-      "4x4 Desert Safari with dune bashing & grand BBQ dinner",
-      "Dubai Marina Dhow Luxury Cruise with buffet dinner & live entertainment",
-      "100% Private AC Airport & Sightseeing Transfers"
+    inclusionsListEn = [
+      "🏨 **Stay**: 4★ Luxury Hotel with Daily Buffet Breakfast",
+      "🏙 **Sightseeing**: Burj Khalifa 124th Floor Observation Deck Tickets",
+      "🏜 **Adventure**: VIP Desert Safari with 4x4 Dune Bashing & BBQ Dinner",
+      "🚢 **Experience**: Dubai Marina Luxury Dhow Cruise with Dinner",
+      "🚗 **Transfers**: 100% Private AC Airport & Tour Transfers"
     ];
-    itemsHi = [
-      "4★ लग्जरी होटल और प्रतिदिन बुफे नाश्ता (Breakfast)",
-      "बुर्ज खलीफा 124वीं मंजिल ऑब्जर्वेशन डेक टिकट",
-      "4x4 डेजर्ट सफारी, ड्यून बैशिंग और भव्य BBQ डिनर",
-      "दुबई मरीना लग्जरी धो क्रूज़, बुफे डिनर और लाइव म्यूजिक",
-      "100% प्राइवेट AC एयरपोर्ट और सभी दर्शनीय स्थलों के ट्रांसफर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: 4★ लग्जरी होटल और प्रतिदिन बुफे नाश्ता (Breakfast)",
+      "🏙 **दर्शनीय स्थल**: बुर्ज खलीफा 124वीं मंजिल ऑब्जर्वेशन डेक टिकट",
+      "🏜 **एडवेंचर**: वीआईपी डेजर्ट सफारी, 4x4 ड्यून बैशिंग और भव्य BBQ डिनर",
+      "🚢 **अनुभव**: दुबई मरीना लग्जरी धो क्रूज़, बुफे डिनर और लाइव म्यूजिक",
+      "🚗 **ट्रांसफर**: 100% प्राइवेट AC एयरपोर्ट और सभी टूर ट्रांसफर"
     ];
-    itemsHing = [
-      "4★ Luxury Hotel aur daily buffet breakfast",
-      "Burj Khalifa 124th Floor observation deck tickets",
-      "4x4 Desert Safari with dune bashing & grand BBQ dinner",
-      "Dubai Marina Dhow Luxury Cruise with buffet dinner & live entertainment",
-      "100% Private AC Airport & Sightseeing Transfers"
+    inclusionsListHing = [
+      "🏨 **Stay**: 4★ Luxury Hotel with Daily Buffet Breakfast",
+      "🏙 **Sightseeing**: Burj Khalifa 124th Floor Observation Deck Tickets",
+      "🏜 **Adventure**: VIP Desert Safari with 4x4 Dune Bashing & BBQ Dinner",
+      "🚢 **Experience**: Dubai Marina Luxury Dhow Cruise with Dinner",
+      "🚗 **Transfers**: 100% Private AC Airport & Tour Transfers"
     ];
   } else if (id.includes('bali')) {
-    itemsEn = [
-      "4★/5★ Deluxe Resort in Kuta + Private 1-Bedroom Pool Villa in Ubud with Daily Breakfast",
-      "Full-Day Nusa Penida West Island Speedboat Tour (Kelingking T-Rex cliff & Angel's Billabong)",
-      "90-min ATV Quad Biking + 3-Hour Ayung River Rafting + Bali Jungle Swing",
-      "Uluwatu Cliff Sunset Temple & iconic Kecak Fire Dance show",
-      "100% Private AC SUV with dedicated chauffeur throughout"
+    inclusionsListEn = [
+      "🏨 **Stay**: 4★ Kuta Resort (4N) + Ubud Luxury Private Pool Villa (2N) with Daily Breakfast",
+      "🏝 **Island Tour**: Full-Day Nusa Penida West Speedboat Tour (Kelingking T-Rex Beach & Snorkeling)",
+      "🏜 **Adventure**: 90-min ATV Quad Biking + 3-Hour Ayung River Rafting + Bali Jungle Swing",
+      "🌅 **Sunset Culture**: Uluwatu Cliff Sunset Temple & Kecak Fire Dance Show",
+      "🚗 **Transfers**: 100% Dedicated Private AC Car with Chauffeur throughout"
     ];
-    itemsHi = [
-      "कूटा में 4★/5★ डीलक्स रिसॉर्ट + उबूद में प्राइवेट 1-बेडरूम पूल विला (नाश्ते सहित)",
-      "नुसा पेनिडा वेस्ट आइलैंड स्पीडबोट टूर (केलिंगकिंग टी-रेक्स क्लिफ और एंजल्स बिलबॉन्ग)",
-      "90-मिनट ATV क्वाड बाइकिंग + 3-घंटे अयुंग रिवर राफ्टिंग + बाली जंगल स्विंग",
-      "उलुवातु क्लिफ सनसेट मंदिर और प्रसिद्ध केचक फायर डांस शो",
-      "पूरे टूर के दौरान 100% प्राइवेट AC गाड़ी और समर्पित ड्राइवर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: कूटा रिसॉर्ट (4 रातें) + उबूद में प्राइवेट 1-बेडरूम पूल विला (2 रातें) नाश्ते सहित",
+      "🏝 **आइलैंड टूर**: नुसा पेनिडा वेस्ट स्पीडबोट टूर (केलिंगकिंग बीच और स्नोर्कलिंग)",
+      "🏜 **एडवेंचर**: 90-मिनट ATV क्वाड बाइकिंग + 3-घंटे अयुंग रिवर राफ्टिंग + जंगल स्विंग",
+      "🌅 **संस्कृति**: उलुवातु क्लिफ सनसेट मंदिर और प्रसिद्ध केचक फायर डांस शो",
+      "🚗 **ट्रांसफर**: पूरे टूर में 100% प्राइवेट AC गाड़ी और समर्पित ड्राइवर"
     ];
-    itemsHing = [
-      "Kuta me 4★/5★ Deluxe Resort + Ubud me Private 1-Bedroom Pool Villa with Daily Breakfast",
-      "Full-Day Nusa Penida West Island Speedboat Tour (Kelingking T-Rex cliff & Angel's Billabong)",
-      "90-min ATV Quad Biking + 3-Hour Ayung River Rafting + Bali Jungle Swing",
-      "Uluwatu Cliff Sunset Temple & iconic Kecak Fire Dance show",
-      "100% Private AC SUV with dedicated chauffeur throughout"
+    inclusionsListHing = [
+      "🏨 **Stay**: 4★ Kuta Resort (4N) + Ubud me Luxury Private Pool Villa (2N) with Daily Breakfast",
+      "🏝 **Island Tour**: Full-Day Nusa Penida West Speedboat Tour (Kelingking Beach & Snorkeling)",
+      "🏜 **Adventure**: 90-min ATV Quad Biking + 3-Hour Ayung River Rafting + Bali Jungle Swing",
+      "🌅 **Sunset Culture**: Uluwatu Cliff Sunset Temple & Kecak Fire Dance Show",
+      "🚗 **Transfers**: 100% Dedicated Private AC Car with Chauffeur throughout"
     ];
   } else if (id.includes('thailand')) {
-    itemsEn = [
-      "4★/5★ Beachfront Resort stays in Phuket & Krabi with Daily Buffet Breakfast",
-      "Full-Day Phi Phi Island Speedboat Cruise with snorkeling & Maya Bay pass",
-      "Krabi 4-Island Tour with Picnic Lunch & Coral Island exploration",
-      "Evening Chao Phraya River Luxury Dinner Cruise & Bangkok City Tour",
-      "100% Private AC Airport & Inter-city Transfers throughout"
+    inclusionsListEn = [
+      "🏨 **Stay**: 4★/5★ Beachfront Resort stays in Phuket & Krabi with Daily Buffet Breakfast",
+      "🏝 **Island Tour**: Full-Day Phi Phi Island Speedboat Cruise with Maya Bay & Snorkeling",
+      "🚢 **Experience**: Evening Chao Phraya River Luxury Dinner Cruise & Bangkok City Tour",
+      "🐅 **Adventure**: Krabi 4-Island Tour with Picnic Lunch & Safari World Marine Park",
+      "🚗 **Transfers**: 100% Private AC Airport & Inter-city Transfers throughout"
     ];
-    itemsHi = [
-      "फुकेत और क्राबी में 4★/5★ बीचफ्रंट रिसॉर्ट स्टे और प्रतिदिन बुफे नाश्ता",
-      "फी फी आइलैंड स्पीडबोट क्रूज़, स्नोर्कलिंग और माया बे पास",
-      "क्राबी 4-आइलैंड टूर, पिकनिक लंच और कोरल आइलैंड टूर",
-      "चाओ फ्राया रिवर लग्जरी डिनर क्रूज़ और बैंकॉक सिटी टूर",
-      "पूरे टूर में 100% प्राइवेट AC एयरपोर्ट और इंटर-सिटी ट्रांसफर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: फुकेत और क्राबी में 4★/5★ बीचफ्रंट रिसॉर्ट स्टे और प्रतिदिन बुफे नाश्ता",
+      "🏝 **आइलैंड टूर**: फी फी आइलैंड स्पीडबोट क्रूज़, स्नोर्कलिंग और माया बे पास",
+      "🚢 **अनुभव**: चाओ फ्राया रिवर लग्जरी डिनर क्रूज़ और बैंकॉक सिटी टूर",
+      "🐅 **एडवेंचर**: क्राबी 4-आइलैंड टूर, पिकनिक लंच और सफारी वर्ल्ड मरीन पार्क",
+      "🚗 **ट्रांसफर**: पूरे टूर में 100% प्राइवेट AC एयरपोर्ट और इंटर-सिटी ट्रांसफर"
     ];
-    itemsHing = [
-      "Phuket aur Krabi me 4★/5★ Beachfront Resort stays with Daily Buffet Breakfast",
-      "Full-Day Phi Phi Island Speedboat Cruise with snorkeling & Maya Bay pass",
-      "Krabi 4-Island Tour with Picnic Lunch & Coral Island exploration",
-      "Evening Chao Phraya River Luxury Dinner Cruise & Bangkok City Tour",
-      "100% Private AC Airport & Inter-city Transfers throughout"
+    inclusionsListHing = [
+      "🏨 **Stay**: 4★/5★ Beachfront Resort stays in Phuket & Krabi with Daily Buffet Breakfast",
+      "🏝 **Island Tour**: Full-Day Phi Phi Island Speedboat Cruise with Maya Bay & Snorkeling",
+      "🚢 **Experience**: Evening Chao Phraya River Luxury Dinner Cruise & Bangkok City Tour",
+      "🐅 **Adventure**: Krabi 4-Island Tour with Picnic Lunch & Safari World Marine Park",
+      "🚗 **Transfers**: 100% Private AC Airport & Inter-city Transfers throughout"
     ];
   } else if (id.includes('georgia')) {
-    itemsEn = [
-      "4★ City Center Hotel in Tbilisi with Daily Buffet Breakfast",
-      "Gudauri Ski Resort & Snowy Friendship Monument tour",
-      "4x4 Extreme Mountain Drive to Kazbegi Gergeti Trinity Church",
-      "Old Tbilisi Walking Tour, Bridge of Peace & Narikala Cable Car",
-      "100% Private AC Airport & Excursion Transfers throughout"
+    inclusionsListEn = [
+      "🏨 **Stay**: 4★ Boutique Hotel in Old Tbilisi with Daily Buffet Breakfast",
+      "🏔 **Snow Adventure**: Gudauri Ski Resort & Snowy Caucasus Friendship Monument",
+      "🚙 **Off-road**: 4x4 Extreme Mountain Jeep Safari to Kazbegi Gergeti Trinity Church (2,170m)",
+      "🍇 **Culture**: Historic Old Tbilisi Cable Car, Bridge of Peace & Traditional Wine Cellar Tasting",
+      "🚗 **Transfers**: 100% Private 4x4 Vehicle with Chauffeur throughout"
     ];
-    itemsHi = [
-      "त्बिलिसी सिटी सेंटर में 4★ होटल और प्रतिदिन बुफे नाश्ता",
-      "गुदौरी स्की रिसॉर्ट और बर्फीला फ्रेंडशिप मॉन्यूमेंट टूर",
-      "काजबेगी गेर्गेटी ट्रिनिटी चर्च तक 4x4 रोमांचक माउंटेन राइड",
-      "ओल्ड त्बिलिसी वॉकिंग टूर, ब्रिज ऑफ पीस और नरीकला केबल कार",
-      "पूरे टूर में 100% प्राइवेट AC एयरपोर्ट और दर्शनीय स्थल ट्रांसफर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: त्बिलिसी ओल्ड टाउन में 4★ बुटीक होटल और प्रतिदिन बुफे नाश्ता",
+      "🏔 **स्नो एडवेंचर**: गुदौरी स्की रिसॉर्ट और बर्फीला फ्रेंडशिप मॉन्यूमेंट टूर",
+      "🚙 **माउंटेन सफारी**: काजबेगी गेर्गेटी ट्रिनिटी चर्च (2,170m) तक 4x4 रोमांचक जीप सफारी",
+      "🍇 **संस्कृति**: नरीकला केबल कार, ब्रिज ऑफ पीस और पारंपरिक जॉर्जियन वाइन चखना",
+      "🚗 **ट्रांसफर**: पूरे टूर में 100% प्राइवेट 4x4 गाड़ी और समर्पित ड्राइवर"
     ];
-    itemsHing = [
-      "Tbilisi City Center me 4★ Hotel stay aur daily buffet breakfast",
-      "Gudauri Ski Resort & Snowy Friendship Monument tour",
-      "4x4 Extreme Mountain Drive to Kazbegi Gergeti Trinity Church",
-      "Old Tbilisi Walking Tour, Bridge of Peace & Narikala Cable Car",
-      "100% Private AC Airport & Excursion Transfers throughout"
-    ];
-  } else if (id.includes('kashmir')) {
-    itemsEn = [
-      "Luxury Dal Lake Houseboat stay + 4★ Srinagar Hotel with Breakfast & Dinners (MAP Plan)",
-      "1-Hour Sunset Shikara Ride on Dal Lake",
-      "Gulmarg Gondola Phase 1 Snow Expedition",
-      "Pahalgam Betaab Valley & Aru Valley excursion with saffron field visits",
-      "100% Dedicated Heated Chauffeur Cab throughout"
-    ];
-    itemsHi = [
-      "डल झील पर लग्जरी हाउसबोट + श्रीनगर में 4★ होटल (नाश्ता और डिनर सहित - MAP प्लान)",
-      "डल झील पर 1 घंटे की सनसेट शिकारा राइड",
-      "गुलमर्ग गोंडोला फेज़ 1 स्नो टूर और बर्फबारी के नजारे",
-      "पहलगाम बेताब वैली और अरू वैली टूर, केसर के खेत और सेब के बागान",
-      "पूरे टूर में 100% प्राइवेट हीटेड कैब और समर्पित ड्राइवर"
-    ];
-    itemsHing = [
-      "Dal Lake Luxury Houseboat + Srinagar me 4★ Hotel (Breakfast & Dinner included - MAP Plan)",
-      "1-Hour Sunset Shikara Ride on Dal Lake",
-      "Gulmarg Gondola Phase 1 Snow Expedition",
-      "Pahalgam Betaab Valley & Aru Valley excursion with saffron field visits",
-      "100% Dedicated Heated Chauffeur Cab throughout"
-    ];
-  } else if (id.includes('singapore')) {
-    itemsEn = [
-      "4★ City Hotel with Daily Buffet Breakfast",
-      "Universal Studios Singapore 1-Day Pass with all rides",
-      "Sentosa Island Cable Car Skypass & Wings of Time Sunset Laser Show",
-      "Marina Bay Sands (MBS) Skypark Observation Deck & Gardens by the Bay",
-      "100% Private AC Airport & Sightseeing Transfers"
-    ];
-    itemsHi = [
-      "4★ प्रीमियम सिटी होटल और प्रतिदिन बुफे नाश्ता",
-      "फुल-डे यूनिवर्सल स्टूडियोज सिंगापुर पास (सभी राइड्स शामिल)",
-      "सेंटोसा केबल कार और विंग्स ऑफ टाइम लेजर शो",
-      "मरीना बे सैंड्स (MBS) स्काईपार्क और गार्डन्स बाय द बे प्रवेश",
-      "100% प्राइवेट AC एयरपोर्ट और सभी दर्शनीय स्थलों के ट्रांसफर"
-    ];
-    itemsHing = [
-      "4★ City Hotel stay aur daily buffet breakfast",
-      "Universal Studios Singapore 1-Day Pass with all rides",
-      "Sentosa Island Cable Car Skypass & Wings of Time Sunset Laser Show",
-      "Marina Bay Sands (MBS) Skypark Observation Deck & Gardens by the Bay",
-      "100% Private AC Airport & Sightseeing Transfers"
-    ];
-  } else if (id.includes('vietnam')) {
-    itemsEn = [
-      "4★/5★ Hotels across Sapa, Hanoi, Da Nang & Phu Quoc with Daily Breakfast",
-      "Fansipan Peak Cable Car ('Roof of Indochina' 3,143m) & Glass Bridge",
-      "Ba Na Hills Golden Bridge (Giant Stone Hands) & Fantasy Park",
-      "Hoi An Ancient Lantern Town & Coconut Jungle basket boat tour",
-      "Vinpearl Safari, VinWonders Theme Park & 4-Island Speedboat Tour"
-    ];
-    itemsHi = [
-      "सापा, हनोई, दा नांग और फू क्वोक में 4★/5★ होटल (प्रतिदिन नाश्ता सहित)",
-      "फैंसीपैन पीक 'रूफ ऑफ इंडोचाइना' (3,143m) और ग्लास ब्रिज केबल कार टिकट",
-      "बा ना हिल्स गोल्डन हैंड ब्रिज और फैंटेसी पार्क",
-      "होई आन प्राचीन लालटेन टाउन और कोकोनट जंगल बास्केट बोट राइड",
-      "विनपर्ल सफारी, विनवंडर्स थीम पार्क और 4-आइलैंड स्पीडबोट टूर"
-    ];
-    itemsHing = [
-      "4★/5★ Hotels across Sapa, Hanoi, Da Nang & Phu Quoc with Daily Breakfast",
-      "Fansipan Peak Cable Car ('Roof of Indochina' 3,143m) & Glass Bridge",
-      "Ba Na Hills Golden Bridge (Giant Stone Hands) & Fantasy Park",
-      "Hoi An Ancient Lantern Town & Coconut Jungle basket boat tour",
-      "Vinpearl Safari, VinWonders Theme Park & 4-Island Speedboat Tour"
+    inclusionsListHing = [
+      "🏨 **Stay**: 4★ Boutique Hotel in Old Tbilisi with Daily Buffet Breakfast",
+      "🏔 **Snow Adventure**: Gudauri Ski Resort & Snowy Caucasus Friendship Monument",
+      "🚙 **Off-road**: 4x4 Extreme Mountain Jeep Safari to Kazbegi Gergeti Trinity Church (2,170m)",
+      "🍇 **Culture**: Historic Old Tbilisi Cable Car, Bridge of Peace & Traditional Wine Cellar Tasting",
+      "🚗 **Transfers**: 100% Private 4x4 Vehicle with Chauffeur throughout"
     ];
   } else if (id.includes('turkey')) {
-    itemsEn = [
-      "Authentic 5★ Cave Resort in Cappadocia + 4★ Istanbul Hotel with Daily Breakfast",
-      "Sunrise Hot Air Balloon Flight viewing over Fairy Chimney Valleys",
-      "Sunset Bosphorus Luxury Yacht Cruise in Istanbul",
-      "Goreme Open Air Museum, Underground City & Pigeon Valley",
-      "100% Private AC Airport & Sightseeing Transfers throughout"
+    inclusionsListEn = [
+      "🏨 **Stay**: 5★ Authentic Cave Resort in Cappadocia (2N) + 4★ Istanbul Hotel (2N) with Daily Breakfast",
+      "🎈 **Adventure**: Sunrise Hot Air Balloon Valley Flight Viewing with Champagne Toast",
+      "🚢 **Experience**: Private Sunset Bosphorus Luxury Yacht Cruise in Istanbul",
+      "🏛 **Sightseeing**: Goreme Open Air Museum, Derinkuyu Underground City & Hagia Sophia",
+      "🚗 **Transfers**: 100% Private AC Transfers + Domestic Return Flights in Turkey"
     ];
-    itemsHi = [
-      "कप्पाडोसिया में 5★ ऑथेंटिक केव (गुफा) रिसॉर्ट + इस्तांबुल में 4★ होटल (नाश्ता सहित)",
-      "फेयरी चिमनी घाटियों के ऊपर सनराइज हॉट एयर बैलून राइड का अनुभव",
-      "इस्तांबुल में सनसेट बॉस्फोरस लग्जरी यॉट क्रूज़",
-      "गोरेमे ओपन एयर म्यूजियम, अंडरग्राउंड सिटी और पिजन वैली टूर",
-      "पूरे टूर में 100% प्राइवेट AC एयरपोर्ट और दर्शनीय स्थल ट्रांसफर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: कप्पाडोसिया में 5★ ऑथेंटिक केव रिसॉर्ट (2N) + इस्तांबुल में 4★ होटल (2N) नाश्ते सहित",
+      "🎈 **एडवेंचर**: फेयरी चिमनी घाटियों के ऊपर सनराइज हॉट एयर बैलून राइड का विहंगम दृश्य",
+      "🚢 **अनुभव**: इस्तांबुल में यूरोप और एशिया के बीच सनसेट बॉस्फोरस लग्जरी यॉट क्रूज़",
+      "🏛 **दर्शनीय स्थल**: गोरेमे ओपन एयर म्यूजियम, डेरिनकुयू अंडरग्राउंड सिटी और हागिया सोफिया",
+      "🚗 **ट्रांसफर**: 100% प्राइवेट AC एयरपोर्ट ट्रांसफर + तुर्की में डोमेस्टिक फ्लाइट्स शामिल"
     ];
-    itemsHing = [
-      "Cappadocia me 5★ Cave Resort + Istanbul me 4★ Hotel with Daily Breakfast",
-      "Sunrise Hot Air Balloon Flight viewing over Fairy Chimney Valleys",
-      "Sunset Bosphorus Luxury Yacht Cruise in Istanbul",
-      "Goreme Open Air Museum, Underground City & Pigeon Valley",
-      "100% Private AC Airport & Sightseeing Transfers throughout"
+    inclusionsListHing = [
+      "🏨 **Stay**: 5★ Authentic Cave Resort in Cappadocia (2N) + 4★ Istanbul Hotel (2N) with Daily Breakfast",
+      "🎈 **Adventure**: Sunrise Hot Air Balloon Valley Flight Viewing with Champagne Toast",
+      "🚢 **Experience**: Private Sunset Bosphorus Luxury Yacht Cruise in Istanbul",
+      "🏛 **Sightseeing**: Goreme Open Air Museum, Derinkuyu Underground City & Hagia Sophia",
+      "🚗 **Transfers**: 100% Private AC Transfers + Domestic Return Flights in Turkey"
     ];
-  } else if (id.includes('sri-lanka')) {
-    itemsEn = [
-      "4★ Beach & Hill Resorts with MAP Plan (Daily Breakfast + Daily Dinners included)",
-      "Kandy Temple of the Sacred Tooth Relic & Royal Botanical Gardens",
-      "Nuwara Eliya Tea Plantations & Ramboda Falls",
-      "Bentota Madu River Mangrove Boat Safari & Turtle Hatchery",
-      "100% Private AC Chauffeur Vehicle throughout"
+  } else if (id.includes('singapore')) {
+    inclusionsListEn = [
+      "🏨 **Stay**: 4★ Central City Hotel with Daily Buffet Breakfast",
+      "🎢 **Theme Park**: Universal Studios Singapore 1-Day Pass with all rides",
+      "🏙 **Sightseeing**: Marina Bay Sands (MBS) Skypark & Gardens by the Bay (Flower Dome & Cloud Forest)",
+      "🌅 **Experience**: Sentosa Cable Car Skypass & Wings of Time Sunset Laser Show",
+      "🚗 **Transfers**: 100% Private Changi Airport & Sightseeing Transfers"
     ];
-    itemsHi = [
-      "4★ बीच और हिल रिसॉर्ट (प्रतिदिन नाश्ता और डिनर शामिल - MAP मील प्लान)",
-      "कैंडी टूथ रेलिक मंदिर और रॉयल बॉटनिकल गार्डन्स दर्शन",
-      "नूवारा एलिया चाय बागान और रामबोडा वॉटरफॉल",
-      "बेंटोटा माडू रिवर मैंग्रोव बोट सफारी और कछुआ संरक्षण केंद्र",
-      "पूरे टूर में 100% प्राइवेट AC गाड़ी और समर्पित ड्राइवर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: 4★ प्रीमियम सिटी होटल और प्रतिदिन बुफे नाश्ता",
+      "🎢 **थीम पार्क**: फुल-डे यूनिवर्सल स्टूडियोज सिंगापुर पास (सभी राइड्स शामिल)",
+      "🏙 **दर्शनीय स्थल**: मरीना बे सैंड्स (MBS) स्काईपार्क और गार्डन्स बाय द बे प्रवेश",
+      "🌅 **अनुभव**: सेंटोसा केबल कार और विंग्स ऑफ टाइम सनसेट लेजर शो",
+      "🚗 **ट्रांसफर**: 100% प्राइवेट AC एयरपोर्ट और दर्शनीय स्थल ट्रांसफर"
     ];
-    itemsHing = [
-      "4★ Beach & Hill Resorts with MAP Plan (Daily Breakfast + Daily Dinners included)",
-      "Kandy Temple of the Sacred Tooth Relic & Royal Botanical Gardens",
-      "Nuwara Eliya Tea Plantations & Ramboda Falls",
-      "Bentota Madu River Mangrove Boat Safari & Turtle Hatchery",
-      "100% Private AC Chauffeur Vehicle throughout"
+    inclusionsListHing = [
+      "🏨 **Stay**: 4★ Central City Hotel with Daily Buffet Breakfast",
+      "🎢 **Theme Park**: Universal Studios Singapore 1-Day Pass with all rides",
+      "🏙 **Sightseeing**: Marina Bay Sands (MBS) Skypark & Gardens by the Bay",
+      "🌅 **Experience**: Sentosa Cable Car Skypass & Wings of Time Sunset Laser Show",
+      "🚗 **Transfers**: 100% Private Changi Airport & Sightseeing Transfers"
     ];
-  } else if (id.includes('kerala')) {
-    itemsEn = [
-      "Munnar 4★ Tea Hill Resort + Private Deluxe Houseboat in Alleppey with all meals",
-      "Mattupetty Dam, Echo Point & Eravikulam National Park",
-      "Thekkady Periyar Wildlife Sanctuary & Spice Plantation Tour",
-      "Alleppey Backwaters Cruise with authentic Kerala dining",
-      "100% Private AC Vehicle with dedicated chauffeur"
+  } else if (id.includes('kashmir')) {
+    inclusionsListEn = [
+      "🏨 **Stay**: Luxury Dal Lake Houseboat + 4★ Srinagar Hotel with Breakfast & Dinners (MAP Plan)",
+      "🚣 **Experience**: 1-Hour Sunset Shikara Ride on Dal Lake",
+      "❄️ **Snow Adventure**: Gulmarg Gondola Phase 1 Snow Expedition",
+      "🌲 **Excursion**: Pahalgam Betaab Valley & Aru Valley excursion with saffron field visits",
+      "🚗 **Transfers**: 100% Dedicated Heated Chauffeur Cab throughout"
     ];
-    itemsHi = [
-      "मुन्नार 4★ टी हिल रिसॉर्ट + अलेप्पी में प्राइवेट डीलक्स हाउसबोट (सभी भोजन सहित)",
-      "मट्टुपेट्टी डैम, इको पॉइंट और इरावीकुलम नेशनल पार्क",
-      "थेक्कडी पेरियार वन्यजीव अभयारण्य और मसाला बागान टूर",
-      "अलेप्पी बैकवाटर क्रूज़ और पारंपरिक केरल भोजन",
-      "पूरे टूर में 100% प्राइवेट AC गाड़ी और समर्पित ड्राइवर"
+    inclusionsListHi = [
+      "🏨 **स्टे**: डल झील पर लग्जरी हाउसबोट + श्रीनगर 4★ होटल (नाश्ता और डिनर सहित - MAP प्लान)",
+      "🚣 **अनुभव**: डल झील पर 1 घंटे की सनसेट शिकारा राइड",
+      "❄️ **स्नो एडवेंचर**: गुलमर्ग गोंडोला फेज़ 1 स्नो टूर और बर्फबारी के नजारे",
+      "🌲 **एक्सकर्शन**: पहलगाम बेताब वैली और अरू वैली टूर, केसर के खेत और सेब के बागान",
+      "🚗 **ट्रांसफर**: पूरे टूर में 100% प्राइवेट हीटेड कैब और समर्पित ड्राइवर"
     ];
-    itemsHing = [
-      "Munnar 4★ Tea Hill Resort + Alleppey me Private Deluxe Houseboat with all meals",
-      "Mattupetty Dam, Echo Point & Eravikulam National Park",
-      "Thekkady Periyar Wildlife Sanctuary & Spice Plantation Tour",
-      "Alleppey Backwaters Cruise with authentic Kerala dining",
-      "100% Private AC Vehicle with dedicated chauffeur"
-    ];
-  } else if (id.includes('malaysia')) {
-    itemsEn = [
-      "4★ Central Hotel in Kuala Lumpur with Daily Buffet Breakfast",
-      "Petronas Twin Towers Skybridge & Observation Deck Tickets",
-      "Batu Caves Murugan Temple & Genting Highlands Skyway Cable Car",
-      "Genting SkyWorlds Theme Park & Premium Outlets visit",
-      "100% Private AC Airport & Tour Transfers"
-    ];
-    itemsHi = [
-      "कुआलालंपुर में 4★ सेंट्रल होटल और प्रतिदिन बुफे नाश्ता",
-      "पेट्रोनास ट्विन टावर्स स्काईब्रिज और ऑब्जर्वेशन डेक टिकट",
-      "बाटू केव्स मुरुगन मंदिर और जेंटिंग हाईलैंड्स केबल कार राइड",
-      "जेंटिंग स्काईवर्ल्ड्स थीम पार्क और प्रीमियम आउटलेट्स विजिट",
-      "100% प्राइवेट AC एयरपोर्ट और टूर ट्रांसफर"
-    ];
-    itemsHing = [
-      "Kuala Lumpur me 4★ Central Hotel aur daily buffet breakfast",
-      "Petronas Twin Towers Skybridge & Observation Deck Tickets",
-      "Batu Caves Murugan Temple & Genting Highlands Skyway Cable Car",
-      "Genting SkyWorlds Theme Park & Premium Outlets visit",
-      "100% Private AC Airport & Tour Transfers"
-    ];
-  } else if (id.includes('ujjain')) {
-    itemsEn = [
-      "4★ Luxury Hotel in Ujjain with Daily Buffet Breakfast",
-      "Shri Mahakaleshwar Jyotirlinga VIP Bhasma Aarti Assistance",
-      "Omkareshwar & Mamleshwar Jyotirlinga Darshan excursion",
-      "Shri Mahakal Lok Corridor, Kaal Bhairav & Harsiddhi Temple visits",
-      "100% Dedicated AC Vehicle from Indore Airport/Station throughout"
-    ];
-    itemsHi = [
-      "उज्जैन में 4★ होटल स्टे और प्रतिदिन बुफे नाश्ता",
-      "श्री महाकालेश्वर ज्योतिर्लिंग वीआईपी भस्म आरती सहायता",
-      "ओंकारेश्वर और ममलेश्वर ज्योतिर्लिंग दर्शन यात्रा",
-      "श्री महाकाल लोक कॉरिडोर, काल भैरव और हरसिद्धि मंदिर दर्शन",
-      "इंदौर एयरपोर्ट/स्टेशन से पूरे टूर में 100% प्राइवेट AC गाड़ी"
-    ];
-    itemsHing = [
-      "Ujjain me 4★ Hotel stay aur daily buffet breakfast",
-      "Shri Mahakaleshwar Jyotirlinga VIP Bhasma Aarti Assistance",
-      "Omkareshwar & Mamleshwar Jyotirlinga Darshan excursion",
-      "Shri Mahakal Lok Corridor, Kaal Bhairav & Harsiddhi Temple visits",
-      "Indore Airport/Station se poore tour me 100% Private AC Vehicle"
+    inclusionsListHing = [
+      "🏨 **Stay**: Luxury Dal Lake Houseboat + 4★ Srinagar Hotel with Breakfast & Dinners (MAP Plan)",
+      "🚣 **Experience**: 1-Hour Sunset Shikara Ride on Dal Lake",
+      "❄️ **Snow Adventure**: Gulmarg Gondola Phase 1 Snow Expedition",
+      "🌲 **Excursion**: Pahalgam Betaab Valley & Aru Valley with saffron field visits",
+      "🚗 **Transfers**: 100% Dedicated Heated Chauffeur Cab throughout"
     ];
   } else {
     const raw = (pkg.inclusions || '').split(/,\s*/);
-    itemsEn = raw.slice(0, 4).map(it => it.trim());
-    itemsEn.push("100% Private AC Airport & Sightseeing Transfers");
-    itemsHing = [...itemsEn];
-    itemsHi = [
-      "सत्यापित 4★/5★ होटल/रिसॉर्ट में ठहरना और प्रतिदिन नाश्ता",
-      "सभी प्रमुख दर्शनीय स्थलों और पर्यटन आकर्षणों के प्रवेश टिकट",
-      "विशेष दर्शनीय स्थल यात्राएं और स्थानीय अनुभव",
-      "100% प्राइवेट AC गाड़ी और समर्पित ड्राइवर",
-      "सभी टोल, टैक्स और 24/7 ऑन-ग्राउंड सहायता"
+    inclusionsListEn = raw.slice(0, 4).map(it => `• ✅ **Included**: ${it.trim()}`);
+    inclusionsListEn.push("• 🚗 **Transfers**: 100% Private AC Airport & Sightseeing Transfers");
+    inclusionsListHing = [...inclusionsListEn];
+    inclusionsListHi = [
+      "• 🏨 **स्टे**: 4★/5★ होटल में ठहरना और प्रतिदिन नाश्ता",
+      "• 🏙 **दर्शनीय स्थल**: सभी प्रमुख पर्यटन आकर्षणों के प्रवेश टिकट",
+      "• 🚗 **ट्रांसफर**: 100% प्राइवेट AC गाड़ी और समर्पित ड्राइवर"
     ];
   }
 
-  // Devanagari Hindi Response (Golden 4-Part Structure)
+  // Devanagari Hindi Response (Format 1)
   if (lang === 'hindi') {
-    const numberedListHi = itemsHi.map((it, idx) => `${idx + 1}. ${it}`).join('\n');
-    const durHi = (pkg.duration || '').replace('Nights', 'रातें').replace('Night', 'रात').replace('Days', 'दिन').replace('Day', 'दिन');
-    return `नमस्ते! मैं एटलस हूँ, Let's Explore DMC में आपका AI ट्रैवल आर्किटेक्ट।
+    const bulletsHi = inclusionsListHi.map(it => it.startsWith('•') ? it : `• ${it}`).join('\n');
+    return `नमस्ते! मैं एटलस हूँ, Let's Explore DMC में आपका लग्जरी ट्रैवल आर्किटेक्ट।
 
-• पैकेज का विवरण (Package Overview):
-हमारा ${pkg.name} ₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) प्रति व्यक्ति से शुरू होता है (${durHi})।
+💎 **हमारा ${pkg.name} ₹${pkg.price_inr.toLocaleString('en-IN')} प्रति व्यक्ति से शुरू होता है (${pkg.duration})।**
 
-• क्या-क्या शामिल है (What's Included):
-${numberedListHi}
+• **मुख्य सुविधाएं (Key Inclusions)**:
+${bulletsHi}
 
-• कीमत और जरूरी बातें (Pricing & Factors):
-यह हमारी वेरीफाइड डायरेक्ट DMC शुरुआती बेस रेट है। फाइनल कीमत आपके शहर, फ्लाइट टिकट, यात्रा की तारीखों और 4★ या 5★ होटल के चुनाव पर निर्भर करती है।
+• **जरूरी जानकारी (Pricing Transparency Note)**:
+नोट: अंतिम कीमत आपकी यात्रा की तारीखों, प्रस्थान शहर और होटल श्रेणी (4★ या 5★) पर निर्भर करती है।
 
-• अगला कदम (Next Step):
-आप किस महीने में जाने की योजना बना रहे हैं और कितने लोग साथ होंगे?
-[📲 व्हाट्सएप (+91 80075 86871) पर कस्टमाइज्ड कोटेशन के लिए बात करें](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20कृपया%20${encodeURIComponent(pkg.name)}%20का%20कोटेशन%20शेयर%20करें)`;
+• **अगला कदम (Direct Next Step)**:
+[🌐 वेबसाइट पर ${pkg.name} का आधिकारिक पेज देखें](${pageUrl})
+📲 [**व्हाट्सएप (+91 80075 86871) पर तुरंत कस्टमाइज करें**](${waUrl})`;
   }
 
-  // Hinglish Response (Golden 4-Part Structure)
+  // Hinglish Response (Format 1)
   if (lang === 'hinglish') {
-    const numberedListHing = itemsHing.map((it, idx) => `${idx + 1}. ${it}`).join('\n');
-    return `Hello! Main Atlas hoon, Let's Explore DMC me aapka AI Travel Architect.
+    const bulletsHing = inclusionsListHing.map(it => it.startsWith('•') ? it : `• ${it}`).join('\n');
+    return `Hello! Main Atlas hoon, Let's Explore DMC me aapka Luxury Travel Architect.
 
-• Package Overview:
-Hamara ${pkg.name} package ₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person se shuru hota hai (${pkg.duration})।
+💎 **Hamara ${pkg.name} starts from ₹${pkg.price_inr.toLocaleString('en-IN')} per person (${pkg.duration})।**
 
-• What's Included:
-${numberedListHing}
+• **Key Inclusions**:
+${bulletsHing}
 
-• Pricing & Real-world Factors:
-Ye hamara direct DMC verified starting base rate hai. Final pricing aapke departure city, flight rates, travel dates aur 4★ ya 5★ hotel choice par depend karti hai.
+• **Pricing & Real-world Transparency Note**:
+Note: Final price aapki travel dates, departure city aur hotel preference (4★ vs 5★) par depend karta hai.
 
-• Next Step:
-Aap kaun se month me travel plan kar rahe hain aur kitne log sath honge?
-[📲 WhatsApp (+91 80075 86871) par customized quote payein](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+• **Direct Next Step**:
+[🌐 View ${pkg.name} Page on Website](${pageUrl})
+📲 [**Chat on WhatsApp (+91 80075 86871) for Instant Customization**](${waUrl})`;
   }
 
-  // Default English Response (Golden 4-Part Structure)
-  const numberedListEn = itemsEn.map((it, idx) => `${idx + 1}. ${it}`).join('\n');
-  return `Hello! I am Atlas, your AI Travel Architect at Let's Explore DMC.
+  // Default English Response (Format 1)
+  const bulletsEn = inclusionsListEn.map(it => it.startsWith('•') ? it : `• ${it}`).join('\n');
+  return `Hello! I am Atlas, your Luxury Travel Architect at Let's Explore DMC.
 
-• Package Overview:
-Our ${pkg.name} starts from INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person (${pkg.duration}).
+💎 **Our ${pkg.name} starts from ₹${pkg.price_inr.toLocaleString('en-IN')} per person (${pkg.duration}).**
 
-• What's Included:
-${numberedListEn}
+• **Key Inclusions**:
+${bulletsEn}
 
-• Pricing & Real-world Factors:
-This is our verified starting base rate. Final pricing depends on your departure city, flight rates, travel dates, and whether you choose 4★ or 5★ hotels.
+• **Real-world Transparency Note**:
+Note: Final price depends on your travel dates, departure city, and hotel preference (4★ vs 5★).
 
-• Next Step:
-Which month are you planning to travel, and how many people will be joining? 
-[📲 Chat on WhatsApp (+91 80075 86871) for a customized quote](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20share%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+• **Direct Next Step**:
+[🌐 View ${pkg.name} Page on Website](${pageUrl})
+📲 [**Chat on WhatsApp (+91 80075 86871) for Instant Customization**](${waUrl})`;
+}
+
+function getPackagePriceOnly(pkg, lang = 'english') {
+  const perAdult = `₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD)`;
+  const total2 = `₹${(pkg.price_inr * 2).toLocaleString('en-IN')}`;
+  const landRate = `₹${pkg.land_inr.toLocaleString('en-IN')}`;
+  const webUrl = getPackageWebUrl(pkg.id_code);
+  const waUrl = `https://wa.me/918007586871?text=${encodeURIComponent('Hello Lets Explore DMC, I want to lock rate for ' + pkg.name)}`;
+
+  let summary = '';
+  const id = (pkg.id_code || '').toLowerCase();
+  if (id.includes('turkey')) {
+    summary = '5★ Cave Resort in Cappadocia (2N) + 4★ Istanbul Hotel (2N) + Hot Air Balloon Valley Tour + Bosphorus Cruise';
+  } else if (id.includes('dubai')) {
+    summary = '4★ Luxury Hotel (4N) + Burj Khalifa 124th Floor + Desert Safari with BBQ Dinner + Marina Dhow Cruise';
+  } else if (id.includes('georgia')) {
+    summary = '4★ Old Tbilisi Hotel (4N) + Gudauri Ski Resort + Kazbegi 4x4 Mountain Safari + Wine Tasting';
+  } else if (id.includes('bali')) {
+    summary = '4★ Kuta Resort (4N) + Ubud Private Pool Villa (2N) + Nusa Penida Speedboat Tour + 90-min ATV & Rafting';
+  } else if (id.includes('thailand')) {
+    summary = '4★ Beachfront Resorts in Phuket & Krabi + Phi Phi Island Cruise + Chao Phraya Dinner Cruise';
+  } else {
+    summary = pkg.highlights ? pkg.highlights.split(/,\s*|\.\s*/).slice(0, 4).join(' + ') : 'Luxury Stays + Private Transfers + Sightseeing';
+  }
+
+  if (lang === 'hindi') {
+    return `💎 **${pkg.name} (${pkg.duration})**
+• **प्रति वयस्क दर (Per Adult Rate)**: ${perAdult}
+• **2 वयस्कों का कुल (Total for 2 Adults)**: ${total2}
+• **लैंड पैकेज (Land Package Ex-Origin)**: ${landRate} प्रति व्यक्ति से
+• **शामिल**: ${summary}
+
+[🌐 वेबसाइट पर ${pkg.name} का आधिकारिक पेज देखें](${webUrl})
+📲 [**व्हाट्सएप (+91 80075 86871) पर यह रेट लॉक करें**](${waUrl})`;
+  }
+
+  return `💎 **${pkg.name} (${pkg.duration})**
+• **Per Adult Rate**: ${perAdult}
+• **Total for 2 Adults**: ${total2}
+• **Land Package (Ex-Origin)**: From ${landRate} / person
+• **Includes**: ${summary}
+
+[🌐 View ${pkg.name} Page on Website](${webUrl})
+📲 [**Lock this Rate on WhatsApp (+91 80075 86871)**](${waUrl})`;
+}
+
+function getPackageHotelsOnly(pkg, lang = 'english') {
+  const webUrl = getPackageWebUrl(pkg.id_code);
+  const id = (pkg.id_code || '').toLowerCase();
+  let hotelList = [];
+
+  if (id.includes('thailand')) {
+    hotelList = [
+      "Phuket (3 Nights): Panwaburi Beachfront Resort (4★ Deluxe Room)",
+      "Krabi (2 Nights): Aonang Paradise Resort (4★ Deluxe Pool View)",
+      "Bangkok (2 Nights): Platinum Suite / Similar (4★ Premium City Hotel)"
+    ];
+  } else if (id.includes('dubai')) {
+    hotelList = [
+      "Dubai City (4 Nights): Citymax Bur Dubai / Millennium Central Downtown (4★ Premium City Hotel)"
+    ];
+  } else if (id.includes('bali')) {
+    hotelList = [
+      "Kuta Beach (4 Nights): Kuta Beach Club Hotel (4★ Deluxe Room)",
+      "Ubud (2 Nights): Maharaja Villa / Alam Ubud (4★ 1-Bedroom Private Pool Villa)"
+    ];
+  } else if (id.includes('georgia')) {
+    hotelList = [
+      "Old Tbilisi (4 Nights): 4★ Boutique Hotel in Old Tbilisi (City Center Deluxe Room)"
+    ];
+  } else if (id.includes('turkey')) {
+    hotelList = [
+      "Cappadocia (2 Nights): 5★ Authentic Luxury Cave Resort (Deluxe Cave Suite)",
+      "Istanbul (2 Nights): 4★ Taksim / Sultanahmet Hotel (Superior City Room)"
+    ];
+  } else if (id.includes('singapore')) {
+    hotelList = [
+      "Singapore City (3-4 Nights): Novotel Singapore on Stevens / V Hotel (4★ Premium Deluxe)"
+    ];
+  } else if (id.includes('vietnam')) {
+    hotelList = [
+      "Sapa (2 Nights): Sapagreen Hotel (3★ Superior Mountain View)",
+      "Hanoi (1 Night): TK123 Hotel Hanoi (3★ Old Quarter Superior)",
+      "Da Nang (3 Nights): Cosmos Hotel Da Nang (4★ Deluxe City View)",
+      "Phu Quoc (3 Nights): Gaia Hotel Phu Quoc (4★ Beach Resort)"
+    ];
+  } else if (id.includes('kashmir')) {
+    hotelList = [
+      "Dal Lake (1 Night): Luxury Dal Lake Houseboat (Deluxe Heated Cedar Wood Suite)",
+      "Srinagar (3 Nights): 4★ Srinagar Grand Hotel (Deluxe Mountain View Room)"
+    ];
+  } else if (id.includes('kerala')) {
+    hotelList = [
+      "Munnar (2 Nights): Fragrant Nature / Tea County Resort (4★/5★ Hill Resort)",
+      "Thekkady (1 Night): Poetree Sarovar Portico (4★ Deluxe)",
+      "Alleppey (1 Night): Deluxe Private Air-Conditioned Houseboat (Private Chef, All Meals)",
+      "Kovalam / Marari (2 Nights): Beachfront Resort (4★ Sea View Villa)"
+    ];
+  } else {
+    hotelList = [
+      `Accommodations (${pkg.duration}): ${pkg.hotels}`
+    ];
+  }
+
+  const numbered = hotelList.map((h, i) => `${i + 1}. ${h}`).join('\n');
+
+  if (lang === 'hindi') {
+    return `🏨 **${pkg.name} (${pkg.duration}) के सत्यापित होटल (Verified Accommodations)**:
+${numbered}
+
+• सभी होटलों में प्रतिदिन बुफे नाश्ता, उच्च स्वच्छता रेटिंग और अग्रिम बुकिंग पर कॉम्प्लिमेंट्री रूम अपग्रेड शामिल है।
+
+[🌐 वेबसाइट पर होटल और कमरों के फोटो देखें](${webUrl})`;
+  }
+
+  return `🏨 **Verified Accommodations for ${pkg.name} (${pkg.duration})**:
+${numbered}
+
+• All hotels include daily buffet breakfast, certified cleanliness ratings, and free room upgrades on advance bookings.
+
+[🌐 View Stays & Photos on Website](${webUrl})`;
 }
 
 const DETAILED_DAY_ITINERARIES = {
+  "turkey-escape-42k": {
+    "title": "Turkey Escape & Cappadocia Wonders (4 Nights / 5 Days)",
+    "route": "Istanbul (2N) + Cappadocia Cave Valley (2N)",
+    "hotels": "5★ Luxury Cave Resort in Cappadocia (2N) + 4★ Taksim/Sultanahmet Hotel Istanbul (2N, Daily Breakfast)",
+    "days": [
+      {
+        "day": 1,
+        "title": "Arrival in Istanbul & Sunset Bosphorus Luxury Yacht Cruise",
+        "desc_en": "Arrive at Istanbul Airport (IST). Meet dedicated chauffeur for private transfer to your 4★ hotel. Evening private sunset luxury yacht cruise along the scenic Bosphorus Strait between Europe & Asia.",
+        "desc_hi": "इस्तांबुल आगमन। 4★ होटल में प्राइवेट ट्रांसफर। शाम को यूरोप और एशिया के बीच खूबसूरत सनसेट बॉस्फोरस लग्जरी यॉट क्रूज़ का आनंद।"
+      },
+      {
+        "day": 2,
+        "title": "Historic Istanbul Old City & Flight to Cappadocia",
+        "desc_en": "Guided VIP tour of Hagia Sophia, Blue Mosque, Hippodrome, and Grand Bazaar. Evening domestic flight to Cappadocia; check into your authentic 5★ Cave Resort.",
+        "desc_hi": "हागिया सोफिया, ब्लू मॉस्क और ग्रैंड बाज़ार का गाइडेड टूर। शाम को कप्पाडोसिया के लिए फ्लाइट और 5★ ऑथेंटिक केव रिसॉर्ट में चेक-इन।"
+      },
+      {
+        "day": 3,
+        "title": "Sunrise Hot Air Balloon Flight & Goreme Open Air Museum",
+        "desc_en": "Early morning sunrise Hot Air Balloon flight viewing over fairy chimneys with champagne toast. Goreme Open Air Museum rock churches, Pasabag monk valley & pottery workshop.",
+        "desc_hi": "सुबह फेयरी चिमनी घाटियों के ऊपर सनराइज हॉट एयर बैलून राइड। गोरेमे ओपन एयर म्यूजियम, पाशाबाग और पारंपरिक पॉटरी आर्ट।"
+      },
+      {
+        "day": 4,
+        "title": "Derinkuyu Underground City & Pigeon Valley Panorama",
+        "desc_en": "Explore multi-level Derinkuyu Underground City, scenic hike through Pigeon Valley, and sunset photo stop at Uchisar Castle rock fortress.",
+        "desc_hi": "डेरिनकुयू अंडरग्राउंड सिटी का दौरा, पिजन वैली की खूबसूरत सैर और उचिसार कैसल पर मनोरम सनसेट दृश्य।"
+      },
+      {
+        "day": 5,
+        "title": "Cappadocia to Istanbul Flight & Departure",
+        "desc_en": "Buffet breakfast at Cave Resort. Private transfer to Kayseri/Nevsehir Airport for domestic flight back to Istanbul Airport (IST) for your departure home.",
+        "desc_hi": "केव रिसॉर्ट में नाश्ता। काइसेरी एयरपोर्ट से इस्तांबुल वापसी और अंतरराष्ट्रीय फ्लाइट से स्वदेश रवानगी।"
+      }
+    ]
+  },
   "malaysia-express-4n5d": {
     "title": "Malaysia City & Highlands Escape (4 Nights / 5 Days)",
     "route": "Kuala Lumpur (2N) + Genting Highlands (2N)",
@@ -1523,66 +1596,39 @@ const DETAILED_DAY_ITINERARIES = {
 function getPackageItinerary(pkg, lang = 'english') {
   const id = pkg.id_code || '';
   const data = DETAILED_DAY_ITINERARIES[id];
-  
-  if (data) {
+  const webUrl = getPackageWebUrl(pkg.id_code);
+  const cleanName = (pkg.name || '').replace(/\s*\([^)]*\$\d+[^)]*\)/i, '').replace(/\s*\(\$\d+\s*USD[^)]*\)/i, '').trim();
+
+  if (data && data.days) {
     if (lang === 'hindi') {
       const daysText = data.days.map(d => `📅 **दिन ${d.day}: ${d.title}**\n• ${d.desc_hi}`).join('\n\n');
-      return `🗺️ **${pkg.name} (${pkg.duration}) का विस्तृत दिन-प्रतिदिन टूर प्लान (Itinerary)**:
-
-• **रूट**: ${data.route}
-• **होटल**: ${data.hotels}
+      return `यहाँ **${cleanName}** (${pkg.duration}) का आपका दिन-वार क्यूरेटेड रूट है:
 
 ${daysText}
 
----
-💰 **पैकेज दर**: ₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) प्रति व्यक्ति
-✅ **शामिल**: होटल, प्रतिदिन नाश्ता, सभी प्राइवेट ट्रांसफर और प्रवेश टिकट।
-📲 [**व्हाट्सएप (+91 80075 86871) पर यह टूर बुक या कस्टमाइज करें**](https://wa.me/918007586871?text=नमस्ते%20Lets%20Explore%20DMC,%20कृपया%20${encodeURIComponent(pkg.name)}%20का%20बुकिंग%20शेड्यूल%20बताएं)`;
-    }
-
-    if (lang === 'hinglish') {
-      const daysText = data.days.map(d => `📅 **Day ${d.day}: ${d.title}**\n• ${d.desc_en}`).join('\n\n');
-      return `🗺️ **${pkg.name} (${pkg.duration}) ka Detailed Day-by-Day Itinerary**:
-
-• **Route**: ${data.route}
-• **Hotels**: ${data.hotels}
-
-${daysText}
-
----
-💰 **All-Inclusive Rate**: ₹${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person
-✅ **Included**: 4★ Hotels, Daily Breakfast, 100% Private AC Transfers & Sightseeing Passes.
-📲 [**WhatsApp (+91 80075 86871) par customized quote lock karein**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+👉 क्या आप इस यात्रा के लिए 4★ होटलों के विकल्प या फ्लाइट की जानकारी देखना चाहते हैं?
+[🌐 वेबसाइट पर पूरा टूर प्लान देखें](${webUrl})`;
     }
 
     const daysText = data.days.map(d => `📅 **Day ${d.day}: ${d.title}**\n• ${d.desc_en}`).join('\n\n');
-    return `🗺️ **Complete Day-by-Day Itinerary for ${pkg.name} (${pkg.duration})**:
-
-• **Route**: ${data.route}
-• **Hotels**: ${data.hotels}
+    return `Here is your ${pkg.duration} curated route for **${cleanName}**:
 
 ${daysText}
 
----
-💰 **Wholesale DMC Rate**: INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person
-✅ **Included**: Hotels, Daily Breakfast, 100% Private AC Transfers & Sightseeing Passes.
-📲 [**Lock This Itinerary on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+👉 Would you like recommendations on verified 4★ hotels or flight options for these dates?
+[🌐 View Full Itinerary on Website](${webUrl})`;
   }
 
-  // Fallback for packages where day-by-day is derived from highlights
+  // Fallback if day-by-day not in DETAILED_DAY_ITINERARIES
   const parts = (pkg.highlights || '').split(/,\s*|\.\s*/).filter(p => p.trim().length > 10);
   const derivedDays = parts.slice(0, 5).map((p, i) => `📅 **Day ${i + 1}**: ${p.trim()}`).join('\n\n');
 
-  return `🗺️ **Detailed Itinerary for ${pkg.name} (${pkg.duration})**:
-
-• **Route**: ${pkg.destination}
-• **Hotels**: ${pkg.hotels}
+  return `Here is your ${pkg.duration} curated route for **${cleanName}**:
 
 ${derivedDays}
 
----
-💰 **Rate**: INR ${pkg.price_inr.toLocaleString('en-IN')} (~$${pkg.price_usd} USD) per person
-📲 [**Lock Rate on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20please%20lock%20quote%20for%20${encodeURIComponent(pkg.name)})`;
+👉 Would you like recommendations on verified 4★ hotels or flight options for these dates?
+[🌐 View Full Itinerary on Website](${webUrl})`;
 }
 
 
@@ -1592,16 +1638,250 @@ function generateSmartReply(message, history = [], activeDestination = null) {
   const resolvedDest = resolveActiveDestination(message, history, activeDestination);
   const currentPkg = resolvedDest ? PACKAGES_KNOWLEDGE[resolvedDest] : null;
 
-  // Direct Itinerary Query with destination mentioned
-  if (resolvedDest && PACKAGES_KNOWLEDGE[resolvedDest] && (msgLower.includes('itinerary') || msgLower.includes('day by day') || msgLower.includes('plan') || msgLower.includes('schedule') || msgLower.includes('आइटिनरेरी') || msgLower.includes('दिन का प्लान'))) {
+  // 1. QUERY INTENT: WHERE IS THIS PACKAGE / CAN'T FIND / WEBSITE PE KAHAN HAI / LINK DO
+  const isWebsiteLocationQuery = msgLower.match(/\b(kahan hai|kaha hai|nahi mil raha|kahan milega|website pe|website par|where is it|where is the package|can't find|cannot find|give me link|link bhejo|link do|page link|show page|where on website|website link|open page|open package|link chahiye|packages nahi mil rahe|itineraries nahi mil rahe)\b/i) ||
+    msgLower.includes('कहाँ है') || msgLower.includes('नहीं मिल रहा') || msgLower.includes('वेबसाइट') || msgLower.includes('लिंक');
+
+  if (isWebsiteLocationQuery) {
+    if (currentPkg) {
+      const pageUrl = getPackageWebUrl(currentPkg.id_code);
+      if (lang === 'hindi') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `📍 **${currentPkg.name}** हमारी वेबसाइट पर यहाँ उपलब्ध है:
+
+[🌐 वेबसाइट पर ${currentPkg.name} पेज खोलें](${pageUrl})
+
+यहाँ इसकी मुख्य जानकारी है:
+• **अवधि**: ${currentPkg.duration}
+• **शुरुआती दर**: ₹${currentPkg.price_inr.toLocaleString('en-IN')} (~$${currentPkg.price_usd} USD) प्रति व्यक्ति
+• **होटल**: ${currentPkg.hotels}
+• **हाइलाइट्स**: ${currentPkg.highlights}
+
+👉 क्या आप इसका विस्तृत दिन-प्रतिदिन का टूर प्लान (Itinerary) यहीं स्क्रीन पर देखना चाहते हैं?`
+        };
+      }
+      return {
+        activeDestination: resolvedDest,
+        reply: `📍 You can find the official package page for **${currentPkg.name}** right here on our website:
+
+[🌐 View ${currentPkg.name} Page on Website](${pageUrl})
+
+Here is the quick snapshot:
+• **Duration**: ${currentPkg.duration}
+• **Locked Wholesale Rate**: INR ${currentPkg.price_inr.toLocaleString('en-IN')} (~$${currentPkg.price_usd} USD) per person
+• **Stays**: ${currentPkg.hotels}
+• **Highlights**: ${currentPkg.highlights}
+
+👉 Would you like me to display the complete Day-by-Day itinerary right here on the screen?`
+      };
+    } else {
+      return {
+        activeDestination: null,
+        reply: `📍 आप हमारी वेबसाइट के सभी वेरिफाइड पैकेजेस और आइटिनरेरी यहाँ सीधे देख सकते हैं:
+
+• 🇹🇷 [Turkey Escape 5D/4N Package](turkey-package.html)
+• 🏝️ [Bali Signature 7D/6N Pool Villa](bali-package.html)
+• 🇦🇪 [Dubai Highlights 5D/4N Package](dubai-package.html)
+• ❄️ [Georgia High Caucasus 5D/4N ($300)](georgia-package.html)
+• 🇹🇭 [Thailand Grand Signature 8D/7N](thailand-package.html)
+• 🇸🇬 [Singapore Signature 4D/3N](singapore-package.html)
+• 🇻🇳 [Vietnam Grand Expedition 10D/9N](vietnam-package.html)
+• 🏔️ [Kashmir Snow Valley 5D/4N](kashmir-package.html)
+• 🌴 [Kerala God's Own Country 7D/6N](kerala-package.html)
+
+[🌐 Browse All 22 Direct Packages on Website](deals.html)
+
+👉 आप जिस भी देश का दिन-वार प्लान देखना चाहते हैं, मुझे बताएं—मैं तुरंत स्क्रीन पर दिखा दूंगा!`
+      };
+    }
+  }
+
+  // 2. QUERY INTENT: SUGGESTIONS / RECOMMENDATIONS / "KAHAN JAU" / CONFUSED / UNDECIDED (WITHOUT FORCING WHATSAPP!)
+  const isSuggestionQuery = msgLower.match(/\b(suggest|suggestion|suggestions|recommend|recommendation|recommendations|kahan jau|kaha jau|kahan ja sakte|kaha ja sakte|kahan jana chahiye|where should i go|best place to go|confused|samajh nahi aa raha|suggest me|places to visit|where can we travel|batao kahan jau|kuch suggest karo|kaha ghume|options do|help me choose|help me decide|not sure)\b/i) ||
+    msgLower.includes('सुझाव') || msgLower.includes('कहाँ जाऊं') || msgLower.includes('कहाँ जा सकते') || msgLower.includes('सलाह') || msgLower.includes('समझ नहीं');
+
+  if (isSuggestionQuery && !currentPkg) {
+    if (lang === 'hindi') {
+      return {
+        activeDestination: null,
+        reply: `🌟 **आपके लिए बेहतरीन यात्रा सुझाव (Curated Travel Recommendations)**:
+
+यदि आप तय नहीं कर पा रहे हैं, तो अपनी पसंद के आधार पर इन टॉप डेस्टिनेशन्स को चुन सकते हैं:
+
+🏝️ **1. बीच और प्राइवेट पूल विला (Beach & Romantic)**:
+• **बाली**: [🌐 वेबसाइट पर बाली पैकेज देखें](bali-package.html) — ₹48,999 से (उबूद में प्राइवेट पूल विला और नुसा पेनिडा)
+• **थाईलैंड**: [🌐 वेबसाइट पर थाईलैंड पैकेज देखें](thailand-package.html) — ₹28,999 से (फुकेत और क्राबी आइलैंड्स)
+
+❄️ **2. बर्फीले पहाड़ और प्राकृतिक सौंदर्य (Snow & Scenery)**:
+• **जॉर्जिया**: [🌐 वेबसाइट पर जॉर्जिया $300 डील देखें](georgia-package.html) — $300 USD (~₹28,999) (काजबेगी स्नो 4x4)
+• **कश्मीर**: [🌐 वेबसाइट पर कश्मीर पैकेज देखें](kashmir-package.html) — ₹21,999 (डल झील हाउसबोट और गुलमर्ग गोंडोला)
+
+🏙️ **3. 4–5 दिन की लग्जरी और सिटी लाइफ (4-5 Days Luxury City)**:
+• **दुबई**: [🌐 वेबसाइट पर दुबई पैकेज देखें](dubai-package.html) — ₹42,598 (मरीना धो डिनर क्रूज़ और डेजर्ट सफारी)
+• **सिंगापुर**: [🌐 वेबसाइट पर सिंगापुर पैकेज देखें](singapore-package.html) — ₹52,062 (यूनिवर्सल स्टूडियोज और मरीना बे)
+
+🇹🇷 **4. केव सुइट और हॉट एयर बैलून (Unique Wonder)**:
+• **तुर्की**: [🌐 वेबसाइट पर तुर्की पैकेज देखें](turkey-package.html) — ₹42,999 (कप्पाडोसिया केव स्टे और बोस्फोरस क्रूज़)
+
+👉 **आप इनमें से किस प्रकार का अनुभव पसंद करेंगे?** मुझे बताएं, मैं तुरंत उसका पूरा दिन-वार प्लान (Itinerary) यहीं स्क्रीन पर दिखा दूँगा या आप सीधे वेबसाइट लिंक पर क्लिक करके देख सकते हैं!`
+      };
+    }
     return {
-      activeDestination: resolvedDest,
-      reply: getPackageItinerary(PACKAGES_KNOWLEDGE[resolvedDest], lang)
+      activeDestination: null,
+      reply: `🌟 **Curated Travel Suggestions & Recommendations**:
+
+If you're not sure which destination to choose, here are handpicked options based on your travel mood:
+
+🏝️ **1. Tropical Beaches & Private Pool Villas**:
+• **Bali, Indonesia**: [🌐 View Bali Package on Website](bali-package.html) — From ₹48,999 (Ubud Private Pool Villa & Nusa Penida)
+• **Thailand Island Hopper**: [🌐 View Thailand Package on Website](thailand-package.html) — From ₹28,999 (Phuket & Krabi)
+
+❄️ **2. Snow Mountains & Majestic Landscapes**:
+• **Georgia ($300 Flash Deal)**: [🌐 View Georgia Package on Website](georgia-package.html) — $300 USD (~₹28,999) (Gudauri Snow & Kazbegi 4x4)
+• **Kashmir Heaven on Earth**: [🌐 View Kashmir Package on Website](kashmir-package.html) — ₹21,999 (Dal Lake Houseboat & Gulmarg Gondola)
+
+🏙️ **3. 4–5 Days Luxury City & Nightlife**:
+• **Dubai Highlights & Desert**: [🌐 View Dubai Package on Website](dubai-package.html) — ₹42,598 (Marina Dinner Cruise & Desert Safari)
+• **Singapore Signature**: [🌐 View Singapore Package on Website](singapore-package.html) — From ₹52,062 (Universal Studios & Sentosa)
+
+🇹🇷 **4. Iconic Cave Suites & Fairy Chimneys**:
+• **Turkey Escape**: [🌐 View Turkey Package on Website](turkey-package.html) — ₹42,999 (Cappadocia Cave Resort & Bosphorus Yacht)
+
+👉 **Which vibe appeals to you the most?** Tell me, and I can present the full day-by-day itinerary right here on the screen, or you can explore it directly on the website!`
     };
   }
 
+  // 3. TARGETED DESTINATION QUERIES (INTENT-BASED FILTERING FOR ACTIVE OR MENTIONED DESTINATION)
+  if (currentPkg) {
+    // 3A. FORMAT 4: HONEYMOON SPECIAL (UNDER BUDGET / LANGUAGE MATCHING)
+    const isHoney = msgLower.match(/\b(honeymoon|romantic|couple|couples|anniversary|candlelight|pool villa|private pool)\b/i) || msgLower.includes('हनीमून');
+    if (isHoney) {
+      const pageUrl = getPackageWebUrl(currentPkg.id_code);
+      if (lang === 'hinglish' || lang === 'hindi') {
+        return {
+          activeDestination: resolvedDest,
+          reply: `Namaste! Bali honeymoon ke liye ₹48,999 per person me hamara 6D/5N package perfect rahega:
 
-  // 1. GREETING HANDLER (helo, hello, hi, hey, hy, hola, namaste, नमस्ते, नमस्कार, प्रणाम, हेलो, हाय)
+• 🏨 **Stays**: Kuta Beach Resort (3N) + Ubud me Luxury Private Pool Villa (2N)
+• 🍳 **Special**: Villa me Floating Breakfast & Romantic Candlelight Dinner
+• 🏝 **Island Tour**: Nusa Penida West Speedboat Tour (Kelingking Beach & Snorkeling)
+• 🚗 **Comfort**: 100% Dedicated Private AC Car with Chauffeur
+
+Aap tentative travel month aur departure city bataiye, taaki flight ke sath exact quote share kar sakein!
+
+[🌐 Website par Bali Honeymoon Package dekhein](${pageUrl})
+📲 [**WhatsApp par direct travel architect se baat karein**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20mujhe%20Bali%20honeymoon%20package%20customize%20karna%20hai)`
+        };
+      }
+    }
+
+    // 3B. FORMAT 2: ITINERARY ONLY QUERY (ZERO PRICE CLUTTER)
+    const isItinerary = msgLower.match(/\b(itinerary|iternrary|day by day|day wise|day-wise|days plan|sightseeing|schedule|route|route map|kya dekhenge|activities|din ka plan|itinerary batao|detailed itinerary|share itinerary|plan|days route)\b/i) ||
+      msgLower.includes('itinerary') || msgLower.includes('आइटिनरेरी') || msgLower.includes('दिन का प्लान') || msgLower.includes('टूर प्लान');
+
+    if (isItinerary) {
+      return {
+        activeDestination: resolvedDest,
+        reply: getPackageItinerary(currentPkg, lang)
+      };
+    }
+
+    // 3C. FORMAT 3: PRICE-SPECIFIC QUERY (PRICING CARD FORMAT)
+    const isPrice = msgLower.match(/\b(price|pricing|cost|amount|rate|rates|exact price|kitna|kharcha|paisa|budget|rupaye|inr|usd|dollar|price kya hai|cost kitna)\b/i) ||
+      msgLower.includes('कीमत') || msgLower.includes('रेट') || msgLower.includes('खर्चा') || msgLower.includes('दाम');
+
+    if (isPrice) {
+      return {
+        activeDestination: resolvedDest,
+        reply: getPackagePriceOnly(currentPkg, lang)
+      };
+    }
+
+    // 3D. FORMAT 5: HOTELS & STAYS ONLY QUERY (HOTEL CARD FORMAT, ZERO PRICE DUMP)
+    const isHotel = msgLower.match(/\b(hotel|hotels|stay|stays|resort|resorts|room|rooms|villa|villas|accommodation|rehna|hotel provide|which hotel)\b/i) ||
+      msgLower.includes('होटल') || msgLower.includes('रिसॉर्ट') || msgLower.includes('कमरा') || msgLower.includes('विला');
+
+    if (isHotel) {
+      return {
+        activeDestination: resolvedDest,
+        reply: getPackageHotelsOnly(currentPkg, lang)
+      };
+    }
+
+    // 3E. FORMAT 1: PACKAGE & OVERVIEW QUERY (Checked before pure inclusions so "Tell me about Dubai package and what is included" returns Format 1)
+    const isOverview = msgLower.match(/(know about|tell me about|package details|overview|what is included|kya include|kya kya include|kya shamil|ke baare|batao|bataiye|jaanna|jaankari|vivaran|पैकेज|जानकारी|विवरण|package)/i) || detectDestination(message);
+    if (isOverview) {
+      return {
+        activeDestination: resolvedDest,
+        reply: getPackageSummary(currentPkg, lang)
+      };
+    }
+
+    // 3F. Pure Inclusions & Exclusions query
+    if (msgLower.match(/\b(inclusion|inclusions|exclusion|exclusions|only inclusion|only inclusions|included|kya milega|services)\b/i)) {
+      return {
+        activeDestination: resolvedDest,
+        reply: `📋 **Inclusions & Exclusions for ${currentPkg.name} (${currentPkg.duration})**:
+
+✅ **Verified Inclusions**:
+${currentPkg.inclusions}
+
+❌ **Exclusions**:
+${currentPkg.exclusions}
+
+[🌐 View Full Voucher on Website](${getPackageWebUrl(currentPkg.id_code)})
+📲 [**Chat on WhatsApp (+91 80075 86871)**](https://wa.me/918007586871?text=Hello%20Lets%20Explore%20DMC,%20share%20inclusions%20for%20${encodeURIComponent(currentPkg.name)})`
+      };
+    }
+
+    // 3F. Flights Query
+    if (msgLower.match(/\b(flight|flights|airline|airfare|ticket|tickets|indigo|batik|vietjet|airport)\b/i)) {
+      return {
+        activeDestination: resolvedDest,
+        reply: `✈️ **Flight Details for ${currentPkg.name} (${currentPkg.duration})**:
+• **Flight Status**: ${currentPkg.flights}
+• Ground airport pickups and drops are 100% private in dedicated AC vehicles.
+
+[🌐 View Package on Website](${getPackageWebUrl(currentPkg.id_code)})`
+      };
+    }
+
+
+  }
+
+  // 4. DESTINATION EXPLICITLY MENTIONED (FIRST TURN)
+  const newDest = detectDestination(message);
+  if (newDest && PACKAGES_KNOWLEDGE[newDest]) {
+    const pkg = PACKAGES_KNOWLEDGE[newDest];
+    // Check if they asked for price only on first turn: e.g. "Turkey package ka exact price kya hai?"
+    if (msgLower.match(/\b(price|pricing|cost|amount|rate|rates|exact price|kitna|kharcha|paisa)\b/i)) {
+      return {
+        activeDestination: newDest,
+        reply: getPackagePriceOnly(pkg, lang)
+      };
+    }
+    // Check if they asked for itinerary only on first turn: e.g. "Give me a 5-day itinerary for Georgia, no price right now."
+    if (msgLower.match(/\b(itinerary|day by day|day wise|days plan|route|no price)\b/i)) {
+      return {
+        activeDestination: newDest,
+        reply: getPackageItinerary(pkg, lang)
+      };
+    }
+    // Check if they asked for hotels only on first turn: e.g. "Which hotels do you provide in Thailand?"
+    if (msgLower.match(/\b(hotel|hotels|stay|stays|room|rooms|resort|villa)\b/i)) {
+      return {
+        activeDestination: newDest,
+        reply: getPackageHotelsOnly(pkg, lang)
+      };
+    }
+    return {
+      activeDestination: newDest,
+      reply: getPackageSummary(pkg, lang)
+    };
+  }
+
+  // 5. GREETING HANDLER
   const isGreeting = msgLower.match(/^(hi|hello|helo|hey|hy|hola|namaste|good morning|good evening|yo)\b/i) || 
     msgLower.includes('नमस्ते') || msgLower.includes('नमस्कार') || msgLower.includes('प्रणाम') || 
     msgLower.includes('राम राम') || msgLower.startsWith('हेलो') || msgLower.startsWith('हाय');
@@ -1622,37 +1902,22 @@ function generateSmartReply(message, history = [], activeDestination = null) {
 आज मैं आपकी यात्रा की योजना बनाने में कैसे मदद कर सकता हूँ?`
       };
     }
-    if (lang === 'hinglish') {
-      return {
-        activeDestination: resolvedDest,
-        reply: `Hey there! 👋 Welcome to Let's Explore DMC!
-
-Bataiye aap kahan ghoomne ka plan kar rahe hain ya aapka budget kya hai:
-• 🍽️ *Dinner Cruise & Nightlife* ya *4–5 Days Low Budget*
-• 👑 *4–5 Days Luxury Escapes & Pool Villas*
-• 🏝️ *Bali / Thailand / Vietnam / Singapore / Malaysia*
-• ❄️ *Georgia Caucasus / Kashmir Snow / Turkey Caves*
-• 🥗 *Pure Veg/Jain friendly trips*, 💑 *Honeymoon Villas*, ya 👨‍👩‍👧‍👦 *Family Holidays*!
-
-Main aaj aapka trip plan karne me kaise madad kar sakta hoon?`
-      };
-    }
     return {
       activeDestination: resolvedDest,
       reply: `Hey there! 👋 Welcome to Let's Explore DMC!
 
-Tell me where you want to travel or what kind of trip you have in mind:
-• 🍽️ *Dinner Cruise & Nightlife* or *4–5 Days Low Budget*
-• 👑 *4–5 Days Luxury Escapes & Pool Villas*
-• 🏝️ *Bali / Thailand / Vietnam / Singapore / Malaysia*
-• ❄️ *Georgia Caucasus / Kashmir Snow / Turkey Caves*
-• 🥗 *Pure Veg/Jain friendly trips*, 💑 *Honeymoon Villas*, or 👨‍👩‍👧‍👦 *Family Holidays*!
+Tell me where you want to travel, your preferred dates, or your budget:
+• 🏝️ **Tropical Island**: Bali Pool Villa, Thailand Island Hopper
+• ❄️ **Snow & Caucasus**: Georgia $300 Special, Kashmir Snow Valley
+• 🏙️ **City Luxury**: Dubai Marina Dinner Cruise, Singapore Signature
+• 🇹🇷 **Historic Wonders**: Turkey Cappadocia Cave Suites
 
 How can I help plan your trip today?`
     };
   }
 
-  // 2. PAYMENT ADVANCE & USKE BAAD / PAYMENT STAGES
+  // 6. PAYMENT ADVANCE & USKE BAAD / PAYMENT STAGES
+
   const isAdvanceQuery = msgLower.match(/\b(advance.*(baad|after|balance)|(baad|after|balance).*advance|in advance or|advance kitna.*baad|advance payment.*remaining|how can i pay.*advance|advance or uske baad)\b/i) || 
     (msgLower.includes('advance') && (msgLower.includes('baad') || msgLower.includes('after') || msgLower.includes('balance') || msgLower.includes('pay') || msgLower.includes('kitna'))) ||
     msgLower.includes('एडवांस') || msgLower.includes('भुगतान') || msgLower.includes('किस्त') || (msgLower.includes('टोकन') && msgLower.includes('पेमेंट'));
@@ -2246,11 +2511,11 @@ ${currentPkg.hotels}
   }
 
   // 18. Destination explicitly mentioned (if not already handled)
-  const newDest = detectDestination(message);
-  if (newDest && PACKAGES_KNOWLEDGE[newDest]) {
+  const explicitDest = detectDestination(message);
+  if (explicitDest && PACKAGES_KNOWLEDGE[explicitDest]) {
     return {
-      activeDestination: newDest,
-      reply: getPackageSummary(PACKAGES_KNOWLEDGE[newDest], lang)
+      activeDestination: explicitDest,
+      reply: getPackageSummary(PACKAGES_KNOWLEDGE[explicitDest], lang)
     };
   }
 
