@@ -842,7 +842,32 @@ function detectDestination(text, currentActive = null) {
   
   return currentActive;
 }
+
+function isAllPackagesRequest(text) {
+  if (!text) return false;
+  const t = text.toLowerCase().trim();
+  // Exact single-word or basic phrases
+  if (t === 'packages' || t === 'package' || t === 'all packages' || t === 'all package' || t === 'pakages' || t === 'pakage' || t === 'all pakages' || t === 'packages?' || t === 'package?' || t === 'all packages?' || t === 'what packages' || t === 'which packages') return true;
+  
+  // Hinglish & Hindi queries asking which packages are available
+  // e.g., "komnse konsepakages h", "konse konse package h", "kaun se package hain", "kaun kaun se packages h", "kya kya package h", "saare packages", "sare packages dekhna h", "packages batao"
+  if (/\b(komnse|konse|kaunse|kaun\s*se|kon\s*se|kya\s*kya|saare|sare|sab|sabhi)\s*(komnse|konse|kaunse|kaun\s*se|kon\s*se)?\s*(package|packages|pakage|pakages|options)/i.test(t)) return true;
+  
+  if (/^(komnse|konse|kaunse|kaun\s*se|kon\s*se).*(package|packages|pakage|pakages)/i.test(t)) return true;
+  
+  if (/\b(all packages|list of packages|package list|available packages|packages list|show packages|what packages|which packages|show all packages|browse packages|total packages|destination list|packages batao|packages dikhao|package dikhao)\b/i.test(t)) return true;
+  
+  if (t.includes('कौन से पैकेज') || t.includes('सारे पैकेज') || t.includes('सभी पैकेज') || t.includes('पैकेज लिस्ट') || t.includes('पैकेजेस') || t.includes('कौन-कौन से पैकेज')) return true;
+  
+  return false;
+}
+
 function resolveActiveDestination(message, history, explicitActive) {
+  // If user is asking for general list of packages or which packages exist, do NOT bind to previous destination!
+  if (isAllPackagesRequest(message)) {
+    return null;
+  }
+
   // 1. Check current message
   const inMsg = detectDestination(message);
   if (inMsg) return inMsg;
@@ -870,7 +895,7 @@ function detectLanguage(text) {
     return 'hindi';
   }
   // Check for Roman Hindi / Hinglish keywords
-  const hinglishWords = /\b(mujhe|hume|humko|batao|btao|bataiye|hoga|hogi|hoge|kaise|kya|chahiye|kitna|kitne|kitni|kharcha|hai|hain|karna|karo|kare|karenge|aap|tum|kaun|konsa|kaisi|rahega|jana|jaana|ghoomne|sasta|saste|kam|baad|pehle|din|raat|raatein|bhejo|dekhna|milega|milegi|khana|bhojan|thike|accha|sahi|dosto|dost|bhyi|samaj|tu|teri|mera|meri|humare|shamil|kripya)\b/i;
+  const hinglishWords = /\b(mujhe|hume|humko|batao|btao|bataiye|hoga|hogi|hoge|kaise|kya|chahiye|kitna|kitne|kitni|kharcha|hai|hain|h|karna|karo|kare|karenge|aap|tum|kaun|konsa|konse|komnse|kaunse|kon|kaisi|rahega|jana|jaana|ghoomne|sasta|saste|kam|baad|pehle|din|raat|raatein|bhejo|dekhna|milega|milegi|khana|bhojan|thike|accha|sahi|dosto|dost|bhyi|samaj|tu|teri|mera|meri|humare|shamil|kripya|saare|sare|sab|sabhi|aur)\b/i;
   if (hinglishWords.test(text)) {
     return 'hinglish';
   }
@@ -1638,6 +1663,152 @@ function generateSmartReply(message, history = [], activeDestination = null) {
   const resolvedDest = resolveActiveDestination(message, history, activeDestination);
   const currentPkg = resolvedDest ? PACKAGES_KNOWLEDGE[resolvedDest] : null;
 
+  // 0. QUERY INTENT: ALL PACKAGES / CATALOG / "KAUN SE PACKAGES HAIN" / "KOMNSE KONSEPAGAGES H"
+  if (isAllPackagesRequest(message)) {
+    if (lang === 'hindi') {
+      return {
+        activeDestination: null,
+        reply: `नमस्ते! Let's Explore DMC पर हमारे पास 22+ वेरिफाइड डायरेक्ट DMC पैकेजेस ऑफिशियल व्होलसेल (Wholesale Locked) रेट्स पर उपलब्ध हैं:
+
+🇹🇷 **तुर्की (Turkey Escape & Cappadocia Wonders)** (4 रातें / 5 दिन):
+• ₹42,999 प्रति व्यक्ति से (कप्पाडोसिया 5★ केव रिसॉर्ट, हॉट एयर बैलून व्यू और बोस्फोरस यॉट क्रूज़)
+[🌐 वेबसाइट पर तुर्की पैकेज देखें](turkey-package.html)
+
+🏝️ **बाली (Bali Indonesia Signature Tour)** (6 रातें / 7 दिन):
+• ₹96,068 प्रति व्यक्ति (फ्लाइट्स सहित) | लैंड पैकेज ₹48,999 से (उबूद प्राइवेट पूल विला, नुसा पेनिडा और ATV राफ्टिंग)
+[🌐 वेबसाइट पर बाली पैकेज देखें](bali-package.html)
+
+🇦🇪 **दुबई (Dubai Grand Luxury Experience)** (4 रातें / 5 दिन):
+• ₹34,999 से (4★ लग्जरी होटल, बुर्ज खलीफा 124th फ्लोर, डेजर्ट सफारी और मरीना क्रूज़)
+[🌐 वेबसाइट पर दुबई पैकेज देखें](dubai-package.html)
+
+❄️ **जॉर्जिया (Georgia High Caucasus Special)** (4 रातें / 5 दिन):
+• $300 USD (~₹28,999) (काजबेगी स्नो 4x4 एक्सपेडिशन, गुदौरी और ओल्ड त्बिलिसी)
+[🌐 वेबसाइट पर जॉर्जिया पैकेज देखें](georgia-package.html)
+
+🇹🇭 **थाईलैंड (Thailand Grand Signature)** (7 रातें / 8 दिन):
+• ₹28,999 से (फुकेत और क्राबी आइलैंड्स स्पीडबोट टूर)
+[🌐 वेबसाइट पर थाईलैंड पैकेज देखें](thailand-package.html)
+
+🇸🇬 **सिंगापुर (Singapore Signature Experience)** (3 रातें / 4 दिन):
+• ₹52,062 से (यूनिवर्सल स्टूडियोज, सेंटोसा और मरीना बे)
+[🌐 वेबसाइट पर सिंगापुर पैकेज देखें](singapore-package.html)
+
+🇻🇳 **वियतनाम (Vietnam Grand Expedition)** (9 रातें / 10 दिन):
+• ₹1,48,000 (हैनोई, डा नांग, बा ना हिल्स और हा लोंग बे क्रूज़)
+[🌐 वेबसाइट पर वियतनाम पैकेज देखें](vietnam-package.html)
+
+🏔️ **कश्मीर (Kashmir Heaven on Earth)** (4 रातें / 5 दिन):
+• ₹21,999 से (डल झील लग्जरी हाउसबोट, गुलमर्ग गोंडोला और ब्रेकफास्ट+डिनर)
+[🌐 वेबसाइट पर कश्मीर पैकेज देखें](kashmir-package.html)
+
+🌴 **केरल (Kerala God's Own Country)** (6 रातें / 7 दिन):
+• ₹24,999 से (मुन्नar टी गार्डन्स, थेक्कडी और अल्लेप्पी हाउसबोट)
+[🌐 वेबसाइट पर केरल पैकेज देखें](kerala-package.html)
+
+[🌐 वेबसाइट पर सभी 22 पैकेजेस और वाउचर्स देखें](deals.html)
+
+👉 **आप इनमें से किस देश का पूरा दिन-वार प्लान (Itinerary) या कस्टम कोटेशन देखना चाहते हैं?** मुझे बताएं!`
+      };
+    }
+
+    if (lang === 'hinglish') {
+      return {
+        activeDestination: null,
+        reply: `Hello! Let's Explore DMC par hamare paas 22+ verified direct DMC packages locked wholesale rates ke sath available hain.
+
+Yeh rahe hamare top verified international aur domestic packages:
+
+🇹🇷 **Turkey Escape & Cappadocia Wonders (4N/5D)**:
+• Starting from ₹42,999 / person (5★ Cave Resort, Sunrise Balloon View & Bosphorus Yacht)
+[🌐 View Turkey Package](turkey-package.html)
+
+🏝️ **Bali Indonesia Signature Tour (6N/7D)**:
+• ₹96,068 / person (with Flights) | Land from ₹48,999 (Ubud Private Pool Villa, Nusa Penida & ATV)
+[🌐 View Bali Package](bali-package.html)
+
+🇦🇪 **Dubai Grand Luxury Experience (4N/5D)**:
+• Starting from ₹34,999 / person (4★ Hotel, Burj Khalifa 124th Floor, VIP Desert Safari & Dhow Cruise)
+[🌐 View Dubai Package](dubai-package.html)
+
+❄️ **Georgia High Caucasus Special (4N/5D)**:
+• $300 USD (~₹28,999) (Kazbegi 4x4 Mountain Safari, Gudauri & Old Tbilisi)
+[🌐 View Georgia Package](georgia-package.html)
+
+🇹🇭 **Thailand Grand Signature (7N/8D)**:
+• Starting from ₹28,999 / person (Phuket, Krabi Islands & Bangkok)
+[🌐 View Thailand Package](thailand-package.html)
+
+🇸🇬 **Singapore Signature Experience (3N/4D)**:
+• Starting from ₹52,062 / person (Universal Studios, Sentosa & Marina Bay)
+[🌐 View Singapore Package](singapore-package.html)
+
+🇻🇳 **Vietnam Grand Expedition (9N/10D)**:
+• ₹1,48,000 / person (Hanoi, Da Nang, Ba Na Hills & Halong Bay Luxury Cruise)
+[🌐 View Vietnam Package](vietnam-package.html)
+
+🏔️ **Kashmir Heaven on Earth (4N/5D)**:
+• Starting from ₹21,999 / person (Dal Lake Luxury Houseboat, Gulmarg & MAP Meals)
+[🌐 View Kashmir Package](kashmir-package.html)
+
+🌴 **Kerala God's Own Country (6N/7D)**:
+• Starting from ₹24,999 / person (Munnar Hills, Thekkady & Alleppey Houseboat)
+[🌐 View Kerala Package](kerala-package.html)
+
+[🌐 Browse All 22 Direct Packages on Website](deals.html)
+
+👉 **Aapko inme se kis destination ki day-by-day itinerary ya exact customized quote chahiye?** Mujhe batayein, main turant screen par show kar dunga!`
+      };
+    }
+
+    return {
+      activeDestination: null,
+      reply: `Hello! I am Atlas, your AI Travel Architect at Let's Explore DMC. 👋
+
+Here are our top verified direct DMC packages with locked wholesale rates across 22+ destinations:
+
+🇹🇷 **Turkey Escape & Cappadocia Wonders (4N/5D)**:
+• Starting from ₹42,999 / person (5★ Cave Resort, Sunrise Balloon View & Bosphorus Yacht)
+[🌐 View Turkey Package](turkey-package.html)
+
+🏝️ **Bali Indonesia Signature Tour (6N/7D)**:
+• ₹96,068 / person (with Flights) | Land from ₹48,999 (Ubud Private Pool Villa & Nusa Penida)
+[🌐 View Bali Package](bali-package.html)
+
+🇦🇪 **Dubai Grand Luxury Experience (4N/5D)**:
+• Starting from ₹34,999 / person (4★ Luxury Stay, Burj Khalifa, VIP Desert Safari & Dhow Cruise)
+[🌐 View Dubai Package](dubai-package.html)
+
+❄️ **Georgia High Caucasus Special (4N/5D)**:
+• $300 USD (~₹28,999) (Kazbegi 4x4 Mountain Jeep Safari & Old Tbilisi)
+[🌐 View Georgia Package](georgia-package.html)
+
+🇹🇭 **Thailand Grand Signature (7N/8D)**:
+• Starting from ₹28,999 / person (Phuket, Krabi Islands & Bangkok)
+[🌐 View Thailand Package](thailand-package.html)
+
+🇸🇬 **Singapore Signature Experience (3N/4D)**:
+• Starting from ₹52,062 / person (Universal Studios, Sentosa & Marina Bay)
+[🌐 View Singapore Package](singapore-package.html)
+
+🇻🇳 **Vietnam Grand Expedition (9N/10D)**:
+• ₹1,48,000 / person (Hanoi, Da Nang Golden Bridge & Halong Bay Cruise)
+[🌐 View Vietnam Package](vietnam-package.html)
+
+🏔️ **Kashmir Heaven on Earth (4N/5D)**:
+• Starting from ₹21,999 / person (Dal Lake Luxury Houseboat & Gulmarg Gondola)
+[🌐 View Kashmir Package](kashmir-package.html)
+
+🌴 **Kerala God's Own Country (6N/7D)**:
+• Starting from ₹24,999 / person (Munnar Hills & Alleppey Backwater Houseboat)
+[🌐 View Kerala Package](kerala-package.html)
+
+[🌐 Browse All 22 Direct Packages on Website](deals.html)
+
+👉 **Which destination would you like to explore?** Tell me, and I can instantly display the complete day-by-day itinerary or customize a quote for your travel dates!`
+    };
+  }
+
   // 1. QUERY INTENT: WHERE IS THIS PACKAGE / CAN'T FIND / WEBSITE PE KAHAN HAI / LINK DO
   const isWebsiteLocationQuery = msgLower.match(/\b(kahan hai|kaha hai|nahi mil raha|kahan milega|website pe|website par|where is it|where is the package|can't find|cannot find|give me link|link bhejo|link do|page link|show page|where on website|website link|open page|open package|link chahiye|packages nahi mil rahe|itineraries nahi mil rahe)\b/i) ||
     msgLower.includes('कहाँ है') || msgLower.includes('नहीं मिल रहा') || msgLower.includes('वेबसाइट') || msgLower.includes('लिंक');
@@ -1777,8 +1948,10 @@ Aap tentative travel month aur departure city bataiye, taaki flight ke sath exac
     }
 
     // 3B. FORMAT 2: ITINERARY ONLY QUERY (ZERO PRICE CLUTTER)
-    const isItinerary = msgLower.match(/\b(itinerary|iternrary|day by day|day wise|day-wise|days plan|sightseeing|schedule|route|route map|kya dekhenge|activities|din ka plan|itinerary batao|detailed itinerary|share itinerary|plan|days route)\b/i) ||
-      msgLower.includes('itinerary') || msgLower.includes('आइटिनरेरी') || msgLower.includes('दिन का प्लान') || msgLower.includes('टूर प्लान');
+    const isItinerary = msgLower.match(/\b(itinerary|iternrary|day by day|day wise|day-wise|days plan|sightseeing|schedule|route|route map|kya dekhenge|activities|din ka plan|itinerary batao|detailed itinerary|share itinerary|plan|days route|know more|wanna know more|want to know more|tell me more|tell more|more details|more detail|more info|more information|aur batao|aur bataiye|aur details|aur jankari|aur jaankari|aur information|full details|detailed plan|pura plan|poora plan|deep details|further details)\b/i) ||
+      msgLower.includes('itinerary') || msgLower.includes('आइटिनरेरी') || msgLower.includes('दिन का प्लान') || msgLower.includes('टूर प्लान') ||
+      msgLower.includes('और बताओ') || msgLower.includes('और जानकारी') || msgLower.includes('और विवरण') || msgLower.includes('विस्तार से बताओ') ||
+      msgLower.trim() === 'more' || msgLower.trim() === 'details' || msgLower.trim() === 'know more' || msgLower.trim() === 'tell me more';
 
     if (isItinerary) {
       return {
@@ -2639,46 +2812,14 @@ ${currentPkg.hotels}
   if (currentPkg) {
     const alreadySentSummary = Array.isArray(history) && history.slice(-4).some(h => {
       const txt = typeof h === 'string' ? h : (h.text || (h.parts && h.parts[0]?.text) || h.message || '');
-      return txt.includes(currentPkg.name) && (txt.includes('Package Overview') || txt.includes('पैकेज का विवरण'));
+      return (txt.includes(currentPkg.name) || txt.includes(currentPkg.duration)) && (txt.includes('Package Overview') || txt.includes('पैकेज का विवरण') || txt.includes('Key Inclusions') || txt.includes('starts from') || txt.includes('Wholesale') || txt.includes('Official DMC Locked Rate') || txt.includes('शुरुआती'));
     });
 
     if (alreadySentSummary) {
-      if (lang === 'hindi') {
-        return {
-          activeDestination: resolvedDest,
-          reply: `मैं **${currentPkg.name}** के बारे में आपकी सहायता कर रहा हूँ!
-
-आप इसके बारे में क्या जानना चाहते हैं:
-• 🏨 **होटल और रूम विकल्प** (4★ डीलक्स या प्राइवेट पूल विला)
-• 🗺️ **दिन-प्रतिदिन का दर्शनीय स्थल (Itinerary)**
-• 🥗 **शुद्ध शाकाहारी/जैन भोजन की सुविधा**
-• 💳 **एडवांस और आसान पेमेंट शेड्यूल**
-• 🔄 **या किसी अन्य देश या बजट के पैकेज देखना चाहते हैं?**`
-        };
-      }
-      if (lang === 'hinglish') {
-        return {
-          activeDestination: resolvedDest,
-          reply: `Main **${currentPkg.name}** ke baare me aapki madad kar raha hoon!
-
-Aap isme se kya dekhna chahte hain:
-• 🏨 **Hotels & Room Categories** (4★ Deluxe ya Private Pool Villa)
-• 🗺️ **Day-by-Day Sightseeing Itinerary**
-• 🥗 **Pure Veg / Jain Food Options**
-• 💳 **Advance Token & Balance Payment Schedule**
-• 🔄 **Ya kisi dusre destination/budget ke options dekhna chahenge?**`
-        };
-      }
+      // Instead of repeating the summary, present the day-by-day itinerary directly
       return {
         activeDestination: resolvedDest,
-        reply: `I have **${currentPkg.name}** active for you!
-
-What would you like to explore next:
-• 🏨 **Hotels & Room Categories** (4★ Deluxe or Private Pool Villa upgrades)
-• 🗺️ **Day-by-Day Itinerary & Sightseeing details**
-• 🥗 **Pure Veg / Jain Meal plans**
-• 💳 **Payment Schedule & Advance token details**
-• 🔄 **Or would you like to compare alternate destinations in your budget?**`
+        reply: getPackageItinerary(currentPkg, lang)
       };
     }
 
@@ -2748,6 +2889,7 @@ if (typeof module !== 'undefined' && module.exports) {
     PACKAGES_KNOWLEDGE,
     MASTER_SYSTEM_PROMPT,
     detectDestination,
+    isAllPackagesRequest,
     resolveActiveDestination,
     generateSmartReply
   };
@@ -2757,6 +2899,7 @@ if (typeof window !== 'undefined') {
   window.PACKAGES_KNOWLEDGE = PACKAGES_KNOWLEDGE;
   window.MASTER_SYSTEM_PROMPT = MASTER_SYSTEM_PROMPT;
   window.detectDestination = detectDestination;
+  window.isAllPackagesRequest = isAllPackagesRequest;
   window.resolveActiveDestination = resolveActiveDestination;
   window.generateSmartReply = generateSmartReply;
 }
