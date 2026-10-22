@@ -203,8 +203,8 @@ tailwind.config = {
 
       <!-- Filter Buttons -->
       <div class="reveal flex flex-wrap gap-2.5">
-        <button onclick="filterOffices('all', this)" class="branch-tab active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-navy text-white shadow-md transition-all">All Locations (12)</button>
-        <button onclick="filterOffices('international', this)" class="branch-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🌏 Global &amp; International (7)</button>
+        <button onclick="filterOffices('all', this)" class="branch-tab active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-navy text-white shadow-md transition-all">All Locations (13)</button>
+        <button onclick="filterOffices('international', this)" class="branch-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🌏 Global &amp; International (8)</button>
         <button onclick="filterOffices('india', this)" class="branch-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-navy/70 border border-navy/10 hover:border-navy/30 transition-all">🇮🇳 India Hubs &amp; Desks (5)</button>
       </div>
     </div>
@@ -212,7 +212,51 @@ tailwind.config = {
     <!-- Branch Grid -->
     <div id="branch-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
 
-      <!-- 1. BALI (GLOBAL HEADQUARTERS) -->
+      <!-- 1. VIETNAM (HEAD OFFICE) -->
+      <div data-region="international" class="branch-card reveal bg-white rounded-3xl overflow-hidden border-2 border-sunset/40 shadow-xl hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+        <div>
+          <div class="h-52 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=700&q=80" alt="Vietnam Head Office" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="bg-sunset text-navy-deep px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                🇻🇳 Head Office
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[11px] font-bold text-forest flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-forest animate-pulse"></span> Direct Inbound Hub
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="font-sans text-[11px] font-black tracking-widest text-sunset uppercase">Let's Explore DMC Vietnam</div>
+              <h3 class="font-display text-2xl font-bold leading-tight">Ho Chi Minh City, Vietnam</h3>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-3.5 min-h-[175px] flex flex-col justify-between">
+            <div class="flex items-start gap-3 text-sm text-navy/80">
+              <span class="material-symbols-outlined text-ocean text-xl flex-shrink-0 mt-0.5">location_on</span>
+              <span class="leading-relaxed">190 Pasteur, Xuan Hoa Ward, Ho Chi Minh City, Vietnam</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-semibold text-navy">
+              <span class="material-symbols-outlined text-sunset text-xl flex-shrink-0">apartment</span>
+              <span>Head Office · Inbound Travel Operations</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-fog">
+              <span class="material-symbols-outlined text-navy/40 text-lg flex-shrink-0">mail</span>
+              <span>infovie@letsexploredmc.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6 pt-2 border-t border-navy/5 flex gap-2 mt-auto">
+          <a href="https://wa.me/918007586871?text=Hi%20Vietnam%20Head%20Office%20Team" target="_blank" class="flex-1 text-center py-2.5 rounded-xl bg-[#27AE60] text-white text-xs font-bold hover:bg-[#219653] transition">WhatsApp Vietnam</a>
+          <a href="mailto:infovie@letsexploredmc.com" class="px-3.5 py-2.5 rounded-xl border border-navy/15 text-navy hover:bg-navy/5 transition flex items-center justify-center" title="Send Email">
+            <span class="material-symbols-outlined text-base">mail</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. BALI (GLOBAL HEADQUARTERS) -->
       <div data-region="international" class="branch-card reveal bg-white rounded-3xl overflow-hidden border-2 border-sunset/40 shadow-xl hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
         <div>
           <div class="h-52 relative overflow-hidden">

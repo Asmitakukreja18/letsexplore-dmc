@@ -97,7 +97,7 @@
         <a href="home.html" style="display: inline-block; margin-bottom: 12px;">
           <img src="images/logo.png" alt="Let's Explore DMC Logo" style="height: 72px; width: auto; border-radius: 10px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.12));" />
         </a>
-        <p class="footer-tagline"><strong>Let's Explore DMC Pvt. Ltd.</strong><br>Global HQ in Bali (Indonesia) · India Operations in Amravati (MH) · Direct Ground Desks in Dubai, Thailand, Turkey, Georgia, Azerbaijan, Sri Lanka, Egypt, Kashmir &amp; Kerala.</p>
+        <p class="footer-tagline"><strong>Let's Explore DMC Pvt. Ltd.</strong><br>Global HQ in Bali (Indonesia) · Vietnam Head Office in Ho Chi Minh City · India Operations in Amravati (MH) · Direct Ground Desks in Dubai, Thailand, Turkey, Georgia, Azerbaijan, Sri Lanka, Egypt, Kashmir &amp; Kerala.</p>
         <div class="footer-social">
           <a href="https://wa.me/918007586871" target="_blank" class="social-btn wa" title="WhatsApp Us">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -152,8 +152,9 @@
       <!-- Col 5: 24/7 Helpline & Offices -->
       <div class="footer-col">
         <h5>24/7 Support &amp; Desks</h5>
-        <p class="footer-address"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">location_on</span><strong>👑 Global HQ: Bali (Indonesia)</strong><br>PT. Chrysthalia Athena, Denpasar, Bali<br><strong>🇮🇳 India Hub: Amravati (MH)</strong></p>
+        <p class="footer-address"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">location_on</span><strong>🇻🇳 Head Office: Ho Chi Minh City</strong><br>190 Pasteur, Xuan Hoa Ward, Vietnam<br><strong>👑 Global HQ: Bali (Indonesia)</strong><br>PT. Chrysthalia Athena, Denpasar, Bali<br><strong>🇮🇳 India Hub: Amravati (MH)</strong></p>
         <a href="tel:+918007586871" class="footer-phone"><span class="material-symbols-outlined text-base align-middle mr-1 text-forest">call</span>+91-8007586871</a>
+        <a href="mailto:infovie@letsexploredmc.com" class="footer-email"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">mail</span>infovie@letsexploredmc.com</a>
         <a href="mailto:info@letsexploredmc.com" class="footer-email"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">mail</span>info@letsexploredmc.com</a>
         <a href="https://instagram.com/lets_exploredmc" target="_blank" class="footer-ig"><span class="material-symbols-outlined text-base align-middle mr-1 opacity-70">photo_camera</span>@lets_exploredmc</a>
         <a href="https://wa.me/918007586871?text=Hello%20Let's%20Explore%20DMC,%20I%20would%20like%20to%20plan%20a%20holiday!" target="_blank" class="footer-cta">Chat on WhatsApp →</a>
@@ -162,7 +163,7 @@
 
     <!-- Bottom Legal Bar -->
     <div class="footer-bottom">
-      <p>© 2026 Let's Explore DMC Pvt. Ltd. All rights reserved. Global HQ: Bali · India Hub: Amravati · Direct Desks: Dubai, Thailand, Turkey, Georgia, Azerbaijan, Kashmir, Kerala.</p>
+      <p>© 2026 Let's Explore DMC Pvt. Ltd. All rights reserved. Vietnam Head Office: Ho Chi Minh City · Global HQ: Bali · India Hub: Amravati · Direct Desks: Dubai, Thailand, Turkey, Georgia, Azerbaijan, Kashmir, Kerala.</p>
       <p class="footer-bottom-links">
         <a href="about.html">About Us</a>
         <span>·</span>

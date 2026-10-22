@@ -2721,9 +2721,11 @@ ${currentPkg.hotels}
     return {
       activeDestination: resolvedDest,
       reply: `🏛️ **Let's Explore DMC Official Details**:
-• **Global HQ**: Sahakar Nagar, Opp. New Cotton Market, Inside Shiv Krupa Residence, Amravati, Maharashtra
-• **Offices**: Mumbai, Bali (Denpasar), Turkey (Taksim, Istanbul), Jaipur, Nagpur
-• **Direct Hotline / WhatsApp**: +91 80075 86871 | **Email**: Info@letsexploredmc.com
+• **Head Office (Vietnam)**: 190 Pasteur, Xuan Hoa Ward, Ho Chi Minh City, Vietnam (Email: infovie@letsexploredmc.com)
+• **Global HQ (Bali)**: PT. Chrysthalia Athena, Komplek Perhotelan Viking, Jalan Diponegoro, Denpasar, Bali
+• **India Central Hub**: Sahakar Nagar, Opp. New Cotton Market, Inside Shiv Krupa Residence, Amravati, Maharashtra
+• **Offices & Direct Desks**: Vietnam, Bali, Turkey (Taksim, Istanbul), Dubai, Thailand, Sri Lanka, Azerbaijan, Egypt, Mumbai, Jaipur, Nagpur
+• **Direct Hotline / WhatsApp**: +91 80075 86871 | **Emails**: infovie@letsexploredmc.com / info@letsexploredmc.com
 
 🏦 **Official Bank Account (for RTGS/NEFT/IMPS)**:
 • **Bank**: YES BANK LIMITED

@@ -8,6 +8,19 @@
 
   const OFFICES = [
     {
+      id: 'vietnam',
+      city: 'Ho Chi Minh City',
+      country: 'Vietnam',
+      tag: '🇻🇳 Head Office',
+      tagColor: 'bg-[#dc2626] text-white',
+      company: "Let's Explore DMC Vietnam",
+      address: '190 Pasteur, Xuan Hoa Ward, Ho Chi Minh City, Vietnam',
+      contact: 'infovie@letsexploredmc.com',
+      contactType: 'email',
+      img: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=800&q=80',
+      badge: 'Direct Inbound Hub'
+    },
+    {
       id: 'bali',
       city: 'Denpasar, Bali',
       country: 'Indonesia',
