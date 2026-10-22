@@ -287,6 +287,22 @@
   let initialized = false;
   let rafPending = false;
 
+  // Cached Layout Metrics (Zero layout thrashing during high-frequency scroll & pointer events)
+  let cachedTrackTop = 0;
+  let cachedTrackHeight = 2200;
+  let cachedWindowHeight = window.innerHeight || 800;
+  let cachedWindowWidth = window.innerWidth || 1200;
+  let isTrackVisible = true;
+
+  function measureTrackMetrics() {
+    if (!trackContainer) return;
+    const rect = trackContainer.getBoundingClientRect();
+    cachedTrackTop = rect.top + (window.scrollY || window.pageYOffset || 0);
+    cachedTrackHeight = trackContainer.offsetHeight || 2200;
+    cachedWindowHeight = window.innerHeight || 800;
+    cachedWindowWidth = window.innerWidth || 1200;
+  }
+
   // 3D Carousel State
   let currentCategory = 'all';
   let filteredPackages = [...ALL_PACKAGES];
@@ -538,14 +554,16 @@
   function update() {
     rafPending = false;
 
-    // Viewport check: If track is scrolled past, abort RAF and save resources!
-    const trackRect = trackContainer.getBoundingClientRect();
-    if (trackRect.bottom < -120 || trackRect.top > window.innerHeight + 120) {
+    // Viewport check: Zero DOM queries during scroll frame!
+    const sy = window.scrollY || window.pageYOffset || 0;
+    const scrollRelative = sy - cachedTrackTop;
+    const totalScrollRange = Math.max(1, cachedTrackHeight - cachedWindowHeight);
+
+    if (scrollRelative < -120 || scrollRelative > totalScrollRange + 120) {
       return;
     }
 
-    const totalScrollRange = Math.max(1, trackContainer.offsetHeight - window.innerHeight);
-    targetScroll = clamp(-trackRect.top, 0, totalScrollRange);
+    targetScroll = clamp(scrollRelative, 0, totalScrollRange);
 
     const isMobile = window.innerWidth < 768;
     if (!initialized || reduceMotion.matches) {
@@ -713,25 +731,41 @@
     }
   }
 
+  // Viewport-aware IntersectionObserver for pointer tracking & rAF lifecycle
+  if ('IntersectionObserver' in window && trackContainer) {
+    const trackObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isTrackVisible = entry.isIntersecting;
+        if (isTrackVisible) requestTick();
+      });
+    }, { threshold: 0.01, rootMargin: '100px 0px 100px 0px' });
+    trackObserver.observe(trackContainer);
+  }
+
   // Event Listeners
   window.addEventListener('scroll', requestTick, { passive: true });
   window.addEventListener('resize', () => {
+    measureTrackMetrics();
     update3DCardPositions();
+    requestTick();
+  }, { passive: true });
+  window.addEventListener('load', () => {
+    measureTrackMetrics();
     requestTick();
   }, { passive: true });
 
   // Only trigger rAF from pointermove when the sticky cinematic stage is visible
+  // Zero getBoundingClientRect during pointermove!
   window.addEventListener('pointermove', (e) => {
-    targetMouseX = e.clientX / window.innerWidth - 0.5;
-    targetMouseY = e.clientY / window.innerHeight - 0.5;
-    const rect = trackContainer.getBoundingClientRect();
-    if (rect.bottom > 0 && rect.top < window.innerHeight) {
-      requestTick();
-    }
+    if (!isTrackVisible) return;
+    targetMouseX = e.clientX / cachedWindowWidth - 0.5;
+    targetMouseY = e.clientY / cachedWindowHeight - 0.5;
+    requestTick();
   }, { passive: true });
 
   // Init
   window.addEventListener('DOMContentLoaded', () => {
+    measureTrackMetrics();
     render3DCarousel();
     initHUDControls();
     requestTick();

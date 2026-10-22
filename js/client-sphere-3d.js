@@ -192,7 +192,7 @@
       // Clean, photo-first layout: 90% photo visibility with minimal bottom hairline
       card.innerHTML = `
         <figure class="client-sphere-figure">
-          <img src="${story.img}" alt="${story.name}" loading="eager" />
+          <img src="${story.img}" alt="${story.name}" loading="lazy" decoding="async" />
           <div class="client-sphere-pill">
             <span>${story.dest.split(' ')[0]}</span>
             <span class="font-bold text-[10px] tracking-wide">${story.dest.split(' ')[1] || 'Trip'}</span>
@@ -360,7 +360,7 @@
   let targetSpeed = 0.14;
   let continuousYaw = 0;
   let isHoveringCard = false;
-  let isStageVisible = true;
+  let isStageVisible = false;
 
   function injectAtmosphere() {
     if (!stage || stage.querySelector('.client-sphere-stars')) return;
@@ -494,7 +494,7 @@
         headline.style.transform = `rotateX(${-sx.toFixed(3)}deg) rotateY(${-sy.toFixed(3)}deg) translate3d(0, 0, ${tzHead}px)`;
       }
 
-      if (isStageVisible) {
+      if (isStageVisible && !document.hidden) {
         rafId = requestAnimationFrame(tick);
       } else {
         rafId = null;
@@ -505,12 +505,12 @@
     if ('IntersectionObserver' in window && stage) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          const visible = entry.isIntersecting;
+          const visible = entry.isIntersecting && !document.hidden;
           if (visible && !isStageVisible) {
             isStageVisible = true;
             lastTimestamp = performance.now();
             if (!rafId) rafId = requestAnimationFrame(tick);
-          } else if (!visible) {
+          } else if (!visible && isStageVisible) {
             isStageVisible = false;
             if (rafId) {
               cancelAnimationFrame(rafId);
@@ -518,11 +518,25 @@
             }
           }
         });
-      }, { threshold: 0.05 });
+      }, { threshold: 0.02, rootMargin: '150px 0px 150px 0px' });
       observer.observe(stage);
+    } else {
+      isStageVisible = true;
+      rafId = requestAnimationFrame(tick);
     }
 
-    rafId = requestAnimationFrame(tick);
+    // Tab visibility handling: pause background CPU/GPU when user switches tab
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      } else if (isStageVisible && !rafId) {
+        lastTimestamp = performance.now();
+        rafId = requestAnimationFrame(tick);
+      }
+    }, { passive: true });
   }
 
   // ============================================================

@@ -323,13 +323,14 @@
     requestAnimationFrame(anim);
   }
 
-  let isRingVisible = true;
+  let isRingVisible = false;
 
   function startAnimation() {
     if (rafId) cancelAnimationFrame(rafId);
     lastTime = performance.now();
 
     function tick(now) {
+      if (!now) now = performance.now();
       const dt = Math.min((now - lastTime) / 1000, 0.1);
       lastTime = now;
 
@@ -338,22 +339,25 @@
         placeCards();
       }
 
-      if (isRingVisible) {
+      if (isRingVisible && !document.hidden) {
         rafId = requestAnimationFrame(tick);
       } else {
         rafId = null;
       }
     }
 
+    // Call once initially to position cards without continuous background loop
+    placeCards();
+
     if ('IntersectionObserver' in window && stage) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          const visible = entry.isIntersecting;
+          const visible = entry.isIntersecting && !document.hidden;
           if (visible && !isRingVisible) {
             isRingVisible = true;
             lastTime = performance.now();
             if (!rafId) rafId = requestAnimationFrame(tick);
-          } else if (!visible) {
+          } else if (!visible && isRingVisible) {
             isRingVisible = false;
             if (rafId) {
               cancelAnimationFrame(rafId);
@@ -361,11 +365,25 @@
             }
           }
         });
-      }, { threshold: 0.05 });
+      }, { threshold: 0.02, rootMargin: '150px 0px 150px 0px' });
       observer.observe(stage);
+    } else {
+      isRingVisible = true;
+      rafId = requestAnimationFrame(tick);
     }
 
-    rafId = requestAnimationFrame(tick);
+    // Tab visibility handling: pause background CPU/GPU when user switches tab
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      } else if (isRingVisible && !rafId) {
+        lastTime = performance.now();
+        rafId = requestAnimationFrame(tick);
+      }
+    }, { passive: true });
   }
 
   // ============================================================
@@ -386,6 +404,11 @@
       gridStage.classList.remove('hidden');
       if (btnRing) btnRing.classList.remove('active');
       if (btnGrid) btnGrid.classList.add('active');
+      isRingVisible = false;
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     } else {
       ringStage.classList.remove('hidden');
       if (ringControls) ringControls.classList.remove('hidden');
@@ -394,6 +417,9 @@
       if (btnGrid) btnGrid.classList.remove('active');
       computeRadius();
       placeCards();
+      isRingVisible = true;
+      lastTime = performance.now();
+      if (!rafId) rafId = requestAnimationFrame(tick);
     }
   };
 

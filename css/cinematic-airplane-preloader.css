@@ -27,6 +27,10 @@
   pointer-events: none;
 }
 
+#cinematic-airplane-preloader.is-hidden * {
+  animation-play-state: paused !important;
+}
+
 /* ============================================================ */
 /* SCENE 1: CINEMATIC FULLSCREEN SKY & CLOUDS                   */
 /* Seamless 100vh atmosphere: Upper wisps, mid-drift, lower clouds */
