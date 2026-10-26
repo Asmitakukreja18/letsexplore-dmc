@@ -14,9 +14,12 @@
       tag: '🇻🇳 Head Office',
       tagColor: 'bg-[#dc2626] text-white',
       company: "Let's Explore DMC Vietnam",
+      lead: 'Alex (Hoang Dai Ngai)',
+      leadRole: 'Head Office',
+      avatar: 'images/partners/alex_vietnam.jpg',
       address: '190 Pasteur, Xuan Hoa Ward, Ho Chi Minh City, Vietnam',
-      contact: 'infovie@letsexploredmc.com',
-      contactType: 'email',
+      contact: '+84 90 360 74 04',
+      contactType: 'tel',
       img: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=800&q=80',
       badge: 'Direct Inbound Hub'
     },
@@ -27,9 +30,12 @@
       tag: '👑 Global HQ',
       tagColor: 'bg-sunset text-navy-deep',
       company: 'PT. Chrysthalia Athena Sejahtera',
+      lead: 'PT. Chrysthalia Athena',
+      leadRole: 'Global HQ Ops',
+      avatar: 'images/partners/bali_owner.jpg',
       address: 'Komplek Perhotelan Viking, Jalan Diponegoro, Denpasar, Bali, Indonesia',
-      contact: 'bali@letsexploredmc.com',
-      contactType: 'email',
+      contact: '+62 878-6200-4904',
+      contactType: 'tel',
       img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80',
       badge: 'Direct Ground HQ'
     },
@@ -52,10 +58,13 @@
       country: 'Thailand',
       tag: '🇹🇭 Inbound Partner',
       tagColor: 'bg-[#16a34a] text-white',
-      company: 'Onetripthailand Co., Ltd. (Inbound Tour)',
-      address: '229/63 Thesaban 4 Road, Saraburi 18000, Thailand · Mr. Jumphol Vongchun (+66 818311204)',
-      contact: 'thailand@letsexploredmc.com',
-      contactType: 'email',
+      company: 'One Trip Thailand Co., Ltd.',
+      lead: 'Mr. Jumphol Vongchun',
+      leadRole: 'Co-Owner · Dir',
+      avatar: 'images/partners/jumphol_thailand.jpg',
+      address: '229/63 Thesaban 4 Road, Saraburi 18000, Thailand',
+      contact: '+66 818311204',
+      contactType: 'tel',
       img: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80',
       badge: 'Co-partners DMC'
     },
@@ -117,9 +126,9 @@
       country: 'Regional Desks',
       tag: '🌆 West India Desks',
       tagColor: 'bg-sunset text-navy-deep',
-      company: 'Direct Regional Offices',
-      address: 'Bora Bazar Fort Mumbai · Jagatpura Jaipur · Mecosabagh Sindhi Colony Nagpur',
-      contact: '+91-80075 86871',
+      company: 'Pan-India B2B Agent Network',
+      address: 'Mumbai: +91 95459 55966 · Jaipur: +91 95495 955266 · Nagpur: +91 80075 86881',
+      contact: '+91 95459 55966',
       contactType: 'tel',
       img: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80',
       badge: 'Regional Network'
@@ -166,10 +175,19 @@
             <div class="office-ring-status">${office.badge}</div>
           </div>
           <div class="office-ring-content">
+            ${office.avatar ? `
+              <div class="flex items-center gap-2.5 p-2 rounded-xl bg-stone/70 border border-navy/5 mb-2 shrink-0">
+                <img src="${office.avatar}" alt="${office.lead || office.city}" class="w-8 h-8 rounded-lg object-cover object-top border border-white shadow-sm shrink-0"/>
+                <div class="min-w-0">
+                  <div class="text-[9px] font-extrabold uppercase tracking-wider text-sunset truncate">${office.leadRole || 'Lead'}</div>
+                  <div class="font-display text-xs font-bold text-navy-deep truncate">${office.lead || ''}</div>
+                </div>
+              </div>
+            ` : ''}
             <h3 class="font-display text-xl font-bold text-navy-deep mb-1 truncate">${office.city}</h3>
             <p class="text-xs font-bold uppercase text-ocean tracking-wider mb-2 truncate">${office.company}</p>
-            <p class="text-xs text-fog leading-relaxed mb-4 line-clamp-2">${office.address}</p>
-            <div class="pt-3 border-t border-navy/5 flex items-center justify-between mt-auto">
+            <p class="text-xs text-fog leading-relaxed mb-3 line-clamp-2">${office.address}</p>
+            <div class="pt-2.5 border-t border-navy/5 flex items-center justify-between mt-auto">
               ${office.contactType === 'tel' 
                 ? `<a href="tel:${office.contact.replace(/\s+/g,'')}" class="text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-sm">call</span> ${office.contact}</a>`
                 : `<a href="mailto:${office.contact}" class="text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-sm">mail</span> ${office.contact}</a>`

@@ -1821,9 +1821,9 @@
   top: 50%;
   left: 50%;
   width: 320px;
-  height: 390px;
+  height: 420px;
   margin-left: -160px;
-  margin-top: -195px;
+  margin-top: -210px;
   border-radius: 26px;
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -1831,10 +1831,10 @@
 
 @media (max-width: 640px) {
   .office-ring-card {
-    width: 270px;
-    height: 360px;
-    margin-left: -135px;
-    margin-top: -180px;
+    width: 280px;
+    height: 390px;
+    margin-left: -140px;
+    margin-top: -195px;
   }
 }
 
@@ -1859,7 +1859,7 @@
 
 .office-ring-thumb {
   position: relative;
-  height: 180px;
+  height: 160px;
   overflow: hidden;
   background: #0B1F3A;
 }
