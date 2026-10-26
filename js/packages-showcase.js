@@ -8,6 +8,15 @@
 (function () {
   'use strict';
 
+  // Fast image optimization helper for high performance & instant rendering
+  function getFastImgUrl(url, w = 600) {
+    if (!url) return '';
+    if (url.includes('images.unsplash.com')) {
+      return url.replace(/w=\d+/, `w=${w}`).replace(/q=\d+/, 'q=72') + (url.includes('auto=format') ? '' : '&auto=format');
+    }
+    return url;
+  }
+
   const ALL_PACKAGES = [
     {
       id: "georgia-special",
@@ -567,13 +576,10 @@
         
         <!-- Image & Video Container -->
         <div class="relative aspect-[16/11] overflow-hidden bg-navy-deep">
+          <img src="${getFastImgUrl(pkg.img, 600)}" alt="${pkg.name}" class="pkg-card-img w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy" decoding="async"/>
           ${pkg.video ? `
-            <video autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="${pkg.img}" class="pkg-video-player w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out">
-              <source src="${pkg.video}" type="video/mp4"/>
-            </video>
-          ` : `
-            <img src="${pkg.img}" alt="${pkg.name}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy"/>
-          `}
+            <video loop muted playsinline webkit-playsinline preload="none" data-src="${pkg.video}" class="pkg-video-player absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none"></video>
+          ` : ''}
           
           <!-- Top Left Ribbon -->
           <div class="absolute top-4 left-4 flex items-center gap-2">
@@ -672,39 +678,29 @@
       const vid = card.querySelector('.pkg-video-player');
       if (!vid) return;
 
-      // Ensure infinite seamless looping attributes & properties
       vid.loop = true;
       vid.muted = true;
       vid.defaultMuted = true;
       vid.playsInline = true;
-      vid.setAttribute('autoplay', '');
-      vid.setAttribute('loop', '');
-      vid.setAttribute('muted', '');
-      vid.setAttribute('playsinline', '');
-      vid.setAttribute('webkit-playsinline', '');
+
+      // Hover priority: on desktop, hover loads and plays immediately
+      card.addEventListener('mouseenter', () => {
+        if (vid.dataset.src && !vid.src) {
+          vid.src = vid.dataset.src;
+        }
+        vid.style.opacity = '1';
+        const p = vid.play();
+        if (p !== undefined) p.catch(() => {});
+      });
+
+      card.addEventListener('mouseleave', () => {
+        vid.pause();
+      });
 
       // Explicit 'ended' event listener: rewinds and continuously loops
       vid.addEventListener('ended', function () {
         this.currentTime = 0;
         const p = this.play();
-        if (p !== undefined) p.catch(() => {});
-      });
-
-      // Error recovery safeguard: reload and replay if a stream hiccups
-      vid.addEventListener('error', function () {
-        setTimeout(() => {
-          try {
-            vid.load();
-            const p = vid.play();
-            if (p !== undefined) p.catch(() => {});
-          } catch (err) {}
-        }, 1000);
-      });
-
-      // Hover priority
-      card.addEventListener('mouseenter', () => {
-        vid.preload = 'metadata';
-        const p = vid.play();
         if (p !== undefined) p.catch(() => {});
       });
     });
@@ -718,15 +714,24 @@
 
           if (entry.isIntersecting) {
             card.dataset.inView = 'true';
-            vid.preload = 'metadata';
-            const p = vid.play();
-            if (p !== undefined) p.catch(() => {});
+            // Only auto-play on desktop to protect mobile data & memory
+            if (window.innerWidth > 768) {
+              if (vid.dataset.src && !vid.src) {
+                vid.src = vid.dataset.src;
+              }
+              const p = vid.play();
+              if (p !== undefined) {
+                p.then(() => { vid.style.opacity = '1'; }).catch(() => {});
+              }
+            }
           } else {
             delete card.dataset.inView;
-            vid.pause();
+            if (vid.src) {
+              vid.pause();
+            }
           }
         });
-      }, { threshold: 0.08, rootMargin: '100px 0px 100px 0px' });
+      }, { threshold: 0.15, rootMargin: '50px 0px 50px 0px' });
 
       cards.forEach(c => pkgVideoObserver.observe(c));
     } else {

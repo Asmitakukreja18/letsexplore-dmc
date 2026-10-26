@@ -192,7 +192,7 @@
       // Clean, photo-first layout: 90% photo visibility with minimal bottom hairline
       card.innerHTML = `
         <figure class="client-sphere-figure">
-          <img src="${story.img}" alt="${story.name}" loading="lazy" decoding="async" />
+          <img src="${story.img}" alt="${story.name}" decoding="async" />
           <div class="client-sphere-pill">
             <span>${story.dest.split(' ')[0]}</span>
             <span class="font-bold text-[10px] tracking-wide">${story.dest.split(' ')[1] || 'Trip'}</span>

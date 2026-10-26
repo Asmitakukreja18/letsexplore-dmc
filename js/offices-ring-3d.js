@@ -6,6 +6,14 @@
 (function() {
   'use strict';
 
+  function getFastImgUrl(url, w = 600) {
+    if (!url) return '';
+    if (url.includes('images.unsplash.com')) {
+      return url.replace(/w=\d+/, `w=${w}`).replace(/q=\d+/, 'q=72') + (url.includes('auto=format') ? '' : '&auto=format');
+    }
+    return url;
+  }
+
   const OFFICES = [
     {
       id: 'vietnam',
@@ -168,7 +176,7 @@
       card.innerHTML = `
         <div class="office-ring-card-inner">
           <div class="office-ring-thumb">
-            <img src="${office.img}" alt="${office.city}" loading="lazy"/>
+            <img src="${getFastImgUrl(office.img, 600)}" alt="${office.city}" decoding="async"/>
             <div class="office-ring-badge-top">
               <span class="office-ring-tag ${office.tagColor}">${office.tag}</span>
             </div>
