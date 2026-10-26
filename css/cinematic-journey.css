@@ -1417,6 +1417,13 @@
   user-select: none;
 }
 
+@media (max-width: 640px) {
+  #client-sphere-stage {
+    height: 480px;
+    border-radius: 24px;
+  }
+}
+
 #client-sphere-stage:active {
   cursor: grabbing;
 }
@@ -1578,6 +1585,15 @@
   -webkit-backdrop-filter: blur(14px);
   border: 1.5px solid rgba(244, 162, 97, 0.45);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 640px) {
+  .client-sphere-orbit-controls {
+    bottom: 12px;
+    padding: 4px 10px;
+    gap: 6px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  }
 }
 
 .sphere-ctrl-btn {
@@ -1831,10 +1847,10 @@
 
 @media (max-width: 640px) {
   .office-ring-card {
-    width: 280px;
-    height: 390px;
-    margin-left: -140px;
-    margin-top: -195px;
+    width: 290px;
+    height: 400px;
+    margin-left: -145px;
+    margin-top: -200px;
   }
 }
 

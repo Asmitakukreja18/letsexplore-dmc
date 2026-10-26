@@ -187,12 +187,12 @@
             <h3 class="font-display text-xl font-bold text-navy-deep mb-1 truncate">${office.city}</h3>
             <p class="text-xs font-bold uppercase text-ocean tracking-wider mb-2 truncate">${office.company}</p>
             <p class="text-xs text-fog leading-relaxed mb-3 line-clamp-2">${office.address}</p>
-            <div class="pt-2.5 border-t border-navy/5 flex items-center justify-between mt-auto">
+            <div class="pt-2.5 border-t border-navy/5 flex items-center justify-between gap-2 mt-auto">
               ${office.contactType === 'tel' 
-                ? `<a href="tel:${office.contact.replace(/\s+/g,'')}" class="text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-sm">call</span> ${office.contact}</a>`
-                : `<a href="mailto:${office.contact}" class="text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-sm">mail</span> ${office.contact}</a>`
+                ? `<a href="tel:${office.contact.replace(/\s+/g,'')}" class="text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition truncate min-w-0" title="${office.contact}"><span class="material-symbols-outlined text-sunset text-sm shrink-0">call</span><span class="truncate">${office.contact}</span></a>`
+                : `<a href="mailto:${office.contact}" class="text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition truncate min-w-0" title="${office.contact}"><span class="material-symbols-outlined text-sunset text-sm shrink-0">mail</span><span class="truncate">${office.contact}</span></a>`
               }
-              <a href="contact.html#offices" class="text-xs font-bold text-ocean hover:underline flex items-center gap-0.5">Details →</a>
+              <a href="contact.html#offices" class="text-xs font-bold text-ocean hover:underline flex items-center gap-0.5 shrink-0">Details →</a>
             </div>
           </div>
         </div>
@@ -214,7 +214,7 @@
     if (!stage) return;
     const w = stage.clientWidth || window.innerWidth;
     if (w <= 640) {
-      R = 360;
+      R = 340;
     } else if (w <= 1024) {
       R = 480;
     } else {
@@ -223,7 +223,8 @@
   }
 
   function placeCards() {
-    const cullAngle = 88; // Cull back half of the 3D cylinder
+    const isMobile = window.innerWidth <= 640;
+    const cullAngle = isMobile ? 74 : 88; // Cull back half & edge peek on mobile
     const PI = Math.PI;
 
     cardEls.forEach((card, i) => {

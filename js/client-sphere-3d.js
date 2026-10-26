@@ -231,10 +231,10 @@
     const isTablet = w > 640 && w <= 1024;
 
     if (isMobile) {
-      cw = 175;
-      ch = 125;
-      R = Math.max(220, Math.min(320, w * 0.46));
-      perspective = 800;
+      cw = 135;
+      ch = 95;
+      R = Math.max(160, Math.min(200, w * 0.42));
+      perspective = 700;
     } else if (isTablet) {
       cw = 225;
       ch = 160;

@@ -792,6 +792,16 @@
     box-shadow: 0 12px 38px rgba(39,174,96,0.6);
   }
 
+  @media (max-width: 640px) {
+    .wa-float {
+      bottom: 16px; right: 16px;
+      width: 50px; height: 50px;
+    }
+    .wa-float svg {
+      width: 24px; height: 24px;
+    }
+  }
+
   /* =========  RESPONSIVE NAV  ========= */
   @media (max-width: 1280px) {
     .nav-link { font-size: 11px; padding: 5px 8px; }
