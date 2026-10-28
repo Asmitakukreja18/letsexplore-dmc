@@ -95,25 +95,10 @@
       badgeEl.textContent = d.name;
     }
 
-    // Sound button toggle
-    if (soundBtn) {
-      soundBtn.textContent = sound.isMuted ? '🔈 Muted' : '🔊 Sound';
-      soundBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const unmuted = sound.toggleMute();
-        soundBtn.textContent = unmuted ? '🔊 Sound' : '🔈 Muted';
-      });
-    }
-
-    // Auto unlock audio on first interaction
-    const unlockAudio = () => {
-      sound.ensureRunning();
-      if (!sound.isMuted) sound.playEngineRoar();
-      window.removeEventListener('pointerdown', unlockAudio);
-      window.removeEventListener('keydown', unlockAudio);
-    };
-    window.addEventListener('pointerdown', unlockAudio, { passive: true });
-    window.addEventListener('keydown', unlockAudio, { passive: true });
+    // Safety fallback: Unconditionally reveal site after 3.5 seconds max
+    setTimeout(() => {
+      if (!isFinished) finishAnimation();
+    }, 3500);
 
     // Auto-skip if already viewed in this browser session
     if (sessionStorage.getItem('cap_intro_seen') === 'true') {
@@ -123,8 +108,7 @@
     }
 
     // Tap/Click anywhere on the preloader screen to skip instantly
-    preloader.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('#cap-sound-btn')) return;
+    preloader.addEventListener('pointerdown', () => {
       finishAnimation();
     });
 
@@ -303,20 +287,6 @@
         preloader.style.display = 'none';
       }, 700);
     }
-
-    // Skip button
-    if (skipBtn) {
-      skipBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        finishAnimation();
-      });
-    }
-
-    // Safety fallback
-    setTimeout(() => {
-      if (!isFinished) finishAnimation();
-    }, 4800);
 
     // Run animation immediately
     runTimeline();

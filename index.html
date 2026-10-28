@@ -565,6 +565,16 @@
     </div>
 
   </div>
+  <script>
+    // Bulletproof preloader timeout: site ALWAYS reveals within 3s
+    setTimeout(function() {
+      var p = document.getElementById('cinematic-airplane-preloader');
+      if (p && !p.classList.contains('is-hidden')) {
+        p.classList.add('is-hidden');
+        setTimeout(function() { p.style.display = 'none'; }, 600);
+      }
+    }, 3000);
+  </script>
 
   <main>
 
