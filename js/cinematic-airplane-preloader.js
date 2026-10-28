@@ -70,8 +70,8 @@
     const windowPortal = document.getElementById('cap-window-portal');
     const slidesContainer = document.getElementById('cap-slides-container');
     const badgeEl = document.getElementById('cap-slide-badge');
-    const skipBtn = document.getElementById('cap-skip-btn');
-    const soundBtn = document.getElementById('cap-sound-btn');
+    // Cleanly purge any sound & skip intro buttons from DOM immediately
+    document.querySelectorAll('.cap-controls, #cap-controls, #cap-sound-btn, #cap-skip-btn, .cap-sound-btn, .cap-skip-btn, [id*="sound-btn"], [id*="skip-btn"]').forEach(el => el.remove());
 
     const sound = new PreloaderSoundEngine();
 

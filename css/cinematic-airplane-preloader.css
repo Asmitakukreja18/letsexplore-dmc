@@ -434,10 +434,18 @@
 
 /* Completely remove sound & skip intro controls */
 .cap-controls,
+#cap-controls,
 .cap-sound-btn,
-.cap-skip-btn {
+.cap-skip-btn,
+#cap-sound-btn,
+#cap-skip-btn,
+[id*="sound-btn"],
+[id*="skip-btn"] {
   display: none !important;
   opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
   pointer-events: none !important;
   visibility: hidden !important;
+  overflow: hidden !important;
 }
