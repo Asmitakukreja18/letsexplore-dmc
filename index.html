@@ -564,11 +564,6 @@
       </div>
     </div>
 
-    <!-- Controls (Skip & Sound) -->
-    <div class="cap-controls">
-      <button class="cap-sound-btn" id="cap-sound-btn" type="button" aria-label="Toggle Sound">🔊 Sound</button>
-      <button class="cap-skip-btn" id="cap-skip-btn" type="button">Skip Intro →</button>
-    </div>
   </div>
 
   <main>
@@ -830,11 +825,11 @@
             <!-- Sequential Videos: Cappadocia -> Istanbul -> Pamukkale -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100"
-                     src="images/capadocia.mp4" loop muted playsinline preload="none" poster="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=700&q=75"></video>
+                     src="images/capadocia.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=700&q=75"></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/istanbul.mp4" loop muted playsinline preload="none"></video>
+                     src="images/istanbul.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=700&q=75"></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/Pamukkale.mp4" loop muted playsinline preload="none"></video>
+                     src="images/Pamukkale.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=700&q=75"></video>
             </div>
             <div class="dest-overlay absolute inset-0"></div>
 
@@ -871,11 +866,11 @@
             <!-- Sequential Videos: Maldives -> Bali -> Andaman -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
               <video class="ocean-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100"
-                     src="images/maldives.mp4" loop muted playsinline preload="none" poster="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=700&q=75"></video>
+                     src="images/maldives.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=700&q=75"></video>
               <video class="ocean-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/bali.mp4" loop muted playsinline preload="none"></video>
+                     src="images/bali.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=700&q=75"></video>
               <video class="ocean-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/andaman.mp4" loop muted playsinline preload="none"></video>
+                     src="images/andaman.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=700&q=75"></video>
             </div>
             <div class="dest-overlay absolute inset-0"></div>
 
@@ -913,11 +908,11 @@
             <!-- Sequential Videos: Desert -> Burj -> Marina -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100"
-                     src="images/desert.mp4" loop muted playsinline preload="none" poster="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=700&q=75"></video>
+                     src="images/desert.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=700&q=75"></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/dubai.mp4" loop muted playsinline preload="none"></video>
+                     src="images/dubai.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=700&q=75"></video>
               <video class="carousel-tile-vid dest-img absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0"
-                     src="images/marina.mp4" loop muted playsinline preload="none"></video>
+                     src="images/marina.mp4" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=700&q=75"></video>
             </div>
             <div class="dest-overlay absolute inset-0"></div>
 
@@ -1548,15 +1543,26 @@
                 </div>
               </div>
               <div class="p-6">
+                <!-- Owner / Lead Pill -->
+                <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-stone/70 border border-navy/10 shadow-sm mb-3.5">
+                  <img src="images/partners/founder.png" alt="Hemmant Thadani" class="w-12 h-12 rounded-xl object-cover object-top border-2 border-white shadow shrink-0">
+                  <div class="min-w-0">
+                    <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider text-sunset bg-sunset/10 px-2 py-0.5 rounded-md">CEO &amp; Founder</span>
+                    <div class="font-display text-sm font-bold text-navy-deep truncate">Hemmant Thadani</div>
+                    <a href="tel:+918007586881" class="text-xs font-semibold text-ocean hover:text-sunset flex items-center gap-1 mt-0.5">
+                      <span class="material-symbols-outlined text-xs">call</span> +91 80075 86881
+                    </a>
+                  </div>
+                </div>
                 <h3 class="font-display text-2xl font-bold text-navy-deep mb-1">Amravati, Maharashtra</h3>
-                <p class="text-xs font-bold uppercase text-ocean tracking-wider mb-3">India Operations</p>
+                <p class="text-xs font-bold uppercase text-ocean tracking-wider mb-2">India Operations Headquarters</p>
                 <p class="text-sm text-fog leading-relaxed mb-4">Sahakar Nagar, Opp. New Cotton Market, Shiv Krupa Residence, Amravati, Maharashtra</p>
               </div>
             </div>
             <div class="p-6 pt-0">
-              <div class="pt-4 border-t border-navy/5 flex items-center justify-between">
-                <a href="tel:+918007586871" class="font-sans text-sm font-bold text-navy-deep flex items-center gap-2 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-base">call</span> +91-80075 86871</a>
-                <a href="contact.html#offices" class="text-xs font-bold text-ocean hover:underline">Details →</a>
+              <div class="pt-4 border-t border-navy/5 flex items-center justify-between flex-wrap gap-2">
+                <a href="tel:+918007586881" class="font-sans text-xs font-bold text-navy-deep flex items-center gap-1.5 hover:text-sunset transition"><span class="material-symbols-outlined text-sunset text-sm">call</span> +91 80075 86881</a>
+                <a href="https://wa.me/918007586881?text=Hi%20Hemmant%20Sir%2C%20Let's%20Explore%20Amravati%20Team" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#27AE60]/15 text-[#219653] hover:bg-[#27AE60] hover:text-white font-sans text-xs font-bold transition">WhatsApp 💬</a>
               </div>
             </div>
           </div>

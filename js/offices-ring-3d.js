@@ -54,8 +54,11 @@
       tag: '🇮🇳 India Central Hub',
       tagColor: 'bg-ocean text-white',
       company: 'India Operations Headquarters',
+      lead: 'Hemmant Thadani',
+      leadRole: 'CEO & Founder',
+      avatar: 'images/partners/founder.png',
       address: 'Sahakar Nagar, Opp. New Cotton Market, Shiv Krupa Residence, Amravati, Maharashtra',
-      contact: '+91-80075 86871',
+      contact: '+91 80075 86881',
       contactType: 'tel',
       img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
       badge: 'Open 9am - 9pm'

@@ -41,12 +41,26 @@ document.addEventListener('DOMContentLoaded', () => {
       vid.muted = true;
       vid.loop = true;
       vid.playsInline = true;
-      vid.preload = 'metadata'; // Prevent eager downloading of all streams at once
+      vid.preload = 'auto';
+      vid.autoplay = true;
       vid.setAttribute('playsinline', '');
       vid.setAttribute('muted', '');
       vid.setAttribute('loop', '');
+      vid.setAttribute('autoplay', '');
       vid.style.willChange = 'opacity';
       vid.style.transition = `opacity ${BLEND_DURATION}ms ease-out`;
+
+      // Auto-resolve nested images/images/ upload paths on 404
+      vid.addEventListener('error', function () {
+        if (!this.dataset.retryNested && this.src) {
+          this.dataset.retryNested = '1';
+          if (this.src.includes('/images/') && !this.src.includes('/images/images/')) {
+            this.src = this.src.replace('/images/', '/images/images/');
+            this.load();
+            this.play().catch(() => {});
+          }
+        }
+      });
 
       // Guarantee endless looping without stalls
       vid.addEventListener('ended', function () {

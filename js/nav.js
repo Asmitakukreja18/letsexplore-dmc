@@ -1090,16 +1090,34 @@
           if (p !== undefined) p.catch(() => {});
         });
 
-        // 2. Error recovery safeguard: reload and replay if a stream stalls
-        vid.addEventListener('error', function () {
-          setTimeout(() => {
-            try {
+        // 2. Error recovery safeguard: auto-resolve nested images/images/ upload paths on 404
+        vid.addEventListener('error', function (e) {
+          const currentSrc = vid.currentSrc || vid.src || (e.target && e.target.src) || '';
+          if (!vid._nestedTried && currentSrc) {
+            vid._nestedTried = true;
+            if (currentSrc.includes('/images/') && !currentSrc.includes('/images/images/')) {
+              const newSrc = currentSrc.replace('/images/', '/images/images/');
+              vid.src = newSrc;
               vid.load();
               const p = vid.play();
               if (p !== undefined) p.catch(() => {});
-            } catch (err) {}
-          }, 1000);
-        });
+              return;
+            }
+          }
+          // Also check child <source> tags
+          const sources = vid.querySelectorAll('source');
+          if (sources.length > 0 && !vid._sourceReloaded) {
+            vid._sourceReloaded = true;
+            sources.forEach(s => {
+              if (s.src && s.src.includes('/images/') && !s.src.includes('/images/images/')) {
+                s.src = s.src.replace('/images/', '/images/images/');
+              }
+            });
+            vid.load();
+            const p = vid.play();
+            if (p !== undefined) p.catch(() => {});
+          }
+        }, true);
 
         // 3. Autoplay if flagged as autoplay or hero video
         if (vid.hasAttribute('autoplay') || vid.autoplay) {

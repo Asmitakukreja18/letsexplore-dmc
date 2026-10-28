@@ -47,131 +47,18 @@
     }
   ];
 
-  // 2. Web Audio Flight Synthesizer (Zero CDN latency)
+  // 2. Sound Engine (Disabled per user request: 100% silent)
   class PreloaderSoundEngine {
     constructor() {
-      this.ctx = null;
-      this.jetGain = null;
-      this.isMuted = localStorage.getItem('cap_sound_muted') === 'true';
+      this.isMuted = true;
       this.isPlaying = false;
     }
-
-    init() {
-      if (this.ctx) return;
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (AudioCtx) this.ctx = new AudioCtx();
-      } catch (e) {}
-    }
-
-    ensureRunning() {
-      this.init();
-      if (this.ctx && this.ctx.state === 'suspended') {
-        this.ctx.resume().catch(() => {});
-      }
-    }
-
-    playEngineRoar() {
-      if (this.isMuted) return;
-      this.ensureRunning();
-      if (!this.ctx || this.isPlaying) return;
-      this.isPlaying = true;
-
-      try {
-        const t = this.ctx.currentTime;
-        this.jetGain = this.ctx.createGain();
-        this.jetGain.gain.setValueAtTime(0.001, t);
-        this.jetGain.gain.exponentialRampToValueAtTime(0.24, t + 1.2);
-        this.jetGain.connect(this.ctx.destination);
-
-        // Noise buffer
-        const bufferSize = 2 * this.ctx.sampleRate;
-        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-        const output = noiseBuffer.getChannelData(0);
-        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
-        for (let i = 0; i < bufferSize; i++) {
-          const white = Math.random() * 2 - 1;
-          b0 = 0.99886 * b0 + white * 0.0555179;
-          b1 = 0.99332 * b1 + white * 0.0750759;
-          b2 = 0.96900 * b2 + white * 0.1538520;
-          b3 = 0.86650 * b3 + white * 0.3104856;
-          b4 = 0.55000 * b4 + white * 0.5329522;
-          b5 = -0.7616 * b5 - white * 0.0168980;
-          output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.07;
-          b6 = white * 0.115926;
-        }
-
-        const noiseNode = this.ctx.createBufferSource();
-        noiseNode.buffer = noiseBuffer;
-        noiseNode.loop = true;
-
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(340, t);
-        filter.Q.setValueAtTime(1.4, t);
-
-        noiseNode.connect(filter);
-        filter.connect(this.jetGain);
-        noiseNode.start(t);
-      } catch (err) {}
-    }
-
-    playCabinChime() {
-      if (this.isMuted) return;
-      this.ensureRunning();
-      if (!this.ctx) return;
-
-      try {
-        const t = this.ctx.currentTime;
-        // High Tone (E5)
-        const osc1 = this.ctx.createOscillator();
-        const g1 = this.ctx.createGain();
-        osc1.frequency.setValueAtTime(659.25, t);
-        g1.gain.setValueAtTime(0.28, t);
-        g1.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
-        osc1.connect(g1);
-        g1.connect(this.ctx.destination);
-        osc1.start(t);
-        osc1.stop(t + 1.1);
-
-        // Low Tone (C5) at +0.32s
-        const t2 = t + 0.32;
-        const osc2 = this.ctx.createOscillator();
-        const g2 = this.ctx.createGain();
-        osc2.frequency.setValueAtTime(523.25, t2);
-        g2.gain.setValueAtTime(0.3, t2);
-        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 1.4);
-        osc2.connect(g2);
-        g2.connect(this.ctx.destination);
-        osc2.start(t2);
-        osc2.stop(t2 + 1.4);
-      } catch (err) {}
-    }
-
-    playFlybyWhoosh() {
-      if (this.isMuted) return;
-      this.ensureRunning();
-      if (!this.ctx) return;
-
-      try {
-        const t = this.ctx.currentTime;
-        if (this.jetGain) {
-          this.jetGain.gain.linearRampToValueAtTime(0.45, t + 0.4);
-          this.jetGain.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
-        }
-      } catch (err) {}
-    }
-
-    toggleMute() {
-      this.isMuted = !this.isMuted;
-      localStorage.setItem('cap_sound_muted', this.isMuted ? 'true' : 'false');
-      if (this.isMuted && this.jetGain && this.ctx) {
-        this.jetGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
-      } else if (!this.isMuted && this.isPlaying && this.jetGain && this.ctx) {
-        this.jetGain.gain.setValueAtTime(0.24, this.ctx.currentTime);
-      }
-      return !this.isMuted;
-    }
+    init() {}
+    ensureRunning() {}
+    playEngineRoar() {}
+    playCabinChime() {}
+    playFlybyWhoosh() {}
+    toggleMute() { return false; }
   }
 
   // 3. Preloader Animation Orchestrator

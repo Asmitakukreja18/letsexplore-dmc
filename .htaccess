@@ -1,0 +1,50 @@
+# Apache configuration for Let's Explore DMC
+RewriteEngine On
+
+# Ensure HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Auto-fallback if images or videos were uploaded/extracted into public_html/images/images/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/images/images/
+RewriteRule ^images/(.+)$ images/images/$1 [L]
+
+# Route /api/contact directly to PHP handler on cPanel
+RewriteRule ^api/contact/?$ api/contact.php [L]
+
+# Support clean URLs without .html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# Fallback non-existent pages (not media or assets) to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.(mp4|webm|ogv|mov|jpg|jpeg|png|gif|webp|svg|ico|css|js|json)$ [NC]
+RewriteRule ^ index.html [L]
+
+# Proper Video MIME Types for HTML5 Video Streaming
+AddType video/mp4 .mp4 .m4v
+AddType video/webm .webm
+AddType video/ogg .ogv
+
+# Enable Range requests for smooth video seeking & streaming
+<IfModule mod_headers.c>
+    Header set Accept-Ranges bytes
+</IfModule>
+
+# Enable browser caching for speed
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType image/jpg "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+

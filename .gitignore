@@ -16,6 +16,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Archive files
+*.zip
+
 # Scratch helper scripts
 _*.js
 scratch/

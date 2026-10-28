@@ -576,9 +576,9 @@
         
         <!-- Image & Video Container -->
         <div class="relative aspect-[16/11] overflow-hidden bg-navy-deep">
-          <img src="${getFastImgUrl(pkg.img, 600)}" alt="${pkg.name}" class="pkg-card-img w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy" decoding="async"/>
+          <img src="${getFastImgUrl(pkg.img, 600)}" alt="${pkg.name}" class="pkg-card-img absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy" decoding="async"/>
           ${pkg.video ? `
-            <video loop muted playsinline webkit-playsinline preload="none" data-src="${pkg.video}" class="pkg-video-player absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none"></video>
+            <video src="${encodeURI(pkg.video)}" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="${getFastImgUrl(pkg.img, 600)}" class="pkg-video-player absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 opacity-100"></video>
           ` : ''}
           
           <!-- Top Left Ribbon -->
@@ -683,18 +683,11 @@
       vid.defaultMuted = true;
       vid.playsInline = true;
 
-      // Hover priority: on desktop, hover loads and plays immediately
+      // Ensure playback on hover
       card.addEventListener('mouseenter', () => {
-        if (vid.dataset.src && !vid.src) {
-          vid.src = vid.dataset.src;
-        }
         vid.style.opacity = '1';
         const p = vid.play();
         if (p !== undefined) p.catch(() => {});
-      });
-
-      card.addEventListener('mouseleave', () => {
-        vid.pause();
       });
 
       // Explicit 'ended' event listener: rewinds and continuously loops
@@ -714,21 +707,12 @@
 
           if (entry.isIntersecting) {
             card.dataset.inView = 'true';
-            // Only auto-play on desktop to protect mobile data & memory
-            if (window.innerWidth > 768) {
-              if (vid.dataset.src && !vid.src) {
-                vid.src = vid.dataset.src;
-              }
-              const p = vid.play();
-              if (p !== undefined) {
-                p.then(() => { vid.style.opacity = '1'; }).catch(() => {});
-              }
-            }
+            vid.style.opacity = '1';
+            const p = vid.play();
+            if (p !== undefined) p.catch(() => {});
           } else {
             delete card.dataset.inView;
-            if (vid.src) {
-              vid.pause();
-            }
+            vid.pause();
           }
         });
       }, { threshold: 0.15, rootMargin: '50px 0px 50px 0px' });

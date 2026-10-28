@@ -431,3 +431,13 @@
 .cap-sound-btn:hover {
   background: rgba(255, 255, 255, 0.28);
 }
+
+/* Completely remove sound & skip intro controls */
+.cap-controls,
+.cap-sound-btn,
+.cap-skip-btn {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
